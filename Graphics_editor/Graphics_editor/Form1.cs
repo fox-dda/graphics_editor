@@ -36,7 +36,9 @@ namespace Graphics_editor
         {
             if (lineRadioButton.Checked && doDraw)
             {
-                g.DrawLine(myPen, mouseStartX, mouseStartY, e.Location.X, e.Location.Y);
+              //  g.DrawLine(myPen, mouseStartX, mouseStartY, e.Location.X, e.Location.Y);
+                Line newLine = new Line(mouseStartX, mouseStartY, e.Location.X, e.Location.Y);
+                newLine.Draw(g, myPen);
             }
         }
 
