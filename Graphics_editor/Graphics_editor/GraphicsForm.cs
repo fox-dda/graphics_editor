@@ -37,10 +37,18 @@ namespace Graphics_editor
         {
             if (lineRadioButton.Checked && doDraw)
             {
-              //  g.DrawLine(myPen, mouseStartX, mouseStartY, e.Location.X, e.Location.Y);
+                g.Clear(Color.White);
                 Line newLine = new Line(mouseStartX, mouseStartY, e.Location.X, e.Location.Y, myPen);
                 cacheDrawft =  newLine;
-                //  newLine.Draw(g);
+                cacheDrawft.Draw(g);
+                foreach (IDraft draft in draftList)
+                {
+                    if (draft != null)
+                    {
+
+                        draft.Draw(g);
+                    }
+                }
             }
         }
 
@@ -53,19 +61,19 @@ namespace Graphics_editor
 
         private void graphicsFormTimer_Tick(object sender, EventArgs e)
         {
-            g.Clear(Color.White);
-            foreach (IDraft draft in draftList)
-            {
-
-                if (draft != null)
-                {
-                    if (cacheDrawft != null)
-                    {
-                        cacheDrawft.Draw(g);
-                    }
-                    draft.Draw(g);
-                }
-            }
+            //g.Clear(Color.White);
+           // foreach (IDraft draft in draftList)
+            //{
+            //
+             //   if (draft != null)
+             //   {
+             //       if (cacheDrawft != null)
+              //      {
+              //          cacheDrawft.Draw(g);
+              //      }
+               //     draft.Draw(g);
+              //  }
+           // }
         }
     }
 }
