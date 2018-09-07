@@ -30,7 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
+            this.drawGroupBox = new System.Windows.Forms.GroupBox();
+            this.lineRadioButton = new System.Windows.Forms.RadioButton();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.polylineRadioButton = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
+            this.drawGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainPictureBox
@@ -39,26 +44,63 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("mainPictureBox.Image")));
-            this.mainPictureBox.Location = new System.Drawing.Point(104, 12);
+            this.mainPictureBox.Location = new System.Drawing.Point(219, 12);
             this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(588, 337);
+            this.mainPictureBox.Size = new System.Drawing.Size(626, 337);
             this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.mainPictureBox.TabIndex = 0;
             this.mainPictureBox.TabStop = false;
+            this.mainPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseDown);
+            this.mainPictureBox.MouseEnter += new System.EventHandler(this.mainPictureBox_MouseEnter);
+            this.mainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseMove);
+            this.mainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseUp);
+            // 
+            // drawGroupBox
+            // 
+            this.drawGroupBox.Controls.Add(this.polylineRadioButton);
+            this.drawGroupBox.Controls.Add(this.lineRadioButton);
+            this.drawGroupBox.Location = new System.Drawing.Point(12, 12);
+            this.drawGroupBox.Name = "drawGroupBox";
+            this.drawGroupBox.Size = new System.Drawing.Size(200, 100);
+            this.drawGroupBox.TabIndex = 1;
+            this.drawGroupBox.TabStop = false;
+            // 
+            // lineRadioButton
+            // 
+            this.lineRadioButton.AutoSize = true;
+            this.lineRadioButton.Location = new System.Drawing.Point(6, 19);
+            this.lineRadioButton.Name = "lineRadioButton";
+            this.lineRadioButton.Size = new System.Drawing.Size(45, 17);
+            this.lineRadioButton.TabIndex = 2;
+            this.lineRadioButton.TabStop = true;
+            this.lineRadioButton.Text = "Line";
+            this.lineRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // polylineRadioButton
+            // 
+            this.polylineRadioButton.AutoSize = true;
+            this.polylineRadioButton.Location = new System.Drawing.Point(6, 42);
+            this.polylineRadioButton.Name = "polylineRadioButton";
+            this.polylineRadioButton.Size = new System.Drawing.Size(61, 17);
+            this.polylineRadioButton.TabIndex = 2;
+            this.polylineRadioButton.TabStop = true;
+            this.polylineRadioButton.Text = "Polyline";
+            this.polylineRadioButton.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(704, 361);
+            this.ClientSize = new System.Drawing.Size(857, 361);
+            this.Controls.Add(this.drawGroupBox);
             this.Controls.Add(this.mainPictureBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(700, 400);
             this.Name = "MainForm";
             this.Text = "Graphics editor";
-            this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
+            this.drawGroupBox.ResumeLayout(false);
+            this.drawGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -66,6 +108,10 @@
         #endregion
 
         private System.Windows.Forms.PictureBox mainPictureBox;
+        private System.Windows.Forms.GroupBox drawGroupBox;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.RadioButton lineRadioButton;
+        private System.Windows.Forms.RadioButton polylineRadioButton;
     }
 }
 
