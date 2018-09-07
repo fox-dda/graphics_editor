@@ -7,24 +7,26 @@ using System.Drawing;
 
 namespace Graphics_editor
 {
-    class Line
+    class Line: IDraft
     {
         public float StartDotX;
         public float StartDotY;
         public float EndDotX;
         public float EndDotY;
+        public Pen Pen;
 
-        public void Draw(Graphics g, Pen pen)
+        public void Draw(Graphics g)
         {
-            g.DrawLine(pen, StartDotX, StartDotY, EndDotX, EndDotY);
+            g.DrawLine(Pen, StartDotX, StartDotY, EndDotX, EndDotY);
         }
 
-        public Line(float sdx, float sdy, float edx, float edy)
+        public Line(float sdx, float sdy, float edx, float edy, Pen pen)
         {
             StartDotX = sdx;
             StartDotY = sdy;
             EndDotX = edx;
             EndDotY = edy;
+            this.Pen = pen;
         }
     }
 }

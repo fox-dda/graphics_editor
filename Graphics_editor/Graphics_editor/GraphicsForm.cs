@@ -12,7 +12,8 @@ namespace Graphics_editor
 {
     public partial class MainForm : Form
     {
-
+        private List<IDraft> draftList = new List<IDraft>();
+        private IDraft cacheDrawft;
         private Graphics g;
         private Pen myPen = new Pen(Color.Black, 1);
         private float mouseStartX;
@@ -37,22 +38,34 @@ namespace Graphics_editor
             if (lineRadioButton.Checked && doDraw)
             {
               //  g.DrawLine(myPen, mouseStartX, mouseStartY, e.Location.X, e.Location.Y);
-                Line newLine = new Line(mouseStartX, mouseStartY, e.Location.X, e.Location.Y);
-                newLine.Draw(g, myPen);
+                Line newLine = new Line(mouseStartX, mouseStartY, e.Location.X, e.Location.Y, myPen);
+                cacheDrawft =  newLine;
+                //  newLine.Draw(g);
             }
         }
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
+            draftList.Add(cacheDrawft);
+            cacheDrawft = null;
             doDraw = false;
         }
 
-        private void mainPictureBox_MouseEnter(object sender, EventArgs e)
+        private void graphicsFormTimer_Tick(object sender, EventArgs e)
         {
-           // mouseStartX = Cursor.Position.X - mainPictureBox.Location.X;
-         //   mouseStartY = Cursor.Position.Y - mainPictureBox.Location.Y;
-            //mouseStartX = Cursor.Position.X;
-            //mouseStartY = Cursor.Position.Y;
+            g.Clear(Color.White);
+            foreach (IDraft draft in draftList)
+            {
+
+                if (draft != null)
+                {
+                    if (cacheDrawft != null)
+                    {
+                        cacheDrawft.Draw(g);
+                    }
+                    draft.Draw(g);
+                }
+            }
         }
     }
 }

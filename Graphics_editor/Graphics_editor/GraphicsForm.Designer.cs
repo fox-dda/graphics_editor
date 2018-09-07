@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.drawGroupBox = new System.Windows.Forms.GroupBox();
-            this.lineRadioButton = new System.Windows.Forms.RadioButton();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.polylineRadioButton = new System.Windows.Forms.RadioButton();
+            this.lineRadioButton = new System.Windows.Forms.RadioButton();
+            this.graphicsFormTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.drawGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -51,7 +52,6 @@
             this.mainPictureBox.TabIndex = 0;
             this.mainPictureBox.TabStop = false;
             this.mainPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseDown);
-            this.mainPictureBox.MouseEnter += new System.EventHandler(this.mainPictureBox_MouseEnter);
             this.mainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseMove);
             this.mainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseUp);
             // 
@@ -65,6 +65,17 @@
             this.drawGroupBox.TabIndex = 1;
             this.drawGroupBox.TabStop = false;
             // 
+            // polylineRadioButton
+            // 
+            this.polylineRadioButton.AutoSize = true;
+            this.polylineRadioButton.Location = new System.Drawing.Point(6, 42);
+            this.polylineRadioButton.Name = "polylineRadioButton";
+            this.polylineRadioButton.Size = new System.Drawing.Size(61, 17);
+            this.polylineRadioButton.TabIndex = 2;
+            this.polylineRadioButton.TabStop = true;
+            this.polylineRadioButton.Text = "Polyline";
+            this.polylineRadioButton.UseVisualStyleBackColor = true;
+            // 
             // lineRadioButton
             // 
             this.lineRadioButton.AutoSize = true;
@@ -76,16 +87,11 @@
             this.lineRadioButton.Text = "Line";
             this.lineRadioButton.UseVisualStyleBackColor = true;
             // 
-            // polylineRadioButton
+            // graphicsFormTimer
             // 
-            this.polylineRadioButton.AutoSize = true;
-            this.polylineRadioButton.Location = new System.Drawing.Point(6, 42);
-            this.polylineRadioButton.Name = "polylineRadioButton";
-            this.polylineRadioButton.Size = new System.Drawing.Size(61, 17);
-            this.polylineRadioButton.TabIndex = 2;
-            this.polylineRadioButton.TabStop = true;
-            this.polylineRadioButton.Text = "Polyline";
-            this.polylineRadioButton.UseVisualStyleBackColor = true;
+            this.graphicsFormTimer.Enabled = true;
+            this.graphicsFormTimer.Interval = 1;
+            this.graphicsFormTimer.Tick += new System.EventHandler(this.graphicsFormTimer_Tick);
             // 
             // MainForm
             // 
@@ -109,9 +115,9 @@
 
         private System.Windows.Forms.PictureBox mainPictureBox;
         private System.Windows.Forms.GroupBox drawGroupBox;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.RadioButton lineRadioButton;
         private System.Windows.Forms.RadioButton polylineRadioButton;
+        private System.Windows.Forms.Timer graphicsFormTimer;
     }
 }
 
