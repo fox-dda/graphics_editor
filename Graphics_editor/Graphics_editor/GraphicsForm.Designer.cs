@@ -28,13 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.drawGroupBox = new System.Windows.Forms.GroupBox();
             this.polylineRadioButton = new System.Windows.Forms.RadioButton();
             this.lineRadioButton = new System.Windows.Forms.RadioButton();
-            this.graphicsFormTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.drawGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -87,12 +85,6 @@
             this.lineRadioButton.Text = "Line";
             this.lineRadioButton.UseVisualStyleBackColor = true;
             // 
-            // graphicsFormTimer
-            // 
-            this.graphicsFormTimer.Enabled = true;
-            this.graphicsFormTimer.Interval = 1;
-            this.graphicsFormTimer.Tick += new System.EventHandler(this.graphicsFormTimer_Tick);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -117,7 +109,6 @@
         private System.Windows.Forms.GroupBox drawGroupBox;
         private System.Windows.Forms.RadioButton lineRadioButton;
         private System.Windows.Forms.RadioButton polylineRadioButton;
-        private System.Windows.Forms.Timer graphicsFormTimer;
     }
 }
 

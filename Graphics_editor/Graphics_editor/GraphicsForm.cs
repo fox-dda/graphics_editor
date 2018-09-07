@@ -58,22 +58,5 @@ namespace Graphics_editor
             cacheDrawft = null;
             doDraw = false;
         }
-
-        private void graphicsFormTimer_Tick(object sender, EventArgs e)
-        {
-            //g.Clear(Color.White);
-           // foreach (IDraft draft in draftList)
-            //{
-            //
-             //   if (draft != null)
-             //   {
-             //       if (cacheDrawft != null)
-              //      {
-              //          cacheDrawft.Draw(g);
-              //      }
-               //     draft.Draw(g);
-              //  }
-           // }
-        }
     }
 }
