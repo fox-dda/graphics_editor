@@ -9,27 +9,41 @@ namespace Graphics_editor.Model
 {
     class Polyline: IDraft
     {
-        public List<Line> LineList = new List<Line>();
         public Pen Pen;
+
+        private List<Point> _dotList = new List<Point>();
+
+        public List<Point> DotList
+        {
+            get
+            {
+                return _dotList; 
+            }
+            set
+            {
+                if (value.Count < 2)
+                {
+                    throw new Exception("Нельзя создать линию из одной точки!");
+                }
+                else
+                {
+                    _dotList = value;
+                }
+            }
+        }
 
         public void Draw(Graphics g)
         {
-            foreach(Line line in LineList)
+            for(int i=0; i < DotList.Count - 1; i++)
             {
-                g.DrawLine(Pen, line.StartDotX, line.StartDotY, line.EndDotX, line.EndDotY);
+                g.DrawLine(Pen, DotList[i].X, DotList[i].Y, DotList[i+1].X, DotList[i+1].Y);
             }         
         }
 
-        public Polyline(float sdx, float sdy, float edx, float edy, Pen pen)
+        public Polyline(List<Point> dotlist, Pen pen)
         {
             this.Pen = pen;
-            var line = new Line(sdx, sdy, edx, edy, Pen);
-            LineList.Add(line);
-        }
-
-        public void AddLine(Line line)
-        {
-            LineList.Add(line);
+            DotList = dotlist;
         }
     }
 }

@@ -9,23 +9,19 @@ namespace Graphics_editor.Model
 {
     class Line : IDraft
     {
-        public float StartDotX;
-        public float StartDotY;
-        public float EndDotX;
-        public float EndDotY;
+        public Point StartPoint;
+        public Point EndPoint;
         public Pen Pen;
 
         public void Draw(Graphics g)
         {
-            g.DrawLine(Pen, StartDotX, StartDotY, EndDotX, EndDotY);
+            g.DrawLine(Pen, StartPoint, EndPoint);
         }
 
-        public Line(float sdx, float sdy, float edx, float edy, Pen pen)
+        public Line(Point startPoint, Point endPoint, Pen pen)
         {
-            StartDotX = sdx;
-            StartDotY = sdy;
-            EndDotX = edx;
-            EndDotY = edy;
+            StartPoint = startPoint;
+            EndPoint = endPoint;
             this.Pen = pen;
         }
     }

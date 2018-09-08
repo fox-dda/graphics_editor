@@ -17,8 +17,7 @@ namespace Graphics_editor
         private IDraft cacheDrawft;
         private Graphics g;
         private Pen myPen = new Pen(Color.Black, 1);
-        private float mouseStartX;
-        private float mouseStartY;
+        private Point mouse;
         private bool doDraw = false;
 
         public MainForm()
@@ -29,24 +28,22 @@ namespace Graphics_editor
 
         private void mainPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            mouseStartX = e.Location.X;
-            mouseStartY = e.Location.Y;
+            mouse = e.Location;
             doDraw = true;
         }
 
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (lineRadioButton.Checked && doDraw)
+            if ((lineRadioButton.Checked || polylineRadioButton.Checked) && doDraw)
             {
                 g.Clear(Color.White);
-                Line newLine = new Line(mouseStartX, mouseStartY, e.Location.X, e.Location.Y, myPen);
+                Line newLine = new Line(mouse, e.Location, myPen); // создаем линию вслед за курсором после нажания пкмыши
                 cacheDrawft =  newLine;
-                cacheDrawft.Draw(g);
+                cacheDrawft.Draw(g); // чертим созданную линию
                 foreach (IDraft draft in draftList)
                 {
                     if (draft != null)
                     {
-
                         draft.Draw(g);
                     }
                 }
@@ -55,9 +52,23 @@ namespace Graphics_editor
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            draftList.Add(cacheDrawft);
-            cacheDrawft = null;
-            doDraw = false;
+            if (lineRadioButton.Checked)
+            {
+                draftList.Add(cacheDrawft);
+                cacheDrawft = null;
+                doDraw = false;
+            }
+
+            if (polylineRadioButton.Checked && doDraw)
+            {
+                var locationList = new List<Point>();
+                locationList.Add(e.Location);
+                if (locationList.Count == 2)
+                {
+                    var newPolyline = new Polyline(locationList, myPen);
+                    newPolyline.Draw(g);
+                }
+            }
         }
     }
 }
