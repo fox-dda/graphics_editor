@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace Graphics_editor
+namespace Graphics_editor.Model
 {
-    class Line: IDraft
+    class Line : IDraft
     {
         public float StartDotX;
         public float StartDotY;

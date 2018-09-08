@@ -51,8 +51,9 @@
     <Compile Include="GraphicsForm.Designer.cs">
       <DependentUpon>GraphicsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="IDraft.cs" />
-    <Compile Include="Line.cs" />
+    <Compile Include="Model\IDraft.cs" />
+    <Compile Include="Model\Line.cs" />
+    <Compile Include="Model\Polyline.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GraphicsForm.resx">
