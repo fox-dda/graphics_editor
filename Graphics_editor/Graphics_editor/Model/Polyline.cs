@@ -40,6 +40,11 @@ namespace Graphics_editor.Model
             }         
         }
 
+        public void AddPoint(Point point)
+        {
+            _dotList.Add(point);
+        }
+
         public Polyline(List<Point> dotlist, Pen pen)
         {
             this.Pen = pen;

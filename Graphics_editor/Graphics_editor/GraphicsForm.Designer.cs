@@ -73,6 +73,7 @@
             this.polylineRadioButton.TabStop = true;
             this.polylineRadioButton.Text = "Polyline";
             this.polylineRadioButton.UseVisualStyleBackColor = true;
+            this.polylineRadioButton.CheckedChanged += new System.EventHandler(this.polylineRadioButton_CheckedChanged);
             // 
             // lineRadioButton
             // 
