@@ -9,7 +9,19 @@ namespace Graphics_editor.Model
 {
     class Polyline: IDraft
     {
-        public Pen Pen;
+        private Pen _pen;
+
+        public Pen Pen
+        {
+            get
+            {
+                return _pen;
+            }
+            set
+            {
+                _pen = value;
+            }
+        }
 
         private List<Point> _dotList = new List<Point>();
 

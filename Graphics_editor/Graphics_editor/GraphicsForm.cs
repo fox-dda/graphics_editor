@@ -36,7 +36,13 @@ namespace Graphics_editor
         {
             if ((lineRadioButton.Checked || polylineRadioButton.Checked) && doDraw)
             {
-                g.Clear(Color.White);
+                if (cacheDraft != null && !(cacheDraft is Polyline))
+                {
+                    cacheDraft.Pen = new Pen (Color.White, myPen.Width);
+                    cacheDraft.Draw(g);
+                }
+
+                //  g.Clear(Color.White);
                 Line newLine = new Line(mouse, e.Location, myPen); // создаем линию вслед за курсором после нажания пкмыши
                 cacheDraft =  newLine;
                 cacheDraft.Draw(g); // чертим созданную линию

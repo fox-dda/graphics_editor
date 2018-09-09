@@ -9,9 +9,21 @@ namespace Graphics_editor.Model
 {
     class Line : IDraft
     {
+        private Pen _pen;
+
         public Point StartPoint;
         public Point EndPoint;
-        public Pen Pen;
+        public Pen Pen
+        {
+            get
+            {
+                return _pen;
+            }
+            set
+            {
+                _pen = value;
+            }
+        }
 
         public void Draw(Graphics g)
         {

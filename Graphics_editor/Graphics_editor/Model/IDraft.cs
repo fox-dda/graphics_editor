@@ -10,5 +10,6 @@ namespace Graphics_editor.Model
     interface IDraft
     {
         void Draw(Graphics g);
+        Pen Pen { get; set; }
     }
 }
