@@ -11,5 +11,7 @@ namespace Graphics_editor.Model
     {
         void Draw(Graphics g);
         Pen Pen { get; set; }
+        Point StartPoint { get; set; }
+        Point EndPoint { get; set; }
     }
 }

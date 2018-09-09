@@ -11,6 +11,28 @@ namespace Graphics_editor.Model
     {
         private Pen _pen;
 
+        public Point StartPoint
+        {
+            get
+            {
+                return DotList[0];
+            }
+            set
+            {
+                DotList[0] = value;
+            }
+        }
+        public Point EndPoint
+        {
+            get
+            {
+                return DotList.Last();
+            }
+            set
+            {
+                DotList[DotList.Count-1] = value;
+            }
+        }
         public Pen Pen
         {
             get

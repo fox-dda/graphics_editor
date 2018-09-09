@@ -26,14 +26,29 @@ namespace Graphics_editor
             g = Graphics.FromHwnd(mainPictureBox.Handle);
         }
 
+        private void RefreshCanvas()
+        {
+            foreach (IDraft draft in draftList)
+            {
+                if (draft != null)
+                {
+                    draft.Draw(g);
+                }
+            }
+        }
+
         private void mainPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            mouse = e.Location;
+            if (!polylineRadioButton.Checked)
+            {
+                mouse = e.Location;
+            }
             doDraw = true;
         }
 
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
+            // if ((lineRadioButton.Checked || polylineRadioButton.Checked) && doDraw)
             if ((lineRadioButton.Checked || polylineRadioButton.Checked) && doDraw)
             {
                 if (cacheDraft != null && !(cacheDraft is Polyline))
@@ -41,17 +56,21 @@ namespace Graphics_editor
                     cacheDraft.Pen = new Pen (Color.White, myPen.Width);
                     cacheDraft.Draw(g);
                 }
-
-                //  g.Clear(Color.White);
-                Line newLine = new Line(mouse, e.Location, myPen); // создаем линию вслед за курсором после нажания пкмыши
-                cacheDraft =  newLine;
-                cacheDraft.Draw(g); // чертим созданную линию
-                foreach (IDraft draft in draftList)
+                if (lineRadioButton.Checked)
                 {
-                    if (draft != null)
+                    Line newLine = new Line(mouse, e.Location, myPen); // создаем линию вслед за курсором после нажания пкмыши
+                    cacheDraft = newLine;
+                    cacheDraft.Draw(g); // чертим созданную линию
+                    RefreshCanvas();
+                }
+                
+                if(polylineRadioButton.Checked)
+                {
+                    if (cacheDraft != null)
                     {
-                        draft.Draw(g);
-                    }
+                        mouse = e.Location;
+                        Line newLine = new Line(cacheDraft.EndPoint, e.Location, myPen);
+                    }      
                 }
             }
         }
@@ -67,20 +86,26 @@ namespace Graphics_editor
 
             if (polylineRadioButton.Checked && doDraw)
             {
+                mouse = e.Location;
                 var locationList = new List<Point>();
                 locationList.Add(e.Location);
                 if (locationList.Count == 2)
                 {
                     var newPolyline = new Polyline(locationList, myPen);
                     cacheDraft=newPolyline;
+                    draftList.Add(cacheDraft);
                 }
                 if (locationList.Count > 2)
                 {
-                    Polyline currentPolyline = cacheDraft as Polyline;
-                    currentPolyline.AddPoint(e.Location);
-                    cacheDraft = currentPolyline;
-                }
-                draftList.Add(cacheDraft);
+                    //Polyline currentPolyline = cacheDraft as Polyline;
+                    if(draftList.Last() is Polyline)
+                    {
+                        Polyline currentPolyline = draftList.Last() as Polyline;
+                        currentPolyline.AddPoint(e.Location);
+                        cacheDraft = currentPolyline;
+                        draftList.Add(cacheDraft);
+                    }
+                }              
             }
         }
 
@@ -90,6 +115,11 @@ namespace Graphics_editor
             {
                 doDraw = false;
             }
+        }
+
+        private void mainPictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            RefreshCanvas();        
         }
     }
 }

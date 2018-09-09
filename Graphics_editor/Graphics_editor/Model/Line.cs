@@ -10,9 +10,31 @@ namespace Graphics_editor.Model
     class Line : IDraft
     {
         private Pen _pen;
+        private Point _startPoint;
+        private Point _endPoint;
 
-        public Point StartPoint;
-        public Point EndPoint;
+        public Point StartPoint
+        {
+            get
+            {
+                return _startPoint;
+            }
+            set
+            {
+                _startPoint = value;
+            }
+        }
+        public Point EndPoint
+        {
+            get
+            {
+                return _endPoint;
+            }
+            set
+            {
+                _endPoint = value;
+            }
+        }
         public Pen Pen
         {
             get
