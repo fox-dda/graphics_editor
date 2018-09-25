@@ -86,6 +86,7 @@
             this.lineRadioButton.TabStop = true;
             this.lineRadioButton.Text = "Line";
             this.lineRadioButton.UseVisualStyleBackColor = true;
+            this.lineRadioButton.CheckedChanged += new System.EventHandler(this.lineRadioButton_CheckedChanged);
             // 
             // MainForm
             // 
