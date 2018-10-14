@@ -49,41 +49,50 @@ namespace Graphics_editor
         //Динамическая отрисовка фигуры вслед за курсором
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            // if ((lineRadioButton.Checked || polylineRadioButton.Checked) && doDraw)
-            if ((lineRadioButton.Checked || polylineRadioButton.Checked) && doDraw)
+            if (!doDraw)
+                return;
+            // Рисуем линию цвета фона для стираниния предыдущей линии динамической отрисовки
+            if (cacheDraft != null)
             {
-                // Рисуем линию цвета фона для стираниния предыдущей линии динамической отрисовки
-                if (cacheDraft != null) 
-                {
-                    cacheDraft.Pen = new Pen(Color.White, myPen.Width);
-                    cacheDraft.Draw(g);
-                    RefreshCanvas();
-                }
-
-                //динамическая отрисовка линии
-                if (lineRadioButton.Checked)
-                {
-                    Line newLine = new Line(mouse, e.Location, myPen); // создаем линию вслед за курсором после нажания пкмыши
-                    cacheDraft = newLine;
-                    cacheDraft.Draw(g); // чертим созданную линию
-                    RefreshCanvas();
-                }
-
-                // динамическая отрисовка полилинии
-                if (polylineRadioButton.Checked) 
-                {
-                    Line newPolyLine = new Line( mouse, e.Location , myPen);
-                    cacheDraft = newPolyLine;
-                    cacheDraft.Draw(g);
-                    RefreshCanvas();
-
-                }
+                cacheDraft.Pen = new Pen(Color.White, myPen.Width);
+                cacheDraft.Draw(g);
+                RefreshCanvas();
             }
+
+            //динамическая отрисовка линии
+            if (lineRadioButton.Checked)
+            {
+                Line newLine = new Line(mouse, e.Location, myPen); // создаем линию вслед за курсором после нажания пкмыши
+                cacheDraft = newLine;
+                cacheDraft.Draw(g); // чертим созданную линию
+                RefreshCanvas();
+            }
+
+            // динамическая отрисовка полилинии
+            if (polylineRadioButton.Checked)
+            {
+                Line newPolyLine = new Line(mouse, e.Location, myPen);
+                cacheDraft = newPolyLine;
+                cacheDraft.Draw(g);
+                RefreshCanvas();
+
+            }
+
+            // динамичская отрисовка круга
+            if (circleRadioButton.Checked)
+            {
+                Circle newCircle = new Circle(mouse, e.Location, myPen);
+                cacheDraft = newCircle;
+                cacheDraft.Draw(g);
+                RefreshCanvas();
+            }
+
+
         }
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            if (lineRadioButton.Checked)
+            if (lineRadioButton.Checked || circleRadioButton.Checked)
             {
                 draftList.Add(cacheDraft);
                 cacheDraft = null;

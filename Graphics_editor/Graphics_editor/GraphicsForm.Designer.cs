@@ -33,6 +33,7 @@
             this.drawGroupBox = new System.Windows.Forms.GroupBox();
             this.polylineRadioButton = new System.Windows.Forms.RadioButton();
             this.lineRadioButton = new System.Windows.Forms.RadioButton();
+            this.circleRadioButton = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.drawGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -56,6 +57,7 @@
             // 
             // drawGroupBox
             // 
+            this.drawGroupBox.Controls.Add(this.circleRadioButton);
             this.drawGroupBox.Controls.Add(this.polylineRadioButton);
             this.drawGroupBox.Controls.Add(this.lineRadioButton);
             this.drawGroupBox.Location = new System.Drawing.Point(12, 12);
@@ -88,6 +90,17 @@
             this.lineRadioButton.UseVisualStyleBackColor = true;
             this.lineRadioButton.CheckedChanged += new System.EventHandler(this.lineRadioButton_CheckedChanged);
             // 
+            // circleButton
+            // 
+            this.circleRadioButton.AutoSize = true;
+            this.circleRadioButton.Location = new System.Drawing.Point(6, 65);
+            this.circleRadioButton.Name = "circleButton";
+            this.circleRadioButton.Size = new System.Drawing.Size(51, 17);
+            this.circleRadioButton.TabIndex = 3;
+            this.circleRadioButton.TabStop = true;
+            this.circleRadioButton.Text = "Circle";
+            this.circleRadioButton.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -112,6 +125,7 @@
         private System.Windows.Forms.GroupBox drawGroupBox;
         private System.Windows.Forms.RadioButton lineRadioButton;
         private System.Windows.Forms.RadioButton polylineRadioButton;
+        private System.Windows.Forms.RadioButton circleRadioButton;
     }
 }
 

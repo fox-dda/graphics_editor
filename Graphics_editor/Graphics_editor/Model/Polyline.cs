@@ -68,9 +68,7 @@ namespace Graphics_editor.Model
         public void Draw(Graphics g)
         {
             for(int i=0; i < DotList.Count - 1; i++)
-            {
-                g.DrawLine(Pen, DotList[i].X, DotList[i].Y, DotList[i+1].X, DotList[i+1].Y);
-            }         
+            g.DrawLine(Pen, DotList[i].X, DotList[i].Y, DotList[i+1].X, DotList[i+1].Y);       
         }
 
         public void AddPoint(Point point)
