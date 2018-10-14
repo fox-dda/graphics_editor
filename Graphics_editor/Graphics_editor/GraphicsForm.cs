@@ -72,7 +72,7 @@ namespace Graphics_editor
                 // динамическая отрисовка полилинии
                 if (polylineRadioButton.Checked) 
                 {
-                    Polyline newPolyLine = new Polyline(new List<Point> { mouse, e.Location }, myPen);
+                    Line newPolyLine = new Line( mouse, e.Location , myPen);
                     cacheDraft = newPolyLine;
                     cacheDraft.Draw(g);
                     RefreshCanvas();
@@ -90,50 +90,37 @@ namespace Graphics_editor
                 doDraw = false;
             }
 
-            //если в кэше находится полилиния,  в кэшовую полилинию доюавляется точка с текущими координатами курсора
+            //отрисовка и добавление в список рисунков полилинии
             if (polylineRadioButton.Checked)
             {
-                if(cacheDraft is Polyline)
+                if (draftList.Count != 0)
                 {
-                    Polyline currentPolyLine = cacheDraft as Polyline;
-                    currentPolyLine.AddPoint(e.Location);
-                    cacheDraft = currentPolyLine;
-                    draftList.Add(cacheDraft);
+                    if (draftList.Last() is Polyline)
+                    {
+                        (draftList.Last() as Polyline).AddPoint(e.Location);
+                    }
+                    else
+                    {
+                        mouse = e.Location;
+                        Polyline newPolyline = new Polyline(new List<Point> { mouse, e.Location }, myPen);
+                        draftList.Add(newPolyline);
+                    }
+                }
+                else
+                {
+                    mouse = e.Location;
+                    Polyline newPolyline = new Polyline(new List<Point> { mouse, e.Location }, myPen);
+                    draftList.Add(newPolyline);
                 }
                 mouse = e.Location;
                 doDraw = true;
                 RefreshCanvas();
             }
-
-            //if(polylineRadioButton.Checked == true)
-
-            //if (polylineRadioButton.Checked && doDraw)
-            //{
-            //    mouse = e.Location;
-            //    var locationList = new List<Point>();
-            //    locationList.Add(e.Location);
-            //    if (locationList.Count == 2)
-            //    {
-            //        var newPolyline = new Polyline(locationList, myPen);
-            //        cacheDraft=newPolyline;
-            //        draftList.Add(cacheDraft);
-            //    }
-            //    if (locationList.Count > 2)
-            //    {
-            //        //Polyline currentPolyline = cacheDraft as Polyline;
-            //        if(draftList.Last() is Polyline)
-            //        {
-            //            Polyline currentPolyline = draftList.Last() as Polyline;
-            //            currentPolyline.AddPoint(e.Location);
-            //            cacheDraft = currentPolyline;
-            //            draftList.Add(cacheDraft);
-            //        }
-            //    }              
-            //}
         }
 
         private void polylineRadioButton_CheckedChanged(object sender, EventArgs e)
         {
+            g.Clear(Color.White);
             RefreshCanvas();
             cacheDraft = null;
             if (polylineRadioButton.Checked == false)
@@ -144,6 +131,7 @@ namespace Graphics_editor
 
         private void mainPictureBox_MouseLeave(object sender, EventArgs e)
         {
+            g.Clear(Color.White);
             RefreshCanvas();        
         }
 

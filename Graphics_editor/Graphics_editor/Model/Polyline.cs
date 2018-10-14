@@ -10,6 +10,7 @@ namespace Graphics_editor.Model
     class Polyline: IDraft
     {
         private Pen _pen;
+        public List<Point> _dotList = new List<Point>();
 
         public Point StartPoint
         {
@@ -44,8 +45,6 @@ namespace Graphics_editor.Model
                 _pen = value;
             }
         }
-
-        private List<Point> _dotList = new List<Point>();
 
         public List<Point> DotList
         {
