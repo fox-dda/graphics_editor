@@ -24,6 +24,7 @@ namespace Graphics_editor.Model
                 _startPoint = value;
             }
         }
+
         public Point EndPoint
         {
             get
@@ -35,6 +36,7 @@ namespace Graphics_editor.Model
                 _endPoint = value;
             }
         }
+
         public Pen Pen
         {
             get

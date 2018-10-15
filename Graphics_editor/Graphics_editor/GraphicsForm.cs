@@ -24,6 +24,7 @@ namespace Graphics_editor
         {
             InitializeComponent();
             g = Graphics.FromHwnd(mainPictureBox.Handle);
+            lineRadioButton.Checked = true;
         }
 
         private void RefreshCanvas()
@@ -87,12 +88,19 @@ namespace Graphics_editor
                 RefreshCanvas();
             }
 
-
+            // динамичская отрисовка треугольника
+            if (triangleRadioButton.Checked)
+            {
+                Triangle newTriangle = new Triangle(mouse, e.Location, myPen);
+                cacheDraft = newTriangle;
+                cacheDraft.Draw(g);
+                RefreshCanvas();
+            }
         }
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            if (lineRadioButton.Checked || circleRadioButton.Checked)
+            if (lineRadioButton.Checked || circleRadioButton.Checked || triangleRadioButton.Checked)
             {
                 draftList.Add(cacheDraft);
                 cacheDraft = null;

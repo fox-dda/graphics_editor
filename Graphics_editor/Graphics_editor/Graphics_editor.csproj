@@ -55,6 +55,7 @@
     <Compile Include="Model\IDraft.cs" />
     <Compile Include="Model\Line.cs" />
     <Compile Include="Model\Polyline.cs" />
+    <Compile Include="Model\Triangle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GraphicsForm.resx">

@@ -11,7 +11,7 @@ namespace Graphics_editor.Model
     {
         private Point centre;
         private int radius;
-        public Pen _pen;
+        private Pen _pen;
 
 
         public Point StartPoint
