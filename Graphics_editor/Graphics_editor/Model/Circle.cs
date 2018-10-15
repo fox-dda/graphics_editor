@@ -9,8 +9,8 @@ namespace Graphics_editor.Model
 {
     class Circle : IDraft
     {
-        private Point centre;
-        private int radius;
+        private Point _startPoint;
+        private Point _endPoint;
         private Pen _pen;
 
 
@@ -18,11 +18,11 @@ namespace Graphics_editor.Model
         {
             get
             {
-                return centre;
+                return _startPoint;
             }
             set
             {
-                centre = value;
+                _startPoint = value;
             }
         }
 
@@ -30,11 +30,11 @@ namespace Graphics_editor.Model
         {
             get
             {
-                return new Point(centre.X + radius, centre.Y);
+                return _endPoint;
             }
             set
             {
-                radius = Math.Abs(centre.X - value.X);
+                _endPoint = value;
             }
         }
 
@@ -52,7 +52,19 @@ namespace Graphics_editor.Model
 
         public void Draw(Graphics g)
         {
-            g.DrawEllipse(Pen, centre.X - radius, centre.Y - radius, radius * 2, radius * 2);
+            float edge;
+            if (StartPoint.X > EndPoint.X)
+            {
+                edge = (EndPoint.X - StartPoint.X);
+                g.DrawEllipse(Pen, new RectangleF(StartPoint.X, StartPoint.Y, edge, edge));
+            }
+            if (StartPoint.X < EndPoint.X)
+            {
+                edge = (EndPoint.X - StartPoint.X);
+                g.DrawEllipse(Pen, new RectangleF(StartPoint.X, EndPoint.Y, edge, edge));
+            }
+
+            //if (StartPoint.X > EndPoint.X)
         }
 
         /// <summary>

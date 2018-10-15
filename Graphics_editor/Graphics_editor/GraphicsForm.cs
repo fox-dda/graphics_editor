@@ -27,7 +27,7 @@ namespace Graphics_editor
             lineRadioButton.Checked = true;
         }
 
-        private void RefreshCanvas()
+        private void refreshCanvas()
         {
             foreach (IDraft draft in draftList)
             {
@@ -36,6 +36,12 @@ namespace Graphics_editor
                     draft.Draw(g);
                 }
             }
+        }
+
+        private void dynamicDraw()
+        {
+            cacheDraft.Draw(g);
+            refreshCanvas();
         }
 
         private void mainPictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -47,17 +53,26 @@ namespace Graphics_editor
             }           
         }
 
+        private void crazyMod()
+        {
+            Random r = new Random(DateTime.Now.Millisecond);
+            myPen.Color = Color.FromArgb(r.Next(255), r.Next(255), r.Next(255));
+            myPen.Width = r.Next(12);
+        }
+
         //Динамическая отрисовка фигуры вслед за курсором
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             if (!doDraw)
                 return;
+            crazyMod();
+
             // Рисуем линию цвета фона для стираниния предыдущей линии динамической отрисовки
             if (cacheDraft != null)
             {
                 cacheDraft.Pen = new Pen(Color.White, myPen.Width);
                 cacheDraft.Draw(g);
-                RefreshCanvas();
+                refreshCanvas();
             }
 
             //динамическая отрисовка линии
@@ -66,7 +81,7 @@ namespace Graphics_editor
                 Line newLine = new Line(mouse, e.Location, myPen); // создаем линию вслед за курсором после нажания пкмыши
                 cacheDraft = newLine;
                 cacheDraft.Draw(g); // чертим созданную линию
-                RefreshCanvas();
+                refreshCanvas();
             }
 
             // динамическая отрисовка полилинии
@@ -75,7 +90,7 @@ namespace Graphics_editor
                 Line newPolyLine = new Line(mouse, e.Location, myPen);
                 cacheDraft = newPolyLine;
                 cacheDraft.Draw(g);
-                RefreshCanvas();
+                refreshCanvas();
 
             }
 
@@ -85,7 +100,7 @@ namespace Graphics_editor
                 Circle newCircle = new Circle(mouse, e.Location, myPen);
                 cacheDraft = newCircle;
                 cacheDraft.Draw(g);
-                RefreshCanvas();
+                refreshCanvas();
             }
 
             // динамичская отрисовка треугольника
@@ -94,7 +109,7 @@ namespace Graphics_editor
                 Triangle newTriangle = new Triangle(mouse, e.Location, myPen);
                 cacheDraft = newTriangle;
                 cacheDraft.Draw(g);
-                RefreshCanvas();
+                refreshCanvas();
             }
         }
 
@@ -131,14 +146,14 @@ namespace Graphics_editor
                 }
                 mouse = e.Location;
                 doDraw = true;
-                RefreshCanvas();
+                refreshCanvas();
             }
         }
 
         private void polylineRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             g.Clear(Color.White);
-            RefreshCanvas();
+            refreshCanvas();
             cacheDraft = null;
             if (polylineRadioButton.Checked == false)
             {
@@ -149,12 +164,12 @@ namespace Graphics_editor
         private void mainPictureBox_MouseLeave(object sender, EventArgs e)
         {
             g.Clear(Color.White);
-            RefreshCanvas();        
+            refreshCanvas();        
         }
 
         private void lineRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            RefreshCanvas();
+            refreshCanvas();
             cacheDraft = null;
         }
     }

@@ -31,10 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.drawGroupBox = new System.Windows.Forms.GroupBox();
+            this.triangleRadioButton = new System.Windows.Forms.RadioButton();
             this.circleRadioButton = new System.Windows.Forms.RadioButton();
             this.polylineRadioButton = new System.Windows.Forms.RadioButton();
             this.lineRadioButton = new System.Windows.Forms.RadioButton();
-            this.triangleRadioButton = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.drawGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -47,7 +47,7 @@
             this.mainPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("mainPictureBox.Image")));
             this.mainPictureBox.Location = new System.Drawing.Point(219, 12);
             this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(626, 337);
+            this.mainPictureBox.Size = new System.Drawing.Size(846, 459);
             this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.mainPictureBox.TabIndex = 0;
             this.mainPictureBox.TabStop = false;
@@ -67,6 +67,17 @@
             this.drawGroupBox.Size = new System.Drawing.Size(200, 121);
             this.drawGroupBox.TabIndex = 1;
             this.drawGroupBox.TabStop = false;
+            // 
+            // triangleRadioButton
+            // 
+            this.triangleRadioButton.AutoSize = true;
+            this.triangleRadioButton.Location = new System.Drawing.Point(6, 88);
+            this.triangleRadioButton.Name = "triangleRadioButton";
+            this.triangleRadioButton.Size = new System.Drawing.Size(63, 17);
+            this.triangleRadioButton.TabIndex = 4;
+            this.triangleRadioButton.TabStop = true;
+            this.triangleRadioButton.Text = "Triangle";
+            this.triangleRadioButton.UseVisualStyleBackColor = true;
             // 
             // circleRadioButton
             // 
@@ -103,22 +114,11 @@
             this.lineRadioButton.UseVisualStyleBackColor = true;
             this.lineRadioButton.CheckedChanged += new System.EventHandler(this.lineRadioButton_CheckedChanged);
             // 
-            // triangleRadioButton
-            // 
-            this.triangleRadioButton.AutoSize = true;
-            this.triangleRadioButton.Location = new System.Drawing.Point(6, 88);
-            this.triangleRadioButton.Name = "triangleRadioButton";
-            this.triangleRadioButton.Size = new System.Drawing.Size(63, 17);
-            this.triangleRadioButton.TabIndex = 4;
-            this.triangleRadioButton.TabStop = true;
-            this.triangleRadioButton.Text = "Triangle";
-            this.triangleRadioButton.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(857, 361);
+            this.ClientSize = new System.Drawing.Size(1077, 483);
             this.Controls.Add(this.drawGroupBox);
             this.Controls.Add(this.mainPictureBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
