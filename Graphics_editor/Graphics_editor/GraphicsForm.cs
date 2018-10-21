@@ -13,27 +13,27 @@ namespace Graphics_editor
 {
     public partial class MainForm : Form
     {
-        private List<IDraft> draftList = new List<IDraft>();
-        private IDraft cacheDraft;
-        private Graphics g;
-        private Pen myPen = new Pen(Color.Black, 1);
-        private Point mouse;
-        private bool doDraw = false;
+        private List<IDraft> _draftList = new List<IDraft>();
+        private IDraft _cacheDraft;
+        private Graphics _g;
+        private Pen _myPen = new Pen(Color.Black, 1);
+        private Point _mouse;
+        private bool _doDraw = false;
 
         public MainForm()
         {
             InitializeComponent();
-            g = Graphics.FromHwnd(mainPictureBox.Handle);
+            _g = Graphics.FromHwnd(mainPictureBox.Handle);
             lineRadioButton.Checked = true;
         }
 
         private void RefreshCanvas()
         {
-            foreach (IDraft draft in draftList)
+            foreach (IDraft draft in _draftList)
             {
                 if (draft != null)
                 {
-                    draft.Draw(g);
+                    draft.Draw(_g);
                 }
             }
         }
@@ -42,120 +42,116 @@ namespace Graphics_editor
         {
             if (!polylineRadioButton.Checked)
             {
-                mouse = e.Location;
-                doDraw = true;
+                _mouse = e.Location;
+                _doDraw = true;
             }           
+        }
+
+        //Стереть фигуру из кэша с канвы
+        private void clearCache()
+        {
+            if (_cacheDraft != null)
+            {
+                _cacheDraft.Pen = new Pen(Color.White, _myPen.Width);
+                _cacheDraft.Draw(_g);
+            }
         }
 
         //Динамическая отрисовка фигуры вслед за курсором
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!doDraw)
+            if (!_doDraw)
                 return;
-            // Рисуем линию цвета фона для стираниния предыдущей линии динамической отрисовки
-            if (cacheDraft != null)
-            {
-                cacheDraft.Pen = new Pen(Color.White, myPen.Width);
-                cacheDraft.Draw(g);
-                RefreshCanvas();
-            }
+      
+            clearCache();
 
             //динамическая отрисовка линии
             if (lineRadioButton.Checked)
             {
-                Line newLine = new Line(mouse, e.Location, myPen); // создаем линию вслед за курсором после нажания пкмыши
-                cacheDraft = newLine;
-                cacheDraft.Draw(g); // чертим созданную линию
-                RefreshCanvas();
+                // создаем линию вслед за курсором после нажания пкмыши   
+                _cacheDraft = new Line(_mouse, e.Location, _myPen);              
             }
 
             // динамическая отрисовка полилинии
             if (polylineRadioButton.Checked)
             {
-                Line newPolyLine = new Line(mouse, e.Location, myPen);
-                cacheDraft = newPolyLine;
-                cacheDraft.Draw(g);
-                RefreshCanvas();
-
+                _cacheDraft = new Line(_mouse, e.Location, _myPen);
             }
 
             // динамичская отрисовка круга
             if (circleRadioButton.Checked)
             {
-                Circle newCircle = new Circle(mouse, e.Location, myPen);
-                cacheDraft = newCircle;
-                cacheDraft.Draw(g);
-                RefreshCanvas();
+                _cacheDraft = new Circle(_mouse, e.Location, _myPen);
             }
 
             // динамичская отрисовка треугольника
             if (triangleRadioButton.Checked)
             {
-                Triangle newTriangle = new Triangle(mouse, e.Location, myPen);
-                cacheDraft = newTriangle;
-                cacheDraft.Draw(g);
-                RefreshCanvas();
+                _cacheDraft = new Triangle(_mouse, e.Location, _myPen);
             }
+
+            _cacheDraft.Draw(_g);
+            RefreshCanvas();
         }
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             if (lineRadioButton.Checked || circleRadioButton.Checked || triangleRadioButton.Checked)
             {
-                draftList.Add(cacheDraft);
-                cacheDraft = null;
-                doDraw = false;
+                _draftList.Add(_cacheDraft);
+                _cacheDraft = null;
+                _doDraw = false;
             }
 
             //отрисовка и добавление в список рисунков полилинии
             if (polylineRadioButton.Checked)
             {
-                if (draftList.Count != 0)
+                if (_draftList.Count != 0)
                 {
-                    if (draftList.Last() is Polyline)
+                    if (_draftList.Last() is Polyline)
                     {
-                        (draftList.Last() as Polyline).AddPoint(e.Location);
+                        (_draftList.Last() as Polyline).AddPoint(e.Location);
                     }
                     else
                     {
-                        mouse = e.Location;
-                        Polyline newPolyline = new Polyline(new List<Point> { mouse, e.Location }, myPen);
-                        draftList.Add(newPolyline);
+                        _mouse = e.Location;
+                        Polyline newPolyline = new Polyline(new List<Point> { _mouse, e.Location }, _myPen);
+                        _draftList.Add(newPolyline);
                     }
                 }
                 else
                 {
-                    mouse = e.Location;
-                    Polyline newPolyline = new Polyline(new List<Point> { mouse, e.Location }, myPen);
-                    draftList.Add(newPolyline);
+                    _mouse = e.Location;
+                    Polyline newPolyline = new Polyline(new List<Point> { _mouse, e.Location }, _myPen);
+                    _draftList.Add(newPolyline);
                 }
-                mouse = e.Location;
-                doDraw = true;
+                _mouse = e.Location;
+                _doDraw = true;
                 RefreshCanvas();
             }
         }
 
         private void polylineRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            g.Clear(Color.White);
+            _g.Clear(Color.White);
             RefreshCanvas();
-            cacheDraft = null;
+            _cacheDraft = null;
             if (polylineRadioButton.Checked == false)
             {
-                doDraw = false;
+                _doDraw = false;
             }
         }
 
         private void mainPictureBox_MouseLeave(object sender, EventArgs e)
         {
-            g.Clear(Color.White);
+            _g.Clear(Color.White);
             RefreshCanvas();        
         }
 
         private void lineRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             RefreshCanvas();
-            cacheDraft = null;
+            _cacheDraft = null;
         }
     }
 }
