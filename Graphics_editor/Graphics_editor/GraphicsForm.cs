@@ -7,15 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Graphics_editor.Model;
+using GraphicsEditor.Model;
 
-namespace Graphics_editor
+namespace GraphicsEditor
 {
     public partial class MainForm : Form
     {
         private List<IDraft> _draftList = new List<IDraft>();
         private IDraft _cacheDraft;
-        private Graphics _g;
+        private Graphics _painter;
         private Pen _myPen = new Pen(Color.Black, 1);
         private Point _mouse;
         private bool _doDraw = false;
@@ -23,7 +23,7 @@ namespace Graphics_editor
         public MainForm()
         {
             InitializeComponent();
-            _g = Graphics.FromHwnd(mainPictureBox.Handle);
+            _painter = Graphics.FromHwnd(mainPictureBox.Handle);
             lineRadioButton.Checked = true;
         }
 
@@ -33,7 +33,7 @@ namespace Graphics_editor
             {
                 if (draft != null)
                 {
-                    draft.Draw(_g);
+                    draft.Draw(_painter);
                 }
             }
         }
@@ -53,7 +53,7 @@ namespace Graphics_editor
             if (_cacheDraft != null)
             {
                 _cacheDraft.Pen = new Pen(Color.White, _myPen.Width);
-                _cacheDraft.Draw(_g);
+                _cacheDraft.Draw(_painter);
             }
         }
 
@@ -90,7 +90,7 @@ namespace Graphics_editor
                 _cacheDraft = new Triangle(_mouse, e.Location, _myPen);
             }
 
-            _cacheDraft.Draw(_g);
+            _cacheDraft.Draw(_painter);
             RefreshCanvas();
         }
 
@@ -133,7 +133,7 @@ namespace Graphics_editor
 
         private void polylineRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            _g.Clear(Color.White);
+            _painter.Clear(Color.White);
             RefreshCanvas();
             _cacheDraft = null;
             if (polylineRadioButton.Checked == false)
@@ -144,7 +144,7 @@ namespace Graphics_editor
 
         private void mainPictureBox_MouseLeave(object sender, EventArgs e)
         {
-            _g.Clear(Color.White);
+            _painter.Clear(Color.White);
             RefreshCanvas();        
         }
 

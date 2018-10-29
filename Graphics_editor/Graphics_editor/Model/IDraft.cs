@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace Graphics_editor.Model
+namespace GraphicsEditor.Model
 {
     interface IDraft
     {

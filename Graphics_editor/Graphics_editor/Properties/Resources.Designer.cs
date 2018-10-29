@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Graphics_editor.Properties
+namespace GraphicsEditor.Properties
 {
 
 

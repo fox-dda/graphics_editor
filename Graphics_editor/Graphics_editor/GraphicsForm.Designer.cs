@@ -1,4 +1,4 @@
-﻿namespace Graphics_editor
+﻿namespace GraphicsEditor
 {
     partial class MainForm
     {
