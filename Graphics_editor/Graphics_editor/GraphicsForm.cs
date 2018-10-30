@@ -11,21 +11,34 @@ using GraphicsEditor.Model;
 
 namespace GraphicsEditor
 {
+
+    enum MouseAction
+    {
+        up,
+        down,
+        move
+    }
+
     public partial class MainForm : Form
     {
         private List<IDraft> _draftList = new List<IDraft>();
         private IDraft _cacheDraft;
-        private Graphics _painter;
+        public Graphics _painter;
         private Pen _myPen = new Pen(Color.Black, 1);
         private Point _mouse;
         private bool _doDraw = false;
+        private string figure;
+
 
         public MainForm()
         {
             InitializeComponent();
             _painter = Graphics.FromHwnd(mainPictureBox.Handle);
+            GPresenter.Painter = _painter;
             lineRadioButton.Checked = true;
         }
+
+        private Presenter GPresenter = new Presenter();
 
         private void RefreshCanvas()
         {
@@ -40,11 +53,14 @@ namespace GraphicsEditor
 
         private void mainPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
+            GPresenter.Process(e, figure, MouseAction.down);
+            /*/
             if (!polylineRadioButton.Checked)
             {
                 _mouse = e.Location;
                 _doDraw = true;
-            }           
+            }
+            /*/
         }
 
         //Стереть фигуру из кэша с канвы
@@ -60,6 +76,8 @@ namespace GraphicsEditor
         //Динамическая отрисовка фигуры вслед за курсором
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
+            GPresenter.Process(e, figure, MouseAction.move);
+            /*/
             if (!_doDraw)
                 return;
       
@@ -92,25 +110,35 @@ namespace GraphicsEditor
 
             _cacheDraft.Draw(_painter);
             RefreshCanvas();
+            /*/
         }
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            if (lineRadioButton.Checked || circleRadioButton.Checked || triangleRadioButton.Checked)
-            {
-                _draftList.Add(_cacheDraft);
-                _cacheDraft = null;
-                _doDraw = false;
-            }
-
-            //отрисовка и добавление в список рисунков полилинии
-            if (polylineRadioButton.Checked)
-            {
-                if (_draftList.Count != 0)
+            GPresenter.Process(e, figure, MouseAction.up);
+            /*/
+                if (lineRadioButton.Checked || circleRadioButton.Checked || triangleRadioButton.Checked)
                 {
-                    if (_draftList.Last() is Polyline)
+                    _draftList.Add(_cacheDraft);
+                    _cacheDraft = null;
+                    _doDraw = false;
+                }
+
+                //отрисовка и добавление в список рисунков полилинии
+                if (polylineRadioButton.Checked)
+                {
+                    if (_draftList.Count != 0)
                     {
-                        (_draftList.Last() as Polyline).AddPoint(e.Location);
+                        if (_draftList.Last() is Polyline)
+                        {
+                            (_draftList.Last() as Polyline).AddPoint(e.Location);
+                        }
+                        else
+                        {
+                            _mouse = e.Location;
+                            Polyline newPolyline = new Polyline(new List<Point> { _mouse, e.Location }, _myPen);
+                            _draftList.Add(newPolyline);
+                        }
                     }
                     else
                     {
@@ -118,21 +146,15 @@ namespace GraphicsEditor
                         Polyline newPolyline = new Polyline(new List<Point> { _mouse, e.Location }, _myPen);
                         _draftList.Add(newPolyline);
                     }
-                }
-                else
-                {
                     _mouse = e.Location;
-                    Polyline newPolyline = new Polyline(new List<Point> { _mouse, e.Location }, _myPen);
-                    _draftList.Add(newPolyline);
+                    _doDraw = true;
+                    RefreshCanvas();
                 }
-                _mouse = e.Location;
-                _doDraw = true;
-                RefreshCanvas();
-            }
+                /*/
         }
 
         private void polylineRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
+        {/*/
             _painter.Clear(Color.White);
             RefreshCanvas();
             _cacheDraft = null;
@@ -140,18 +162,43 @@ namespace GraphicsEditor
             {
                 _doDraw = false;
             }
+            /*/
         }
 
         private void mainPictureBox_MouseLeave(object sender, EventArgs e)
-        {
+        { 
+        /*/
             _painter.Clear(Color.White);
             RefreshCanvas();        
+            /*/
         }
 
         private void lineRadioButton_CheckedChanged(object sender, EventArgs e)
         {
+            /*/
             RefreshCanvas();
             _cacheDraft = null;
+            /*/
+        }
+
+        private void lineButton_Click(object sender, EventArgs e)
+        {
+            figure = "Line";
+        }
+
+        private void polylineButton_Click(object sender, EventArgs e)
+        {
+            figure = "Polyline";
+        }
+
+        private void circleButton_Click(object sender, EventArgs e)
+        {
+            figure = "Circle";
+        }
+
+        private void triangleButton_Click(object sender, EventArgs e)
+        {
+            figure = "Triangle";
         }
     }
 }

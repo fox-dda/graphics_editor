@@ -7,25 +7,41 @@ using GraphicsEditor.Model;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Graphics_editor
+namespace GraphicsEditor
 {
     class Presenter
     {
         private List<IDraft> _draftList = new List<IDraft>();
         private IDraft _cacheDraft;
-        private Graphics _painter;
+        public Graphics _painter;
         private Pen _myPen = new Pen(Color.Black, 1);
-        private Point _mouse;
-        private bool _doDraw = false;
-        strategy drawingStrategy;
-        enum strategy
+        private List<Point> inPocessPoints = new List<Point>();
+        string _figure;
+        private string Figure
+        {
+            get
+            {
+                return _figure;
+            }
+            set
+            {
+                if(value != _figure)
+                    inPocessPoints.Clear();
+                _figure = value;
+                DefineStrategy(_figure);
+            }
+        }
+        Strategy drawingStrategy;
+        enum Strategy
         {
             twoPoint,
             multipoint
         };
 
+
+
         //Стереть фигуру из кэша
-        private void clearCache()
+        private void reDrawCache()
         {
             if (_cacheDraft != null)
             {
@@ -57,37 +73,76 @@ namespace Graphics_editor
             }
         }
 
-        public void DefineStrategy(Type figure)
+        //Определение стратегии отрисовки фигуры по её классу
+        public void DefineStrategy(string figure) 
         {
-            if ((figure == typeof(Line)) || (figure == typeof(Circle)) || (figure == typeof(Triangle)))
-                drawingStrategy = strategy.twoPoint;
-            else if (figure == typeof(Polyline))
-                drawingStrategy = strategy.multipoint;
+            if ((figure == "Line") || (figure == "Circle") || (figure == "Triangle"))
+                drawingStrategy = Strategy.twoPoint;
+            else if (figure == "Polyline")
+                drawingStrategy = Strategy.multipoint;
         }
 
-        public void DynamicDrawing(MouseEventArgs e, string drawType)
+        public void Process(MouseEventArgs e, string figure, MouseAction mouseAction)
+        {
+            if (figure == null)
+                return;
+
+            Figure = figure;
+
+            switch (mouseAction)
+            {
+                case MouseAction.down:
+                    {
+                        inPocessPoints.Add(e.Location);
+                        break;
+                    }
+                case MouseAction.up:
+                    {
+                        inPocessPoints.Add(e.Location);
+                        if (_cacheDraft != null)
+                        {
+                            _draftList.Add(_cacheDraft);
+                            inPocessPoints.Clear();
+                            _cacheDraft = null;
+                        }
+                        break;
+                    }
+                case MouseAction.move:
+                    {
+                        if (inPocessPoints.Count == 0)
+                            return;
+                        inPocessPoints.Add(e.Location);
+                        DynamicDrawing(figure);
+                        break;
+                    }
+            }
+            RefreshCanvas();
+        }
+
+        public void DynamicDrawing(string figure)
         {
 
-            if (drawingStrategy == strategy.twoPoint)
+            if (drawingStrategy == Strategy.twoPoint)
             {
-                clearCache();
-                switch(drawType)
+                reDrawCache();
+                switch(figure)
                 {
                     case "Line": 
-                        _cacheDraft = new Line(_mouse, e.Location, _myPen);
+                        _cacheDraft = new Line(inPocessPoints[0], inPocessPoints.Last(), _myPen);
                         break;
                     case "Circle":
-                        _cacheDraft = new Circle(_mouse, e.Location, _myPen);
+                        _cacheDraft = new Circle(inPocessPoints[0], inPocessPoints.Last(), _myPen);
                         break;
                     case "Triangle":
-                        _cacheDraft = new Triangle(_mouse, e.Location, _myPen);
+                        _cacheDraft = new Triangle(inPocessPoints[0], inPocessPoints.Last(), _myPen);
                         break;
                 }
-                
+                //inPocessPoints.Clear();
+                _cacheDraft.Draw(_painter);
             }
-            else if (drawingStrategy == strategy.multipoint)
+            else if (drawingStrategy == Strategy.multipoint)
             {
-                switch (drawType)
+                switch (figure)
                 {
                     case "Polyline":
                         
@@ -95,6 +150,12 @@ namespace Graphics_editor
                 }
             }
         }
+
+       /*/ public Presenter(Graphics _gPainter)
+        {
+            _painter = _gPainter;
+        }
+        /*/
     }
 
 }
