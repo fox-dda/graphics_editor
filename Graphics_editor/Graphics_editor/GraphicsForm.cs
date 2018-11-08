@@ -33,6 +33,7 @@ namespace GraphicsEditor
         public MainForm()
         {
             InitializeComponent();
+            DoubleBuffered = true;
             _painter = Graphics.FromHwnd(mainPictureBox.Handle);
             GPresenter.Painter = _painter;
             lineRadioButton.Checked = true;
@@ -53,7 +54,7 @@ namespace GraphicsEditor
 
         private void mainPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            GPresenter.Process(e, figure, MouseAction.down);
+            GPresenter.Process(e, MouseAction.down);
             /*/
             if (!polylineRadioButton.Checked)
             {
@@ -76,7 +77,7 @@ namespace GraphicsEditor
         //Динамическая отрисовка фигуры вслед за курсором
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            GPresenter.Process(e, figure, MouseAction.move);
+            GPresenter.Process(e, MouseAction.move);
             /*/
             if (!_doDraw)
                 return;
@@ -115,7 +116,7 @@ namespace GraphicsEditor
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            GPresenter.Process(e, figure, MouseAction.up);
+            GPresenter.Process(e, MouseAction.up);
             /*/
                 if (lineRadioButton.Checked || circleRadioButton.Checked || triangleRadioButton.Checked)
                 {
@@ -183,22 +184,22 @@ namespace GraphicsEditor
 
         private void lineButton_Click(object sender, EventArgs e)
         {
-            figure = "Line";
+            GPresenter.Figure = "Line";
         }
 
         private void polylineButton_Click(object sender, EventArgs e)
         {
-            figure = "Polyline";
+            GPresenter.Figure = "Polyline";
         }
 
         private void circleButton_Click(object sender, EventArgs e)
         {
-            figure = "Circle";
+            GPresenter.Figure = "Circle";
         }
 
         private void triangleButton_Click(object sender, EventArgs e)
         {
-            figure = "Triangle";
+            GPresenter.Figure = "Triangle";
         }
     }
 }

@@ -17,7 +17,7 @@ namespace GraphicsEditor
         private Pen _myPen = new Pen(Color.Black, 1);
         private List<Point> inPocessPoints = new List<Point>();
         string _figure;
-        private string Figure
+        public string Figure
         {
             get
             {
@@ -37,8 +37,6 @@ namespace GraphicsEditor
             twoPoint,
             multipoint
         };
-
-
 
         //Стереть фигуру из кэша
         private void reDrawCache()
@@ -82,80 +80,91 @@ namespace GraphicsEditor
                 drawingStrategy = Strategy.multipoint;
         }
 
-        public void Process(MouseEventArgs e, string figure, MouseAction mouseAction)
+        private void toDraw()
         {
-            if (figure == null)
-                return;
+            if (_cacheDraft != null && drawingStrategy == Strategy.twoPoint)
+            {
+                _draftList.Add(_cacheDraft);
+                inPocessPoints.Clear();
+                _cacheDraft = null;
+            }
+            if (_cacheDraft != null && drawingStrategy == Strategy.multipoint)
+            {
+                _draftList.Add(_cacheDraft);
+                inPocessPoints.Clear();
+                //_cacheDraft = null;
+            }
+        }
 
-            Figure = figure;
+        //Обработчик мыши
+        public void Process(MouseEventArgs e, MouseAction mouseAction)
+        {
+            if (Figure == null)
+                return;
 
             switch (mouseAction)
             {
                 case MouseAction.down:
                     {
-                        inPocessPoints.Add(e.Location);
-                        break;
-                    }
-                case MouseAction.up:
-                    {
-                        inPocessPoints.Add(e.Location);
-                        if (_cacheDraft != null)
-                        {
-                            _draftList.Add(_cacheDraft);
-                            inPocessPoints.Clear();
-                            _cacheDraft = null;
-                        }
+                        if(drawingStrategy == Strategy.twoPoint)
+                            inPocessPoints.Add(e.Location);
                         break;
                     }
                 case MouseAction.move:
                     {
                         if (inPocessPoints.Count == 0)
                             return;
+                        DynamicDrawing(e.Location);
+                        break;
+                    }
+                case MouseAction.up:
+                    {
                         inPocessPoints.Add(e.Location);
-                        DynamicDrawing(figure);
+                        toDraw();
                         break;
                     }
             }
             RefreshCanvas();
         }
-
-        public void DynamicDrawing(string figure)
+        
+        //Динамическая отрисовка
+        public void DynamicDrawing(Point mousePoint)
         {
-
             if (drawingStrategy == Strategy.twoPoint)
             {
                 reDrawCache();
-                switch(figure)
+                switch(Figure)
                 {
                     case "Line": 
-                        _cacheDraft = new Line(inPocessPoints[0], inPocessPoints.Last(), _myPen);
+                        _cacheDraft = new Line(inPocessPoints[0], mousePoint, _myPen);
                         break;
                     case "Circle":
-                        _cacheDraft = new Circle(inPocessPoints[0], inPocessPoints.Last(), _myPen);
+                        _cacheDraft = new Circle(inPocessPoints[0], mousePoint, _myPen);
                         break;
                     case "Triangle":
-                        _cacheDraft = new Triangle(inPocessPoints[0], inPocessPoints.Last(), _myPen);
+                        _cacheDraft = new Triangle(inPocessPoints[0], mousePoint, _myPen);
                         break;
                 }
-                //inPocessPoints.Clear();
                 _cacheDraft.Draw(_painter);
             }
             else if (drawingStrategy == Strategy.multipoint)
             {
-                switch (figure)
+                switch (Figure)
                 {
                     case "Polyline":
-                        
+                        if (!(_cacheDraft is Polyline))
+                        {
+                            _cacheDraft = new Polyline(new List<Point> { inPocessPoints.Last(), mousePoint }, _myPen);
+                            MessageBox.Show("В кэше не полилайн");
+                        }
+                            
+
+                        else
+                            (_cacheDraft as Polyline).AddPoint(inPocessPoints.Last());
                         break;
                 }
             }
         }
-
-       /*/ public Presenter(Graphics _gPainter)
-        {
-            _painter = _gPainter;
-        }
-        /*/
     }
 
 }
