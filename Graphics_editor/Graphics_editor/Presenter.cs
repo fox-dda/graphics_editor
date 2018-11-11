@@ -90,10 +90,17 @@ namespace GraphicsEditor
             }
             if (_cacheDraft != null && drawingStrategy == Strategy.multipoint)
             {
-                _draftList.Add(_cacheDraft);
-                inPocessPoints.Clear();
-                //_cacheDraft = null;
+                if (_draftList.Count != 0)
+                    if (_draftList.Last() is Polyline)
+                    {
+                        (_draftList.Last() as Polyline).AddPoint((_cacheDraft as Polyline).StartPoint);
+                    }                  
+                    _draftList.Add(_cacheDraft);
+                    //inPocessPoints.Clear();
+                    _cacheDraft = null;
+
             }
+            RefreshCanvas();
         }
 
         //Обработчик мыши
@@ -106,21 +113,41 @@ namespace GraphicsEditor
             {
                 case MouseAction.down:
                     {
-                        if(drawingStrategy == Strategy.twoPoint)
-                            inPocessPoints.Add(e.Location);
+                        if (drawingStrategy == Strategy.twoPoint)
+                        {
+                                inPocessPoints.Add(e.Location);
+                        }
                         break;
                     }
                 case MouseAction.move:
                     {
-                        if (inPocessPoints.Count == 0)
-                            return;
-                        DynamicDrawing(e.Location);
+                        if (drawingStrategy == Strategy.twoPoint)
+                        {
+                            if (inPocessPoints.Count == 0)
+                                return;
+                            DynamicDrawing(e.Location);
+                        }
+                        else
+                        {
+                            if(inPocessPoints.Count != 0)
+                            {
+                                DynamicDrawing(e.Location);
+                            }
+                        }
                         break;
                     }
                 case MouseAction.up:
                     {
-                        inPocessPoints.Add(e.Location);
-                        toDraw();
+                        if (drawingStrategy == Strategy.twoPoint)
+                        {
+                            inPocessPoints.Add(e.Location);
+                            toDraw();
+                        }
+                        else
+                        {
+                            inPocessPoints.Add(e.Location);
+                            toDraw();
+                        }
                         break;
                     }
             }
@@ -149,18 +176,13 @@ namespace GraphicsEditor
             }
             else if (drawingStrategy == Strategy.multipoint)
             {
+                reDrawCache();
+
                 switch (Figure)
                 {
                     case "Polyline":
-                        if (!(_cacheDraft is Polyline))
-                        {
-                            _cacheDraft = new Polyline(new List<Point> { inPocessPoints.Last(), mousePoint }, _myPen);
-                            MessageBox.Show("В кэше не полилайн");
-                        }
-                            
-
-                        else
-                            (_cacheDraft as Polyline).AddPoint(inPocessPoints.Last());
+                        _cacheDraft = new Polyline(new List<Point> { inPocessPoints.Last(), mousePoint }, _myPen);
+                        _cacheDraft.Draw(_painter);
                         break;
                 }
             }
