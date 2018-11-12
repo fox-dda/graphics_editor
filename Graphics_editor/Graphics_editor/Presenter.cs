@@ -11,12 +11,21 @@ namespace GraphicsEditor
 {
     class Presenter
     {
+        enum Strategy
+        {
+            twoPoint,
+            multipoint
+        };
+
+        private Strategy drawingStrategy;
         private List<IDraft> _draftList = new List<IDraft>();
-        private IDraft _cacheDraft;
-        public Graphics _painter;
-        private Pen _myPen = new Pen(Color.Black, 1);
         private List<Point> inPocessPoints = new List<Point>();
-        string _figure;
+        private IDraft _cacheDraft;
+        private Color canvasColor = Color.White;
+        private string _figure;
+
+        public Graphics _painter;
+        public Pen GPen = new Pen(Color.Black, 1);       
         public string Figure
         {
             get
@@ -25,29 +34,25 @@ namespace GraphicsEditor
             }
             set
             {
-                if(value != _figure)
+                if (value != _figure)
                     inPocessPoints.Clear();
                 _figure = value;
                 DefineStrategy(_figure);
             }
         }
-        Strategy drawingStrategy;
-        enum Strategy
+        public Color CanvasColor
         {
-            twoPoint,
-            multipoint
-        };
-
-        //Стереть фигуру из кэша
-        private void reDrawCache()
-        {
-            if (_cacheDraft != null)
+            get
             {
-                _cacheDraft.Pen = new Pen(Color.White, _myPen.Width);
-                _cacheDraft.Draw(_painter);
+                return canvasColor;
+            }
+            set
+            {
+                canvasColor = value;
+                _painter.Clear(canvasColor);
+                RefreshCanvas();
             }
         }
-
         public Graphics Painter
         {
             get
@@ -60,6 +65,17 @@ namespace GraphicsEditor
             }
         }
 
+        //Стереть фигуру из кэша
+        private void reDrawCache()
+        {
+            if (_cacheDraft != null)
+            {
+                _cacheDraft.Pen = new Pen(canvasColor, GPen.Width);
+                _cacheDraft.Draw(_painter);
+            }
+        }
+  
+        //Обновить канву
         private void RefreshCanvas()
         {
             foreach (IDraft draft in _draftList)
@@ -71,15 +87,7 @@ namespace GraphicsEditor
             }
         }
 
-        //Определение стратегии отрисовки фигуры по её классу
-        public void DefineStrategy(string figure) 
-        {
-            if ((figure == "Line") || (figure == "Circle") || (figure == "Triangle"))
-                drawingStrategy = Strategy.twoPoint;
-            else if (figure == "Polyline")
-                drawingStrategy = Strategy.multipoint;
-        }
-
+        //Отрисовать и добавить в список объектов на канве объект из кэша
         private void toDraw()
         {
             if (_cacheDraft != null && drawingStrategy == Strategy.twoPoint)
@@ -94,13 +102,22 @@ namespace GraphicsEditor
                     if (_draftList.Last() is Polyline)
                     {
                         (_draftList.Last() as Polyline).AddPoint((_cacheDraft as Polyline).StartPoint);
-                    }                  
-                    _draftList.Add(_cacheDraft);
-                    //inPocessPoints.Clear();
-                    _cacheDraft = null;
+                    }
+                _draftList.Add(_cacheDraft);
+                //inPocessPoints.Clear();
+                _cacheDraft = null;
 
             }
             RefreshCanvas();
+        }
+
+        //Определение стратегии отрисовки фигуры по её классу
+        public void DefineStrategy(string figure) 
+        {
+            if ((figure == "Line") || (figure == "Circle") || (figure == "Triangle"))
+                drawingStrategy = Strategy.twoPoint;
+            else if (figure == "Polyline")
+                drawingStrategy = Strategy.multipoint;
         }
 
         //Обработчик мыши
@@ -163,13 +180,13 @@ namespace GraphicsEditor
                 switch(Figure)
                 {
                     case "Line": 
-                        _cacheDraft = new Line(inPocessPoints[0], mousePoint, _myPen);
+                        _cacheDraft = new Line(inPocessPoints[0], mousePoint, GPen);
                         break;
                     case "Circle":
-                        _cacheDraft = new Circle(inPocessPoints[0], mousePoint, _myPen);
+                        _cacheDraft = new Circle(inPocessPoints[0], mousePoint, GPen);
                         break;
                     case "Triangle":
-                        _cacheDraft = new Triangle(inPocessPoints[0], mousePoint, _myPen);
+                        _cacheDraft = new Triangle(inPocessPoints[0], mousePoint, GPen);
                         break;
                 }
                 _cacheDraft.Draw(_painter);
@@ -181,11 +198,19 @@ namespace GraphicsEditor
                 switch (Figure)
                 {
                     case "Polyline":
-                        _cacheDraft = new Polyline(new List<Point> { inPocessPoints.Last(), mousePoint }, _myPen);
+                        _cacheDraft = new Polyline(new List<Point> { inPocessPoints.Last(), mousePoint }, GPen);
                         _cacheDraft.Draw(_painter);
                         break;
                 }
             }
+        }
+
+        //Очистка канвы
+        public void ClearCanvas()
+        {
+            _draftList.Clear();
+            CanvasColor = Color.White;
+            _painter.Clear(CanvasColor);
         }
     }
 
