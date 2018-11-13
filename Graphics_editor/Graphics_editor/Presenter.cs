@@ -22,10 +22,26 @@ namespace GraphicsEditor
         private List<Point> inPocessPoints = new List<Point>();
         private IDraft _cacheDraft;
         private Color canvasColor = Color.White;
+        //private float thickness = 1;
         private string _figure;
 
         public Graphics _painter;
-        public Pen GPen = new Pen(Color.Black, 1);       
+        public Pen GPen = new Pen(Color.Black, 1);
+        /*/public float Thickness
+        {
+            get
+            {
+                return thickness;
+            }
+            set
+            {
+                if (value < 20)
+                {
+                    thickness = value;
+                    GPen.Width = thickness;
+                }
+            }
+        }/*/
         public string Figure
         {
             get
@@ -71,6 +87,7 @@ namespace GraphicsEditor
             if (_cacheDraft != null)
             {
                 _cacheDraft.Pen = new Pen(canvasColor, GPen.Width);
+               // _cacheDraft.Pen.DashPattern = new float[] { 1, 0 };
                 _cacheDraft.Draw(_painter);
             }
         }
@@ -188,6 +205,9 @@ namespace GraphicsEditor
                     case "Triangle":
                         _cacheDraft = new Triangle(inPocessPoints[0], mousePoint, GPen);
                         break;
+                    case "Ellipse":
+                        _cacheDraft = new Ellipse(inPocessPoints[0], mousePoint, GPen);
+                        break;
                 }
                 _cacheDraft.Draw(_painter);
             }
@@ -202,7 +222,7 @@ namespace GraphicsEditor
                         _cacheDraft.Draw(_painter);
                         break;
                 }
-            }
+            }         
         }
 
         //Очистка канвы

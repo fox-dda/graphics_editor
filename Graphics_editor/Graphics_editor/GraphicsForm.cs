@@ -72,7 +72,8 @@ namespace GraphicsEditor
             ColorDialog colorDialog = new ColorDialog();
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
-                GPresenter.GPen = new Pen(colorDialog.Color);
+                GPresenter.GPen = new Pen(colorDialog.Color, GPresenter.GPen.Width);
+            refreshPen();
         }
 
         private void selectCanvasColorButton_Click(object sender, EventArgs e)
@@ -87,5 +88,32 @@ namespace GraphicsEditor
         {
             GPresenter.ClearCanvas();
         }
+
+        private void ellipseButton_Click(object sender, EventArgs e)
+        {
+            GPresenter.Figure = "Ellipse";
+        }
+
+        private void thicknessNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            refreshPen();
+        }
+
+        private void penStrokeWidthNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            refreshPen();
+        }
+
+        private void refreshPen()
+        {          
+            GPresenter.GPen = new Pen(GPresenter.GPen.Color, (float)thicknessNumericUpDown.Value);
+            if(penStrokeWidthNumericUpDown.Value > 0)
+                GPresenter.GPen.DashPattern = new float[] 
+                {
+                    (float)penStrokeWidthNumericUpDown.Value,
+                    (float)penStrokeWidthNumericUpDown.Value
+                };
+        }
+
     }
 }

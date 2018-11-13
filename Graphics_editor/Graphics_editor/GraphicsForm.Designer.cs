@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.drawGroupBox = new System.Windows.Forms.GroupBox();
+            this.ellipseButton = new System.Windows.Forms.Button();
             this.triangleButton = new System.Windows.Forms.Button();
             this.lineButton = new System.Windows.Forms.Button();
             this.circleButton = new System.Windows.Forms.Button();
@@ -39,9 +40,17 @@
             this.selectCanvasColorButton = new System.Windows.Forms.Button();
             this.selectPenColorButton = new System.Windows.Forms.Button();
             this.clearCanvasButton = new System.Windows.Forms.Button();
+            this.penStyleGroupBox = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.penStrokeWidthNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.widthLabel = new System.Windows.Forms.Label();
+            this.thicknessNumericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
+            this.penStyleGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.penStrokeWidthNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thicknessNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // mainPictureBox
@@ -52,7 +61,7 @@
             this.mainPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("mainPictureBox.Image")));
             this.mainPictureBox.Location = new System.Drawing.Point(120, 12);
             this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(725, 337);
+            this.mainPictureBox.Size = new System.Drawing.Size(725, 450);
             this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.mainPictureBox.TabIndex = 0;
             this.mainPictureBox.TabStop = false;
@@ -62,20 +71,31 @@
             // 
             // drawGroupBox
             // 
+            this.drawGroupBox.Controls.Add(this.ellipseButton);
             this.drawGroupBox.Controls.Add(this.triangleButton);
             this.drawGroupBox.Controls.Add(this.lineButton);
             this.drawGroupBox.Controls.Add(this.circleButton);
             this.drawGroupBox.Controls.Add(this.polylineButton);
             this.drawGroupBox.Location = new System.Drawing.Point(12, 12);
             this.drawGroupBox.Name = "drawGroupBox";
-            this.drawGroupBox.Size = new System.Drawing.Size(102, 144);
+            this.drawGroupBox.Size = new System.Drawing.Size(102, 165);
             this.drawGroupBox.TabIndex = 1;
             this.drawGroupBox.TabStop = false;
             this.drawGroupBox.Text = "Draw";
             // 
+            // ellipseButton
+            // 
+            this.ellipseButton.Location = new System.Drawing.Point(13, 135);
+            this.ellipseButton.Name = "ellipseButton";
+            this.ellipseButton.Size = new System.Drawing.Size(75, 23);
+            this.ellipseButton.TabIndex = 4;
+            this.ellipseButton.Text = "Ellipse";
+            this.ellipseButton.UseVisualStyleBackColor = true;
+            this.ellipseButton.Click += new System.EventHandler(this.ellipseButton_Click);
+            // 
             // triangleButton
             // 
-            this.triangleButton.Location = new System.Drawing.Point(6, 106);
+            this.triangleButton.Location = new System.Drawing.Point(13, 77);
             this.triangleButton.Name = "triangleButton";
             this.triangleButton.Size = new System.Drawing.Size(75, 23);
             this.triangleButton.TabIndex = 5;
@@ -85,7 +105,7 @@
             // 
             // lineButton
             // 
-            this.lineButton.Location = new System.Drawing.Point(6, 19);
+            this.lineButton.Location = new System.Drawing.Point(13, 19);
             this.lineButton.Name = "lineButton";
             this.lineButton.Size = new System.Drawing.Size(75, 23);
             this.lineButton.TabIndex = 2;
@@ -95,7 +115,7 @@
             // 
             // circleButton
             // 
-            this.circleButton.Location = new System.Drawing.Point(6, 77);
+            this.circleButton.Location = new System.Drawing.Point(13, 106);
             this.circleButton.Name = "circleButton";
             this.circleButton.Size = new System.Drawing.Size(75, 23);
             this.circleButton.TabIndex = 4;
@@ -105,7 +125,7 @@
             // 
             // polylineButton
             // 
-            this.polylineButton.Location = new System.Drawing.Point(6, 48);
+            this.polylineButton.Location = new System.Drawing.Point(13, 48);
             this.polylineButton.Name = "polylineButton";
             this.polylineButton.Size = new System.Drawing.Size(75, 23);
             this.polylineButton.TabIndex = 3;
@@ -117,16 +137,16 @@
             // 
             this.colorGroupBox.Controls.Add(this.selectCanvasColorButton);
             this.colorGroupBox.Controls.Add(this.selectPenColorButton);
-            this.colorGroupBox.Location = new System.Drawing.Point(12, 162);
+            this.colorGroupBox.Location = new System.Drawing.Point(12, 183);
             this.colorGroupBox.Name = "colorGroupBox";
-            this.colorGroupBox.Size = new System.Drawing.Size(102, 83);
+            this.colorGroupBox.Size = new System.Drawing.Size(102, 75);
             this.colorGroupBox.TabIndex = 2;
             this.colorGroupBox.TabStop = false;
             this.colorGroupBox.Text = "Color";
             // 
             // selectCanvasColorButton
             // 
-            this.selectCanvasColorButton.Location = new System.Drawing.Point(6, 48);
+            this.selectCanvasColorButton.Location = new System.Drawing.Point(13, 48);
             this.selectCanvasColorButton.Name = "selectCanvasColorButton";
             this.selectCanvasColorButton.Size = new System.Drawing.Size(75, 23);
             this.selectCanvasColorButton.TabIndex = 3;
@@ -136,7 +156,7 @@
             // 
             // selectPenColorButton
             // 
-            this.selectPenColorButton.Location = new System.Drawing.Point(6, 19);
+            this.selectPenColorButton.Location = new System.Drawing.Point(13, 19);
             this.selectPenColorButton.Name = "selectPenColorButton";
             this.selectPenColorButton.Size = new System.Drawing.Size(75, 23);
             this.selectPenColorButton.TabIndex = 3;
@@ -146,7 +166,7 @@
             // 
             // clearCanvasButton
             // 
-            this.clearCanvasButton.Location = new System.Drawing.Point(18, 326);
+            this.clearCanvasButton.Location = new System.Drawing.Point(25, 439);
             this.clearCanvasButton.Name = "clearCanvasButton";
             this.clearCanvasButton.Size = new System.Drawing.Size(75, 23);
             this.clearCanvasButton.TabIndex = 3;
@@ -154,11 +174,79 @@
             this.clearCanvasButton.UseVisualStyleBackColor = true;
             this.clearCanvasButton.Click += new System.EventHandler(this.clearCanvasButton_Click);
             // 
+            // penStyleGroupBox
+            // 
+            this.penStyleGroupBox.Controls.Add(this.label1);
+            this.penStyleGroupBox.Controls.Add(this.penStrokeWidthNumericUpDown);
+            this.penStyleGroupBox.Controls.Add(this.widthLabel);
+            this.penStyleGroupBox.Controls.Add(this.thicknessNumericUpDown);
+            this.penStyleGroupBox.Location = new System.Drawing.Point(12, 264);
+            this.penStyleGroupBox.Name = "penStyleGroupBox";
+            this.penStyleGroupBox.Size = new System.Drawing.Size(102, 80);
+            this.penStyleGroupBox.TabIndex = 5;
+            this.penStyleGroupBox.TabStop = false;
+            this.penStyleGroupBox.Text = "Pen style";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 47);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Stroke";
+            // 
+            // penStrokeWidthNumericUpDown
+            // 
+            this.penStrokeWidthNumericUpDown.Location = new System.Drawing.Point(55, 45);
+            this.penStrokeWidthNumericUpDown.Maximum = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            this.penStrokeWidthNumericUpDown.Name = "penStrokeWidthNumericUpDown";
+            this.penStrokeWidthNumericUpDown.Size = new System.Drawing.Size(33, 20);
+            this.penStrokeWidthNumericUpDown.TabIndex = 7;
+            this.penStrokeWidthNumericUpDown.ValueChanged += new System.EventHandler(this.penStrokeWidthNumericUpDown_ValueChanged);
+            // 
+            // widthLabel
+            // 
+            this.widthLabel.AutoSize = true;
+            this.widthLabel.Location = new System.Drawing.Point(10, 21);
+            this.widthLabel.Name = "widthLabel";
+            this.widthLabel.Size = new System.Drawing.Size(35, 13);
+            this.widthLabel.TabIndex = 7;
+            this.widthLabel.Text = "Width";
+            // 
+            // thicknessNumericUpDown
+            // 
+            this.thicknessNumericUpDown.Location = new System.Drawing.Point(55, 19);
+            this.thicknessNumericUpDown.Maximum = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            this.thicknessNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.thicknessNumericUpDown.Name = "thicknessNumericUpDown";
+            this.thicknessNumericUpDown.Size = new System.Drawing.Size(33, 20);
+            this.thicknessNumericUpDown.TabIndex = 6;
+            this.thicknessNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.thicknessNumericUpDown.ValueChanged += new System.EventHandler(this.thicknessNumericUpDown_ValueChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(857, 361);
+            this.ClientSize = new System.Drawing.Size(857, 474);
+            this.Controls.Add(this.penStyleGroupBox);
             this.Controls.Add(this.clearCanvasButton);
             this.Controls.Add(this.colorGroupBox);
             this.Controls.Add(this.drawGroupBox);
@@ -170,6 +258,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
             this.drawGroupBox.ResumeLayout(false);
             this.colorGroupBox.ResumeLayout(false);
+            this.penStyleGroupBox.ResumeLayout(false);
+            this.penStyleGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.penStrokeWidthNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thicknessNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -186,6 +278,12 @@
         private System.Windows.Forms.Button selectPenColorButton;
         private System.Windows.Forms.Button selectCanvasColorButton;
         private System.Windows.Forms.Button clearCanvasButton;
+        private System.Windows.Forms.Button ellipseButton;
+        private System.Windows.Forms.GroupBox penStyleGroupBox;
+        private System.Windows.Forms.NumericUpDown thicknessNumericUpDown;
+        private System.Windows.Forms.Label widthLabel;
+        private System.Windows.Forms.NumericUpDown penStrokeWidthNumericUpDown;
+        private System.Windows.Forms.Label label1;
     }
 }
 
