@@ -19,6 +19,15 @@ namespace GraphicsEditor
         move
     }
 
+    enum Figure
+    {
+        circle,
+        ellipse,
+        line,
+        polyline,
+        triangle
+    }
+
     public partial class MainForm : Form
     {
         private Presenter GPresenter = new Presenter();
@@ -49,22 +58,22 @@ namespace GraphicsEditor
 
         private void lineButton_Click(object sender, EventArgs e)
         {
-            GPresenter.Figure = "Line";
+            GPresenter.Figure = Figure.line;
         }
 
         private void polylineButton_Click(object sender, EventArgs e)
         {
-            GPresenter.Figure = "Polyline";
+            GPresenter.Figure = Figure.polyline;
         }
 
         private void circleButton_Click(object sender, EventArgs e)
         {
-            GPresenter.Figure = "Circle";
+            GPresenter.Figure = Figure.circle;
         }
 
         private void triangleButton_Click(object sender, EventArgs e)
         {
-            GPresenter.Figure = "Triangle";
+            GPresenter.Figure = Figure.triangle;
         }
 
         private void selectColorButton_Click(object sender, EventArgs e)
@@ -91,7 +100,7 @@ namespace GraphicsEditor
 
         private void ellipseButton_Click(object sender, EventArgs e)
         {
-            GPresenter.Figure = "Ellipse";
+            GPresenter.Figure = Figure.ellipse;
         }
 
         private void thicknessNumericUpDown_ValueChanged(object sender, EventArgs e)
