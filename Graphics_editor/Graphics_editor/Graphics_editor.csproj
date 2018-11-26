@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="Model\Circle.cs" />
     <Compile Include="Model\Ellipse.cs" />
+    <Compile Include="Model\IBrushable.cs" />
     <Compile Include="Model\IDrawable.cs" />
     <Compile Include="Model\Line.cs" />
     <Compile Include="Model\Polyline.cs" />

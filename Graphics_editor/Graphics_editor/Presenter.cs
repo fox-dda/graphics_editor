@@ -85,6 +85,8 @@ namespace GraphicsEditor
             if (_cacheDraft != null)
             {
                 _cacheDraft.Pen = new Pen(canvasColor, GPen.Width);
+                if ((_cacheDraft is Circle) || (_cacheDraft is Ellipse) || (_cacheDraft is Triangle))
+                    (_cacheDraft as IBrushable).BrushColor = CanvasColor;
                 _cacheDraft.Draw(_painter);
             }
         }
