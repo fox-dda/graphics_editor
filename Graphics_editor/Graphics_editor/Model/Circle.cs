@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model
 {
-    class Circle : Ellipse, IDraft
+    class Circle : Ellipse, IDrawable
     {
 
         new public void Draw(Graphics g)

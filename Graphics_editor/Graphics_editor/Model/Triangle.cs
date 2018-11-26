@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model
 {
-    class Triangle : IDraft
+    class Triangle : IDrawable
     {
         private Point _startPoint;
         private Point _endPoint;

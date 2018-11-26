@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model
 {
-    class Line : IDraft
+    class Line : IDrawable
     {
         private Pen _pen;
         private Point _startPoint;

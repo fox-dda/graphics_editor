@@ -7,27 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GraphicsEditor.Model;
+using GraphicsEditor.Enums;
 
 namespace GraphicsEditor
 {
-
-    enum MouseAction
-    {
-        up,
-        down,
-        move
-    }
-
-    enum Figure
-    {
-        circle,
-        ellipse,
-        line,
-        polyline,
-        triangle
-    }
-
     public partial class MainForm : Form
     {
         private Presenter GPresenter = new Presenter();

@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model
 {
-    class Polyline: IDraft
+    class Polyline: IDrawable
     {
         private Pen _pen;
         public List<Point> _dotList = new List<Point>();

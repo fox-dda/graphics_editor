@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model
 {
-    class Ellipse : IDraft
+    class Ellipse : IDrawable
     {
         private Point startPoint;
         private Point endPoint;

@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model
 {
-    interface IDraft
+    interface IDrawable
     {
         void Draw(Graphics g);
         Pen Pen { get; set; }

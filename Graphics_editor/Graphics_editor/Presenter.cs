@@ -6,21 +6,17 @@ using System.Threading.Tasks;
 using GraphicsEditor.Model;
 using System.Drawing;
 using System.Windows.Forms;
+using GraphicsEditor.Enums;
 
 namespace GraphicsEditor
 {
     class Presenter
     {
-        enum Strategy
-        {
-            twoPoint,
-            multipoint
-        };
 
         private Strategy drawingStrategy;
-        private List<IDraft> _draftList = new List<IDraft>();
+        private List<IDrawable> _draftList = new List<IDrawable>();
         private List<Point> inPocessPoints = new List<Point>();
-        private IDraft _cacheDraft;
+        private IDrawable _cacheDraft;
         private Color canvasColor = Color.White;
         private Figure _figure;
         public Graphics _painter;
@@ -65,7 +61,7 @@ namespace GraphicsEditor
         }
 
         //Стереть фигуру из кэша
-        private void reDrawCache()
+        private void ReDrawCache()
         {
             if (_cacheDraft != null)
             {
@@ -77,7 +73,7 @@ namespace GraphicsEditor
         //Обновить канву
         private void RefreshCanvas()
         {
-            foreach (IDraft draft in _draftList)
+            foreach (IDrawable draft in _draftList)
             {
                 if (draft != null)
                 {
@@ -87,7 +83,7 @@ namespace GraphicsEditor
         }
 
         //Отрисовать и добавить в список объектов на канве объект из кэша
-        private void toDraw()
+        private void ToDraw()
         {
             if (_cacheDraft != null && drawingStrategy == Strategy.twoPoint)
             {
@@ -122,8 +118,8 @@ namespace GraphicsEditor
         //Обработчик мыши
         public void Process(MouseEventArgs e, MouseAction mouseAction)
         {
-            if (Figure == null)
-                return;
+            /*/if (Figure == null)
+                return;/*/
 
             switch (mouseAction)
             {
@@ -157,12 +153,12 @@ namespace GraphicsEditor
                         if (drawingStrategy == Strategy.twoPoint)
                         {
                             inPocessPoints.Add(e.Location);
-                            toDraw();
+                            ToDraw();
                         }
                         else
                         {
                             inPocessPoints.Add(e.Location);
-                            toDraw();
+                            ToDraw();
                         }
                         break;
                     }
@@ -175,7 +171,7 @@ namespace GraphicsEditor
         {
             if (drawingStrategy == Strategy.twoPoint)
             {
-                reDrawCache();
+                ReDrawCache();
                 switch(Figure)
                 {
                     case Figure.line: 
@@ -195,7 +191,7 @@ namespace GraphicsEditor
             }
             else if (drawingStrategy == Strategy.multipoint)
             {
-                reDrawCache();
+                ReDrawCache();
 
                 switch (Figure)
                 {

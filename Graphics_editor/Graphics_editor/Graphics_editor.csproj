@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DraftFactory.cs" />
+    <Compile Include="Enums\Enums.cs" />
     <Compile Include="GraphicsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,7 +55,7 @@
     </Compile>
     <Compile Include="Model\Circle.cs" />
     <Compile Include="Model\Ellipse.cs" />
-    <Compile Include="Model\IDraft.cs" />
+    <Compile Include="Model\IDrawable.cs" />
     <Compile Include="Model\Line.cs" />
     <Compile Include="Model\Polyline.cs" />
     <Compile Include="Model\Triangle.cs" />
@@ -86,8 +87,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
