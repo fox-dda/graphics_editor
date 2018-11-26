@@ -45,6 +45,7 @@
             this.penStrokeWidthNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.widthLabel = new System.Windows.Forms.Label();
             this.thicknessNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.selectBrushColorButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
@@ -135,11 +136,12 @@
             // 
             // colorGroupBox
             // 
+            this.colorGroupBox.Controls.Add(this.selectBrushColorButton);
             this.colorGroupBox.Controls.Add(this.selectCanvasColorButton);
             this.colorGroupBox.Controls.Add(this.selectPenColorButton);
             this.colorGroupBox.Location = new System.Drawing.Point(12, 183);
             this.colorGroupBox.Name = "colorGroupBox";
-            this.colorGroupBox.Size = new System.Drawing.Size(102, 75);
+            this.colorGroupBox.Size = new System.Drawing.Size(102, 106);
             this.colorGroupBox.TabIndex = 2;
             this.colorGroupBox.TabStop = false;
             this.colorGroupBox.Text = "Color";
@@ -180,7 +182,7 @@
             this.penStyleGroupBox.Controls.Add(this.penStrokeWidthNumericUpDown);
             this.penStyleGroupBox.Controls.Add(this.widthLabel);
             this.penStyleGroupBox.Controls.Add(this.thicknessNumericUpDown);
-            this.penStyleGroupBox.Location = new System.Drawing.Point(12, 264);
+            this.penStyleGroupBox.Location = new System.Drawing.Point(12, 295);
             this.penStyleGroupBox.Name = "penStyleGroupBox";
             this.penStyleGroupBox.Size = new System.Drawing.Size(102, 80);
             this.penStyleGroupBox.TabIndex = 5;
@@ -241,6 +243,16 @@
             0});
             this.thicknessNumericUpDown.ValueChanged += new System.EventHandler(this.thicknessNumericUpDown_ValueChanged);
             // 
+            // selectBrushColorButton
+            // 
+            this.selectBrushColorButton.Location = new System.Drawing.Point(13, 77);
+            this.selectBrushColorButton.Name = "selectBrushColorButton";
+            this.selectBrushColorButton.Size = new System.Drawing.Size(75, 23);
+            this.selectBrushColorButton.TabIndex = 6;
+            this.selectBrushColorButton.Text = "Brush";
+            this.selectBrushColorButton.UseVisualStyleBackColor = true;
+            this.selectBrushColorButton.Click += new System.EventHandler(this.selectBrushColorButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -255,6 +267,7 @@
             this.MinimumSize = new System.Drawing.Size(700, 400);
             this.Name = "MainForm";
             this.Text = "Graphics editor [v0.2]";
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
             this.drawGroupBox.ResumeLayout(false);
             this.colorGroupBox.ResumeLayout(false);
@@ -284,6 +297,7 @@
         private System.Windows.Forms.Label widthLabel;
         private System.Windows.Forms.NumericUpDown penStrokeWidthNumericUpDown;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button selectBrushColorButton;
     }
 }
 

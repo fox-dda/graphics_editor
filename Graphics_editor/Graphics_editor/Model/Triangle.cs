@@ -12,7 +12,18 @@ namespace GraphicsEditor.Model
         private Point _startPoint;
         private Point _endPoint;
         private Pen _pen;
-
+        private SolidBrush _brush;
+        public Color BrushColor
+        {
+            get
+            {
+                return _brush.Color;
+            }
+            set
+            {
+                _brush = new SolidBrush(value);
+            }
+        }
 
         public Point StartPoint
         {
@@ -53,9 +64,19 @@ namespace GraphicsEditor.Model
         public void Draw(Graphics g)
         {
             Point vertex = new Point(Math.Abs((EndPoint.X - StartPoint.X) / 2) + StartPoint.X, StartPoint.Y);
+            if (_brush != null)
+                g.FillPolygon(_brush, new PointF[] {
+                    vertex,
+                    _endPoint,
+                    _endPoint,
+                    new Point(StartPoint.X, EndPoint.Y),
+                    new Point(StartPoint.X, EndPoint.Y),
+                    vertex
+                });
             g.DrawLine(Pen, vertex, EndPoint);                                  // Линия "\"
             g.DrawLine(Pen, EndPoint, new Point(StartPoint.X, EndPoint.Y));     // Линия "_"
             g.DrawLine(Pen, new Point(StartPoint.X, EndPoint.Y), vertex);       // Линия "/"
+
         }
 
         /// <summary>

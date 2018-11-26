@@ -12,13 +12,33 @@ namespace GraphicsEditor
 {
     class Presenter
     {
-
-        private Strategy drawingStrategy;
+        private Strategy drawingStrategy
+        {
+            get
+            {
+                return DraftFactory.DefineStrategy(Figure);
+            }
+        }
         private List<IDrawable> _draftList = new List<IDrawable>();
         private List<Point> inPocessPoints = new List<Point>();
         private IDrawable _cacheDraft;
         private Color canvasColor = Color.White;
+        private Color _brushColor;
         private Figure _figure;
+        public Color BrushColor
+        {
+            get
+            {
+                if (_brushColor == null)
+                    return CanvasColor;
+                else
+                    return _brushColor;
+            }
+            set
+            {
+                _brushColor = value;
+            }
+        }
         public Graphics _painter;
         public Pen GPen = new Pen(Color.Black, 1);
         public Figure Figure
@@ -32,7 +52,6 @@ namespace GraphicsEditor
                 if (value != _figure)
                     inPocessPoints.Clear();
                 _figure = value;
-                DefineStrategy(_figure);
             }
         }
         public Color CanvasColor
@@ -71,7 +90,7 @@ namespace GraphicsEditor
         }
   
         //Обновить канву
-        private void RefreshCanvas()
+        public void RefreshCanvas()
         {
             foreach (IDrawable draft in _draftList)
             {
@@ -106,21 +125,9 @@ namespace GraphicsEditor
             RefreshCanvas();
         }
 
-        //Определение стратегии отрисовки фигуры по её классу
-        public void DefineStrategy(Figure figure) 
-        {
-            if ((figure == Figure.line) || (figure == Figure.ellipse) || (figure == Figure.triangle) || (figure == Figure.circle))
-                drawingStrategy = Strategy.twoPoint;
-            else if (figure == Figure.polyline)
-                drawingStrategy = Strategy.multipoint;
-        }
-
         //Обработчик мыши
         public void Process(MouseEventArgs e, MouseAction mouseAction)
         {
-            /*/if (Figure == null)
-                return;/*/
-
             switch (mouseAction)
             {
                 case MouseAction.down:
@@ -169,38 +176,15 @@ namespace GraphicsEditor
         //Динамическая отрисовка
         public void DynamicDrawing(Point mousePoint)
         {
-            if (drawingStrategy == Strategy.twoPoint)
-            {
-                ReDrawCache();
-                switch(Figure)
-                {
-                    case Figure.line: 
-                        _cacheDraft = new Line(inPocessPoints[0], mousePoint, GPen);
-                        break;
-                    case Figure.circle:
-                        _cacheDraft = new Circle(inPocessPoints[0], mousePoint, GPen);
-                        break;
-                    case Figure.triangle:
-                        _cacheDraft = new Triangle(inPocessPoints[0], mousePoint, GPen);
-                        break;
-                    case Figure.ellipse:
-                        _cacheDraft = new Ellipse(inPocessPoints[0], mousePoint, GPen);
-                        break;
-                }
-                _cacheDraft.Draw(_painter);
-            }
-            else if (drawingStrategy == Strategy.multipoint)
-            {
-                ReDrawCache();
+            ReDrawCache();
 
-                switch (Figure)
-                {
-                    case Figure.polyline:
-                        _cacheDraft = new Polyline(new List<Point> { inPocessPoints.Last(), mousePoint }, GPen);
-                        _cacheDraft.Draw(_painter);
-                        break;
-                }
-            }         
+            if (drawingStrategy == Strategy.twoPoint)
+                _cacheDraft = DraftFactory.CreateDraft(Figure, inPocessPoints[0], mousePoint, GPen, BrushColor);
+
+            else if (drawingStrategy == Strategy.multipoint)
+                _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { inPocessPoints.Last(), mousePoint }, GPen);
+            
+            _cacheDraft.Draw(_painter);       
         }
 
         //Очистка канвы

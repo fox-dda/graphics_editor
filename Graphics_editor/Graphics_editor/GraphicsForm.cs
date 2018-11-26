@@ -107,5 +107,21 @@ namespace GraphicsEditor
                 };
         }
 
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            _painter = Graphics.FromHwnd(mainPictureBox.Handle);
+            
+            GPresenter.RefreshCanvas();this.Invalidate();
+        }
+
+        private void selectBrushColorButton_Click(object sender, EventArgs e)
+        {
+            {
+                ColorDialog colorDialog = new ColorDialog();
+
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                    GPresenter.BrushColor = colorDialog.Color;
+            }
+        }
     }
 }

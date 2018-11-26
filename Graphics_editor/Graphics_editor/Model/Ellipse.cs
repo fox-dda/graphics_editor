@@ -9,9 +9,22 @@ namespace GraphicsEditor.Model
 {
     class Ellipse : IDrawable
     {
+        public Color BrushColor
+        {
+            get
+            {
+                return _brush.Color;
+            }
+            set
+            {
+                _brush = new SolidBrush(value);
+            }
+        }
         private Point startPoint;
         private Point endPoint;
         private Pen pen;
+        protected  SolidBrush _brush;
+        
 
 
         public Point StartPoint
@@ -52,6 +65,9 @@ namespace GraphicsEditor.Model
 
         public void Draw(Graphics g)
         {
+            if (_brush != null)
+                g.FillEllipse(_brush, new RectangleF(StartPoint.X, StartPoint.Y,
+                -(StartPoint.X - EndPoint.X), -(StartPoint.Y - EndPoint.Y)));
             g.DrawEllipse(Pen, new RectangleF(StartPoint.X, StartPoint.Y, 
                 -(StartPoint.X - EndPoint.X), -(StartPoint.Y - EndPoint.Y)));
         }
