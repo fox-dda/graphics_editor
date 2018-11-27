@@ -100,7 +100,7 @@ namespace GraphicsEditor
         {          
             GPresenter.GPen = new Pen(GPresenter.GPen.Color, (float)thicknessNumericUpDown.Value);
             if(penStrokeWidthNumericUpDown.Value > 0)
-                GPresenter.GPen.DashPattern = new float[] 
+                GPresenter.DashPattern = new float[] 
                 {
                     (float)penStrokeWidthNumericUpDown.Value,
                     (float)penStrokeWidthNumericUpDown.Value

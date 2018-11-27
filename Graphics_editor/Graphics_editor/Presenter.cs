@@ -25,6 +25,7 @@ namespace GraphicsEditor
         private Color canvasColor = Color.White;
         private Color _brushColor;
         private Figure _figure;
+        private float[] _dashPattern = new float[]{0, 0};
         public Color BrushColor
         {
             get
@@ -37,6 +38,18 @@ namespace GraphicsEditor
             set
             {
                 _brushColor = value;
+            }
+        }
+        public float[] DashPattern
+        {
+            get
+            {
+                return _dashPattern;
+            }
+            set
+            {
+                GPen.DashPattern = value;
+                _dashPattern = value;
             }
         }
         public Graphics _painter;
@@ -84,9 +97,13 @@ namespace GraphicsEditor
         {
             if (_cacheDraft != null)
             {
+               var a = _cacheDraft.Pen;
                 _cacheDraft.Pen = new Pen(canvasColor, GPen.Width);
                 if ((_cacheDraft is Circle) || (_cacheDraft is Ellipse) || (_cacheDraft is Triangle))
                     (_cacheDraft as IBrushable).BrushColor = CanvasColor;
+                if (DashPattern != null)
+                    if (DashPattern[0] > 1)
+                        _cacheDraft.Pen.DashPattern = a.DashPattern;
                 _cacheDraft.Draw(_painter);
             }
         }
