@@ -46,8 +46,10 @@ namespace GraphicsEditor
         {
             if ((figure == Figure.line) || (figure == Figure.ellipse) || (figure == Figure.triangle) || (figure == Figure.circle))
                 return Strategy.twoPoint;
-            else // (figure == Figure.polyline)
+            else if (figure == Figure.polyline)
                 return Strategy.multipoint;
+            else
+                return Strategy.selection;
         }
     }
 }

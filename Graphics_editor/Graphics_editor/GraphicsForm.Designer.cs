@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.drawGroupBox = new System.Windows.Forms.GroupBox();
+            this.selectMouseButton = new System.Windows.Forms.Button();
             this.ellipseButton = new System.Windows.Forms.Button();
             this.triangleButton = new System.Windows.Forms.Button();
             this.lineButton = new System.Windows.Forms.Button();
@@ -46,7 +47,6 @@
             this.penStrokeWidthNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.widthLabel = new System.Windows.Forms.Label();
             this.thicknessNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.selectMouseButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
@@ -85,6 +85,16 @@
             this.drawGroupBox.TabIndex = 1;
             this.drawGroupBox.TabStop = false;
             this.drawGroupBox.Text = "Draw";
+            // 
+            // selectMouseButton
+            // 
+            this.selectMouseButton.Location = new System.Drawing.Point(13, 164);
+            this.selectMouseButton.Name = "selectMouseButton";
+            this.selectMouseButton.Size = new System.Drawing.Size(75, 23);
+            this.selectMouseButton.TabIndex = 6;
+            this.selectMouseButton.Text = "Mouse";
+            this.selectMouseButton.UseVisualStyleBackColor = true;
+            this.selectMouseButton.Click += new System.EventHandler(this.selectMouseButton_Click);
             // 
             // ellipseButton
             // 
@@ -254,15 +264,6 @@
             0,
             0});
             this.thicknessNumericUpDown.ValueChanged += new System.EventHandler(this.thicknessNumericUpDown_ValueChanged);
-            // 
-            // selectMouseButton
-            // 
-            this.selectMouseButton.Location = new System.Drawing.Point(13, 164);
-            this.selectMouseButton.Name = "selectMouseButton";
-            this.selectMouseButton.Size = new System.Drawing.Size(75, 23);
-            this.selectMouseButton.TabIndex = 6;
-            this.selectMouseButton.Text = "Mouse";
-            this.selectMouseButton.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 

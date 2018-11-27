@@ -9,7 +9,8 @@ namespace GraphicsEditor.Enums
     enum Strategy
     {
         twoPoint,
-        multipoint
+        multipoint,
+        selection
     };
 
     enum MouseAction
@@ -25,6 +26,7 @@ namespace GraphicsEditor.Enums
         ellipse,
         line,
         polyline,
-        triangle
+        triangle,
+        none
     }
 }

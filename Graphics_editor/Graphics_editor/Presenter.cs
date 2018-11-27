@@ -190,6 +190,11 @@ namespace GraphicsEditor
                         break;
                     }
             }
+            if(drawingStrategy == Strategy.selection)
+            {
+                var selector = new Selector();
+                selector.Process(e, mouseAction, _draftList);
+            }
             RefreshCanvas();
         }
         
@@ -199,12 +204,16 @@ namespace GraphicsEditor
             ReDrawCache();
 
             if (drawingStrategy == Strategy.twoPoint)
+            {
                 _cacheDraft = DraftFactory.CreateDraft(Figure, inPocessPoints[0], mousePoint, GPen, BrushColor);
-
+                _cacheDraft.Draw(_painter);
+            }
+                
             else if (drawingStrategy == Strategy.multipoint)
+            {
                 _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { inPocessPoints.Last(), mousePoint }, GPen);
-            
-            _cacheDraft.Draw(_painter);       
+                _cacheDraft.Draw(_painter);
+            }           
         }
 
         //Очистка канвы

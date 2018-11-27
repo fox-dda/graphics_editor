@@ -123,5 +123,10 @@ namespace GraphicsEditor
                     GPresenter.BrushColor = colorDialog.Color;
             }
         }
+
+        private void selectMouseButton_Click(object sender, EventArgs e)
+        {
+            GPresenter.Figure = Figure.none;
+        }
     }
 }
