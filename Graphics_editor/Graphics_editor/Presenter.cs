@@ -44,6 +44,8 @@ namespace GraphicsEditor
         {
             get
             {
+                if (_dashPattern[0] == 0)
+                    return null;
                 return _dashPattern;
             }
             set
@@ -102,8 +104,7 @@ namespace GraphicsEditor
                 if ((_cacheDraft is Circle) || (_cacheDraft is Ellipse) || (_cacheDraft is Triangle))
                     (_cacheDraft as IBrushable).BrushColor = CanvasColor;
                 if (DashPattern != null)
-                    if (DashPattern[0] > 1)
-                        _cacheDraft.Pen.DashPattern = a.DashPattern;
+                    _cacheDraft.Pen.DashPattern = a.DashPattern;
                 _cacheDraft.Draw(_painter);
             }
         }
