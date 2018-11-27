@@ -13,6 +13,20 @@ namespace GraphicsEditor.Model
         private Point _endPoint;
         private Pen _pen;
         private SolidBrush _brush;
+        private bool isHighlighting = false;
+
+        public bool IsHighlighting
+        {
+            get
+            {
+                return isHighlighting;
+            }
+            set
+            {
+                isHighlighting = value;
+            }
+        }
+
         public Color BrushColor
         {
             get
@@ -63,6 +77,12 @@ namespace GraphicsEditor.Model
 
         public void Draw(Graphics g)
         {
+            if (IsHighlighting)
+            {
+                var pen = new Pen(Color.Gray, 1);
+                pen.DashPattern = new float[] { 2, 2 };
+                g.DrawRectangle(pen, StartPoint.X, StartPoint.Y, EndPoint.X - StartPoint.X, EndPoint.Y - StartPoint.Y);
+            }
             Point vertex = new Point(Math.Abs((EndPoint.X - StartPoint.X) / 2) + StartPoint.X, StartPoint.Y);
             if (_brush != null)
                 g.FillPolygon(_brush, new PointF[] {

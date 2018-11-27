@@ -13,5 +13,6 @@ namespace GraphicsEditor.Model
         Pen Pen { get; set; }
         Point StartPoint { get; set; }
         Point EndPoint { get; set; }
+        bool IsHighlighting { get; set; }
     }
 }

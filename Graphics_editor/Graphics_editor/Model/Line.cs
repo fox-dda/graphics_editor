@@ -12,6 +12,19 @@ namespace GraphicsEditor.Model
         private Pen _pen;
         private Point _startPoint;
         private Point _endPoint;
+        private bool isHighlighting = false;
+
+        public bool IsHighlighting
+        {
+            get
+            {
+                return isHighlighting;
+            }
+            set
+            {
+                isHighlighting = value;
+            }
+        }
 
         public Point StartPoint
         {
@@ -51,6 +64,12 @@ namespace GraphicsEditor.Model
 
         public void Draw(Graphics g)
         {
+            if (IsHighlighting)
+            {
+                var pen = new Pen(Color.Gray, 1);
+                pen.DashPattern = new float[] { 2, 2 };
+                g.DrawRectangle(pen, StartPoint.X, StartPoint.Y, EndPoint.X - StartPoint.X, EndPoint.Y - StartPoint.Y);
+            }
             g.DrawLine(Pen, StartPoint, EndPoint);
         }
 

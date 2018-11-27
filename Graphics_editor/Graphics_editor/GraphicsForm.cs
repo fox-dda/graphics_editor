@@ -128,5 +128,10 @@ namespace GraphicsEditor
         {
             GPresenter.Figure = Figure.none;
         }
+
+        private void discardButton_Click(object sender, EventArgs e)
+        {
+            GPresenter.DisradHighlightingAll();
+        }
     }
 }

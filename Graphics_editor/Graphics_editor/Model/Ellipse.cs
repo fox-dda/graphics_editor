@@ -23,9 +23,8 @@ namespace GraphicsEditor.Model
         private Point startPoint;
         private Point endPoint;
         private Pen pen;
+        private bool isHighlighting = false;
         protected  SolidBrush _brush;
-        
-
 
         public Point StartPoint
         {
@@ -63,8 +62,26 @@ namespace GraphicsEditor.Model
             }
         }
 
+        public bool IsHighlighting
+        {
+            get
+            {
+                return isHighlighting;
+            }
+            set
+            {
+                isHighlighting = value;
+            }
+        }
+
         public void Draw(Graphics g)
         {
+            if(IsHighlighting)
+            {
+                var pen = new Pen(Color.Gray, 1);
+                pen.DashPattern = new float[] { 2, 2 };
+                g.DrawRectangle(pen, StartPoint.X, StartPoint.Y, EndPoint.X - StartPoint.X, EndPoint.Y - StartPoint.Y);
+            }
             if (_brush != null)
                 g.FillEllipse(_brush, new RectangleF(StartPoint.X, StartPoint.Y,
                 -(StartPoint.X - EndPoint.X), -(StartPoint.Y - EndPoint.Y)));

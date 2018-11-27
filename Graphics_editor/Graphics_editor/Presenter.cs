@@ -12,7 +12,7 @@ namespace GraphicsEditor
 {
     class Presenter
     {
-        private Strategy drawingStrategy
+        private Strategy _drawingStrategy
         {
             get
             {
@@ -20,9 +20,9 @@ namespace GraphicsEditor
             }
         }
         private List<IDrawable> _draftList = new List<IDrawable>();
-        private List<Point> inPocessPoints = new List<Point>();
+        private List<Point> _inPocessPoints = new List<Point>();
         private IDrawable _cacheDraft;
-        private Color canvasColor = Color.White;
+        private Color _canvasColor = Color.White;
         private Color _brushColor;
         private Figure _figure;
         private float[] _dashPattern = new float[]{0, 0};
@@ -65,7 +65,7 @@ namespace GraphicsEditor
             set
             {
                 if (value != _figure)
-                    inPocessPoints.Clear();
+                    _inPocessPoints.Clear();
                 _figure = value;
             }
         }
@@ -73,12 +73,12 @@ namespace GraphicsEditor
         {
             get
             {
-                return canvasColor;
+                return _canvasColor;
             }
             set
             {
-                canvasColor = value;
-                _painter.Clear(canvasColor);
+                _canvasColor = value;
+                _painter.Clear(_canvasColor);
                 RefreshCanvas();
             }
         }
@@ -94,13 +94,42 @@ namespace GraphicsEditor
             }
         }
 
+        //Выделить фигуру
+        private void HighlightingDraft(IDrawable draft)
+        {
+            draft.IsHighlighting = true;
+            var pen = new Pen(Color.Gray, 1);
+            pen.DashPattern = new float[] { 2, 2 };
+            Painter.DrawRectangle(pen, draft.StartPoint.X, draft.StartPoint.Y,
+                draft.EndPoint.X - draft.StartPoint.X, draft.EndPoint.Y - draft.StartPoint.Y);
+        }
+
+        //Отменить выделение фигуры
+        private void DisradHighlightingDraft(IDrawable draft)
+        {
+            draft.IsHighlighting = false;
+            var pen = new Pen(CanvasColor, 1);
+            pen.DashPattern = new float[] { 2, 2 };
+            Painter.DrawRectangle(pen, draft.StartPoint.X, draft.StartPoint.Y,
+                draft.EndPoint.X - draft.StartPoint.X, draft.EndPoint.Y - draft.StartPoint.Y);
+        }
+
+        //Отменить выеление всех фигур
+        public void DisradHighlightingAll()
+        {
+            foreach (IDrawable draft in _draftList)
+            {
+                DisradHighlightingDraft(draft);
+            }
+        }
+
         //Стереть фигуру из кэша
         private void ReDrawCache()
         {
             if (_cacheDraft != null)
             {
                var a = _cacheDraft.Pen;
-                _cacheDraft.Pen = new Pen(canvasColor, GPen.Width);
+                _cacheDraft.Pen = new Pen(_canvasColor, GPen.Width);
                 if ((_cacheDraft is Circle) || (_cacheDraft is Ellipse) || (_cacheDraft is Triangle))
                     (_cacheDraft as IBrushable).BrushColor = CanvasColor;
                 if (DashPattern != null)
@@ -124,13 +153,13 @@ namespace GraphicsEditor
         //Отрисовать и добавить в список объектов на канве объект из кэша
         private void ToDraw()
         {
-            if (_cacheDraft != null && drawingStrategy == Strategy.twoPoint)
+            if (_cacheDraft != null && _drawingStrategy == Strategy.twoPoint)
             {
                 _draftList.Add(_cacheDraft);
-                inPocessPoints.Clear();
+                _inPocessPoints.Clear();
                 _cacheDraft = null;
             }
-            if (_cacheDraft != null && drawingStrategy == Strategy.multipoint)
+            if (_cacheDraft != null && _drawingStrategy == Strategy.multipoint)
             {
                 if (_draftList.Count != 0)
                     if (_draftList.Last() is Polyline)
@@ -152,23 +181,23 @@ namespace GraphicsEditor
             {
                 case MouseAction.down:
                     {
-                        if (drawingStrategy == Strategy.twoPoint)
+                        if (_drawingStrategy == Strategy.twoPoint)
                         {
-                                inPocessPoints.Add(e.Location);
+                                _inPocessPoints.Add(e.Location);
                         }
                         break;
                     }
                 case MouseAction.move:
                     {
-                        if (drawingStrategy == Strategy.twoPoint)
+                        if (_drawingStrategy == Strategy.twoPoint)
                         {
-                            if (inPocessPoints.Count == 0)
+                            if (_inPocessPoints.Count == 0)
                                 return;
                             DynamicDrawing(e.Location);
                         }
                         else
                         {
-                            if(inPocessPoints.Count != 0)
+                            if(_inPocessPoints.Count != 0)
                             {
                                 DynamicDrawing(e.Location);
                             }
@@ -177,41 +206,48 @@ namespace GraphicsEditor
                     }
                 case MouseAction.up:
                     {
-                        if (drawingStrategy == Strategy.twoPoint)
+                        if (_drawingStrategy == Strategy.twoPoint)
                         {
-                            inPocessPoints.Add(e.Location);
+                            _inPocessPoints.Add(e.Location);
                             ToDraw();
                         }
                         else
                         {
-                            inPocessPoints.Add(e.Location);
+                            _inPocessPoints.Add(e.Location);
                             ToDraw();
+                        }
+                        if (_drawingStrategy == Strategy.selection)
+                        {
+                            var selector = new Selector();
+                            var selectedDraft = selector.Process(e, _draftList);
+                            if (selectedDraft != null)
+                            {
+                                if (selectedDraft.IsHighlighting)
+                                    DisradHighlightingDraft(selectedDraft);
+                                else
+                                    HighlightingDraft(selectedDraft);
+                            }                               
                         }
                         break;
                     }
             }
-            if(drawingStrategy == Strategy.selection)
-            {
-                var selector = new Selector();
-                selector.Process(e, mouseAction, _draftList);
-            }
             RefreshCanvas();
         }
-        
+
         //Динамическая отрисовка
         public void DynamicDrawing(Point mousePoint)
         {
             ReDrawCache();
 
-            if (drawingStrategy == Strategy.twoPoint)
+            if (_drawingStrategy == Strategy.twoPoint)
             {
-                _cacheDraft = DraftFactory.CreateDraft(Figure, inPocessPoints[0], mousePoint, GPen, BrushColor);
+                _cacheDraft = DraftFactory.CreateDraft(Figure, _inPocessPoints[0], mousePoint, GPen, BrushColor);
                 _cacheDraft.Draw(_painter);
             }
                 
-            else if (drawingStrategy == Strategy.multipoint)
+            else if (_drawingStrategy == Strategy.multipoint)
             {
-                _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { inPocessPoints.Last(), mousePoint }, GPen);
+                _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint }, GPen);
                 _cacheDraft.Draw(_painter);
             }           
         }

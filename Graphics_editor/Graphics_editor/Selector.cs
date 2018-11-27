@@ -11,37 +11,18 @@ namespace GraphicsEditor
 {
     class Selector
     {
-        public void Process(MouseEventArgs e, MouseAction mouseAction, List<IDrawable> draftList)
+        public IDrawable Process(MouseEventArgs e, List<IDrawable> draftList)
         {
-            switch (mouseAction)
+            var mouseLocation = e.Location;
+            for (int i = draftList.Count - 1; i > -1; i--)
             {
-                case MouseAction.down:
+                if ((draftList[i].StartPoint.X < mouseLocation.X) && (draftList[i].EndPoint.X > mouseLocation.X))
+                    if ((draftList[i].StartPoint.Y < mouseLocation.Y) && (draftList[i].EndPoint.Y > mouseLocation.Y))
                     {
-                        break;
-                    }
-                case MouseAction.move:
-                    {
-                        break;
-                    }
-                case MouseAction.up:
-                    {
-                        var mouseLocation = e.Location;
-                        IDrawable selectedDraft;
-                        for (int i = draftList.Count - 1; i > - 1; i--)
-                        {
-                            if ((draftList[i].StartPoint.X < mouseLocation.X) && (draftList[i].EndPoint.X > mouseLocation.X))
-                                if((draftList[i].StartPoint.Y < mouseLocation.Y) && (draftList[i].EndPoint.Y > mouseLocation.Y))
-                                {
-                                    MessageBox.Show("Найдено: " + draftList[i].GetType().ToString());
-                                    selectedDraft = draftList[i];
-                                    break;
-                                }
-                                    
-                        }
-
-                        break;
+                        return draftList[i];
                     }
             }
+            return null;
         }
     }
 }
