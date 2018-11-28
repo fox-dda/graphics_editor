@@ -98,20 +98,25 @@ namespace GraphicsEditor
         private void HighlightingDraft(IDrawable draft)
         {
             draft.IsHighlighting = true;
-            var pen = new Pen(Color.Gray, 1);
-            pen.DashPattern = new float[] { 2, 2 };
-            Painter.DrawRectangle(pen, draft.StartPoint.X, draft.StartPoint.Y,
-                draft.EndPoint.X - draft.StartPoint.X, draft.EndPoint.Y - draft.StartPoint.Y);
+            var frame = new HighlightRect()
+            {
+                StartPoint = draft.StartPoint,
+                EndPoint = draft.EndPoint
+            };
+            frame.AddFrame(_painter);
         }
 
         //Отменить выделение фигуры
         private void DisradHighlightingDraft(IDrawable draft)
         {
             draft.IsHighlighting = false;
-            var pen = new Pen(CanvasColor, 1);
-            pen.DashPattern = new float[] { 2, 2 };
-            Painter.DrawRectangle(pen, draft.StartPoint.X, draft.StartPoint.Y,
-                draft.EndPoint.X - draft.StartPoint.X, draft.EndPoint.Y - draft.StartPoint.Y);
+            var frame = new HighlightRect()
+            {
+                StartPoint = draft.StartPoint,
+                EndPoint = draft.EndPoint
+            };
+            frame.RemoveFrame(_painter, CanvasColor);
+            RefreshCanvas();
         }
 
         //Отменить выеление всех фигур

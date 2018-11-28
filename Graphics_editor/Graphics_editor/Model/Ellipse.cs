@@ -76,12 +76,6 @@ namespace GraphicsEditor.Model
 
         public void Draw(Graphics g)
         {
-            if(IsHighlighting)
-            {
-                var pen = new Pen(Color.Gray, 1);
-                pen.DashPattern = new float[] { 2, 2 };
-                g.DrawRectangle(pen, StartPoint.X, StartPoint.Y, EndPoint.X - StartPoint.X, EndPoint.Y - StartPoint.Y);
-            }
             if (_brush != null)
                 g.FillEllipse(_brush, new RectangleF(StartPoint.X, StartPoint.Y,
                 -(StartPoint.X - EndPoint.X), -(StartPoint.Y - EndPoint.Y)));

@@ -80,12 +80,6 @@ namespace GraphicsEditor.Model
 
         public void Draw(Graphics g)
         {
-            if (IsHighlighting)
-            {
-                var pen = new Pen(Color.Gray, 1);
-                pen.DashPattern = new float[] { 2, 2 };
-                g.DrawRectangle(pen, StartPoint.X, StartPoint.Y, EndPoint.X - StartPoint.X, EndPoint.Y - StartPoint.Y);
-            }
             for (int i=0; i < DotList.Count - 1; i++)
             g.DrawLine(Pen, DotList[i].X, DotList[i].Y, DotList[i+1].X, DotList[i+1].Y);       
         }

@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using GraphicsEditor.Enums;
 
@@ -13,7 +7,7 @@ namespace GraphicsEditor
 {
     public partial class MainForm : Form
     {
-        private Presenter GPresenter = new Presenter();
+        private Presenter _GPresenter = new Presenter();
         private Graphics _painter;
 
         public MainForm()
@@ -21,42 +15,42 @@ namespace GraphicsEditor
             InitializeComponent();
             DoubleBuffered = true;
             _painter = Graphics.FromHwnd(mainPictureBox.Handle);
-            GPresenter.Painter = _painter;
+            _GPresenter.Painter = _painter;
         }
 
         private void mainPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            GPresenter.Process(e, MouseAction.down);
+            _GPresenter.Process(e, MouseAction.down);
         }
 
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            GPresenter.Process(e, MouseAction.move);
+            _GPresenter.Process(e, MouseAction.move);
         }
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            GPresenter.Process(e, MouseAction.up);
+            _GPresenter.Process(e, MouseAction.up);
         }
 
         private void lineButton_Click(object sender, EventArgs e)
         {
-            GPresenter.Figure = Figure.line;
+            _GPresenter.Figure = Figure.line;
         }
 
         private void polylineButton_Click(object sender, EventArgs e)
         {
-            GPresenter.Figure = Figure.polyline;
+            _GPresenter.Figure = Figure.polyline;
         }
 
         private void circleButton_Click(object sender, EventArgs e)
         {
-            GPresenter.Figure = Figure.circle;
+            _GPresenter.Figure = Figure.circle;
         }
 
         private void triangleButton_Click(object sender, EventArgs e)
         {
-            GPresenter.Figure = Figure.triangle;
+            _GPresenter.Figure = Figure.triangle;
         }
 
         private void selectColorButton_Click(object sender, EventArgs e)
@@ -64,7 +58,7 @@ namespace GraphicsEditor
             ColorDialog colorDialog = new ColorDialog();
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
-                GPresenter.GPen = new Pen(colorDialog.Color, GPresenter.GPen.Width);
+                _GPresenter.GPen = new Pen(colorDialog.Color, _GPresenter.GPen.Width);
             refreshPen();
         }
 
@@ -73,17 +67,17 @@ namespace GraphicsEditor
             ColorDialog colorDialog = new ColorDialog();
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
-                GPresenter.CanvasColor = colorDialog.Color;
+                _GPresenter.CanvasColor = colorDialog.Color;
         }
 
         private void clearCanvasButton_Click(object sender, EventArgs e)
         {
-            GPresenter.ClearCanvas();
+            _GPresenter.ClearCanvas();
         }
 
         private void ellipseButton_Click(object sender, EventArgs e)
         {
-            GPresenter.Figure = Figure.ellipse;
+            _GPresenter.Figure = Figure.ellipse;
         }
 
         private void thicknessNumericUpDown_ValueChanged(object sender, EventArgs e)
@@ -98,9 +92,9 @@ namespace GraphicsEditor
 
         private void refreshPen()
         {          
-            GPresenter.GPen = new Pen(GPresenter.GPen.Color, (float)thicknessNumericUpDown.Value);
+            _GPresenter.GPen = new Pen(_GPresenter.GPen.Color, (float)thicknessNumericUpDown.Value);
             if(penStrokeWidthNumericUpDown.Value > 0)
-                GPresenter.DashPattern = new float[] 
+                _GPresenter.DashPattern = new float[] 
                 {
                     (float)penStrokeWidthNumericUpDown.Value,
                     (float)penStrokeWidthNumericUpDown.Value
@@ -111,7 +105,7 @@ namespace GraphicsEditor
         {
             _painter = Graphics.FromHwnd(mainPictureBox.Handle);
             
-            GPresenter.RefreshCanvas();this.Invalidate();
+            _GPresenter.RefreshCanvas();this.Invalidate();
         }
 
         private void selectBrushColorButton_Click(object sender, EventArgs e)
@@ -120,18 +114,18 @@ namespace GraphicsEditor
                 ColorDialog colorDialog = new ColorDialog();
 
                 if (colorDialog.ShowDialog() == DialogResult.OK)
-                    GPresenter.BrushColor = colorDialog.Color;
+                    _GPresenter.BrushColor = colorDialog.Color;
             }
         }
 
         private void selectMouseButton_Click(object sender, EventArgs e)
         {
-            GPresenter.Figure = Figure.none;
+            _GPresenter.Figure = Figure.none;
         }
 
         private void discardButton_Click(object sender, EventArgs e)
         {
-            GPresenter.DisradHighlightingAll();
+            _GPresenter.DisradHighlightingAll();
         }
     }
 }

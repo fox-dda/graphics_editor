@@ -16,11 +16,21 @@ namespace GraphicsEditor
             var mouseLocation = e.Location;
             for (int i = draftList.Count - 1; i > -1; i--)
             {
-                if ((draftList[i].StartPoint.X < mouseLocation.X) && (draftList[i].EndPoint.X > mouseLocation.X))
-                    if ((draftList[i].StartPoint.Y < mouseLocation.Y) && (draftList[i].EndPoint.Y > mouseLocation.Y))
-                    {
-                        return draftList[i];
-                    }
+                var sy = draftList[i].StartPoint.Y;
+                var sx = draftList[i].StartPoint.X;
+                var ex = draftList[i].EndPoint.X;
+                var ey = draftList[i].EndPoint.Y;
+                var my = mouseLocation.Y;
+                var mx = mouseLocation.X;
+
+                if ((sy < my) && (sx < mx) && (ey > my) && (ex > mx))
+                    return draftList[i];
+                else if ((sy > my) && (sx > mx) && (ey < my) && (ex < mx))
+                    return draftList[i];
+                else if ((sy < my) && (sx > mx) && (ey > my) && (ex < mx))
+                    return draftList[i];
+                else if ((sy > my) && (sx < mx) && (ey < my) && (ex > mx))
+                    return draftList[i];
             }
             return null;
         }
