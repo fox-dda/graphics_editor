@@ -28,7 +28,18 @@ namespace GraphicsEditor
                     return null;
             }
         }
-        
+
+        public static HighlightRect CreateDraft(Figure figure, Point startPoint, Point endPoint)
+        {
+            switch (figure)
+            {
+                case Figure.select:
+                    return new HighlightRect { StartPoint = startPoint, EndPoint = endPoint }; 
+                default:
+                    return null;
+            }
+        }
+
         //Перегрузка для создания объектов с количеством точек 2 и более
         public static IDrawable CreateDraft(Figure figure, List<Point> pointList, Pen gPen)
         {

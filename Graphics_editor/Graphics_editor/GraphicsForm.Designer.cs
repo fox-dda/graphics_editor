@@ -31,12 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.drawGroupBox = new System.Windows.Forms.GroupBox();
-            this.selectMouseButton = new System.Windows.Forms.Button();
             this.ellipseButton = new System.Windows.Forms.Button();
             this.triangleButton = new System.Windows.Forms.Button();
             this.lineButton = new System.Windows.Forms.Button();
             this.circleButton = new System.Windows.Forms.Button();
             this.polylineButton = new System.Windows.Forms.Button();
+            this.selectMouseButton = new System.Windows.Forms.Button();
             this.colorGroupBox = new System.Windows.Forms.GroupBox();
             this.selectBrushColorButton = new System.Windows.Forms.Button();
             this.selectCanvasColorButton = new System.Windows.Forms.Button();
@@ -48,6 +48,7 @@
             this.widthLabel = new System.Windows.Forms.Label();
             this.thicknessNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.SelectionGroupBox = new System.Windows.Forms.GroupBox();
+            this.lassoSelectionButton = new System.Windows.Forms.Button();
             this.discardButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.drawGroupBox.SuspendLayout();
@@ -87,16 +88,6 @@
             this.drawGroupBox.TabIndex = 1;
             this.drawGroupBox.TabStop = false;
             this.drawGroupBox.Text = "Draw";
-            // 
-            // selectMouseButton
-            // 
-            this.selectMouseButton.Location = new System.Drawing.Point(13, 19);
-            this.selectMouseButton.Name = "selectMouseButton";
-            this.selectMouseButton.Size = new System.Drawing.Size(75, 23);
-            this.selectMouseButton.TabIndex = 6;
-            this.selectMouseButton.Text = "Select";
-            this.selectMouseButton.UseVisualStyleBackColor = true;
-            this.selectMouseButton.Click += new System.EventHandler(this.selectMouseButton_Click);
             // 
             // ellipseButton
             // 
@@ -147,6 +138,16 @@
             this.polylineButton.Text = "Polyline";
             this.polylineButton.UseVisualStyleBackColor = true;
             this.polylineButton.Click += new System.EventHandler(this.polylineButton_Click);
+            // 
+            // selectMouseButton
+            // 
+            this.selectMouseButton.Location = new System.Drawing.Point(13, 19);
+            this.selectMouseButton.Name = "selectMouseButton";
+            this.selectMouseButton.Size = new System.Drawing.Size(75, 23);
+            this.selectMouseButton.TabIndex = 6;
+            this.selectMouseButton.Text = "Select";
+            this.selectMouseButton.UseVisualStyleBackColor = true;
+            this.selectMouseButton.Click += new System.EventHandler(this.selectMouseButton_Click);
             // 
             // colorGroupBox
             // 
@@ -269,18 +270,29 @@
             // 
             // SelectionGroupBox
             // 
+            this.SelectionGroupBox.Controls.Add(this.lassoSelectionButton);
             this.SelectionGroupBox.Controls.Add(this.discardButton);
             this.SelectionGroupBox.Controls.Add(this.selectMouseButton);
             this.SelectionGroupBox.Location = new System.Drawing.Point(12, 379);
             this.SelectionGroupBox.Name = "SelectionGroupBox";
-            this.SelectionGroupBox.Size = new System.Drawing.Size(102, 77);
+            this.SelectionGroupBox.Size = new System.Drawing.Size(102, 105);
             this.SelectionGroupBox.TabIndex = 6;
             this.SelectionGroupBox.TabStop = false;
             this.SelectionGroupBox.Text = "Selection";
             // 
+            // lassoSelectionButton
+            // 
+            this.lassoSelectionButton.Location = new System.Drawing.Point(13, 48);
+            this.lassoSelectionButton.Name = "lassoSelectionButton";
+            this.lassoSelectionButton.Size = new System.Drawing.Size(75, 23);
+            this.lassoSelectionButton.TabIndex = 7;
+            this.lassoSelectionButton.Text = "Lasso";
+            this.lassoSelectionButton.UseVisualStyleBackColor = true;
+            this.lassoSelectionButton.Click += new System.EventHandler(this.lassoSelectionButton_Click);
+            // 
             // discardButton
             // 
-            this.discardButton.Location = new System.Drawing.Point(13, 48);
+            this.discardButton.Location = new System.Drawing.Point(13, 76);
             this.discardButton.Name = "discardButton";
             this.discardButton.Size = new System.Drawing.Size(75, 23);
             this.discardButton.TabIndex = 7;
@@ -338,6 +350,7 @@
         private System.Windows.Forms.Button selectMouseButton;
         private System.Windows.Forms.GroupBox SelectionGroupBox;
         private System.Windows.Forms.Button discardButton;
+        private System.Windows.Forms.Button lassoSelectionButton;
     }
 }
 

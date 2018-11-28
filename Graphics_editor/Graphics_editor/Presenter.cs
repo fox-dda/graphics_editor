@@ -16,15 +16,17 @@ namespace GraphicsEditor
         {
             get
             {
-                return DraftFactory.DefineStrategy(Figure);
+                return DraftFactory.DefineStrategy(Figure);               
             }
         }
         private List<IDrawable> _draftList = new List<IDrawable>();
         private List<Point> _inPocessPoints = new List<Point>();
         private IDrawable _cacheDraft;
+        private HighlightRect _cacheLasso;
         private Color _canvasColor = Color.White;
         private Color _brushColor;
         private Figure _figure;
+        private Graphics _painter;
         private float[] _dashPattern = new float[]{0, 0};
         public Color BrushColor
         {
@@ -54,7 +56,6 @@ namespace GraphicsEditor
                 _dashPattern = value;
             }
         }
-        public Graphics _painter;
         public Pen GPen = new Pen(Color.Black, 1);
         public Figure Figure
         {
@@ -65,7 +66,10 @@ namespace GraphicsEditor
             set
             {
                 if (value != _figure)
+                {
+                    DisradHighlightingAll();
                     _inPocessPoints.Clear();
+                }
                 _figure = value;
             }
         }
@@ -139,7 +143,11 @@ namespace GraphicsEditor
                     (_cacheDraft as IBrushable).BrushColor = CanvasColor;
                 if (DashPattern != null)
                     _cacheDraft.Pen.DashPattern = a.DashPattern;
-                _cacheDraft.Draw(_painter);
+                _cacheDraft.Draw(_painter);              
+            }
+            if (_cacheLasso != null)
+            {
+                _cacheLasso.RemoveFrame(_painter, CanvasColor);
             }
         }
   
@@ -153,6 +161,12 @@ namespace GraphicsEditor
                     draft.Draw(_painter);
                 }
             }
+        }
+
+        //Выделить объекты в ласо
+        private void HighlightingDraftInLasso(List<IDrawable> list)
+        {
+
         }
 
         //Отрисовать и добавить в список объектов на канве объект из кэша
@@ -188,25 +202,18 @@ namespace GraphicsEditor
                     {
                         if (_drawingStrategy == Strategy.twoPoint)
                         {
-                                _inPocessPoints.Add(e.Location);
+                            _inPocessPoints.Add(e.Location);
+                        }
+                        if(_drawingStrategy == Strategy.selection)
+                        {
+                            _inPocessPoints.Add(e.Location);
                         }
                         break;
                     }
                 case MouseAction.move:
                     {
-                        if (_drawingStrategy == Strategy.twoPoint)
-                        {
-                            if (_inPocessPoints.Count == 0)
-                                return;
+                        if (_inPocessPoints.Count != 0)
                             DynamicDrawing(e.Location);
-                        }
-                        else
-                        {
-                            if(_inPocessPoints.Count != 0)
-                            {
-                                DynamicDrawing(e.Location);
-                            }
-                        }
                         break;
                     }
                 case MouseAction.up:
@@ -224,14 +231,19 @@ namespace GraphicsEditor
                         if (_drawingStrategy == Strategy.selection)
                         {
                             var selector = new Selector();
-                            var selectedDraft = selector.Process(e, _draftList);
+
+                            var selectedDraft = selector.PointSearch(e, _draftList);
                             if (selectedDraft != null)
                             {
                                 if (selectedDraft.IsHighlighting)
                                     DisradHighlightingDraft(selectedDraft);
                                 else
                                     HighlightingDraft(selectedDraft);
-                            }                               
+                            }
+                            _inPocessPoints.Clear();
+
+                            
+                            
                         }
                         break;
                     }
@@ -255,6 +267,12 @@ namespace GraphicsEditor
                 _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint }, GPen);
                 _cacheDraft.Draw(_painter);
             }           
+
+            else if(_drawingStrategy == Strategy.selection)
+            {
+                _cacheLasso = DraftFactory.CreateDraft(Figure, _inPocessPoints[0], mousePoint);
+                _cacheLasso.AddFrame(_painter);
+            }
         }
 
         //Очистка канвы

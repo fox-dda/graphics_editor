@@ -103,9 +103,9 @@ namespace GraphicsEditor
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            _painter = Graphics.FromHwnd(mainPictureBox.Handle);
-            
-            _GPresenter.RefreshCanvas();this.Invalidate();
+            _GPresenter.Painter = Graphics.FromHwnd(mainPictureBox.Handle);
+            _GPresenter.RefreshCanvas();
+            Invalidate();
         }
 
         private void selectBrushColorButton_Click(object sender, EventArgs e)
@@ -120,12 +120,18 @@ namespace GraphicsEditor
 
         private void selectMouseButton_Click(object sender, EventArgs e)
         {
-            _GPresenter.Figure = Figure.none;
+            _GPresenter.Figure = Figure.select;
         }
 
         private void discardButton_Click(object sender, EventArgs e)
         {
             _GPresenter.DisradHighlightingAll();
         }
+
+        private void lassoSelectionButton_Click(object sender, EventArgs e)
+        {
+            _GPresenter.Figure = Figure.select;
+        }
+
     }
 }

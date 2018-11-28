@@ -11,7 +11,7 @@ namespace GraphicsEditor
 {
     class Selector
     {
-        public IDrawable Process(MouseEventArgs e, List<IDrawable> draftList)
+        public IDrawable PointSearch(MouseEventArgs e, List<IDrawable> draftList)
         {
             var mouseLocation = e.Location;
             for (int i = draftList.Count - 1; i > -1; i--)
@@ -34,5 +34,11 @@ namespace GraphicsEditor
             }
             return null;
         }
+
+        public List<IDrawable> LassoSearch(MouseEventArgs e, List<IDrawable> draftList)
+        {
+            return null;
+        }
+
     }
 }
