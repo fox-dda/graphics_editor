@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.drawGroupBox = new System.Windows.Forms.GroupBox();
+            this.polygonButton = new System.Windows.Forms.Button();
             this.ellipseButton = new System.Windows.Forms.Button();
             this.triangleButton = new System.Windows.Forms.Button();
             this.lineButton = new System.Windows.Forms.Button();
@@ -67,7 +68,7 @@
             this.mainPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("mainPictureBox.Image")));
             this.mainPictureBox.Location = new System.Drawing.Point(120, 12);
             this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(920, 501);
+            this.mainPictureBox.Size = new System.Drawing.Size(920, 534);
             this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.mainPictureBox.TabIndex = 0;
             this.mainPictureBox.TabStop = false;
@@ -77,6 +78,7 @@
             // 
             // drawGroupBox
             // 
+            this.drawGroupBox.Controls.Add(this.polygonButton);
             this.drawGroupBox.Controls.Add(this.ellipseButton);
             this.drawGroupBox.Controls.Add(this.triangleButton);
             this.drawGroupBox.Controls.Add(this.lineButton);
@@ -84,10 +86,20 @@
             this.drawGroupBox.Controls.Add(this.polylineButton);
             this.drawGroupBox.Location = new System.Drawing.Point(12, 12);
             this.drawGroupBox.Name = "drawGroupBox";
-            this.drawGroupBox.Size = new System.Drawing.Size(102, 163);
+            this.drawGroupBox.Size = new System.Drawing.Size(102, 196);
             this.drawGroupBox.TabIndex = 1;
             this.drawGroupBox.TabStop = false;
             this.drawGroupBox.Text = "Draw";
+            // 
+            // polygonButton
+            // 
+            this.polygonButton.Location = new System.Drawing.Point(13, 164);
+            this.polygonButton.Name = "polygonButton";
+            this.polygonButton.Size = new System.Drawing.Size(75, 23);
+            this.polygonButton.TabIndex = 7;
+            this.polygonButton.Text = "Polygon";
+            this.polygonButton.UseVisualStyleBackColor = true;
+            this.polygonButton.Click += new System.EventHandler(this.polygonButton_Click);
             // 
             // ellipseButton
             // 
@@ -154,7 +166,7 @@
             this.colorGroupBox.Controls.Add(this.selectBrushColorButton);
             this.colorGroupBox.Controls.Add(this.selectCanvasColorButton);
             this.colorGroupBox.Controls.Add(this.selectPenColorButton);
-            this.colorGroupBox.Location = new System.Drawing.Point(12, 181);
+            this.colorGroupBox.Location = new System.Drawing.Point(12, 214);
             this.colorGroupBox.Name = "colorGroupBox";
             this.colorGroupBox.Size = new System.Drawing.Size(102, 106);
             this.colorGroupBox.TabIndex = 2;
@@ -193,7 +205,7 @@
             // 
             // clearCanvasButton
             // 
-            this.clearCanvasButton.Location = new System.Drawing.Point(25, 490);
+            this.clearCanvasButton.Location = new System.Drawing.Point(25, 523);
             this.clearCanvasButton.Name = "clearCanvasButton";
             this.clearCanvasButton.Size = new System.Drawing.Size(75, 23);
             this.clearCanvasButton.TabIndex = 3;
@@ -207,7 +219,7 @@
             this.penStyleGroupBox.Controls.Add(this.penStrokeWidthNumericUpDown);
             this.penStyleGroupBox.Controls.Add(this.widthLabel);
             this.penStyleGroupBox.Controls.Add(this.thicknessNumericUpDown);
-            this.penStyleGroupBox.Location = new System.Drawing.Point(12, 293);
+            this.penStyleGroupBox.Location = new System.Drawing.Point(12, 326);
             this.penStyleGroupBox.Name = "penStyleGroupBox";
             this.penStyleGroupBox.Size = new System.Drawing.Size(102, 80);
             this.penStyleGroupBox.TabIndex = 5;
@@ -273,7 +285,7 @@
             this.SelectionGroupBox.Controls.Add(this.lassoSelectionButton);
             this.SelectionGroupBox.Controls.Add(this.discardButton);
             this.SelectionGroupBox.Controls.Add(this.selectMouseButton);
-            this.SelectionGroupBox.Location = new System.Drawing.Point(12, 379);
+            this.SelectionGroupBox.Location = new System.Drawing.Point(12, 412);
             this.SelectionGroupBox.Name = "SelectionGroupBox";
             this.SelectionGroupBox.Size = new System.Drawing.Size(102, 105);
             this.SelectionGroupBox.TabIndex = 6;
@@ -304,13 +316,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1052, 525);
+            this.ClientSize = new System.Drawing.Size(1052, 558);
             this.Controls.Add(this.SelectionGroupBox);
             this.Controls.Add(this.penStyleGroupBox);
             this.Controls.Add(this.clearCanvasButton);
             this.Controls.Add(this.colorGroupBox);
             this.Controls.Add(this.drawGroupBox);
             this.Controls.Add(this.mainPictureBox);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(700, 400);
             this.Name = "MainForm";
@@ -351,6 +364,7 @@
         private System.Windows.Forms.GroupBox SelectionGroupBox;
         private System.Windows.Forms.Button discardButton;
         private System.Windows.Forms.Button lassoSelectionButton;
+        private System.Windows.Forms.Button polygonButton;
     }
 }
 

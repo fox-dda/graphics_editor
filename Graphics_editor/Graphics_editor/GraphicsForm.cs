@@ -2,20 +2,24 @@
 using System.Drawing;
 using System.Windows.Forms;
 using GraphicsEditor.Enums;
+using System.Reflection;
+
 
 namespace GraphicsEditor
 {
     public partial class MainForm : Form
     {
+
         private Presenter _GPresenter = new Presenter();
         private Graphics _painter;
 
         public MainForm()
         {
             InitializeComponent();
-            DoubleBuffered = true;
+
             _painter = Graphics.FromHwnd(mainPictureBox.Handle);
             _GPresenter.Painter = _painter;
+            this.SetStyle(ControlStyles.UserPaint | ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
         }
 
         private void mainPictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -131,6 +135,11 @@ namespace GraphicsEditor
         private void lassoSelectionButton_Click(object sender, EventArgs e)
         {
             _GPresenter.Figure = Figure.select;
+        }
+
+        private void polygonButton_Click(object sender, EventArgs e)
+        {
+            _GPresenter.Figure = Figure.polygon;
         }
 
     }

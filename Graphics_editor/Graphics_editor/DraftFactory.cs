@@ -41,12 +41,14 @@ namespace GraphicsEditor
         }
 
         //Перегрузка для создания объектов с количеством точек 2 и более
-        public static IDrawable CreateDraft(Figure figure, List<Point> pointList, Pen gPen)
+        public static IDrawable CreateDraft(Figure figure, List<Point> pointList, Pen gPen, Color brushColor)
         {
             switch (figure)
             {
                 case Figure.polyline:
                     return new Polyline(pointList, gPen);
+                case Figure.polygon:
+                    return new Polygon(pointList, gPen) { BrushColor = brushColor };
                 default:
                     return null;
             }
@@ -57,7 +59,7 @@ namespace GraphicsEditor
         {
             if ((figure == Figure.line) || (figure == Figure.ellipse) || (figure == Figure.triangle) || (figure == Figure.circle))
                 return Strategy.twoPoint;
-            else if (figure == Figure.polyline)
+            else if ((figure == Figure.polyline) || (figure == Figure.polygon))
                 return Strategy.multipoint;
             else
                 return Strategy.selection;
