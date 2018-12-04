@@ -77,7 +77,7 @@ namespace GraphicsEditor
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                _GPresenter.GPen = new Pen(colorDialog.Color, _GPresenter.GPen.Width);
+                _GPresenter.Settings.GPen = new Pen(colorDialog.Color, _GPresenter.Settings.GPen.Width);
                 penColorpanel.BackColor = colorDialog.Color;
             }
             refreshPen();
@@ -89,7 +89,7 @@ namespace GraphicsEditor
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                _GPresenter.CanvasColor = colorDialog.Color;
+                _GPresenter.SetCanvasColor(colorDialog.Color);
                 canvasColorpanel.BackColor = colorDialog.Color;
             }
         }
@@ -118,9 +118,9 @@ namespace GraphicsEditor
 
         private void refreshPen()
         {
-            _GPresenter.GPen = new Pen(_GPresenter.GPen.Color, (float)thicknessNumericUpDown.Value);
+            _GPresenter.Settings.GPen = new Pen(_GPresenter.Settings.GPen.Color, (float)thicknessNumericUpDown.Value);
             if (penStrokeWidthNumericUpDown.Value > 0)
-                _GPresenter.DashPattern = new float[]
+                _GPresenter.Settings.DashPattern = new float[]
                 {
                     (float)penStrokeWidthNumericUpDown.Value,
                     (float)penStrokeWidthNumericUpDown.Value
@@ -143,7 +143,7 @@ namespace GraphicsEditor
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                _GPresenter.BrushColor = colorDialog.Color;
+                _GPresenter.Settings.BrushColor = colorDialog.Color;
                 brushColorpanel.BackColor = colorDialog.Color;
             }
         }

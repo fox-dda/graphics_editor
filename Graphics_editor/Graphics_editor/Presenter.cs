@@ -12,6 +12,8 @@ namespace GraphicsEditor
 {
     class Presenter
     {
+        private List<IDrawable> _draftList = new List<IDrawable>();
+        private List<Point> _inPocessPoints = new List<Point>();
         private Strategy _drawingStrategy
         {
             get
@@ -19,44 +21,10 @@ namespace GraphicsEditor
                 return DraftFactory.DefineStrategy(Figure);               
             }
         }
-        private List<IDrawable> _draftList = new List<IDrawable>();
-        private List<Point> _inPocessPoints = new List<Point>();
-        private IDrawable _cacheDraft;
-        private HighlightRect _cacheLasso;
-        private Color _canvasColor = Color.White;
-        private Color _brushColor;
         private Figure _figure;
         private Graphics _painter;
-        private float[] _dashPattern = new float[]{0, 0};
-        public Color BrushColor
-        {
-            get
-            {
-                if (_brushColor == null)
-                    return CanvasColor;
-                else
-                    return _brushColor;
-            }
-            set
-            {
-                _brushColor = value;
-            }
-        }
-        public float[] DashPattern
-        {
-            get
-            {
-                if (_dashPattern[0] == 0)
-                    return null;
-                return _dashPattern;
-            }
-            set
-            {
-                GPen.DashPattern = value;
-                _dashPattern = value;
-            }
-        }
-        public Pen GPen = new Pen(Color.Black, 1);
+        private IDrawable _cacheDraft;
+        private HighlightRect _cacheLasso;
         public Figure Figure
         {
             get
@@ -74,19 +42,6 @@ namespace GraphicsEditor
                 _figure = value;
             }
         }
-        public Color CanvasColor
-        {
-            get
-            {
-                return _canvasColor;
-            }
-            set
-            {
-                _canvasColor = value;
-                _painter.Clear(_canvasColor);
-                RefreshCanvas();
-            }
-        }
         public Graphics Painter
         {
             get
@@ -97,6 +52,15 @@ namespace GraphicsEditor
             {
                 _painter = value;
             }
+        }
+        public Settings Settings = new Settings();
+
+        //Задать цвет канваса
+        public void SetCanvasColor(Color color)
+        {
+            Settings.CanvasColor = color;
+            _painter.Clear(Settings.CanvasColor);
+            RefreshCanvas();
         }
 
         //Выделить фигуру
@@ -120,7 +84,7 @@ namespace GraphicsEditor
                 StartPoint = draft.StartPoint,
                 EndPoint = draft.EndPoint
             };
-            frame.RemoveFrame(_painter, CanvasColor);
+            frame.RemoveFrame(_painter, Settings.CanvasColor);
             RefreshCanvas();
         }
 
@@ -136,7 +100,7 @@ namespace GraphicsEditor
         //Стереть фигуру из кэша
         public void ReDrawCache()
         {
-            Painter.Clear(CanvasColor);
+            Painter.Clear(Settings.CanvasColor);
             _cacheDraft = null;
             RefreshCanvas();
         }
@@ -278,7 +242,7 @@ namespace GraphicsEditor
         //Логика динамического рисования по двум точкам
         private void DoublePointDynamicDrawing(Point mousePoint)
         {
-            _cacheDraft = DraftFactory.CreateDraft(Figure, _inPocessPoints[0], mousePoint, GPen, BrushColor);
+            _cacheDraft = DraftFactory.CreateDraft(Figure, _inPocessPoints[0], mousePoint, Settings.GPen, Settings.BrushColor);
             _cacheDraft.Draw(_painter);
         }
 
@@ -288,7 +252,7 @@ namespace GraphicsEditor
             Console.WriteLine("Динамич мультиточечная отрисовка");
             if (_draftList.Count == 0)
             {
-                _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, GPen, BrushColor);
+                _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, Settings.GPen, Settings.BrushColor);
                 Console.WriteLine("создание объекта первым в списке");
             }
             else
@@ -297,12 +261,12 @@ namespace GraphicsEditor
                 //добавить точку к существующему объекту или создать новый объект
                 if ((!(_draftList.Last() is Polygon)) && (Figure == Figure.polygon))
                 {
-                    _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, GPen, BrushColor);
+                    _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, Settings.GPen, Settings.BrushColor);
                     Console.WriteLine("создание новой полилинии");
                 }
                 if ((!(_draftList.Last() is Polyline)) && (Figure == Figure.polyline))
                 {
-                    _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, GPen, BrushColor);
+                    _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, Settings.GPen, Settings.BrushColor);
                     Console.WriteLine("создание нового полигона");
                 }
                 if ((_draftList.Last() is Polygon) && (Figure == Figure.polygon))
@@ -353,8 +317,8 @@ namespace GraphicsEditor
         {
             _draftList.Clear();
             _cacheDraft = null;
-            CanvasColor = Color.White;
-            _painter.Clear(CanvasColor);
+            Settings.CanvasColor = Color.White;
+            _painter.Clear(Settings.CanvasColor);
             _inPocessPoints.Clear();
         }
 
