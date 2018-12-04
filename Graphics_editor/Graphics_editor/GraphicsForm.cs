@@ -17,24 +17,38 @@ namespace GraphicsEditor
         {
             InitializeComponent();
 
-            _painter = Graphics.FromHwnd(mainPictureBox.Handle);
+
+            foreach (Control control in Controls)
+            {
+                typeof(Control).InvokeMember("DoubleBuffered",
+                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+                null, control, new object[] { true });
+            }
+            Bitmap btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
+            mainPictureBox.Image = btm;
+            _painter = Graphics.FromImage(btm);
             _GPresenter.Painter = _painter;
-            this.SetStyle(ControlStyles.UserPaint | ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
         }
 
         private void mainPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
+
             _GPresenter.Process(e, MouseAction.down);
+            mainPictureBox.Invalidate();
+
         }
 
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             _GPresenter.Process(e, MouseAction.move);
+            mainPictureBox.Invalidate();
         }
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             _GPresenter.Process(e, MouseAction.up);
+            mainPictureBox.Invalidate();
+
         }
 
         private void lineButton_Click(object sender, EventArgs e)
@@ -62,7 +76,10 @@ namespace GraphicsEditor
             ColorDialog colorDialog = new ColorDialog();
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
                 _GPresenter.GPen = new Pen(colorDialog.Color, _GPresenter.GPen.Width);
+                penColorpanel.BackColor = colorDialog.Color;
+            }
             refreshPen();
         }
 
@@ -71,12 +88,17 @@ namespace GraphicsEditor
             ColorDialog colorDialog = new ColorDialog();
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
                 _GPresenter.CanvasColor = colorDialog.Color;
+                canvasColorpanel.BackColor = colorDialog.Color;
+            }
         }
 
         private void clearCanvasButton_Click(object sender, EventArgs e)
         {
             _GPresenter.ClearCanvas();
+            canvasColorpanel.BackColor = Color.White;
+            mainPictureBox.Invalidate();
         }
 
         private void ellipseButton_Click(object sender, EventArgs e)
@@ -95,10 +117,10 @@ namespace GraphicsEditor
         }
 
         private void refreshPen()
-        {          
+        {
             _GPresenter.GPen = new Pen(_GPresenter.GPen.Color, (float)thicknessNumericUpDown.Value);
-            if(penStrokeWidthNumericUpDown.Value > 0)
-                _GPresenter.DashPattern = new float[] 
+            if (penStrokeWidthNumericUpDown.Value > 0)
+                _GPresenter.DashPattern = new float[]
                 {
                     (float)penStrokeWidthNumericUpDown.Value,
                     (float)penStrokeWidthNumericUpDown.Value
@@ -107,18 +129,22 @@ namespace GraphicsEditor
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            _GPresenter.Painter = Graphics.FromHwnd(mainPictureBox.Handle);
+            Bitmap btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
+            mainPictureBox.Image = btm;
+            _painter = Graphics.FromImage(btm);
+            _GPresenter.Painter = _painter;
             _GPresenter.RefreshCanvas();
-            Invalidate();
+            mainPictureBox.Invalidate();
         }
 
         private void selectBrushColorButton_Click(object sender, EventArgs e)
         {
-            {
-                ColorDialog colorDialog = new ColorDialog();
+            ColorDialog colorDialog = new ColorDialog();
 
-                if (colorDialog.ShowDialog() == DialogResult.OK)
-                    _GPresenter.BrushColor = colorDialog.Color;
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                _GPresenter.BrushColor = colorDialog.Color;
+                brushColorpanel.BackColor = colorDialog.Color;
             }
         }
 
@@ -142,5 +168,9 @@ namespace GraphicsEditor
             _GPresenter.Figure = Figure.polygon;
         }
 
+        private void mainPictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            _GPresenter.LeaveCanvas();
+        }
     }
 }

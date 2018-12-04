@@ -69,6 +69,7 @@ namespace GraphicsEditor
                 {
                     DisradHighlightingAll();
                     _inPocessPoints.Clear();
+                    _cacheDraft = null;
                 }
                 _figure = value;
             }
@@ -133,26 +134,10 @@ namespace GraphicsEditor
         }
 
         //Стереть фигуру из кэша
-        private void ReDrawCache()
+        public void ReDrawCache()
         {
-            /*/if (_cacheDraft != null)
-            {
-               // var qwe = _cacheDraft
-               var a = _cacheDraft.Pen;
-                _cacheDraft.Pen = new Pen(Color.Red, GPen.Width);
-                if ((_cacheDraft is Circle) || (_cacheDraft is Ellipse) || (_cacheDraft is Triangle))
-                    (_cacheDraft as IBrushable).BrushColor = CanvasColor;
-                if (DashPattern != null)
-                    _cacheDraft.Pen.DashPattern = a.DashPattern;
-                _cacheDraft.Draw(_painter);
-                _cacheDraft = null;
-              //  RefreshCanvas();
-            }
-            if (_cacheLasso != null)
-            {
-                _cacheLasso.RemoveFrame(_painter, CanvasColor);
-            }/*/
             Painter.Clear(CanvasColor);
+            _cacheDraft = null;
             RefreshCanvas();
         }
   
@@ -177,30 +162,52 @@ namespace GraphicsEditor
                 HighlightingDraft(draft);
         }
 
+        //Логика двуточечного рисования
+        private void DoublePointDraw()
+        {
+            if(_inPocessPoints.Count > 1)
+            {
+                _draftList.Add(_cacheDraft);
+                _inPocessPoints.Clear();
+                _cacheDraft = null;
+                RefreshCanvas();      }
+            
+        }
+
+        //логика Мультиточечного рисования
+        private void MultiPointDraw()
+        {
+            //Устанавливаем соответствие между последним объектов в хранилище и русуемым объектом, в зависимости от этого решается
+            //добавить точку к существующему объекту или создать новый объект
+            if (_draftList.Count > 0)
+            {
+                if ((_draftList[_draftList.Count - 1] is Polygon) && (Figure == Figure.polygon))
+                    (_draftList[_draftList.Count - 1] as Polygon).AddPoint(_inPocessPoints.Last());
+                else if (!(_draftList[_draftList.Count - 1] is Polygon) && (Figure == Figure.polygon))
+                    _draftList.Add(_cacheDraft);
+                if ((_draftList[_draftList.Count - 1] is Polyline) && (Figure == Figure.polyline))
+                    (_draftList[_draftList.Count - 1] as Polyline).AddPoint(_inPocessPoints.Last());
+                else if (!(_draftList[_draftList.Count - 1] is Polyline) && (Figure == Figure.polyline))
+                    _draftList.Add(_cacheDraft);
+            }
+            else
+            {
+                _draftList.Add(_cacheDraft);
+            }
+            Console.WriteLine("Список изменен. Количество элементов в списке: " + _draftList.Count().ToString()); ;
+            _cacheDraft = null;
+        }
+       
         //Отрисовать и добавить в список объектов на канве объект из кэша
         private void ToDraw()
         {
             if (_cacheDraft != null && _drawingStrategy == Strategy.twoPoint)
             {
-                _draftList.Add(_cacheDraft);
-                _inPocessPoints.Clear();
-                _cacheDraft = null;
-                RefreshCanvas();
+                DoublePointDraw();
             }
             if (_cacheDraft != null && _drawingStrategy == Strategy.multipoint)
-            {   if (_draftList.Count > 0)
-                    if (_draftList[_draftList.Count - 1] is Polygon)
-                        (_draftList[_draftList.Count - 1] as Polygon).AddPoint(_inPocessPoints.Last());
-                    else
-                        _draftList.Add(_cacheDraft);
-                else
-                {
-                    _draftList.Add(_cacheDraft);
-                }
-               // _inPocessPoints.Clear();
-                Console.WriteLine("Количество элементов в списке: " + _draftList.Count().ToString());
-                // RefreshCanvas();
-                _cacheDraft = null;
+            {
+                MultiPointDraw();
             }
         }
 
@@ -223,6 +230,7 @@ namespace GraphicsEditor
                     }
                 case MouseAction.move:
                     {
+                        ReDrawCache();
                         Console.WriteLine("Процессных точек = " + _inPocessPoints.Count.ToString());
                         if (_inPocessPoints.Count > 0)
                         {
@@ -265,8 +273,61 @@ namespace GraphicsEditor
                         break;
                     }
             }
-          //  ReDrawCache();
-            RefreshCanvas();
+        }
+
+        //Логика динамического рисования по двум точкам
+        private void DoublePointDynamicDrawing(Point mousePoint)
+        {
+            _cacheDraft = DraftFactory.CreateDraft(Figure, _inPocessPoints[0], mousePoint, GPen, BrushColor);
+            _cacheDraft.Draw(_painter);
+        }
+
+        //Логика мультиточечного динамического рисования
+        private void MultiPointDynamicDrawing(Point mousePoint)
+        {
+            Console.WriteLine("Динамич мультиточечная отрисовка");
+            if (_draftList.Count == 0)
+            {
+                _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, GPen, BrushColor);
+                Console.WriteLine("создание объекта первым в списке");
+            }
+            else
+            {
+                //Устанавливаем соответствие между последним объектов в хранилище и русуемым объектом, в зависимости от этого решается
+                //добавить точку к существующему объекту или создать новый объект
+                if ((!(_draftList.Last() is Polygon)) && (Figure == Figure.polygon))
+                {
+                    _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, GPen, BrushColor);
+                    Console.WriteLine("создание новой полилинии");
+                }
+                if ((!(_draftList.Last() is Polyline)) && (Figure == Figure.polyline))
+                {
+                    _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, GPen, BrushColor);
+                    Console.WriteLine("создание нового полигона");
+                }
+                if ((_draftList.Last() is Polygon) && (Figure == Figure.polygon))
+                {
+                    _cacheDraft = _draftList.Last();
+                    Console.WriteLine("Количество опорных точек = " + (_cacheDraft as Polygon).DotList.Count.ToString());
+                    Console.WriteLine("изменение полигона из списка");
+                    (_cacheDraft as Polygon).DotList[(_cacheDraft as Polygon).DotList.Count - 1] = mousePoint;
+                }
+                if ((_draftList.Last() is Polyline) && (Figure == Figure.polyline))
+                {
+                    _cacheDraft = _draftList.Last();
+                    Console.WriteLine("Количество опорных точек = " + (_cacheDraft as Polyline).DotList.Count.ToString());
+                    Console.WriteLine("изменение полилинии из списка");
+                    (_cacheDraft as Polyline).DotList[(_cacheDraft as Polyline).DotList.Count - 1] = mousePoint;
+                }
+            }
+            _cacheDraft.Draw(_painter);
+        }
+
+        //Логика динамичечкой отрисовки ласо отрисовки выдиления
+        private void LassoDynamicDrawing(Point mousePoint)
+        {
+            _cacheLasso = DraftFactory.CreateDraft(Figure, _inPocessPoints[0], mousePoint);
+            _cacheLasso.AddFrame(_painter);
         }
 
         //Динамическая отрисовка
@@ -275,44 +336,15 @@ namespace GraphicsEditor
             ReDrawCache();
 
             if (_drawingStrategy == Strategy.twoPoint)
-            {
-               _cacheDraft = DraftFactory.CreateDraft(Figure, _inPocessPoints[0], mousePoint, GPen, BrushColor);
-                _cacheDraft.Draw(_painter);
-            }
-                
+                DoublePointDynamicDrawing(mousePoint);
+
             else if (_drawingStrategy == Strategy.multipoint)
             {
-                if(_draftList.Count > 0)
-                    if (_draftList.Last() is Polygon)
-                        Console.WriteLine("Последний в списке полигон");
-                    else
-                        Console.WriteLine("Последний в списке НЕ полигон");
-                Console.WriteLine("Динамич отрис полигона");
-                if (_draftList.Count == 0)
-                {
-                    _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, GPen, BrushColor);
-                    Console.WriteLine("создание полилинии первой в списке");
-                }
-                else if (!(_draftList.Last() is Polygon))
-                {
-                    _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, GPen, BrushColor);
-                    Console.WriteLine("создание полилинии не первой в списке");
-                }
-                else if (_draftList.Last() is Polygon)
-                {
-                    _cacheDraft = _draftList.Last();
-                    Console.WriteLine("Количество опорных точек = " + (_cacheDraft as Polygon).DotList.Count.ToString());
-                  //  (_cacheDraft as Polygon).DotList[(_cacheDraft as Polygon).DotList.Count - 1] = mousePoint;
-                    (_cacheDraft as Polygon).DotList.Add(mousePoint);
-                    Console.WriteLine("изменение полилинии в списке");
-                }
-                _cacheDraft.Draw(_painter);
+                MultiPointDynamicDrawing(mousePoint);
             }           
-
             else if(_drawingStrategy == Strategy.selection)
             {
-                _cacheLasso = DraftFactory.CreateDraft(Figure, _inPocessPoints[0], mousePoint);
-                _cacheLasso.AddFrame(_painter);
+                LassoDynamicDrawing(mousePoint);
             }
         }
 
@@ -324,6 +356,18 @@ namespace GraphicsEditor
             CanvasColor = Color.White;
             _painter.Clear(CanvasColor);
             _inPocessPoints.Clear();
+        }
+
+        //Обработка выхода за канву
+        public void LeaveCanvas()
+        {
+            if (_draftList.Count > 0)
+            {
+                if (_draftList[_draftList.Count - 1] is Polygon)
+                    (_draftList[_draftList.Count - 1] as Polygon).DotList.RemoveAt((_draftList[_draftList.Count - 1] as Polygon).DotList.Count - 1);
+                if(_draftList[_draftList.Count - 1] is Polyline)
+                    (_draftList[_draftList.Count - 1] as Polyline).DotList.RemoveAt((_draftList[_draftList.Count - 1] as Polyline).DotList.Count - 1);
+            }
         }
     }
 

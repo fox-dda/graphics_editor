@@ -51,6 +51,9 @@
             this.SelectionGroupBox = new System.Windows.Forms.GroupBox();
             this.lassoSelectionButton = new System.Windows.Forms.Button();
             this.discardButton = new System.Windows.Forms.Button();
+            this.penColorpanel = new System.Windows.Forms.Panel();
+            this.canvasColorpanel = new System.Windows.Forms.Panel();
+            this.brushColorpanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
@@ -65,14 +68,16 @@
             this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.mainPictureBox.BackColor = System.Drawing.SystemColors.Window;
             this.mainPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("mainPictureBox.Image")));
-            this.mainPictureBox.Location = new System.Drawing.Point(120, 12);
+            this.mainPictureBox.Location = new System.Drawing.Point(151, 12);
             this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(920, 534);
+            this.mainPictureBox.Size = new System.Drawing.Size(889, 534);
             this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.mainPictureBox.TabIndex = 0;
             this.mainPictureBox.TabStop = false;
             this.mainPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseDown);
+            this.mainPictureBox.MouseLeave += new System.EventHandler(this.mainPictureBox_MouseLeave);
             this.mainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseMove);
             this.mainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseUp);
             // 
@@ -163,12 +168,15 @@
             // 
             // colorGroupBox
             // 
+            this.colorGroupBox.Controls.Add(this.brushColorpanel);
+            this.colorGroupBox.Controls.Add(this.canvasColorpanel);
+            this.colorGroupBox.Controls.Add(this.penColorpanel);
             this.colorGroupBox.Controls.Add(this.selectBrushColorButton);
             this.colorGroupBox.Controls.Add(this.selectCanvasColorButton);
             this.colorGroupBox.Controls.Add(this.selectPenColorButton);
             this.colorGroupBox.Location = new System.Drawing.Point(12, 214);
             this.colorGroupBox.Name = "colorGroupBox";
-            this.colorGroupBox.Size = new System.Drawing.Size(102, 106);
+            this.colorGroupBox.Size = new System.Drawing.Size(133, 106);
             this.colorGroupBox.TabIndex = 2;
             this.colorGroupBox.TabStop = false;
             this.colorGroupBox.Text = "Color";
@@ -312,6 +320,31 @@
             this.discardButton.UseVisualStyleBackColor = true;
             this.discardButton.Click += new System.EventHandler(this.discardButton_Click);
             // 
+            // penColorpanel
+            // 
+            this.penColorpanel.BackColor = System.Drawing.Color.Black;
+            this.penColorpanel.Location = new System.Drawing.Point(94, 19);
+            this.penColorpanel.Name = "penColorpanel";
+            this.penColorpanel.Size = new System.Drawing.Size(23, 23);
+            this.penColorpanel.TabIndex = 7;
+            // 
+            // canvasColorpanel
+            // 
+            this.canvasColorpanel.BackColor = System.Drawing.Color.White;
+            this.canvasColorpanel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.canvasColorpanel.Location = new System.Drawing.Point(94, 48);
+            this.canvasColorpanel.Name = "canvasColorpanel";
+            this.canvasColorpanel.Size = new System.Drawing.Size(23, 23);
+            this.canvasColorpanel.TabIndex = 8;
+            // 
+            // brushColorpanel
+            // 
+            this.brushColorpanel.BackColor = System.Drawing.Color.White;
+            this.brushColorpanel.Location = new System.Drawing.Point(94, 77);
+            this.brushColorpanel.Name = "brushColorpanel";
+            this.brushColorpanel.Size = new System.Drawing.Size(23, 23);
+            this.brushColorpanel.TabIndex = 9;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -365,6 +398,9 @@
         private System.Windows.Forms.Button discardButton;
         private System.Windows.Forms.Button lassoSelectionButton;
         private System.Windows.Forms.Button polygonButton;
+        private System.Windows.Forms.Panel brushColorpanel;
+        private System.Windows.Forms.Panel canvasColorpanel;
+        private System.Windows.Forms.Panel penColorpanel;
     }
 }
 
