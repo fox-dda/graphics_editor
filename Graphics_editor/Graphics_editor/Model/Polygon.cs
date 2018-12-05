@@ -7,9 +7,11 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model
 {
-    class Polygon : IDrawable
+    class Polygon : IDrawable, IBrushable
     {
         private SolidBrush _brush;
+        private Pen _pen;
+        private bool isHighlighting = false;
 
         public Color BrushColor
         {
@@ -22,9 +24,7 @@ namespace GraphicsEditor.Model
                 _brush = new SolidBrush(value);
             }
         }
-        private Pen _pen;
-        public List<Point> _dotList = new List<Point>();
-        private bool isHighlighting = false;
+        public List<Point> _dotList = new List<Point>();        
         public bool IsHighlighting
         {
             get
@@ -69,7 +69,6 @@ namespace GraphicsEditor.Model
                 _pen = value;
             }
         }
-
         public List<Point> DotList
         {
             get
@@ -94,10 +93,6 @@ namespace GraphicsEditor.Model
             if (_brush != null)
                 g.FillPolygon(_brush, DotList.ToArray());
             g.DrawPolygon(Pen, DotList.ToArray());
-          //  g.FillPolygon(new SolidBrush(Color.Blue), DotList.ToArray());
-        /*/     for (int i = 1; i < DotList.Count; i++)
-                 g.DrawLine(Pen, DotList[i - 1], DotList[i]);
-              g.DrawLine(Pen, DotList[0], DotList.Last());/*/
         }
 
         public void AddPoint(Point point)

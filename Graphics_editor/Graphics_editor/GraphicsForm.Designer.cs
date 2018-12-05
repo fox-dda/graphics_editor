@@ -39,6 +39,9 @@
             this.polylineButton = new System.Windows.Forms.Button();
             this.selectMouseButton = new System.Windows.Forms.Button();
             this.colorGroupBox = new System.Windows.Forms.GroupBox();
+            this.brushColorpanel = new System.Windows.Forms.Panel();
+            this.canvasColorpanel = new System.Windows.Forms.Panel();
+            this.penColorpanel = new System.Windows.Forms.Panel();
             this.selectBrushColorButton = new System.Windows.Forms.Button();
             this.selectCanvasColorButton = new System.Windows.Forms.Button();
             this.selectPenColorButton = new System.Windows.Forms.Button();
@@ -51,9 +54,26 @@
             this.SelectionGroupBox = new System.Windows.Forms.GroupBox();
             this.lassoSelectionButton = new System.Windows.Forms.Button();
             this.discardButton = new System.Windows.Forms.Button();
-            this.penColorpanel = new System.Windows.Forms.Panel();
-            this.canvasColorpanel = new System.Windows.Forms.Panel();
-            this.brushColorpanel = new System.Windows.Forms.Panel();
+            this.selectedObjectGroupBox = new System.Windows.Forms.GroupBox();
+            this.ePEextBox = new System.Windows.Forms.TextBox();
+            this.sPTextBox = new System.Windows.Forms.TextBox();
+            this.EndPLabel = new System.Windows.Forms.Label();
+            this.typeLabel = new System.Windows.Forms.Label();
+            this.objectLabel = new System.Windows.Forms.Label();
+            this.StartPLabel = new System.Windows.Forms.Label();
+            this.canvasGroupBox = new System.Windows.Forms.GroupBox();
+            this.leftGroupBox = new System.Windows.Forms.GroupBox();
+            this.rightGroupBox = new System.Windows.Forms.GroupBox();
+            this.locationGroupBox = new System.Windows.Forms.GroupBox();
+            this.designSelectedGroupBox = new System.Windows.Forms.GroupBox();
+            this.selectedStrokeLabel = new System.Windows.Forms.Label();
+            this.selectedStrokeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.selectedWidthLabel = new System.Windows.Forms.Label();
+            this.selectedWidthNnumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.colorSelectedLabel = new System.Windows.Forms.Label();
+            this.selectedColorPanel = new System.Windows.Forms.Panel();
+            this.selectedObjectBrushLabel = new System.Windows.Forms.Label();
+            this.selectedBrushPanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
@@ -61,18 +81,23 @@
             ((System.ComponentModel.ISupportInitialize)(this.penStrokeWidthNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thicknessNumericUpDown)).BeginInit();
             this.SelectionGroupBox.SuspendLayout();
+            this.selectedObjectGroupBox.SuspendLayout();
+            this.canvasGroupBox.SuspendLayout();
+            this.leftGroupBox.SuspendLayout();
+            this.rightGroupBox.SuspendLayout();
+            this.locationGroupBox.SuspendLayout();
+            this.designSelectedGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedStrokeNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedWidthNnumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // mainPictureBox
             // 
-            this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.mainPictureBox.BackColor = System.Drawing.SystemColors.Window;
             this.mainPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("mainPictureBox.Image")));
             this.mainPictureBox.Location = new System.Drawing.Point(151, 12);
             this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(889, 534);
+            this.mainPictureBox.Size = new System.Drawing.Size(715, 534);
             this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.mainPictureBox.TabIndex = 0;
             this.mainPictureBox.TabStop = false;
@@ -89,9 +114,9 @@
             this.drawGroupBox.Controls.Add(this.lineButton);
             this.drawGroupBox.Controls.Add(this.circleButton);
             this.drawGroupBox.Controls.Add(this.polylineButton);
-            this.drawGroupBox.Location = new System.Drawing.Point(12, 12);
+            this.drawGroupBox.Location = new System.Drawing.Point(6, 12);
             this.drawGroupBox.Name = "drawGroupBox";
-            this.drawGroupBox.Size = new System.Drawing.Size(102, 196);
+            this.drawGroupBox.Size = new System.Drawing.Size(133, 196);
             this.drawGroupBox.TabIndex = 1;
             this.drawGroupBox.TabStop = false;
             this.drawGroupBox.Text = "Draw";
@@ -174,12 +199,37 @@
             this.colorGroupBox.Controls.Add(this.selectBrushColorButton);
             this.colorGroupBox.Controls.Add(this.selectCanvasColorButton);
             this.colorGroupBox.Controls.Add(this.selectPenColorButton);
-            this.colorGroupBox.Location = new System.Drawing.Point(12, 214);
+            this.colorGroupBox.Location = new System.Drawing.Point(6, 300);
             this.colorGroupBox.Name = "colorGroupBox";
             this.colorGroupBox.Size = new System.Drawing.Size(133, 106);
             this.colorGroupBox.TabIndex = 2;
             this.colorGroupBox.TabStop = false;
             this.colorGroupBox.Text = "Color";
+            // 
+            // brushColorpanel
+            // 
+            this.brushColorpanel.BackColor = System.Drawing.Color.White;
+            this.brushColorpanel.Location = new System.Drawing.Point(94, 77);
+            this.brushColorpanel.Name = "brushColorpanel";
+            this.brushColorpanel.Size = new System.Drawing.Size(23, 23);
+            this.brushColorpanel.TabIndex = 9;
+            // 
+            // canvasColorpanel
+            // 
+            this.canvasColorpanel.BackColor = System.Drawing.Color.White;
+            this.canvasColorpanel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.canvasColorpanel.Location = new System.Drawing.Point(94, 48);
+            this.canvasColorpanel.Name = "canvasColorpanel";
+            this.canvasColorpanel.Size = new System.Drawing.Size(23, 23);
+            this.canvasColorpanel.TabIndex = 8;
+            // 
+            // penColorpanel
+            // 
+            this.penColorpanel.BackColor = System.Drawing.Color.Black;
+            this.penColorpanel.Location = new System.Drawing.Point(94, 19);
+            this.penColorpanel.Name = "penColorpanel";
+            this.penColorpanel.Size = new System.Drawing.Size(23, 23);
+            this.penColorpanel.TabIndex = 7;
             // 
             // selectBrushColorButton
             // 
@@ -213,7 +263,7 @@
             // 
             // clearCanvasButton
             // 
-            this.clearCanvasButton.Location = new System.Drawing.Point(25, 523);
+            this.clearCanvasButton.Location = new System.Drawing.Point(13, 19);
             this.clearCanvasButton.Name = "clearCanvasButton";
             this.clearCanvasButton.Size = new System.Drawing.Size(75, 23);
             this.clearCanvasButton.TabIndex = 3;
@@ -227,9 +277,9 @@
             this.penStyleGroupBox.Controls.Add(this.penStrokeWidthNumericUpDown);
             this.penStyleGroupBox.Controls.Add(this.widthLabel);
             this.penStyleGroupBox.Controls.Add(this.thicknessNumericUpDown);
-            this.penStyleGroupBox.Location = new System.Drawing.Point(12, 326);
+            this.penStyleGroupBox.Location = new System.Drawing.Point(6, 214);
             this.penStyleGroupBox.Name = "penStyleGroupBox";
-            this.penStyleGroupBox.Size = new System.Drawing.Size(102, 80);
+            this.penStyleGroupBox.Size = new System.Drawing.Size(133, 80);
             this.penStyleGroupBox.TabIndex = 5;
             this.penStyleGroupBox.TabStop = false;
             this.penStyleGroupBox.Text = "Pen style";
@@ -293,9 +343,9 @@
             this.SelectionGroupBox.Controls.Add(this.lassoSelectionButton);
             this.SelectionGroupBox.Controls.Add(this.discardButton);
             this.SelectionGroupBox.Controls.Add(this.selectMouseButton);
-            this.SelectionGroupBox.Location = new System.Drawing.Point(12, 412);
+            this.SelectionGroupBox.Location = new System.Drawing.Point(6, 268);
             this.SelectionGroupBox.Name = "SelectionGroupBox";
-            this.SelectionGroupBox.Size = new System.Drawing.Size(102, 105);
+            this.SelectionGroupBox.Size = new System.Drawing.Size(156, 110);
             this.SelectionGroupBox.TabIndex = 6;
             this.SelectionGroupBox.TabStop = false;
             this.SelectionGroupBox.Text = "Selection";
@@ -320,41 +370,227 @@
             this.discardButton.UseVisualStyleBackColor = true;
             this.discardButton.Click += new System.EventHandler(this.discardButton_Click);
             // 
-            // penColorpanel
+            // selectedObjectGroupBox
             // 
-            this.penColorpanel.BackColor = System.Drawing.Color.Black;
-            this.penColorpanel.Location = new System.Drawing.Point(94, 19);
-            this.penColorpanel.Name = "penColorpanel";
-            this.penColorpanel.Size = new System.Drawing.Size(23, 23);
-            this.penColorpanel.TabIndex = 7;
+            this.selectedObjectGroupBox.Controls.Add(this.designSelectedGroupBox);
+            this.selectedObjectGroupBox.Controls.Add(this.SelectionGroupBox);
+            this.selectedObjectGroupBox.Controls.Add(this.locationGroupBox);
+            this.selectedObjectGroupBox.Controls.Add(this.typeLabel);
+            this.selectedObjectGroupBox.Controls.Add(this.objectLabel);
+            this.selectedObjectGroupBox.Location = new System.Drawing.Point(6, 12);
+            this.selectedObjectGroupBox.Name = "selectedObjectGroupBox";
+            this.selectedObjectGroupBox.Size = new System.Drawing.Size(168, 388);
+            this.selectedObjectGroupBox.TabIndex = 7;
+            this.selectedObjectGroupBox.TabStop = false;
+            this.selectedObjectGroupBox.Text = "Selected object";
             // 
-            // canvasColorpanel
+            // ePEextBox
             // 
-            this.canvasColorpanel.BackColor = System.Drawing.Color.White;
-            this.canvasColorpanel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.canvasColorpanel.Location = new System.Drawing.Point(94, 48);
-            this.canvasColorpanel.Name = "canvasColorpanel";
-            this.canvasColorpanel.Size = new System.Drawing.Size(23, 23);
-            this.canvasColorpanel.TabIndex = 8;
+            this.ePEextBox.Location = new System.Drawing.Point(70, 44);
+            this.ePEextBox.Name = "ePEextBox";
+            this.ePEextBox.Size = new System.Drawing.Size(67, 20);
+            this.ePEextBox.TabIndex = 5;
             // 
-            // brushColorpanel
+            // sPTextBox
             // 
-            this.brushColorpanel.BackColor = System.Drawing.Color.White;
-            this.brushColorpanel.Location = new System.Drawing.Point(94, 77);
-            this.brushColorpanel.Name = "brushColorpanel";
-            this.brushColorpanel.Size = new System.Drawing.Size(23, 23);
-            this.brushColorpanel.TabIndex = 9;
+            this.sPTextBox.Location = new System.Drawing.Point(70, 20);
+            this.sPTextBox.Name = "sPTextBox";
+            this.sPTextBox.Size = new System.Drawing.Size(67, 20);
+            this.sPTextBox.TabIndex = 4;
+            // 
+            // EndPLabel
+            // 
+            this.EndPLabel.AutoSize = true;
+            this.EndPLabel.Location = new System.Drawing.Point(6, 47);
+            this.EndPLabel.Name = "EndPLabel";
+            this.EndPLabel.Size = new System.Drawing.Size(55, 13);
+            this.EndPLabel.TabIndex = 3;
+            this.EndPLabel.Text = "End point:";
+            // 
+            // typeLabel
+            // 
+            this.typeLabel.AutoSize = true;
+            this.typeLabel.Location = new System.Drawing.Point(76, 19);
+            this.typeLabel.Name = "typeLabel";
+            this.typeLabel.Size = new System.Drawing.Size(0, 13);
+            this.typeLabel.TabIndex = 1;
+            // 
+            // objectLabel
+            // 
+            this.objectLabel.AutoSize = true;
+            this.objectLabel.Location = new System.Drawing.Point(12, 19);
+            this.objectLabel.Name = "objectLabel";
+            this.objectLabel.Size = new System.Drawing.Size(64, 13);
+            this.objectLabel.TabIndex = 0;
+            this.objectLabel.Text = "Object type:";
+            // 
+            // StartPLabel
+            // 
+            this.StartPLabel.AutoSize = true;
+            this.StartPLabel.Location = new System.Drawing.Point(6, 23);
+            this.StartPLabel.Name = "StartPLabel";
+            this.StartPLabel.Size = new System.Drawing.Size(58, 13);
+            this.StartPLabel.TabIndex = 2;
+            this.StartPLabel.Text = "Start point:";
+            // 
+            // canvasGroupBox
+            // 
+            this.canvasGroupBox.Controls.Add(this.clearCanvasButton);
+            this.canvasGroupBox.Location = new System.Drawing.Point(12, 500);
+            this.canvasGroupBox.Name = "canvasGroupBox";
+            this.canvasGroupBox.Size = new System.Drawing.Size(102, 46);
+            this.canvasGroupBox.TabIndex = 8;
+            this.canvasGroupBox.TabStop = false;
+            this.canvasGroupBox.Text = "Canvas";
+            // 
+            // leftGroupBox
+            // 
+            this.leftGroupBox.Controls.Add(this.drawGroupBox);
+            this.leftGroupBox.Controls.Add(this.canvasGroupBox);
+            this.leftGroupBox.Controls.Add(this.penStyleGroupBox);
+            this.leftGroupBox.Controls.Add(this.colorGroupBox);
+            this.leftGroupBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.leftGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.leftGroupBox.Name = "leftGroupBox";
+            this.leftGroupBox.Size = new System.Drawing.Size(145, 558);
+            this.leftGroupBox.TabIndex = 9;
+            this.leftGroupBox.TabStop = false;
+            // 
+            // rightGroupBox
+            // 
+            this.rightGroupBox.Controls.Add(this.selectedObjectGroupBox);
+            this.rightGroupBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.rightGroupBox.Location = new System.Drawing.Point(872, 0);
+            this.rightGroupBox.Name = "rightGroupBox";
+            this.rightGroupBox.Size = new System.Drawing.Size(180, 558);
+            this.rightGroupBox.TabIndex = 10;
+            this.rightGroupBox.TabStop = false;
+            // 
+            // locationGroupBox
+            // 
+            this.locationGroupBox.Controls.Add(this.ePEextBox);
+            this.locationGroupBox.Controls.Add(this.StartPLabel);
+            this.locationGroupBox.Controls.Add(this.EndPLabel);
+            this.locationGroupBox.Controls.Add(this.sPTextBox);
+            this.locationGroupBox.Location = new System.Drawing.Point(6, 48);
+            this.locationGroupBox.Name = "locationGroupBox";
+            this.locationGroupBox.Size = new System.Drawing.Size(156, 74);
+            this.locationGroupBox.TabIndex = 6;
+            this.locationGroupBox.TabStop = false;
+            this.locationGroupBox.Text = "Location";
+            // 
+            // designSelectedGroupBox
+            // 
+            this.designSelectedGroupBox.Controls.Add(this.selectedBrushPanel);
+            this.designSelectedGroupBox.Controls.Add(this.selectedObjectBrushLabel);
+            this.designSelectedGroupBox.Controls.Add(this.selectedColorPanel);
+            this.designSelectedGroupBox.Controls.Add(this.colorSelectedLabel);
+            this.designSelectedGroupBox.Controls.Add(this.selectedStrokeLabel);
+            this.designSelectedGroupBox.Controls.Add(this.selectedStrokeNumericUpDown);
+            this.designSelectedGroupBox.Controls.Add(this.selectedWidthLabel);
+            this.designSelectedGroupBox.Controls.Add(this.selectedWidthNnumericUpDown);
+            this.designSelectedGroupBox.Location = new System.Drawing.Point(8, 128);
+            this.designSelectedGroupBox.Name = "designSelectedGroupBox";
+            this.designSelectedGroupBox.Size = new System.Drawing.Size(154, 134);
+            this.designSelectedGroupBox.TabIndex = 7;
+            this.designSelectedGroupBox.TabStop = false;
+            this.designSelectedGroupBox.Text = "Design";
+            // 
+            // selectedStrokeLabel
+            // 
+            this.selectedStrokeLabel.AutoSize = true;
+            this.selectedStrokeLabel.Location = new System.Drawing.Point(10, 47);
+            this.selectedStrokeLabel.Name = "selectedStrokeLabel";
+            this.selectedStrokeLabel.Size = new System.Drawing.Size(38, 13);
+            this.selectedStrokeLabel.TabIndex = 6;
+            this.selectedStrokeLabel.Text = "Stroke";
+            // 
+            // selectedStrokeNumericUpDown
+            // 
+            this.selectedStrokeNumericUpDown.Location = new System.Drawing.Point(55, 45);
+            this.selectedStrokeNumericUpDown.Maximum = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            this.selectedStrokeNumericUpDown.Name = "selectedStrokeNumericUpDown";
+            this.selectedStrokeNumericUpDown.Size = new System.Drawing.Size(33, 20);
+            this.selectedStrokeNumericUpDown.TabIndex = 7;
+            // 
+            // selectedWidthLabel
+            // 
+            this.selectedWidthLabel.AutoSize = true;
+            this.selectedWidthLabel.Location = new System.Drawing.Point(10, 21);
+            this.selectedWidthLabel.Name = "selectedWidthLabel";
+            this.selectedWidthLabel.Size = new System.Drawing.Size(35, 13);
+            this.selectedWidthLabel.TabIndex = 7;
+            this.selectedWidthLabel.Text = "Width";
+            // 
+            // selectedWidthNnumericUpDown
+            // 
+            this.selectedWidthNnumericUpDown.Location = new System.Drawing.Point(55, 19);
+            this.selectedWidthNnumericUpDown.Maximum = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            this.selectedWidthNnumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.selectedWidthNnumericUpDown.Name = "selectedWidthNnumericUpDown";
+            this.selectedWidthNnumericUpDown.Size = new System.Drawing.Size(33, 20);
+            this.selectedWidthNnumericUpDown.TabIndex = 6;
+            this.selectedWidthNnumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // colorSelectedLabel
+            // 
+            this.colorSelectedLabel.AutoSize = true;
+            this.colorSelectedLabel.Location = new System.Drawing.Point(10, 74);
+            this.colorSelectedLabel.Name = "colorSelectedLabel";
+            this.colorSelectedLabel.Size = new System.Drawing.Size(31, 13);
+            this.colorSelectedLabel.TabIndex = 8;
+            this.colorSelectedLabel.Text = "Color";
+            // 
+            // selectedColorPanel
+            // 
+            this.selectedColorPanel.BackColor = System.Drawing.Color.White;
+            this.selectedColorPanel.ForeColor = System.Drawing.SystemColors.Control;
+            this.selectedColorPanel.Location = new System.Drawing.Point(55, 71);
+            this.selectedColorPanel.Name = "selectedColorPanel";
+            this.selectedColorPanel.Size = new System.Drawing.Size(23, 23);
+            this.selectedColorPanel.TabIndex = 9;
+            // 
+            // selectedObjectBrushLabel
+            // 
+            this.selectedObjectBrushLabel.AutoSize = true;
+            this.selectedObjectBrushLabel.Location = new System.Drawing.Point(10, 100);
+            this.selectedObjectBrushLabel.Name = "selectedObjectBrushLabel";
+            this.selectedObjectBrushLabel.Size = new System.Drawing.Size(34, 13);
+            this.selectedObjectBrushLabel.TabIndex = 10;
+            this.selectedObjectBrushLabel.Text = "Brush";
+            // 
+            // selectedBrushPanel
+            // 
+            this.selectedBrushPanel.BackColor = System.Drawing.Color.White;
+            this.selectedBrushPanel.ForeColor = System.Drawing.Color.White;
+            this.selectedBrushPanel.Location = new System.Drawing.Point(55, 95);
+            this.selectedBrushPanel.Name = "selectedBrushPanel";
+            this.selectedBrushPanel.Size = new System.Drawing.Size(23, 23);
+            this.selectedBrushPanel.TabIndex = 11;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1052, 558);
-            this.Controls.Add(this.SelectionGroupBox);
-            this.Controls.Add(this.penStyleGroupBox);
-            this.Controls.Add(this.clearCanvasButton);
-            this.Controls.Add(this.colorGroupBox);
-            this.Controls.Add(this.drawGroupBox);
+            this.Controls.Add(this.rightGroupBox);
+            this.Controls.Add(this.leftGroupBox);
             this.Controls.Add(this.mainPictureBox);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -370,6 +606,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.penStrokeWidthNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.thicknessNumericUpDown)).EndInit();
             this.SelectionGroupBox.ResumeLayout(false);
+            this.selectedObjectGroupBox.ResumeLayout(false);
+            this.selectedObjectGroupBox.PerformLayout();
+            this.canvasGroupBox.ResumeLayout(false);
+            this.leftGroupBox.ResumeLayout(false);
+            this.rightGroupBox.ResumeLayout(false);
+            this.locationGroupBox.ResumeLayout(false);
+            this.locationGroupBox.PerformLayout();
+            this.designSelectedGroupBox.ResumeLayout(false);
+            this.designSelectedGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedStrokeNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedWidthNnumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -401,6 +648,26 @@
         private System.Windows.Forms.Panel brushColorpanel;
         private System.Windows.Forms.Panel canvasColorpanel;
         private System.Windows.Forms.Panel penColorpanel;
+        private System.Windows.Forms.GroupBox selectedObjectGroupBox;
+        private System.Windows.Forms.Label objectLabel;
+        private System.Windows.Forms.Label typeLabel;
+        private System.Windows.Forms.Label EndPLabel;
+        private System.Windows.Forms.Label StartPLabel;
+        private System.Windows.Forms.GroupBox canvasGroupBox;
+        private System.Windows.Forms.GroupBox leftGroupBox;
+        private System.Windows.Forms.GroupBox rightGroupBox;
+        private System.Windows.Forms.TextBox ePEextBox;
+        private System.Windows.Forms.TextBox sPTextBox;
+        private System.Windows.Forms.GroupBox locationGroupBox;
+        private System.Windows.Forms.GroupBox designSelectedGroupBox;
+        private System.Windows.Forms.Panel selectedColorPanel;
+        private System.Windows.Forms.Label colorSelectedLabel;
+        private System.Windows.Forms.Label selectedStrokeLabel;
+        private System.Windows.Forms.NumericUpDown selectedStrokeNumericUpDown;
+        private System.Windows.Forms.Label selectedWidthLabel;
+        private System.Windows.Forms.NumericUpDown selectedWidthNnumericUpDown;
+        private System.Windows.Forms.Panel selectedBrushPanel;
+        private System.Windows.Forms.Label selectedObjectBrushLabel;
     }
 }
 

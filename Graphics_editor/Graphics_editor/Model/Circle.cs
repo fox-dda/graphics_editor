@@ -19,21 +19,21 @@ namespace GraphicsEditor.Model
             if ((StartPoint.Y < EndPoint.Y) && (StartPoint.X < EndPoint.X))
             {
                 if (_brush != null)
-                    g.FillEllipse(_brush, EndPoint.X, EndPoint.Y, size, size);
+                    g.FillEllipse(_brush, StartPoint.X, StartPoint.Y, size, size);
                 g.DrawEllipse(Pen, StartPoint.X, StartPoint.Y, size, size);
             }
             //сверху вниз справа налево
             else if ((StartPoint.Y < EndPoint.Y) && (StartPoint.X > EndPoint.X))
             {
                 if (_brush != null)
-                    g.FillEllipse(_brush, EndPoint.X, EndPoint.Y, size, size);
+                    g.FillEllipse(_brush, EndPoint.X, StartPoint.Y, size, size);
                 g.DrawEllipse(Pen, EndPoint.X, StartPoint.Y, size, size);
             }
             //cнизу вверх слево на права
             else if ((StartPoint.Y > EndPoint.Y) && (StartPoint.X < EndPoint.X))
             {
                 if (_brush != null)
-                    g.FillEllipse(_brush, EndPoint.X, EndPoint.Y, size, size);
+                    g.FillEllipse(_brush, StartPoint.X, EndPoint.Y, size, size);
                 g.DrawEllipse(Pen, StartPoint.X, EndPoint.Y, size, size);
             }
 
@@ -44,6 +44,7 @@ namespace GraphicsEditor.Model
                     g.FillEllipse(_brush, EndPoint.X, EndPoint.Y, size, size);
                 g.DrawEllipse(Pen, EndPoint.X, EndPoint.Y, size, size);
             }
+            EndPoint = new Point(StartPoint.X + size, StartPoint.Y + size);
         }
 
         public Circle(Point _startPoint, Point _endPoint, Pen _pen) : base(_startPoint, _endPoint, _pen) { }

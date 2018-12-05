@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using GraphicsEditor.Enums;
 using System.Reflection;
+using GraphicsEditor.Model;
 
 
 namespace GraphicsEditor
@@ -34,20 +35,19 @@ namespace GraphicsEditor
         {
 
             _GPresenter.Process(e, MouseAction.down);
-            mainPictureBox.Invalidate();
-
+            RefreshView();
         }
 
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             _GPresenter.Process(e, MouseAction.move);
-            mainPictureBox.Invalidate();
+            RefreshView();
         }
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             _GPresenter.Process(e, MouseAction.up);
-            mainPictureBox.Invalidate();
+            RefreshView();
 
         }
 
@@ -98,7 +98,7 @@ namespace GraphicsEditor
         {
             _GPresenter.ClearCanvas();
             canvasColorpanel.BackColor = Color.White;
-            mainPictureBox.Invalidate();
+            RefreshView();
         }
 
         private void ellipseButton_Click(object sender, EventArgs e)
@@ -156,6 +156,7 @@ namespace GraphicsEditor
         private void discardButton_Click(object sender, EventArgs e)
         {
             _GPresenter.DisradHighlightingAll();
+            mainPictureBox.Invalidate();
         }
 
         private void lassoSelectionButton_Click(object sender, EventArgs e)
@@ -171,6 +172,52 @@ namespace GraphicsEditor
         private void mainPictureBox_MouseLeave(object sender, EventArgs e)
         {
             _GPresenter.LeaveCanvas();
+        }
+
+        private void RefreshSelectPanel()
+        {
+            var hightlightObject = _GPresenter.GetHighlightObject();
+            if (hightlightObject != null)
+            {
+                //editGroupBox.Enabled = true;
+                var typeStr = hightlightObject.GetType().ToString().Split('.');
+                typeLabel.Text = typeStr[typeStr.Length - 1];
+                sPTextBox.Text = hightlightObject.StartPoint.X.ToString() + "; " + hightlightObject.StartPoint.Y.ToString();
+                ePEextBox.Text = hightlightObject.EndPoint.X.ToString() + "; " + hightlightObject.EndPoint.Y.ToString();
+                selectedWidthNnumericUpDown.Value = (int)hightlightObject.Pen.Width;
+
+                try//при не инициализованном дашпаттерне любое обращение к нему вызовет екзепшен "Недотаточно памяти"
+                {
+                    if (hightlightObject.Pen.DashPattern.Length > 0)
+                        selectedStrokeNumericUpDown.Value = (int)hightlightObject.Pen.DashPattern[0];
+                }
+                catch
+                {
+                    selectedStrokeNumericUpDown.Value = 0;
+                }
+
+                selectedColorPanel.BackColor = hightlightObject.Pen.Color;
+                if (hightlightObject is IBrushable)
+                    selectedBrushPanel.BackColor = (hightlightObject as IBrushable).BrushColor;
+                else
+                    selectedBrushPanel.BackColor = Color.White;
+            }
+            else
+            {
+                typeLabel.Text = "";
+                sPTextBox.Text = "";
+                ePEextBox.Text = "";
+                selectedWidthNnumericUpDown.Value = 1;
+                selectedStrokeNumericUpDown.Value = 0;
+                selectedColorPanel.BackColor = Color.White;
+                selectedBrushPanel.BackColor = Color.White;
+            }
+        }
+
+        private void RefreshView()
+        {
+            RefreshSelectPanel();
+            mainPictureBox.Invalidate();
         }
     }
 }

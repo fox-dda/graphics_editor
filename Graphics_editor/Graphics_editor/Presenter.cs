@@ -13,6 +13,8 @@ namespace GraphicsEditor
     class Presenter
     {
         private List<IDrawable> _draftList = new List<IDrawable>();
+        private List<IDrawable> _highlightDrafts = new List<IDrawable>();
+        
         private List<Point> _inPocessPoints = new List<Point>();
         private Strategy _drawingStrategy
         {
@@ -55,7 +57,25 @@ namespace GraphicsEditor
         }
         public Settings Settings = new Settings();
 
-        //Задать цвет канваса
+        //Вернуть выделенный объект, если он есть
+        public IDrawable GetHighlightObject()
+        {
+            if (_highlightDrafts.Count == 1)
+                return _highlightDrafts.Last();
+            else
+                return null;
+        }
+       
+        //Выделить объекты в ласо
+        private void HighlightingDraftInLasso(List<IDrawable> list)
+        {
+            if (list.Count == 0)
+                return;
+            foreach (IDrawable draft in list)
+                HighlightingDraft(draft);
+        }
+       
+        //Задать цвет канвы
         public void SetCanvasColor(Color color)
         {
             Settings.CanvasColor = color;
@@ -66,35 +86,21 @@ namespace GraphicsEditor
         //Выделить фигуру
         private void HighlightingDraft(IDrawable draft)
         {
-            draft.IsHighlighting = true;
-            var frame = new HighlightRect()
-            {
-                StartPoint = draft.StartPoint,
-                EndPoint = draft.EndPoint
-            };
-            frame.AddFrame(_painter);
+            if(!(_highlightDrafts.Contains(draft)))
+                _highlightDrafts.Add(draft);
         }
 
         //Отменить выделение фигуры
         private void DisradHighlightingDraft(IDrawable draft)
         {
-            draft.IsHighlighting = false;
-            var frame = new HighlightRect()
-            {
-                StartPoint = draft.StartPoint,
-                EndPoint = draft.EndPoint
-            };
-            frame.RemoveFrame(_painter, Settings.CanvasColor);
-            RefreshCanvas();
+            _highlightDrafts.Remove(draft);
         }
 
-        //Отменить выеление всех фигур
+        //Отменить выделение всех фигур
         public void DisradHighlightingAll()
         {
-            foreach (IDrawable draft in _draftList)
-            {
-                DisradHighlightingDraft(draft);
-            }
+            _highlightDrafts.Clear();
+            ReDrawCache();
         }
 
         //Стереть фигуру из кэша
@@ -115,15 +121,18 @@ namespace GraphicsEditor
                     draft.Draw(_painter);
                 }
             }
-        }
-
-        //Выделить объекты в ласо
-        private void HighlightingDraftInLasso(List<IDrawable> list)
-        {
-            if (list.Count == 0)
-                return;
-            foreach (IDrawable draft in list)
-                HighlightingDraft(draft);
+            foreach (IDrawable draft in _highlightDrafts)
+            {
+                if (draft != null)
+                {
+                    var frame = new HighlightRect()
+                    {
+                        StartPoint = draft.StartPoint,
+                        EndPoint = draft.EndPoint
+                    };
+                    frame.AddFrame(_painter);
+                }
+            }
         }
 
         //Логика двуточечного рисования
@@ -158,11 +167,11 @@ namespace GraphicsEditor
             {
                 _draftList.Add(_cacheDraft);
             }
-            Console.WriteLine("Список изменен. Количество элементов в списке: " + _draftList.Count().ToString()); ;
+            Console.WriteLine("Список изменен. Количество элементов в списке: " + _draftList.Count().ToString()); 
             _cacheDraft = null;
         }
        
-        //Отрисовать и добавить в список объектов на канве объект из кэша
+        //Добавить в список объектов на канве объект из кэша
         private void ToDraw()
         {
             if (_cacheDraft != null && _drawingStrategy == Strategy.twoPoint)
@@ -218,21 +227,20 @@ namespace GraphicsEditor
                         }
                         else if (_drawingStrategy == Strategy.selection)
                         {
-                            var selectedDraft = Selector.PointSearch(e, _draftList);
-                            if (selectedDraft != null)
-                            {
-                                if (selectedDraft.IsHighlighting)
-                                    DisradHighlightingDraft(selectedDraft);
-                                else
-                                    HighlightingDraft(selectedDraft);
-                                MessageBox.Show(selectedDraft.ToString());
-                            }
-                            _inPocessPoints.Clear();
-                            if(_cacheLasso != null)
+                            if (_cacheLasso != null)
                             {
                                 HighlightingDraftInLasso(Selector.LassoSearch(_cacheLasso, _draftList));
                                 ReDrawCache();
                             }
+                            var selectedDraft = Selector.PointSearch(e, _draftList);
+                            if (selectedDraft != null)
+                            {
+                                if (_highlightDrafts.Contains(selectedDraft))
+                                    _highlightDrafts.Remove(selectedDraft);
+                                else
+                                    _highlightDrafts.Add(selectedDraft);
+                            }
+                            _inPocessPoints.Clear();                      
                         }   
                         break;
                     }
@@ -287,7 +295,7 @@ namespace GraphicsEditor
             _cacheDraft.Draw(_painter);
         }
 
-        //Логика динамичечкой отрисовки ласо отрисовки выдиления
+        //Логика динамичечкой отрисовки ласо, и захвата объектов в ласо
         private void LassoDynamicDrawing(Point mousePoint)
         {
             _cacheLasso = DraftFactory.CreateDraft(Figure, _inPocessPoints[0], mousePoint);
@@ -316,6 +324,7 @@ namespace GraphicsEditor
         public void ClearCanvas()
         {
             _draftList.Clear();
+            _highlightDrafts.Clear();
             _cacheDraft = null;
             Settings.CanvasColor = Color.White;
             _painter.Clear(Settings.CanvasColor);
