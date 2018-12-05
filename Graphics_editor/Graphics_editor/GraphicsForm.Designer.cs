@@ -438,7 +438,7 @@
             this.canvasGroupBox.Controls.Add(this.clearCanvasButton);
             this.canvasGroupBox.Location = new System.Drawing.Point(12, 500);
             this.canvasGroupBox.Name = "canvasGroupBox";
-            this.canvasGroupBox.Size = new System.Drawing.Size(102, 46);
+            this.canvasGroupBox.Size = new System.Drawing.Size(127, 46);
             this.canvasGroupBox.TabIndex = 8;
             this.canvasGroupBox.TabStop = false;
             this.canvasGroupBox.Text = "Canvas";
@@ -452,7 +452,7 @@
             this.leftGroupBox.Dock = System.Windows.Forms.DockStyle.Left;
             this.leftGroupBox.Location = new System.Drawing.Point(0, 0);
             this.leftGroupBox.Name = "leftGroupBox";
-            this.leftGroupBox.Size = new System.Drawing.Size(145, 558);
+            this.leftGroupBox.Size = new System.Drawing.Size(145, 561);
             this.leftGroupBox.TabIndex = 9;
             this.leftGroupBox.TabStop = false;
             // 
@@ -462,7 +462,7 @@
             this.rightGroupBox.Dock = System.Windows.Forms.DockStyle.Right;
             this.rightGroupBox.Location = new System.Drawing.Point(872, 0);
             this.rightGroupBox.Name = "rightGroupBox";
-            this.rightGroupBox.Size = new System.Drawing.Size(180, 558);
+            this.rightGroupBox.Size = new System.Drawing.Size(180, 561);
             this.rightGroupBox.TabIndex = 10;
             this.rightGroupBox.TabStop = false;
             // 
@@ -588,15 +588,17 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1052, 558);
+            this.ClientSize = new System.Drawing.Size(1052, 561);
             this.Controls.Add(this.rightGroupBox);
             this.Controls.Add(this.leftGroupBox);
             this.Controls.Add(this.mainPictureBox);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(700, 400);
             this.Name = "MainForm";
             this.Text = "Graphics editor [v0.2]";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
             this.drawGroupBox.ResumeLayout(false);

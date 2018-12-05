@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GraphicsEditor.Model;
 using System.Drawing;
 using System.Windows.Forms;
@@ -57,13 +55,31 @@ namespace GraphicsEditor
         }
         public Settings Settings = new Settings();
 
-        //Вернуть выделенный объект, если он есть
-        public IDrawable GetHighlightObject()
+        //Добавить объекты в хранилище
+        public void AddObjects(List<IDrawable> addList)
         {
-            if (_highlightDrafts.Count == 1)
-                return _highlightDrafts.Last();
-            else
-                return null;
+            foreach(IDrawable item in addList)
+            {
+                _draftList.Add(item);
+                _highlightDrafts.Add(item);
+                ReDrawCache();
+            }
+        }
+
+        //Удалить выделенные объеты из хранилища
+        public void RemoveHighlightObjects()
+        {
+            foreach (IDrawable item in _highlightDrafts)
+            {
+                _draftList.Remove(item);
+            }
+            _highlightDrafts.Clear();
+        }
+
+        //Вернуть выделенныt объекты
+        public List<IDrawable> GetHighlightObject()
+        {
+                return _highlightDrafts;
         }
        
         //Выделить объекты в ласо

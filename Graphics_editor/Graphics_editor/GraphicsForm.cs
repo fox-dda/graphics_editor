@@ -13,6 +13,7 @@ namespace GraphicsEditor
 
         private Presenter _GPresenter = new Presenter();
         private Graphics _painter;
+        private DrawClipboard _buffer = new DrawClipboard();
 
         public MainForm()
         {
@@ -175,30 +176,33 @@ namespace GraphicsEditor
         }
 
         private void RefreshSelectPanel()
-        {
-            var hightlightObject = _GPresenter.GetHighlightObject();
-            if (hightlightObject != null)
+        {   
+            var hightlightObjects = _GPresenter.GetHighlightObject();
+            if (hightlightObjects != null)
+                return;
+            if(hightlightObjects.Count == 1)
             {
                 //editGroupBox.Enabled = true;
-                var typeStr = hightlightObject.GetType().ToString().Split('.');
+                var typeStr = hightlightObjects.GetType().ToString().Split('.');
+                var item = hightlightObjects[0];
                 typeLabel.Text = typeStr[typeStr.Length - 1];
-                sPTextBox.Text = hightlightObject.StartPoint.X.ToString() + "; " + hightlightObject.StartPoint.Y.ToString();
-                ePEextBox.Text = hightlightObject.EndPoint.X.ToString() + "; " + hightlightObject.EndPoint.Y.ToString();
-                selectedWidthNnumericUpDown.Value = (int)hightlightObject.Pen.Width;
+                sPTextBox.Text = item.StartPoint.X.ToString() + "; " + item.StartPoint.Y.ToString();
+                ePEextBox.Text = item.EndPoint.X.ToString() + "; " + item.EndPoint.Y.ToString();
+                selectedWidthNnumericUpDown.Value = (int)item.Pen.Width;
 
                 try//при не инициализованном дашпаттерне любое обращение к нему вызовет екзепшен "Недотаточно памяти"
                 {
-                    if (hightlightObject.Pen.DashPattern.Length > 0)
-                        selectedStrokeNumericUpDown.Value = (int)hightlightObject.Pen.DashPattern[0];
+                    if (item.Pen.DashPattern.Length > 0)
+                        selectedStrokeNumericUpDown.Value = (int)item.Pen.DashPattern[0];
                 }
                 catch
                 {
                     selectedStrokeNumericUpDown.Value = 0;
                 }
 
-                selectedColorPanel.BackColor = hightlightObject.Pen.Color;
-                if (hightlightObject is IBrushable)
-                    selectedBrushPanel.BackColor = (hightlightObject as IBrushable).BrushColor;
+                selectedColorPanel.BackColor = item.Pen.Color;
+                if (hightlightObjects is IBrushable)
+                    selectedBrushPanel.BackColor = (hightlightObjects as IBrushable).BrushColor;
                 else
                     selectedBrushPanel.BackColor = Color.White;
             }
@@ -217,6 +221,31 @@ namespace GraphicsEditor
         private void RefreshView()
         {
             RefreshSelectPanel();
+            mainPictureBox.Invalidate();
+        }
+
+        private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (Char)3)//c
+            {
+                _buffer.Clipboard.Clear();
+                _buffer.Clipboard.AddRange(_GPresenter.GetHighlightObject()); 
+            }
+            else if (e.KeyChar == (Char)22)//v
+            {
+                _GPresenter.AddObjects(_buffer.Clipboard);
+            }
+            else if (e.KeyChar == (Char)4)//d
+            {;
+                _GPresenter.RemoveHighlightObjects();
+            }
+            else if (e.KeyChar == (Char)24)//x
+            {
+                _buffer.Clipboard.Clear();
+                _buffer.Clipboard.AddRange(_GPresenter.GetHighlightObject());
+                _GPresenter.RemoveHighlightObjects();
+            }
+            _GPresenter.ReDrawCache();
             mainPictureBox.Invalidate();
         }
     }
