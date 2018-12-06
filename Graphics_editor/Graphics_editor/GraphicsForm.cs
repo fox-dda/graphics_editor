@@ -34,22 +34,20 @@ namespace GraphicsEditor
 
         private void mainPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-
             _GPresenter.Process(e, MouseAction.down);
-            RefreshView();
+            mainPictureBox.Invalidate();
         }
 
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             _GPresenter.Process(e, MouseAction.move);
-            RefreshView();
+            mainPictureBox.Invalidate();
         }
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             _GPresenter.Process(e, MouseAction.up);
             RefreshView();
-
         }
 
         private void lineButton_Click(object sender, EventArgs e)
@@ -178,19 +176,22 @@ namespace GraphicsEditor
         private void RefreshSelectPanel()
         {   
             var hightlightObjects = _GPresenter.GetHighlightObject();
-            if (hightlightObjects != null)
+            if (hightlightObjects == null)
                 return;
             if(hightlightObjects.Count == 1)
             {
-                //editGroupBox.Enabled = true;
-                var typeStr = hightlightObjects.GetType().ToString().Split('.');
                 var item = hightlightObjects[0];
+                var typeStr = item.GetType().ToString().Split('.');
+                
                 typeLabel.Text = typeStr[typeStr.Length - 1];
-                sPTextBox.Text = item.StartPoint.X.ToString() + "; " + item.StartPoint.Y.ToString();
-                ePEextBox.Text = item.EndPoint.X.ToString() + "; " + item.EndPoint.Y.ToString();
+                selectObjectSPXMaskedTextBox.Text = item.StartPoint.X.ToString(); 
+                selectObjectSPYMaskedTextBox.Text = item.StartPoint.Y.ToString();
+                selectObjectEPXMaskedTextBox.Text = item.EndPoint.X.ToString();
+                selectObjectEPYMaskedTextBox.Text = item.EndPoint.Y.ToString();
                 selectedWidthNnumericUpDown.Value = (int)item.Pen.Width;
 
-                try//при не инициализованном дашпаттерне любое обращение к нему вызовет екзепшен "Недотаточно памяти"
+                //при не инициализованном дашпаттерне любое обращение к нему вызовет екзепшен "Недотаточно памяти"
+                try
                 {
                     if (item.Pen.DashPattern.Length > 0)
                         selectedStrokeNumericUpDown.Value = (int)item.Pen.DashPattern[0];
@@ -209,8 +210,10 @@ namespace GraphicsEditor
             else
             {
                 typeLabel.Text = "";
-                sPTextBox.Text = "";
-                ePEextBox.Text = "";
+                selectObjectSPXMaskedTextBox.Text = "";
+                selectObjectSPYMaskedTextBox.Text = "";
+                selectObjectEPXMaskedTextBox.Text = "";
+                selectObjectEPYMaskedTextBox.Text = "";
                 selectedWidthNnumericUpDown.Value = 1;
                 selectedStrokeNumericUpDown.Value = 0;
                 selectedColorPanel.BackColor = Color.White;

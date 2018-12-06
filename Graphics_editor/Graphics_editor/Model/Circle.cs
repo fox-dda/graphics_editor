@@ -18,35 +18,33 @@ namespace GraphicsEditor.Model
             //сверху вниз слево направа
             if ((StartPoint.Y < EndPoint.Y) && (StartPoint.X < EndPoint.X))
             {
-                if (_brush != null)
-                    g.FillEllipse(_brush, StartPoint.X, StartPoint.Y, size, size);
-                g.DrawEllipse(Pen, StartPoint.X, StartPoint.Y, size, size);
+            
             }
             //сверху вниз справа налево
             else if ((StartPoint.Y < EndPoint.Y) && (StartPoint.X > EndPoint.X))
             {
-                if (_brush != null)
-                    g.FillEllipse(_brush, EndPoint.X, StartPoint.Y, size, size);
-                g.DrawEllipse(Pen, EndPoint.X, StartPoint.Y, size, size);
+                StartPoint = new Point(StartPoint.X - size, StartPoint.Y);
             }
             //cнизу вверх слево на права
             else if ((StartPoint.Y > EndPoint.Y) && (StartPoint.X < EndPoint.X))
             {
-                if (_brush != null)
-                    g.FillEllipse(_brush, StartPoint.X, EndPoint.Y, size, size);
-                g.DrawEllipse(Pen, StartPoint.X, EndPoint.Y, size, size);
+                StartPoint = new Point(StartPoint.X, StartPoint.Y - size);
             }
 
             //cнизу вверх справа налево
             else if ((StartPoint.Y > EndPoint.Y) && (StartPoint.X > EndPoint.X))
             {
-                if (_brush != null)
-                    g.FillEllipse(_brush, EndPoint.X, EndPoint.Y, size, size);
-                g.DrawEllipse(Pen, EndPoint.X, EndPoint.Y, size, size);
+                StartPoint = new Point(StartPoint.X - size, StartPoint.Y - size);
             }
             EndPoint = new Point(StartPoint.X + size, StartPoint.Y + size);
+            if (_brush != null)
+                g.FillEllipse(_brush, StartPoint.X, StartPoint.Y, size, size);
+            g.DrawEllipse(Pen, StartPoint.X, StartPoint.Y, size, size);
         }
 
-        public Circle(Point _startPoint, Point _endPoint, Pen _pen) : base(_startPoint, _endPoint, _pen) { }
+        public Circle(Point _startPoint, Point _endPoint, Pen _pen) : base(_startPoint, _endPoint, _pen)
+        {
+
+        }
     }
 }
