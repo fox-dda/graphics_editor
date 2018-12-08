@@ -72,6 +72,11 @@ namespace GraphicsEditor.Model
                 g.DrawRectangle(_pen, EndPoint.X, EndPoint.Y,
                     Math.Abs(EndPoint.X - StartPoint.X), Math.Abs(EndPoint.Y - StartPoint.Y));
             }
+
+            g.FillEllipse(new SolidBrush(Color.Blue), StartPoint.X, StartPoint.Y, 3, 3);
+            g.FillEllipse(new SolidBrush(Color.Blue), EndPoint.X, EndPoint.Y, 3, 3);
+            g.DrawRectangle(new Pen(Color.Red), StartPoint.X, StartPoint.Y, 4, 4);
+            g.DrawRectangle(new Pen(Color.Red), EndPoint.X, EndPoint.Y, 4, 4);
         }
     }
 }

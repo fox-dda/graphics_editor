@@ -11,19 +11,6 @@ namespace GraphicsEditor.Model
     {
         private Pen _pen;
         public List<Point> _dotList = new List<Point>();
-        private bool isHighlighting = false;
-
-        public bool IsHighlighting
-        {
-            get
-            {
-                return isHighlighting;
-            }
-            set
-            {
-                isHighlighting = value;
-            }
-        }
 
         public Point StartPoint
         {

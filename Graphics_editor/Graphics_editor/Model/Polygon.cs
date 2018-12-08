@@ -11,7 +11,6 @@ namespace GraphicsEditor.Model
     {
         private SolidBrush _brush;
         private Pen _pen;
-        private bool isHighlighting = false;
 
         public Color BrushColor
         {
@@ -25,17 +24,6 @@ namespace GraphicsEditor.Model
             }
         }
         public List<Point> _dotList = new List<Point>();        
-        public bool IsHighlighting
-        {
-            get
-            {
-                return isHighlighting;
-            }
-            set
-            {
-                isHighlighting = value;
-            }
-        }
         public Point StartPoint
         {
             get

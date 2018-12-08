@@ -13,19 +13,6 @@ namespace GraphicsEditor.Model
         private Point _endPoint;
         private Pen _pen;
         private SolidBrush _brush;
-        private bool isHighlighting = false;
-
-        public bool IsHighlighting
-        {
-            get
-            {
-                return isHighlighting;
-            }
-            set
-            {
-                isHighlighting = value;
-            }
-        }
 
         public Color BrushColor
         {

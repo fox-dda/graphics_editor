@@ -158,11 +158,6 @@ namespace GraphicsEditor
             mainPictureBox.Invalidate();
         }
 
-        private void lassoSelectionButton_Click(object sender, EventArgs e)
-        {
-            _GPresenter.Figure = Figure.select;
-        }
-
         private void polygonButton_Click(object sender, EventArgs e)
         {
             _GPresenter.Figure = Figure.polygon;
@@ -173,57 +168,12 @@ namespace GraphicsEditor
             _GPresenter.LeaveCanvas();
         }
 
-        private void RefreshSelectPanel()
-        {   
-            var hightlightObjects = _GPresenter.GetHighlightObject();
-            if (hightlightObjects == null)
-                return;
-            if(hightlightObjects.Count == 1)
-            {
-                var item = hightlightObjects[0];
-                var typeStr = item.GetType().ToString().Split('.');
-                
-                typeLabel.Text = typeStr[typeStr.Length - 1];
-                selectObjectSPXMaskedTextBox.Text = item.StartPoint.X.ToString(); 
-                selectObjectSPYMaskedTextBox.Text = item.StartPoint.Y.ToString();
-                selectObjectEPXMaskedTextBox.Text = item.EndPoint.X.ToString();
-                selectObjectEPYMaskedTextBox.Text = item.EndPoint.Y.ToString();
-                selectedWidthNnumericUpDown.Value = (int)item.Pen.Width;
-
-                //при не инициализованном дашпаттерне любое обращение к нему вызовет екзепшен "Недотаточно памяти"
-                try
-                {
-                    if (item.Pen.DashPattern.Length > 0)
-                        selectedStrokeNumericUpDown.Value = (int)item.Pen.DashPattern[0];
-                }
-                catch
-                {
-                    selectedStrokeNumericUpDown.Value = 0;
-                }
-
-                selectedColorPanel.BackColor = item.Pen.Color;
-                if (hightlightObjects is IBrushable)
-                    selectedBrushPanel.BackColor = (hightlightObjects as IBrushable).BrushColor;
-                else
-                    selectedBrushPanel.BackColor = Color.White;
-            }
-            else
-            {
-                typeLabel.Text = "";
-                selectObjectSPXMaskedTextBox.Text = "";
-                selectObjectSPYMaskedTextBox.Text = "";
-                selectObjectEPXMaskedTextBox.Text = "";
-                selectObjectEPYMaskedTextBox.Text = "";
-                selectedWidthNnumericUpDown.Value = 1;
-                selectedStrokeNumericUpDown.Value = 0;
-                selectedColorPanel.BackColor = Color.White;
-                selectedBrushPanel.BackColor = Color.White;
-            }
-        }
-
         private void RefreshView()
         {
-            RefreshSelectPanel();
+            if (_GPresenter.GetHighlightObjects().Count == 1)
+                selectionPanel.Draft = _GPresenter.GetHighlightObjects()[0];
+            else
+                selectionPanel.Draft = null;
             mainPictureBox.Invalidate();
         }
 
@@ -232,7 +182,7 @@ namespace GraphicsEditor
             if (e.KeyChar == (Char)3)//c
             {
                 _buffer.Clipboard.Clear();
-                _buffer.Clipboard.AddRange(_GPresenter.GetHighlightObject()); 
+                _buffer.Clipboard.AddRange(_GPresenter.GetHighlightObjects()); 
             }
             else if (e.KeyChar == (Char)22)//v
             {
@@ -245,11 +195,17 @@ namespace GraphicsEditor
             else if (e.KeyChar == (Char)24)//x
             {
                 _buffer.Clipboard.Clear();
-                _buffer.Clipboard.AddRange(_GPresenter.GetHighlightObject());
+                _buffer.Clipboard.AddRange(_GPresenter.GetHighlightObjects());
                 _GPresenter.RemoveHighlightObjects();
             }
             _GPresenter.ReDrawCache();
             mainPictureBox.Invalidate();
+        }
+
+        private void selectionEditButton_Click(object sender, EventArgs e)
+        {
+           // if(selectionPanel.Draft != null)
+           //     _GPresenter.EditHighlightObject(selectionPanel.Draft);
         }
     }
 }

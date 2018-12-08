@@ -28,7 +28,6 @@ namespace GraphicsEditor.Enums
         polyline,
         triangle,
         polygon,
-        select,
-        lasso
+        select
     }
 }

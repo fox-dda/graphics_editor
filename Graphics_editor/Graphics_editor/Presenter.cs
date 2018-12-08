@@ -21,10 +21,11 @@ namespace GraphicsEditor
                 return DraftFactory.DefineStrategy(Figure);               
             }
         }
-        private Figure _figure;
+        private Figure _figure = Figure.select;
         private Graphics _painter;
         private IDrawable _cacheDraft;
         private HighlightRect _cacheLasso;
+
         public Figure Figure
         {
             get
@@ -55,6 +56,15 @@ namespace GraphicsEditor
         }
         public Settings Settings = new Settings();
 
+        //Изменить выделенный объект
+        public void EditHighlightObject(IDrawable item)
+        {
+            _draftList.Remove(_highlightDrafts[0]);
+            _highlightDrafts[0] = item;
+            _draftList.Add(item);
+            RefreshCanvas();
+        }
+
         //Добавить объекты в хранилище
         public void AddObjects(List<IDrawable> addList)
         {
@@ -77,7 +87,7 @@ namespace GraphicsEditor
         }
 
         //Вернуть выделенныt объекты
-        public List<IDrawable> GetHighlightObject()
+        public List<IDrawable> GetHighlightObjects()
         {
                 return _highlightDrafts;
         }
@@ -215,6 +225,10 @@ namespace GraphicsEditor
                         {
                             _inPocessPoints.Add(e.Location);
                         }
+                        if (_drawingStrategy == Strategy.selection)
+                        {
+                            DotSelection(e.Location);
+                        }
                         break;
                     }
                 case MouseAction.move:
@@ -243,23 +257,34 @@ namespace GraphicsEditor
                         }
                         else if (_drawingStrategy == Strategy.selection)
                         {
-                            if (_cacheLasso != null)
-                            {
-                                HighlightingDraftInLasso(Selector.LassoSearch(_cacheLasso, _draftList));
-                                ReDrawCache();
-                            }
-                            var selectedDraft = Selector.PointSearch(e, _draftList);
-                            if (selectedDraft != null)
-                            {
-                                if (_highlightDrafts.Contains(selectedDraft))
-                                    _highlightDrafts.Remove(selectedDraft);
-                                else
-                                    _highlightDrafts.Add(selectedDraft);
-                            }
-                            _inPocessPoints.Clear();                      
+                            LassoSelection(e.Location);
                         }   
                         break;
                     }
+            }
+        }
+
+        //Логика захвата в ласо
+        private void LassoSelection(Point mousePoint)
+        {
+            if (_cacheLasso != null)
+            {
+                HighlightingDraftInLasso(Selector.LassoSearch(_cacheLasso, _draftList));
+                ReDrawCache();
+            }
+            _inPocessPoints.Clear();
+        }
+
+        //Логика точесного выделения
+        private void DotSelection(Point mousePoint)
+        {
+            var selectedDraft = Selector.PointSearch(mousePoint, _draftList);
+            if (selectedDraft != null)
+            {
+                if (_highlightDrafts.Contains(selectedDraft))
+                    _highlightDrafts.Remove(selectedDraft);
+                else
+                    _highlightDrafts.Add(selectedDraft);
             }
         }
 

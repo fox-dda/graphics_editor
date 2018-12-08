@@ -13,19 +13,6 @@ namespace GraphicsEditor.Model
         private Pen _pen;
         private Point _startPoint;
         private Point _endPoint;
-        private bool isHighlighting = false;
-
-        public bool IsHighlighting
-        {
-            get
-            {
-                return isHighlighting;
-            }
-            set
-            {
-                isHighlighting = value;
-            }
-        }
 
         public Point StartPoint
         {

@@ -23,7 +23,6 @@ namespace GraphicsEditor.Model
         private Point startPoint;
         private Point endPoint;
         private Pen pen;
-        private bool isHighlighting = false;
         protected  SolidBrush _brush;
 
         public Point StartPoint
@@ -59,18 +58,6 @@ namespace GraphicsEditor.Model
             set
             {
                 pen = value;
-            }
-        }
-
-        public bool IsHighlighting
-        {
-            get
-            {
-                return isHighlighting;
-            }
-            set
-            {
-                isHighlighting = value;
             }
         }
 

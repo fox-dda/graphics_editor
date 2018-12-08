@@ -64,5 +64,6 @@ namespace GraphicsEditor
             else
                 return Strategy.selection;
         }
+        
     }
 }
