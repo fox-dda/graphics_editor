@@ -12,13 +12,14 @@ namespace GraphicsEditor
     {
         private List<IDrawable> _draftList = new List<IDrawable>();
         private List<IDrawable> _highlightDrafts = new List<IDrawable>();
-        
+
+        private DotInDraft _dragDropDot;
         private List<Point> _inPocessPoints = new List<Point>();
         private Strategy _drawingStrategy
         {
             get
             {
-                return DraftFactory.DefineStrategy(Figure);               
+                return DraftFactory.DefineStrategy(Figure);
             }
         }
         private Figure _figure = Figure.select;
@@ -35,11 +36,12 @@ namespace GraphicsEditor
             set
             {
                 if (value != _figure)
-                {
-                    DisradHighlightingAll();
+                {                
                     _inPocessPoints.Clear();
                     _cacheDraft = null;
                 }
+                if(value != Figure.drag)
+                    DisradHighlightingAll();
                 _figure = value;
             }
         }
@@ -68,7 +70,7 @@ namespace GraphicsEditor
         //Добавить объекты в хранилище
         public void AddObjects(List<IDrawable> addList)
         {
-            foreach(IDrawable item in addList)
+            foreach (IDrawable item in addList)
             {
                 _draftList.Add(item);
                 _highlightDrafts.Add(item);
@@ -89,9 +91,9 @@ namespace GraphicsEditor
         //Вернуть выделенныt объекты
         public List<IDrawable> GetHighlightObjects()
         {
-                return _highlightDrafts;
+            return _highlightDrafts;
         }
-       
+
         //Выделить объекты в ласо
         private void HighlightingDraftInLasso(List<IDrawable> list)
         {
@@ -100,7 +102,7 @@ namespace GraphicsEditor
             foreach (IDrawable draft in list)
                 HighlightingDraft(draft);
         }
-       
+
         //Задать цвет канвы
         public void SetCanvasColor(Color color)
         {
@@ -112,7 +114,7 @@ namespace GraphicsEditor
         //Выделить фигуру
         private void HighlightingDraft(IDrawable draft)
         {
-            if(!(_highlightDrafts.Contains(draft)))
+            if (!(_highlightDrafts.Contains(draft)))
                 _highlightDrafts.Add(draft);
         }
 
@@ -136,7 +138,7 @@ namespace GraphicsEditor
             _cacheDraft = null;
             RefreshCanvas();
         }
-  
+
         //Обновить канву
         public void RefreshCanvas()
         {
@@ -151,11 +153,7 @@ namespace GraphicsEditor
             {
                 if (draft != null)
                 {
-                    var frame = new HighlightRect()
-                    {
-                        StartPoint = draft.StartPoint,
-                        EndPoint = draft.EndPoint
-                    };
+                    var frame = new HighlightRect(draft);
                     frame.AddFrame(_painter);
                 }
             }
@@ -164,13 +162,13 @@ namespace GraphicsEditor
         //Логика двуточечного рисования
         private void DoublePointDraw()
         {
-            if(_inPocessPoints.Count > 1)
+            if (_inPocessPoints.Count > 1)
             {
                 _draftList.Add(_cacheDraft);
                 _inPocessPoints.Clear();
                 _cacheDraft = null;
-                RefreshCanvas();      }
-            
+                RefreshCanvas(); }
+
         }
 
         //логика Мультиточечного рисования
@@ -193,10 +191,10 @@ namespace GraphicsEditor
             {
                 _draftList.Add(_cacheDraft);
             }
-            Console.WriteLine("Список изменен. Количество элементов в списке: " + _draftList.Count().ToString()); 
+            Console.WriteLine("Список изменен. Количество элементов в списке: " + _draftList.Count().ToString());
             _cacheDraft = null;
         }
-       
+
         //Добавить в список объектов на канве объект из кэша
         private void ToDraw()
         {
@@ -221,24 +219,38 @@ namespace GraphicsEditor
                         {
                             _inPocessPoints.Add(e.Location);
                         }
-                        if(_drawingStrategy == Strategy.selection)
+                        else if (_drawingStrategy == Strategy.selection)
                         {
                             _inPocessPoints.Add(e.Location);
-                        }
-                        if (_drawingStrategy == Strategy.selection)
-                        {
-                            DotSelection(e.Location);
+                            if (_highlightDrafts.Count > 0) //меняем стратегию если найдена опорная точка
+                            {
+                                var obj = Selector.SearchReferenceDot(e.Location, _highlightDrafts);
+                                if (obj.Draft != null)
+                                {
+                                    Figure = Figure.drag;
+                                    _dragDropDot = obj;
+                                }
+                            }
+                            if (_drawingStrategy == Strategy.selection)
+                                DotSelection(e.Location);
                         }
                         break;
                     }
                 case MouseAction.move:
                     {
                         ReDrawCache();
-                        Console.WriteLine("Процессных точек = " + _inPocessPoints.Count.ToString());
-                        if (_inPocessPoints.Count > 0)
+
+                        if (_drawingStrategy == Strategy.dragAndDrop)
                         {
-                            Console.WriteLine("Процессных точек больше чем 0, вызывается динамическая отрисовка");
-                            DynamicDrawing(e.Location);
+                            DragAndDrop(e.Location);
+                            ReDrawCache();
+                        }
+                        else
+                        {
+                            if (_inPocessPoints.Count > 0)
+                            {
+                                DynamicDrawing(e.Location);
+                            }
                         }
                         break;
                     }
@@ -259,8 +271,51 @@ namespace GraphicsEditor
                         {
                             LassoSelection(e.Location);
                         }   
+                        else if(_drawingStrategy == Strategy.dragAndDrop)
+                        {
+                            Figure = Figure.select;
+                            _dragDropDot.Draft = null;
+                        }
                         break;
                     }
+            }
+        }
+
+        //
+        private void DragAndDrop(Point newPoint)
+        {
+            if(_dragDropDot.Draft != null)
+            {
+                var item = _dragDropDot.Draft;
+                var point = _dragDropDot.Point;
+                _draftList.Remove(item);
+                _highlightDrafts.Remove(item);
+                if(item is Polygon)
+                {
+                    if((item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] != newPoint)
+                        (item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] = newPoint;
+                }
+                else if (item is Polyline)
+                {
+                    if ((item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] != newPoint)
+                        (item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] = newPoint;
+                }
+                else
+                {
+                    if (item.StartPoint == point)
+                    {
+                        if (item.StartPoint != newPoint)
+                            item.StartPoint = newPoint;
+                    }
+                    else if (item.EndPoint == point)
+                    {
+                        if (item.EndPoint != newPoint)
+                            item.EndPoint = newPoint;
+                    }
+                }
+                _draftList.Add(item);
+                _highlightDrafts.Add(item);
+                _dragDropDot.Point = newPoint;
             }
         }
 

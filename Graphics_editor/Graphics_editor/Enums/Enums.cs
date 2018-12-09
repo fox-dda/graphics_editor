@@ -10,7 +10,8 @@ namespace GraphicsEditor.Enums
     {
         twoPoint,
         multipoint,
-        selection
+        selection,
+        dragAndDrop
     };
 
     enum MouseAction
@@ -28,6 +29,7 @@ namespace GraphicsEditor.Enums
         polyline,
         triangle,
         polygon,
-        select
+        select,     
+        drag
     }
 }

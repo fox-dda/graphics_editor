@@ -207,5 +207,10 @@ namespace GraphicsEditor
            // if(selectionPanel.Draft != null)
            //     _GPresenter.EditHighlightObject(selectionPanel.Draft);
         }
+
+        private void dragDropButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

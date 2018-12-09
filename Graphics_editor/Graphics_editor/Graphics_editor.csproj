@@ -73,6 +73,7 @@
       <DependentUpon>GraphicsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Circle.cs" />
+    <Compile Include="Model\DotInDraft.cs" />
     <Compile Include="Model\Ellipse.cs" />
     <Compile Include="Model\HighlightRect.cs" />
     <Compile Include="Model\IBrushable.cs" />

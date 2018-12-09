@@ -34,12 +34,22 @@ namespace GraphicsEditor
             switch (figure)
             {
                 case Figure.select:
-                    return new HighlightRect { StartPoint = startPoint, EndPoint = endPoint }; 
+                    return new HighlightRect(startPoint, endPoint); 
                 default:
                     return null;
             }
         }
 
+        public static HighlightRect CreateDraft(Figure figure, IDrawable frameItem)
+        {
+            switch (figure)
+            {
+                case Figure.select:
+                    return new HighlightRect(frameItem);
+                default:
+                    return null;
+            }
+        }
         //Перегрузка для создания объектов с количеством точек 2 и более
         public static IDrawable CreateDraft(Figure figure, List<Point> pointList, Pen gPen, Color brushColor)
         {
@@ -61,6 +71,8 @@ namespace GraphicsEditor
                 return Strategy.twoPoint;
             else if ((figure == Figure.polyline) || (figure == Figure.polygon))
                 return Strategy.multipoint;
+            else if (figure == Figure.drag)
+                return Strategy.dragAndDrop;
             else
                 return Strategy.selection;
         }

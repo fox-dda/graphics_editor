@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using GraphicsEditor.Model;
+using System.Windows.Forms;
 
 namespace GraphicsEditor
 {
@@ -47,6 +48,50 @@ namespace GraphicsEditor
                     findList.Add(draftList[i]);
             }
             return findList;
+        }
+
+        private static bool isInRect(Point desiredPoint, Point rectPoint)
+        {
+            if ((desiredPoint.X > rectPoint.X) && (desiredPoint.X < rectPoint.X + 6) && 
+                (desiredPoint.Y > rectPoint.Y) && (desiredPoint.Y < rectPoint.Y + 6))
+                return true;
+            else
+                return false;
+        }
+
+        public static DotInDraft SearchReferenceDot(Point mousePoint, List<IDrawable> highlighList)
+        {
+            DotInDraft dotInDraft = new DotInDraft();
+
+            foreach(IDrawable draft in highlighList)
+            {
+                if(draft is Polygon)
+                {
+                    foreach(Point point in (draft as Polygon).DotList)
+                        {
+                        if (isInRect(mousePoint, point))
+                            dotInDraft.Set(draft, point);
+                    }
+                }
+                else if(draft is Polyline)
+                {
+
+                    foreach (Point point in (draft as Polyline).DotList)
+                    {
+                        if (isInRect(mousePoint, point))
+                            dotInDraft.Set(draft, point);
+                    }
+                }
+                else
+                {
+                    if (isInRect(mousePoint, draft.StartPoint))
+                        dotInDraft.Set(draft, draft.StartPoint);
+                    if (isInRect(mousePoint, draft.EndPoint))
+                        dotInDraft.Set(draft, draft.EndPoint);
+                }
+            }
+
+        return dotInDraft;
         }
 
     }
