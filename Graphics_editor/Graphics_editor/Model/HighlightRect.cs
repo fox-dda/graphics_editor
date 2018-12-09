@@ -11,6 +11,7 @@ namespace GraphicsEditor.Model
         private Point _startPoint;
         private Point _endPoint;
         private List<Point> _dotList = null;
+        private bool isObject = false;
 
         public Point StartPoint
         {
@@ -48,8 +49,10 @@ namespace GraphicsEditor.Model
 
         private void Draw(Graphics g, Color color)
         {
-            var _pen = new Pen(color, 1);
-            _pen.DashPattern = new float[] { 2, 2 };
+            var _pen = new Pen(color, 1)
+            {
+                DashPattern = new float[] { 2, 2 }
+            };
 
             //сверху вниз слево направа
             if ((StartPoint.Y < EndPoint.Y) && (StartPoint.X < EndPoint.X))
@@ -76,22 +79,50 @@ namespace GraphicsEditor.Model
                 g.DrawRectangle(_pen, EndPoint.X, EndPoint.Y,
                     Math.Abs(EndPoint.X - StartPoint.X), Math.Abs(EndPoint.Y - StartPoint.Y));
             }
-
-            if (_dotList != null)
+            if (isObject)
             {
-                foreach (Point dot in _dotList)
+                if (_dotList != null)
                 {
-                    g.DrawRectangle(new Pen(Color.Red), dot.X, dot.Y, 4, 4);
-                    g.FillEllipse(new SolidBrush(Color.Blue), dot.X, dot.Y, 3, 3);
+                    foreach (Point dot in _dotList)
+                    {
+                        g.DrawRectangle(new Pen(Color.Red), dot.X, dot.Y, 4, 4);
+                        g.FillEllipse(new SolidBrush(Color.Blue), dot.X, dot.Y, 3, 3);
+                    }
                 }
-            }
-            else
+                else
+                {
+                    g.FillEllipse(new SolidBrush(Color.Blue), StartPoint.X, StartPoint.Y, 3, 3);
+                    g.FillEllipse(new SolidBrush(Color.Blue), EndPoint.X, EndPoint.Y, 3, 3);
+                    g.DrawRectangle(new Pen(Color.Red), StartPoint.X, StartPoint.Y, 4, 4);
+                    g.DrawRectangle(new Pen(Color.Red), EndPoint.X, EndPoint.Y, 4, 4);
+                }
+
+                drawDragDropMarker(g);
+            }            
+        }
+
+        private void drawDragDropMarker(Graphics g)
+        {
+            Point dragDropMarker = new Point();
+            if ((StartPoint.X < EndPoint.X)&&(StartPoint.Y < EndPoint.Y))
             {
-                g.FillEllipse(new SolidBrush(Color.Blue), StartPoint.X, StartPoint.Y, 3, 3);
-                g.FillEllipse(new SolidBrush(Color.Blue), EndPoint.X, EndPoint.Y, 3, 3);
-                g.DrawRectangle(new Pen(Color.Red), StartPoint.X, StartPoint.Y, 4, 4);
-                g.DrawRectangle(new Pen(Color.Red), EndPoint.X, EndPoint.Y, 4, 4);
+                dragDropMarker = StartPoint;
             }
+            else if ((StartPoint.X > EndPoint.X) && (StartPoint.Y < EndPoint.Y))
+            {
+                dragDropMarker = new Point(EndPoint.X, StartPoint.Y);
+            }
+            else if ((StartPoint.X < EndPoint.X) && (StartPoint.Y > EndPoint.Y))
+            {
+                dragDropMarker = new Point(StartPoint.X, EndPoint.Y); ;
+            }
+            else if ((StartPoint.X > EndPoint.X) && (StartPoint.Y > EndPoint.Y))
+            {
+                dragDropMarker = EndPoint;
+            }
+            g.DrawRectangle(new Pen(Color.Red), dragDropMarker.X + 11, dragDropMarker.Y - 11, 10, 10);
+            g.DrawLine(new Pen(Color.Red), new Point(dragDropMarker.X + 11, dragDropMarker.Y - 6), new Point(dragDropMarker.X + 21, dragDropMarker.Y - 6));
+            g.DrawLine(new Pen(Color.Red), new Point(dragDropMarker.X + 16, dragDropMarker.Y - 11), new Point(dragDropMarker.X + 16, dragDropMarker.Y));
         }
 
         public HighlightRect(IDrawable frameItem)
@@ -102,6 +133,7 @@ namespace GraphicsEditor.Model
                 _dotList = (frameItem as Polygon).DotList;
             if (frameItem is Polyline)
                 _dotList = (frameItem as Polyline).DotList;
+            isObject = true;
         }
         public HighlightRect(Point startPoint, Point endPoint)
         {

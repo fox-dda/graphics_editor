@@ -224,11 +224,11 @@ namespace GraphicsEditor
                             _inPocessPoints.Add(e.Location);
                             if (_highlightDrafts.Count > 0) //меняем стратегию если найдена опорная точка
                             {
-                                var obj = Selector.SearchReferenceDot(e.Location, _highlightDrafts);
-                                if (obj.Draft != null)
+                                var refDot = Selector.SearchReferenceDot(e.Location, _highlightDrafts);
+                                if (refDot.Draft != null)
                                 {
                                     Figure = Figure.drag;
-                                    _dragDropDot = obj;
+                                    _dragDropDot = refDot;
                                 }
                             }
                             if (_drawingStrategy == Strategy.selection)
