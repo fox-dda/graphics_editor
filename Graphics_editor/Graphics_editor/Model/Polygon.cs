@@ -88,10 +88,11 @@ namespace GraphicsEditor.Model
             _dotList.Add(point);
         }
 
-        public Polygon(List<Point> dotlist, Pen pen)
+        public Polygon(List<Point> dotlist, Pen pen)//, Color brushColor)
         {
             Pen = pen;
             DotList = dotlist;
+           // BrushColor = brushColor;
         }
     }
 }

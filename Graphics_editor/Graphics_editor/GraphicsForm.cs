@@ -181,21 +181,19 @@ namespace GraphicsEditor
         {
             if (e.KeyChar == (Char)3)//c
             {
-                _buffer.Clipboard.Clear();
-                _buffer.Clipboard.AddRange(_GPresenter.GetHighlightObjects()); 
+                _buffer.SetRange(_GPresenter.GetHighlightObjects()); 
             }
             else if (e.KeyChar == (Char)22)//v
             {
-                _GPresenter.AddObjects(_buffer.Clipboard);
+                _GPresenter.AddObjects(_buffer.GetAll());
             }
             else if (e.KeyChar == (Char)4)//d
-            {;
+            {
                 _GPresenter.RemoveHighlightObjects();
             }
             else if (e.KeyChar == (Char)24)//x
             {
-                _buffer.Clipboard.Clear();
-                _buffer.Clipboard.AddRange(_GPresenter.GetHighlightObjects());
+                _buffer.SetRange(_GPresenter.GetHighlightObjects());
                 _GPresenter.RemoveHighlightObjects();
             }
             _GPresenter.ReDrawCache();
