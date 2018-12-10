@@ -50,10 +50,10 @@ namespace GraphicsEditor
             return findList;
         }
 
-        private static bool isInRect(Point desiredPoint, Point rectPoint)
+        private static bool IsInRect(Point desiredPoint, Point rectPoint, int regionSize)
         {
-            if ((desiredPoint.X > rectPoint.X) && (desiredPoint.X < rectPoint.X + 6) && 
-                (desiredPoint.Y > rectPoint.Y) && (desiredPoint.Y < rectPoint.Y + 6))
+            if ((desiredPoint.X > rectPoint.X) && (desiredPoint.X < rectPoint.X + regionSize) && 
+                (desiredPoint.Y > rectPoint.Y) && (desiredPoint.Y < rectPoint.Y + regionSize))
                 return true;
             else
                 return false;
@@ -69,7 +69,7 @@ namespace GraphicsEditor
                 {
                     foreach(Point point in (draft as Polygon).DotList)
                         {
-                        if (isInRect(mousePoint, point))
+                        if (IsInRect(mousePoint, point, 6))
                             dotInDraft.Set(draft, point);
                     }
                 }
@@ -78,15 +78,15 @@ namespace GraphicsEditor
 
                     foreach (Point point in (draft as Polyline).DotList)
                     {
-                        if (isInRect(mousePoint, point))
+                        if (IsInRect(mousePoint, point, 6))
                             dotInDraft.Set(draft, point);
                     }
                 }
                 else
                 {
-                    if (isInRect(mousePoint, draft.StartPoint))
+                    if (IsInRect(mousePoint, draft.StartPoint, 6))
                         dotInDraft.Set(draft, draft.StartPoint);
-                    if (isInRect(mousePoint, draft.EndPoint))
+                    if (IsInRect(mousePoint, draft.EndPoint, 6))
                         dotInDraft.Set(draft, draft.EndPoint);
                 }
             }
@@ -94,5 +94,16 @@ namespace GraphicsEditor
         return dotInDraft;
         }
 
+        public static IDrawable SearchGravityCentre(Point mousePoint, List<IDrawable> highlighList)
+        {
+            IDrawable gravityInDraft = null;
+            foreach (IDrawable draft in highlighList)
+            {
+                HighlightRect rect = new HighlightRect(draft);
+                if (IsInRect(mousePoint, new Point(rect.DragDropMarkerPoint.X +10, rect.DragDropMarkerPoint.Y - 10), 10))
+                    gravityInDraft = draft;
+            }
+            return gravityInDraft;
+        }
     }
 }

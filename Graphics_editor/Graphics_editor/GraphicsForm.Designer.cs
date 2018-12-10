@@ -57,7 +57,6 @@
             this.leftGroupBox = new System.Windows.Forms.GroupBox();
             this.rightGroupBox = new System.Windows.Forms.GroupBox();
             this.selectionPanel = new GraphicsEditor.SelectionPanel();
-            this.dragDropButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
@@ -319,12 +318,11 @@
             // 
             // SelectionGroupBox
             // 
-            this.SelectionGroupBox.Controls.Add(this.dragDropButton);
             this.SelectionGroupBox.Controls.Add(this.discardButton);
             this.SelectionGroupBox.Controls.Add(this.selectMouseButton);
             this.SelectionGroupBox.Location = new System.Drawing.Point(6, 307);
             this.SelectionGroupBox.Name = "SelectionGroupBox";
-            this.SelectionGroupBox.Size = new System.Drawing.Size(167, 113);
+            this.SelectionGroupBox.Size = new System.Drawing.Size(167, 79);
             this.SelectionGroupBox.TabIndex = 6;
             this.SelectionGroupBox.TabStop = false;
             this.SelectionGroupBox.Text = "Selection";
@@ -380,16 +378,6 @@
             this.selectionPanel.Name = "selectionPanel";
             this.selectionPanel.Size = new System.Drawing.Size(179, 289);
             this.selectionPanel.TabIndex = 7;
-            // 
-            // dragDropButton
-            // 
-            this.dragDropButton.Location = new System.Drawing.Point(13, 76);
-            this.dragDropButton.Name = "dragDropButton";
-            this.dragDropButton.Size = new System.Drawing.Size(75, 23);
-            this.dragDropButton.TabIndex = 8;
-            this.dragDropButton.Text = "Drag and Drop";
-            this.dragDropButton.UseVisualStyleBackColor = true;
-            this.dragDropButton.Click += new System.EventHandler(this.dragDropButton_Click);
             // 
             // MainForm
             // 
@@ -452,7 +440,6 @@
         private System.Windows.Forms.GroupBox leftGroupBox;
         private System.Windows.Forms.GroupBox rightGroupBox;
         private SelectionPanel selectionPanel;
-        private System.Windows.Forms.Button dragDropButton;
     }
 }
 

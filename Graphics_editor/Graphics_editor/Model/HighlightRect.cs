@@ -101,25 +101,37 @@ namespace GraphicsEditor.Model
             }            
         }
 
+
+        public Point DragDropMarkerPoint
+        {
+            get
+            {
+                Point dragDropMarker = new Point();
+
+                if ((StartPoint.X < EndPoint.X) && (StartPoint.Y < EndPoint.Y))
+                {
+                    dragDropMarker = StartPoint;
+                }
+                else if ((StartPoint.X > EndPoint.X) && (StartPoint.Y < EndPoint.Y))
+                {
+                    dragDropMarker = new Point(EndPoint.X, StartPoint.Y);
+                }
+                else if ((StartPoint.X < EndPoint.X) && (StartPoint.Y > EndPoint.Y))
+                {
+                    dragDropMarker = new Point(StartPoint.X, EndPoint.Y); ;
+                }
+                else if ((StartPoint.X > EndPoint.X) && (StartPoint.Y > EndPoint.Y))
+                {
+                    dragDropMarker = EndPoint;
+                }
+
+                return dragDropMarker;
+            }
+        }
+
         private void drawDragDropMarker(Graphics g)
         {
-            Point dragDropMarker = new Point();
-            if ((StartPoint.X < EndPoint.X)&&(StartPoint.Y < EndPoint.Y))
-            {
-                dragDropMarker = StartPoint;
-            }
-            else if ((StartPoint.X > EndPoint.X) && (StartPoint.Y < EndPoint.Y))
-            {
-                dragDropMarker = new Point(EndPoint.X, StartPoint.Y);
-            }
-            else if ((StartPoint.X < EndPoint.X) && (StartPoint.Y > EndPoint.Y))
-            {
-                dragDropMarker = new Point(StartPoint.X, EndPoint.Y); ;
-            }
-            else if ((StartPoint.X > EndPoint.X) && (StartPoint.Y > EndPoint.Y))
-            {
-                dragDropMarker = EndPoint;
-            }
+            var dragDropMarker = DragDropMarkerPoint;
             g.DrawRectangle(new Pen(Color.Red), dragDropMarker.X + 11, dragDropMarker.Y - 11, 10, 10);
             g.DrawLine(new Pen(Color.Red), new Point(dragDropMarker.X + 11, dragDropMarker.Y - 6), new Point(dragDropMarker.X + 21, dragDropMarker.Y - 6));
             g.DrawLine(new Pen(Color.Red), new Point(dragDropMarker.X + 16, dragDropMarker.Y - 11), new Point(dragDropMarker.X + 16, dragDropMarker.Y));

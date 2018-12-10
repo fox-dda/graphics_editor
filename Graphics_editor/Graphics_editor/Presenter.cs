@@ -13,6 +13,7 @@ namespace GraphicsEditor
         private List<IDrawable> _draftList = new List<IDrawable>();
         private List<IDrawable> _highlightDrafts = new List<IDrawable>();
 
+        private IDrawable _dragDropDraft;
         private DotInDraft _dragDropDot;
         private List<Point> _inPocessPoints = new List<Point>();
         private Strategy _drawingStrategy
@@ -40,7 +41,7 @@ namespace GraphicsEditor
                     _inPocessPoints.Clear();
                     _cacheDraft = null;
                 }
-                if(value != Figure.drag)
+                if(value != Figure.dragPoint)
                     DisradHighlightingAll();
                 _figure = value;
             }
@@ -222,13 +223,23 @@ namespace GraphicsEditor
                         else if (_drawingStrategy == Strategy.selection)
                         {
                             _inPocessPoints.Add(e.Location);
-                            if (_highlightDrafts.Count > 0) //меняем стратегию если найдена опорная точка
-                            {
-                                var refDot = Selector.SearchReferenceDot(e.Location, _highlightDrafts);
+                            if (_highlightDrafts.Count > 0) 
+                            {// меняем стратегию если найдена опорная точка
+                                 var refDot = Selector.SearchReferenceDot(e.Location, _highlightDrafts);
                                 if (refDot.Draft != null)
                                 {
-                                    Figure = Figure.drag;
+                                    Figure = Figure.dragPoint;
                                     _dragDropDot = refDot;
+                                }
+                                else
+                                {
+                                    var gravitySector = Selector.SearchGravityCentre(e.Location, _highlightDrafts);
+                                    if (gravitySector != null)
+                                    {
+                                        Figure = Figure.dragDraft;
+                                        _dragDropDraft = gravitySector;
+                                        _inPocessPoints.Add(e.Location);
+                                    }
                                 }
                             }
                             if (_drawingStrategy == Strategy.selection)
@@ -243,7 +254,7 @@ namespace GraphicsEditor
                         if (_drawingStrategy == Strategy.dragAndDrop)
                         {
                             DragAndDrop(e.Location);
-                            ReDrawCache();
+                           // MessageBox.Show("DragAdnDrop");
                         }
                         else
                         {
@@ -273,50 +284,101 @@ namespace GraphicsEditor
                         }   
                         else if(_drawingStrategy == Strategy.dragAndDrop)
                         {
+                            if(_dragDropDraft != null)
+                            {
+                                _draftList.Add(_dragDropDraft);
+                                _highlightDrafts.Add(_dragDropDraft);
+                            }
                             Figure = Figure.select;
                             _dragDropDot.Draft = null;
+                            _dragDropDraft = null;
                         }
                         break;
                     }
             }
         }
 
-        //
+        //Логика распределеня ответственности перетаскивания
         private void DragAndDrop(Point newPoint)
         {
             if(_dragDropDot.Draft != null)
             {
-                var item = _dragDropDot.Draft;
-                var point = _dragDropDot.Point;
-                _draftList.Remove(item);
-                _highlightDrafts.Remove(item);
-                if(item is Polygon)
-                {
-                    if((item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] != newPoint)
-                        (item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] = newPoint;
-                }
-                else if (item is Polyline)
-                {
-                    if ((item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] != newPoint)
-                        (item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] = newPoint;
-                }
-                else
-                {
-                    if (item.StartPoint == point)
-                    {
-                        if (item.StartPoint != newPoint)
-                            item.StartPoint = newPoint;
-                    }
-                    else if (item.EndPoint == point)
-                    {
-                        if (item.EndPoint != newPoint)
-                            item.EndPoint = newPoint;
-                    }
-                }
-                _draftList.Add(item);
-                _highlightDrafts.Add(item);
-                _dragDropDot.Point = newPoint;
+                DragDot(newPoint);
             }
+
+            if (_dragDropDraft != null)
+            {
+                DragDraft(newPoint);
+            }
+        }
+
+        //Логика перетаскивания всего объекта целиком
+        private void DragDraft(Point newPoint)
+        {
+            var bais = new Point(newPoint.X - _inPocessPoints.Last().X, newPoint.Y - _inPocessPoints.Last().Y);
+            _draftList.Remove(_dragDropDraft);
+            _highlightDrafts.Remove(_dragDropDraft);
+            if (_dragDropDraft is Polygon)
+            {
+                for (int i = 0; i < (_dragDropDraft as Polygon).DotList.Count; i++)
+                {
+                    (_dragDropDraft as Polygon).DotList[i] = new Point((_dragDropDraft as Polygon).DotList[i].X + bais.X,
+                        (_dragDropDraft as Polygon).DotList[i].Y + +bais.Y);
+                }
+            }
+            else if (_dragDropDraft is Polyline)
+            {
+                for (int i = 0; i < (_dragDropDraft as Polyline).DotList.Count; i++)
+                {
+                    (_dragDropDraft as Polyline).DotList[i] = new Point((_dragDropDraft as Polyline).DotList[i].X + bais.X,
+                        (_dragDropDraft as Polyline).DotList[i].Y + +bais.Y);
+                }
+            }
+            else
+            {
+
+                _dragDropDraft.StartPoint = new Point(_dragDropDraft.StartPoint.X + bais.X,
+                        _dragDropDraft.StartPoint.Y + bais.Y);
+                _dragDropDraft.EndPoint = new Point(_dragDropDraft.EndPoint.X + bais.X,
+                        _dragDropDraft.EndPoint.Y + bais.Y);
+            }
+            _inPocessPoints.Add(newPoint);
+            _dragDropDraft.Draw(_painter);
+        }
+
+        //Логика перетаскивания точки объекта
+        private void DragDot(Point newPoint)
+        {
+            var item = _dragDropDot.Draft;
+            var point = _dragDropDot.Point;
+            _draftList.Remove(item);
+            _highlightDrafts.Remove(item);
+            if (item is Polygon)
+            {
+                if ((item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] != newPoint)
+                    (item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] = newPoint;
+            }
+            else if (item is Polyline)
+            {
+                if ((item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] != newPoint)
+                    (item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] = newPoint;
+            }
+            else
+            {
+                if (item.StartPoint == point)
+                {
+                    if (item.StartPoint != newPoint)
+                        item.StartPoint = newPoint;
+                }
+                else if (item.EndPoint == point)
+                {
+                    if (item.EndPoint != newPoint)
+                        item.EndPoint = newPoint;
+                }
+            }
+            _draftList.Add(item);
+            _highlightDrafts.Add(item);
+            _dragDropDot.Point = newPoint;
         }
 
         //Логика захвата в ласо

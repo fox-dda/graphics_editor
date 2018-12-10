@@ -239,7 +239,7 @@
             // 
             // selectObjectEPYMaskedTextBox
             // 
-            this.selectObjectEPYMaskedTextBox.Location = new System.Drawing.Point(76, 44);
+            this.selectObjectEPYMaskedTextBox.Location = new System.Drawing.Point(126, 44);
             this.selectObjectEPYMaskedTextBox.Mask = "00000";
             this.selectObjectEPYMaskedTextBox.Name = "selectObjectEPYMaskedTextBox";
             this.selectObjectEPYMaskedTextBox.PromptChar = ' ';
@@ -261,7 +261,7 @@
             // 
             // selectObjectEPXMaskedTextBox
             // 
-            this.selectObjectEPXMaskedTextBox.Location = new System.Drawing.Point(126, 44);
+            this.selectObjectEPXMaskedTextBox.Location = new System.Drawing.Point(76, 44);
             this.selectObjectEPXMaskedTextBox.Mask = "00000";
             this.selectObjectEPXMaskedTextBox.Name = "selectObjectEPXMaskedTextBox";
             this.selectObjectEPXMaskedTextBox.PromptChar = ' ';

@@ -201,16 +201,5 @@ namespace GraphicsEditor
             _GPresenter.ReDrawCache();
             mainPictureBox.Invalidate();
         }
-
-        private void selectionEditButton_Click(object sender, EventArgs e)
-        {
-           // if(selectionPanel.Draft != null)
-           //     _GPresenter.EditHighlightObject(selectionPanel.Draft);
-        }
-
-        private void dragDropButton_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

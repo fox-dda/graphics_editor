@@ -30,6 +30,7 @@ namespace GraphicsEditor.Enums
         triangle,
         polygon,
         select,     
-        drag
+        dragPoint,
+        dragDraft
     }
 }

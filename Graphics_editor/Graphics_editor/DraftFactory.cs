@@ -71,7 +71,7 @@ namespace GraphicsEditor
                 return Strategy.twoPoint;
             else if ((figure == Figure.polyline) || (figure == Figure.polygon))
                 return Strategy.multipoint;
-            else if (figure == Figure.drag)
+            else if ((figure == Figure.dragPoint) || (figure == Figure.dragDraft))
                 return Strategy.dragAndDrop;
             else
                 return Strategy.selection;
