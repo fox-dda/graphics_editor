@@ -199,5 +199,15 @@ namespace GraphicsEditor
             _GPresenter.ReDrawCache();
             mainPictureBox.Invalidate();
         }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DraftSerealizer.Serialize(_GPresenter.GetListForSave());
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _GPresenter.SetList(DraftSerealizer.DeSerialize());
+        }
     }
 }

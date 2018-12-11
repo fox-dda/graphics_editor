@@ -50,6 +50,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -64,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DraftFactory.cs" />
+    <Compile Include="DraftSerealizer.cs" />
     <Compile Include="DrawingBank.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="GraphicsForm.cs">
@@ -95,6 +99,8 @@
     <Compile Include="Selector.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="DrawClipboard.cs" />
+    <Compile Include="UndoRedo\ICommand.cs" />
+    <Compile Include="UndoRedo\UndoRedoStack.cs" />
     <EmbeddedResource Include="GraphicsForm.resx">
       <DependentUpon>GraphicsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -110,6 +116,7 @@
     <EmbeddedResource Include="SelectionPanel.resx">
       <DependentUpon>SelectionPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

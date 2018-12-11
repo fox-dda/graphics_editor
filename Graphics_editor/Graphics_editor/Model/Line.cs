@@ -8,6 +8,8 @@ using System.Windows.Forms;
 
 namespace GraphicsEditor.Model
 {
+
+    [Serializable]
     class Line : IDrawable
     {
         private Pen _pen;

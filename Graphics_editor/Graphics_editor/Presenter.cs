@@ -41,7 +41,7 @@ namespace GraphicsEditor
                     _inPocessPoints.Clear();
                     _cacheDraft = null;
                 }
-                if(value != Figure.dragPoint)
+                if((value != Figure.dragPoint) ||(value != Figure.dragDraft) || (value != Figure.select))
                     DisradHighlightingAll();
                 _figure = value;
             }
@@ -58,6 +58,21 @@ namespace GraphicsEditor
             }
         }
         public Settings Settings = new Settings();
+
+        //Передать список для сохранения
+        public List<IDrawable> GetListForSave()
+        {
+            return _draftList;
+        }
+
+        //Принять список для открытия
+        public void SetList(List<IDrawable> list)
+        {
+            _draftList.Clear();
+            _highlightDrafts.Clear();
+            _draftList = list;
+        }
+
 
         //Изменить выделенный объект
         public void EditHighlightObject(IDrawable item)
@@ -254,7 +269,6 @@ namespace GraphicsEditor
                         if (_drawingStrategy == Strategy.dragAndDrop)
                         {
                             DragAndDrop(e.Location);
-                           // MessageBox.Show("DragAdnDrop");
                         }
                         else
                         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Drawing;
 using GraphicsEditor.Model;
 
 namespace GraphicsEditor
@@ -18,11 +18,21 @@ namespace GraphicsEditor
             {
                 if(item is Polygon)
                 {
-                    _clipboard.Add(new Polygon((item as Polygon).DotList, item.Pen) { BrushColor = (item as Polygon).BrushColor});
+                    var dotList = new List<Point>();
+                    foreach(Point point in (item as Polygon).DotList)
+                    {
+                        dotList.Add(new Point(point.X, point.Y));
+                    }
+                    _clipboard.Add(new Polygon(dotList, item.Pen) { BrushColor = (item as Polygon).BrushColor });
                 }
                 else if(item is Polyline)
                 {
-                    _clipboard.Add(new Polyline((item as Polyline).DotList, item.Pen));
+                    var dotList = new List<Point>();
+                    foreach (Point point in (item as Polyline).DotList)
+                    {
+                        dotList.Add(new Point(point.X, point.Y));
+                    }
+                    _clipboard.Add(new Polyline(dotList, item.Pen));
                 }
                 else if (item is Circle)
                 {

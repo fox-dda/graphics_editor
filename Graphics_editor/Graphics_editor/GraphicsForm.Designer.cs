@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.drawGroupBox = new System.Windows.Forms.GroupBox();
@@ -57,6 +58,12 @@
             this.leftGroupBox = new System.Windows.Forms.GroupBox();
             this.rightGroupBox = new System.Windows.Forms.GroupBox();
             this.selectionPanel = new GraphicsEditor.SelectionPanel();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
@@ -67,6 +74,7 @@
             this.canvasGroupBox.SuspendLayout();
             this.leftGroupBox.SuspendLayout();
             this.rightGroupBox.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainPictureBox
@@ -354,9 +362,9 @@
             this.leftGroupBox.Controls.Add(this.penStyleGroupBox);
             this.leftGroupBox.Controls.Add(this.colorGroupBox);
             this.leftGroupBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.leftGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.leftGroupBox.Location = new System.Drawing.Point(0, 24);
             this.leftGroupBox.Name = "leftGroupBox";
-            this.leftGroupBox.Size = new System.Drawing.Size(145, 561);
+            this.leftGroupBox.Size = new System.Drawing.Size(145, 537);
             this.leftGroupBox.TabIndex = 9;
             this.leftGroupBox.TabStop = false;
             // 
@@ -365,9 +373,9 @@
             this.rightGroupBox.Controls.Add(this.selectionPanel);
             this.rightGroupBox.Controls.Add(this.SelectionGroupBox);
             this.rightGroupBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.rightGroupBox.Location = new System.Drawing.Point(861, 0);
+            this.rightGroupBox.Location = new System.Drawing.Point(861, 24);
             this.rightGroupBox.Name = "rightGroupBox";
-            this.rightGroupBox.Size = new System.Drawing.Size(191, 561);
+            this.rightGroupBox.Size = new System.Drawing.Size(191, 537);
             this.rightGroupBox.TabIndex = 10;
             this.rightGroupBox.TabStop = false;
             // 
@@ -379,6 +387,51 @@
             this.selectionPanel.Size = new System.Drawing.Size(179, 289);
             this.selectionPanel.TabIndex = 7;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.projectToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1052, 24);
+            this.menuStrip1.TabIndex = 11;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // projectToolStripMenuItem
+            // 
+            this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.saveAsToolStripMenuItem});
+            this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
+            this.projectToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.projectToolStripMenuItem.Text = "Project";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Text = "New...";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Text = "Open";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Text = "Save as...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -387,12 +440,14 @@
             this.Controls.Add(this.rightGroupBox);
             this.Controls.Add(this.leftGroupBox);
             this.Controls.Add(this.mainPictureBox);
+            this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(700, 400);
             this.Name = "MainForm";
-            this.Text = "Graphics editor [v0.2]";
+            this.Text = "Graphics editor [v0.3]";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
@@ -406,7 +461,10 @@
             this.canvasGroupBox.ResumeLayout(false);
             this.leftGroupBox.ResumeLayout(false);
             this.rightGroupBox.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -440,6 +498,12 @@
         private System.Windows.Forms.GroupBox leftGroupBox;
         private System.Windows.Forms.GroupBox rightGroupBox;
         private SelectionPanel selectionPanel;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }
 
