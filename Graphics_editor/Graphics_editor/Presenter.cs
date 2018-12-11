@@ -73,7 +73,6 @@ namespace GraphicsEditor
             _draftList = list;
         }
 
-
         //Изменить выделенный объект
         public void EditHighlightObject(IDrawable item)
         {
@@ -187,7 +186,7 @@ namespace GraphicsEditor
 
         }
 
-        //логика Мультиточечного рисования
+        //Логика Мультиточечного рисования
         private void MultiPointDraw()
         {
             //Устанавливаем соответствие между последним объектов в хранилище и русуемым объектом, в зависимости от этого решается
@@ -332,30 +331,7 @@ namespace GraphicsEditor
             var bais = new Point(newPoint.X - _inPocessPoints.Last().X, newPoint.Y - _inPocessPoints.Last().Y);
             _draftList.Remove(_dragDropDraft);
             _highlightDrafts.Remove(_dragDropDraft);
-            if (_dragDropDraft is Polygon)
-            {
-                for (int i = 0; i < (_dragDropDraft as Polygon).DotList.Count; i++)
-                {
-                    (_dragDropDraft as Polygon).DotList[i] = new Point((_dragDropDraft as Polygon).DotList[i].X + bais.X,
-                        (_dragDropDraft as Polygon).DotList[i].Y + +bais.Y);
-                }
-            }
-            else if (_dragDropDraft is Polyline)
-            {
-                for (int i = 0; i < (_dragDropDraft as Polyline).DotList.Count; i++)
-                {
-                    (_dragDropDraft as Polyline).DotList[i] = new Point((_dragDropDraft as Polyline).DotList[i].X + bais.X,
-                        (_dragDropDraft as Polyline).DotList[i].Y + +bais.Y);
-                }
-            }
-            else
-            {
-
-                _dragDropDraft.StartPoint = new Point(_dragDropDraft.StartPoint.X + bais.X,
-                        _dragDropDraft.StartPoint.Y + bais.Y);
-                _dragDropDraft.EndPoint = new Point(_dragDropDraft.EndPoint.X + bais.X,
-                        _dragDropDraft.EndPoint.Y + bais.Y);
-            }
+            DraftFactory.BaisObject(_dragDropDraft, bais);
             _inPocessPoints.Add(newPoint);
             _dragDropDraft.Draw(_painter);
         }
@@ -363,35 +339,12 @@ namespace GraphicsEditor
         //Логика перетаскивания точки объекта
         private void DragDot(Point newPoint)
         {
-            var item = _dragDropDot.Draft;
-            var point = _dragDropDot.Point;
-            _draftList.Remove(item);
-            _highlightDrafts.Remove(item);
-            if (item is Polygon)
-            {
-                if ((item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] != newPoint)
-                    (item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] = newPoint;
-            }
-            else if (item is Polyline)
-            {
-                if ((item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] != newPoint)
-                    (item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] = newPoint;
-            }
-            else
-            {
-                if (item.StartPoint == point)
-                {
-                    if (item.StartPoint != newPoint)
-                        item.StartPoint = newPoint;
-                }
-                else if (item.EndPoint == point)
-                {
-                    if (item.EndPoint != newPoint)
-                        item.EndPoint = newPoint;
-                }
-            }
-            _draftList.Add(item);
-            _highlightDrafts.Add(item);
+
+            //  _draftList.Remove(_dragDropDot.);
+            //  _highlightDrafts.Remove(item);
+            DraftFactory.DragDotInDraft(_dragDropDot, newPoint);
+          //  _draftList.Add(item);
+           // _highlightDrafts.Add(item);
             _dragDropDot.Point = newPoint;
         }
 

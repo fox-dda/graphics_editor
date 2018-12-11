@@ -77,5 +77,59 @@ namespace GraphicsEditor
                 return Strategy.selection;
         }
         
+        public static void BaisObject(IDrawable draft, Point bais)
+        {
+            if (draft is Polygon)
+            {
+                for (int i = 0; i < (draft as Polygon).DotList.Count; i++)
+                {
+                    (draft as Polygon).DotList[i] = new Point((draft as Polygon).DotList[i].X + bais.X,
+                        (draft as Polygon).DotList[i].Y + +bais.Y);
+                }
+            }
+            else if (draft is Polyline)
+            {
+                for (int i = 0; i < (draft as Polyline).DotList.Count; i++)
+                {
+                    (draft as Polyline).DotList[i] = new Point((draft as Polyline).DotList[i].X + bais.X,
+                        (draft as Polyline).DotList[i].Y + +bais.Y);
+                }
+            }
+            else
+            {
+                draft.StartPoint = new Point(draft.StartPoint.X + bais.X, draft.StartPoint.Y + bais.Y);
+                draft.EndPoint = new Point(draft.EndPoint.X + bais.X, draft.EndPoint.Y + bais.Y);
+            }
+        }
+
+        public static void DragDotInDraft(DotInDraft dotInDraft, Point newPoint)
+        {
+            var item = dotInDraft.Draft;
+            var point = dotInDraft.Point;
+
+            if (item is Polygon)
+            {
+                if ((item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] != newPoint)
+                    (item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] = newPoint;
+            }
+            else if (item is Polyline)
+            {
+                if ((item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] != newPoint)
+                    (item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] = newPoint;
+            }
+            else
+            {
+                if (item.StartPoint == point)
+                {
+                    if (item.StartPoint != newPoint)
+                        item.StartPoint = newPoint;
+                }
+                else if (item.EndPoint == point)
+                {
+                    if (item.EndPoint != newPoint)
+                        item.EndPoint = newPoint;
+                }
+            }
+        }
     }
 }
