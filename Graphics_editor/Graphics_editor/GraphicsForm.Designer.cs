@@ -80,10 +80,11 @@
             // mainPictureBox
             // 
             this.mainPictureBox.BackColor = System.Drawing.SystemColors.Window;
+            this.mainPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("mainPictureBox.Image")));
-            this.mainPictureBox.Location = new System.Drawing.Point(151, 12);
+            this.mainPictureBox.Location = new System.Drawing.Point(0, 24);
             this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(715, 534);
+            this.mainPictureBox.Size = new System.Drawing.Size(1052, 537);
             this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.mainPictureBox.TabIndex = 0;
             this.mainPictureBox.TabStop = false;
@@ -348,7 +349,7 @@
             // canvasGroupBox
             // 
             this.canvasGroupBox.Controls.Add(this.clearCanvasButton);
-            this.canvasGroupBox.Location = new System.Drawing.Point(12, 500);
+            this.canvasGroupBox.Location = new System.Drawing.Point(12, 485);
             this.canvasGroupBox.Name = "canvasGroupBox";
             this.canvasGroupBox.Size = new System.Drawing.Size(127, 46);
             this.canvasGroupBox.TabIndex = 8;
@@ -364,7 +365,7 @@
             this.leftGroupBox.Dock = System.Windows.Forms.DockStyle.Left;
             this.leftGroupBox.Location = new System.Drawing.Point(0, 24);
             this.leftGroupBox.Name = "leftGroupBox";
-            this.leftGroupBox.Size = new System.Drawing.Size(145, 537);
+            this.leftGroupBox.Size = new System.Drawing.Size(158, 537);
             this.leftGroupBox.TabIndex = 9;
             this.leftGroupBox.TabStop = false;
             // 
@@ -410,20 +411,20 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.openToolStripMenuItem.Text = "New...";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.saveToolStripMenuItem.Text = "Open";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.saveAsToolStripMenuItem.Text = "Save as...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 

@@ -131,5 +131,30 @@ namespace GraphicsEditor
                 }
             }
         }
+
+        public static IDrawable Clone(IDrawable draft)
+        {
+            if (draft is Polygon)
+            {
+                List<Point> cloneList = new List<Point>();
+                foreach (Point point in (draft as Polygon).DotList)
+                {
+                    cloneList.Add(point);
+                }
+
+                return new Polygon(cloneList, (draft as Polygon).Pen) { BrushColor = (draft as Polygon).BrushColor };
+            }
+            else if (draft is Polyline)
+            {
+                List<Point> cloneList = new List<Point>();
+                foreach (Point point in (draft as Polyline).DotList)
+                {
+                    cloneList.Add(point);
+                }
+
+                return new Polyline(cloneList, (draft as Polyline).Pen);
+            }
+            return null;
+        }
     }
 }

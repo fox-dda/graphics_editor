@@ -10,7 +10,6 @@ namespace GraphicsEditor
 {
     public partial class MainForm : Form
     {
-
         private Presenter _GPresenter = new Presenter();
         private Graphics _painter;
         private DrawClipboard _buffer = new DrawClipboard();

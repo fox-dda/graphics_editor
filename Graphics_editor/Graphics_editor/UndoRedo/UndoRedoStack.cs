@@ -16,7 +16,7 @@ namespace GraphicsEditor.UndoRedo
             Reset();
         }
 
-        public object UndoCount
+        public int UndoCount
         {
             get
             {
@@ -24,7 +24,7 @@ namespace GraphicsEditor.UndoRedo
             }
         }
 
-        public object RedoCount
+        public int RedoCount
         {
             get
             {

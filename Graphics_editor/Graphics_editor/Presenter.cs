@@ -339,12 +339,7 @@ namespace GraphicsEditor
         //Логика перетаскивания точки объекта
         private void DragDot(Point newPoint)
         {
-
-            //  _draftList.Remove(_dragDropDot.);
-            //  _highlightDrafts.Remove(item);
             DraftFactory.DragDotInDraft(_dragDropDot, newPoint);
-          //  _draftList.Add(item);
-           // _highlightDrafts.Add(item);
             _dragDropDot.Point = newPoint;
         }
 
@@ -395,25 +390,19 @@ namespace GraphicsEditor
                 if ((!(_draftList.Last() is Polygon)) && (Figure == Figure.polygon))
                 {
                     _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, Settings.GPen, Settings.BrushColor);
-                    Console.WriteLine("создание новой полилинии");
                 }
                 if ((!(_draftList.Last() is Polyline)) && (Figure == Figure.polyline))
                 {
                     _cacheDraft = DraftFactory.CreateDraft(Figure, new List<Point> { _inPocessPoints.Last(), mousePoint, mousePoint }, Settings.GPen, Settings.BrushColor);
-                    Console.WriteLine("создание нового полигона");
                 }
                 if ((_draftList.Last() is Polygon) && (Figure == Figure.polygon))
                 {
                     _cacheDraft = _draftList.Last();
-                    Console.WriteLine("Количество опорных точек = " + (_cacheDraft as Polygon).DotList.Count.ToString());
-                    Console.WriteLine("изменение полигона из списка");
                     (_cacheDraft as Polygon).DotList[(_cacheDraft as Polygon).DotList.Count - 1] = mousePoint;
                 }
                 if ((_draftList.Last() is Polyline) && (Figure == Figure.polyline))
                 {
                     _cacheDraft = _draftList.Last();
-                    Console.WriteLine("Количество опорных точек = " + (_cacheDraft as Polyline).DotList.Count.ToString());
-                    Console.WriteLine("изменение полилинии из списка");
                     (_cacheDraft as Polyline).DotList[(_cacheDraft as Polyline).DotList.Count - 1] = mousePoint;
                 }
             }
@@ -462,11 +451,14 @@ namespace GraphicsEditor
             if (_draftList.Count > 0)
             {
                 if (_draftList[_draftList.Count - 1] is Polygon)
-                    (_draftList[_draftList.Count - 1] as Polygon).DotList.RemoveAt((_draftList[_draftList.Count - 1] as Polygon).DotList.Count - 1);
-                if(_draftList[_draftList.Count - 1] is Polyline)
-                    (_draftList[_draftList.Count - 1] as Polyline).DotList.RemoveAt((_draftList[_draftList.Count - 1] as Polyline).DotList.Count - 1);
+                    (_draftList[_draftList.Count - 1] as Polygon).DotList[(_draftList[_draftList.Count - 1] as Polygon).DotList.Count - 1] =
+                         (_draftList[_draftList.Count - 1] as Polygon).DotList[(_draftList[_draftList.Count - 1] as Polygon).DotList.Count - 2];
+                if (_draftList[_draftList.Count - 1] is Polyline)
+                    (_draftList[_draftList.Count - 1] as Polyline).DotList[(_draftList[_draftList.Count - 1] as Polyline).DotList.Count - 1] =
+                         (_draftList[_draftList.Count - 1] as Polyline).DotList[(_draftList[_draftList.Count - 1] as Polyline).DotList.Count - 2];
             }
         }
-    }
 
+        
+    }
 }
