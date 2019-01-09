@@ -1,17 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
 namespace GraphicsEditor.Model
 {
-    class Polyline: IDrawable
+    class Polygon : IDrawable, IBrushable
     {
+        private SolidBrush _brush;
         private Pen _pen;
-        public List<Point> _dotList = new List<Point>();
 
+        public Color BrushColor
+        {
+            get
+            {
+                return _brush.Color;
+            }
+            set
+            {
+                _brush = new SolidBrush(value);
+            }
+        }
+        public List<Point> _dotList = new List<Point>();        
         public Point StartPoint
         {
             get
@@ -31,7 +43,7 @@ namespace GraphicsEditor.Model
             }
             set
             {
-                DotList[DotList.Count-1] = value;
+                DotList[DotList.Count - 1] = value;
             }
         }
         public Pen Pen
@@ -45,12 +57,11 @@ namespace GraphicsEditor.Model
                 _pen = value;
             }
         }
-
         public List<Point> DotList
         {
             get
             {
-                return _dotList; 
+                return _dotList;
             }
             set
             {
@@ -65,21 +76,16 @@ namespace GraphicsEditor.Model
             }
         }
 
-        public void Draw(Graphics g)
-        {
-            for (int i=0; i < DotList.Count - 1; i++)
-            g.DrawLine(Pen, DotList[i].X, DotList[i].Y, DotList[i+1].X, DotList[i+1].Y);       
-        }
-
         public void AddPoint(Point point)
         {
             _dotList.Add(point);
         }
 
-        public Polyline(List<Point> dotlist, Pen pen)
+        public Polygon(List<Point> dotlist, Pen pen)//, Color brushColor)
         {
-            this.Pen = pen;
+            Pen = pen;
             DotList = dotlist;
+           // BrushColor = brushColor;
         }
     }
 }

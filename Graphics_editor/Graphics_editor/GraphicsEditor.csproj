@@ -66,42 +66,55 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DraftFactory.cs" />
-    <Compile Include="DraftSerealizer.cs" />
-    <Compile Include="DrawingBank.cs" />
+    <Compile Include="Engine\DrawManager.cs" />
+    <Compile Include="Engine\DraftTools\StorageManager.cs" />
+    <Compile Include="Engine\DraftFactory.cs" />
+    <Compile Include="Engine\DraftTools\DraftSerealizer.cs" />
+    <Compile Include="Engine\DraftStorage.cs" />
+    <Compile Include="Engine\DraftPainter.cs" />
+    <Compile Include="Engine\PainterState.cs" />
+    <Compile Include="Engine\UndoRedo\ICommand.cs" />
+    <Compile Include="Engine\UndoRedo\UndoRedoStack.cs" />
     <Compile Include="Enums\Enums.cs" />
-    <Compile Include="GraphicsForm.cs">
+    <Compile Include="View\GraphicsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GraphicsForm.Designer.cs">
+    <Compile Include="View\GraphicsForm.Designer.cs">
       <DependentUpon>GraphicsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Circle.cs" />
-    <Compile Include="Model\DotInDraft.cs" />
-    <Compile Include="Model\Ellipse.cs" />
-    <Compile Include="Model\HighlightRect.cs" />
-    <Compile Include="Model\IBrushable.cs" />
-    <Compile Include="Model\IDrawable.cs" />
-    <Compile Include="Model\Line.cs" />
-    <Compile Include="Model\Polygon.cs" />
-    <Compile Include="Model\Polyline.cs" />
-    <Compile Include="Model\Rectangle.cs" />
-    <Compile Include="Model\Triangle.cs" />
-    <Compile Include="Presenter.cs" />
+    <Compile Include="Model\Drawers\BaseDrawer.cs" />
+    <Compile Include="Model\Drawers\CircleDrawer.cs" />
+    <Compile Include="Model\Drawers\DrawerFacade.cs" />
+    <Compile Include="Model\Drawers\EllipseDrawer.cs" />
+    <Compile Include="Model\Drawers\HighlightRectDrawer.cs" />
+    <Compile Include="Model\Drawers\LineDrawer.cs" />
+    <Compile Include="Model\Drawers\PolygonDrawer.cs" />
+    <Compile Include="Model\Drawers\PolylineDrawer.cs" />
+    <Compile Include="Model\Drawers\RectangleDrawer.cs" />
+    <Compile Include="Model\Shapes\Circle.cs" />
+    <Compile Include="Model\Shapes\DotInDraft.cs" />
+    <Compile Include="Model\Shapes\Ellipse.cs" />
+    <Compile Include="Model\Shapes\HighlightRect.cs" />
+    <Compile Include="Model\Shapes\IBrushable.cs" />
+    <Compile Include="Model\Shapes\IDrawable.cs" />
+    <Compile Include="Model\Shapes\Line.cs" />
+    <Compile Include="Model\Shapes\Polygon.cs" />
+    <Compile Include="Model\Shapes\Polyline.cs" />
+    <Compile Include="Model\Shapes\Rectangle.cs" />
+    <Compile Include="Model\Shapes\Triangle.cs" />
+    <Compile Include="Engine\Presenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelectionPanel.cs">
+    <Compile Include="View\SelectionPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SelectionPanel.Designer.cs">
+    <Compile Include="View\SelectionPanel.Designer.cs">
       <DependentUpon>SelectionPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Selector.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="DrawClipboard.cs" />
-    <Compile Include="UndoRedo\ICommand.cs" />
-    <Compile Include="UndoRedo\UndoRedoStack.cs" />
-    <EmbeddedResource Include="GraphicsForm.resx">
+    <Compile Include="Engine\Selector.cs" />
+    <Compile Include="Engine\PaintingParams.cs" />
+    <Compile Include="Engine\DraftClipboard.cs" />
+    <EmbeddedResource Include="View\GraphicsForm.resx">
       <DependentUpon>GraphicsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -113,7 +126,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SelectionPanel.resx">
+    <EmbeddedResource Include="View\SelectionPanel.resx">
       <DependentUpon>SelectionPanel.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -142,5 +155,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

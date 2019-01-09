@@ -9,6 +9,9 @@ namespace GraphicsEditor
     {
         public static IDrawable PointSearch(Point  mousePoint, List<IDrawable> draftList)
         {
+            if (draftList == null)
+                return null;
+
             for (int i = draftList.Count - 1; i > -1; i--)
             {
                 var sy = draftList[i].StartPoint.Y;

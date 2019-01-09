@@ -9,7 +9,6 @@ namespace GraphicsEditor.Model
 {
     public interface IDrawable
     {
-        void Draw(Graphics g);
         Pen Pen { get; set; }
         Point StartPoint { get; set; }
         Point EndPoint { get; set; }

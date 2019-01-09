@@ -83,7 +83,7 @@
             this.designSelectedGroupBox.Controls.Add(this.selectedWidthNnumericUpDown);
             this.designSelectedGroupBox.Location = new System.Drawing.Point(8, 128);
             this.designSelectedGroupBox.Name = "designSelectedGroupBox";
-            this.designSelectedGroupBox.Size = new System.Drawing.Size(165, 128);
+            this.designSelectedGroupBox.Size = new System.Drawing.Size(165, 122);
             this.designSelectedGroupBox.TabIndex = 7;
             this.designSelectedGroupBox.TabStop = false;
             this.designSelectedGroupBox.Text = "Design";
@@ -302,7 +302,7 @@
             // typeLabel
             // 
             this.typeLabel.AutoSize = true;
-            this.typeLabel.Location = new System.Drawing.Point(76, 19);
+            this.typeLabel.Location = new System.Drawing.Point(82, 23);
             this.typeLabel.Name = "typeLabel";
             this.typeLabel.Size = new System.Drawing.Size(0, 13);
             this.typeLabel.TabIndex = 1;
@@ -310,7 +310,7 @@
             // objectLabel
             // 
             this.objectLabel.AutoSize = true;
-            this.objectLabel.Location = new System.Drawing.Point(12, 19);
+            this.objectLabel.Location = new System.Drawing.Point(12, 23);
             this.objectLabel.Name = "objectLabel";
             this.objectLabel.Size = new System.Drawing.Size(64, 13);
             this.objectLabel.TabIndex = 0;

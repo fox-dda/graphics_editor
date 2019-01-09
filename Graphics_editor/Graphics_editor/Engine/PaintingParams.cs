@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace GraphicsEditor
 {
-    class Settings
+    class PaintingParameters
     {
         private Color _brushColor;
         private float[] _dashPattern = new float[] { 0, 0 };

@@ -156,5 +156,25 @@ namespace GraphicsEditor
             }
             return null;
         }
+
+        public static Point CreatePoint(int X, int Y)
+        {
+            return new Point(X, Y);
+        }
+
+        public static Type CheckUniformity(List<IDrawable> draftList)
+        {
+            if (draftList == null)
+                return null;
+
+            var type = draftList[0].GetType();
+
+            foreach (IDrawable draft in draftList)
+            {
+                if (draft.GetType() != type)
+                    return null;
+            }
+            return type;
+        }
     }
 }

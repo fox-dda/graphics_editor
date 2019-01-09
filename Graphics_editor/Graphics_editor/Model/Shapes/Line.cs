@@ -52,11 +52,6 @@ namespace GraphicsEditor.Model
             }
         }
 
-        public void Draw(Graphics g)
-        {
-            g.DrawLine(Pen, StartPoint, EndPoint);
-        }
-
         public Line(Point startPoint, Point endPoint, Pen pen)
         {
             StartPoint = startPoint;

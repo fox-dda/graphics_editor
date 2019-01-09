@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using GraphicsEditor.Enums;
 using System.Reflection;
+using GraphicsEditor.Engine;
 using GraphicsEditor.Model;
 
 
@@ -10,14 +11,16 @@ namespace GraphicsEditor
 {
     public partial class MainForm : Form
     {
-        private Presenter _GPresenter = new Presenter();
-        private Graphics _painter;
-        private DrawClipboard _buffer = new DrawClipboard();
+        private DrawManager _drawManager;
+        private DraftClipboard _buffer = new DraftClipboard();
+        private DraftStorage _storage = new DraftStorage();
+        private Graphics _paintCore;    
+        private DraftPainter _draftPainter;
+
 
         public MainForm()
         {
             InitializeComponent();
-
 
             foreach (Control control in Controls)
             {
@@ -27,46 +30,48 @@ namespace GraphicsEditor
             }
             Bitmap btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
             mainPictureBox.Image = btm;
-            _painter = Graphics.FromImage(btm);
-            _GPresenter.Painter = _painter;
+            _paintCore = Graphics.FromImage(btm);
+            _draftPainter = new DraftPainter(_paintCore);
+            _drawManager = new DrawManager(_draftPainter, _storage);
+            selectionPanel.StorageManager = new DraftTools.StorageManager(_storage);
         }
 
         private void mainPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            _GPresenter.Process(e, MouseAction.down);
+            _drawManager.Process(e, MouseAction.down);
             mainPictureBox.Invalidate();
         }
 
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            _GPresenter.Process(e, MouseAction.move);
+            _drawManager.Process(e, MouseAction.move);
             mainPictureBox.Invalidate();
         }
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            _GPresenter.Process(e, MouseAction.up);
+            _drawManager.Process(e, MouseAction.up);
             RefreshView();
         }
 
         private void lineButton_Click(object sender, EventArgs e)
         {
-            _GPresenter.Figure = Figure.line;
+            _drawManager.State.Figure = Figure.line;
         }
 
         private void polylineButton_Click(object sender, EventArgs e)
         {
-            _GPresenter.Figure = Figure.polyline;
+            _drawManager.State.Figure = Figure.polyline;
         }
 
         private void circleButton_Click(object sender, EventArgs e)
         {
-            _GPresenter.Figure = Figure.circle;
+            _drawManager.State.Figure = Figure.circle;
         }
 
         private void triangleButton_Click(object sender, EventArgs e)
         {
-            _GPresenter.Figure = Figure.triangle;
+            _drawManager.State.Figure = Figure.triangle;
         }
 
         private void selectColorButton_Click(object sender, EventArgs e)
@@ -75,7 +80,7 @@ namespace GraphicsEditor
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                _GPresenter.Settings.GPen = new Pen(colorDialog.Color, _GPresenter.Settings.GPen.Width);
+                _drawManager.DraftPainter.Parameters.GPen = new Pen(colorDialog.Color, _drawManager.DraftPainter.Parameters.GPen.Width);
                 penColorpanel.BackColor = colorDialog.Color;
             }
             refreshPen();
@@ -87,21 +92,22 @@ namespace GraphicsEditor
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                _GPresenter.SetCanvasColor(colorDialog.Color);
+                _drawManager.DraftPainter.SetCanvasColor(colorDialog.Color);
                 canvasColorpanel.BackColor = colorDialog.Color;
             }
         }
 
         private void clearCanvasButton_Click(object sender, EventArgs e)
         {
-            _GPresenter.ClearCanvas();
+            _drawManager.DraftPainter.ClearCanvas();
             canvasColorpanel.BackColor = Color.White;
             RefreshView();
+            mainPictureBox.Invalidate();
         }
 
         private void ellipseButton_Click(object sender, EventArgs e)
         {
-            _GPresenter.Figure = Figure.ellipse;
+            _drawManager.State.Figure = Figure.ellipse;
         }
 
         private void thicknessNumericUpDown_ValueChanged(object sender, EventArgs e)
@@ -116,9 +122,9 @@ namespace GraphicsEditor
 
         private void refreshPen()
         {
-            _GPresenter.Settings.GPen = new Pen(_GPresenter.Settings.GPen.Color, (float)thicknessNumericUpDown.Value);
+            _drawManager.DraftPainter.Parameters.GPen = new Pen(_draftPainter.Parameters.GPen.Color, (float)thicknessNumericUpDown.Value);
             if (penStrokeWidthNumericUpDown.Value > 0)
-                _GPresenter.Settings.DashPattern = new float[]
+                _drawManager.DraftPainter.Parameters.DashPattern = new float[]
                 {
                     (float)penStrokeWidthNumericUpDown.Value,
                     (float)penStrokeWidthNumericUpDown.Value
@@ -129,9 +135,9 @@ namespace GraphicsEditor
         {
             Bitmap btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
             mainPictureBox.Image = btm;
-            _painter = Graphics.FromImage(btm);
-            _GPresenter.Painter = _painter;
-            _GPresenter.RefreshCanvas();
+            _paintCore = Graphics.FromImage(btm);
+            _draftPainter.Painter = _paintCore;
+            _drawManager.DraftPainter.RefreshCanvas();
             mainPictureBox.Invalidate();
         }
 
@@ -141,72 +147,82 @@ namespace GraphicsEditor
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                _GPresenter.Settings.BrushColor = colorDialog.Color;
+                _drawManager.DraftPainter.Parameters.BrushColor = colorDialog.Color;
                 brushColorpanel.BackColor = colorDialog.Color;
             }
         }
 
         private void selectMouseButton_Click(object sender, EventArgs e)
         {
-            _GPresenter.Figure = Figure.select;
+            _drawManager.State.Figure = Figure.select;
         }
 
         private void discardButton_Click(object sender, EventArgs e)
         {
-            _GPresenter.DisradHighlightingAll();
+           // _drawManager.DraftPainter.DisradHighlightingAll();
             mainPictureBox.Invalidate();
         }
 
         private void polygonButton_Click(object sender, EventArgs e)
         {
-            _GPresenter.Figure = Figure.polygon;
+            _drawManager.State.Figure = Figure.polygon;
         }
 
         private void mainPictureBox_MouseLeave(object sender, EventArgs e)
         {
-            _GPresenter.LeaveCanvas();
+            
         }
 
         private void RefreshView()
         {
-            if (_GPresenter.GetHighlightObjects().Count == 1)
-                selectionPanel.Draft = _GPresenter.GetHighlightObjects()[0];
+            if (_drawManager.Corrector.GetHighlights().Count != 0)
+                selectionPanel.Drafts = _drawManager.Corrector.GetHighlights();
             else
-                selectionPanel.Draft = null;
+                selectionPanel.Drafts = null;
             mainPictureBox.Invalidate();
         }
 
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
-        {
+        {/*/
             if (e.KeyChar == (Char)3)//c
             {
-                _buffer.SetRange(_GPresenter.GetHighlightObjects()); 
+                _buffer.SetRange(_drawManager.GetHighlightObjects()); 
             }
             else if (e.KeyChar == (Char)22)//v
             {
-                _GPresenter.AddObjects(_buffer.GetAll());
+                _drawManager.AddObjects(_buffer.GetAll());
             }
             else if (e.KeyChar == (Char)4)//d
             {
-                _GPresenter.RemoveHighlightObjects();
+                _drawManager.RemoveHighlightObjects();
             }
             else if (e.KeyChar == (Char)24)//x
             {
-                _buffer.SetRange(_GPresenter.GetHighlightObjects());
-                _GPresenter.RemoveHighlightObjects();
+                _buffer.SetRange(_drawManager.GetHighlightObjects());
+                _drawManager.RemoveHighlightObjects();
             }
-            _GPresenter.ReDrawCache();
-            mainPictureBox.Invalidate();
+            _drawManager.ReDrawCache();
+            mainPictureBox.Invalidate();/*/
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DraftSerealizer.Serialize(_GPresenter.GetListForSave());
+         //   DraftSerealizer.Serialize(_drawManager.GetListForSave());
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _GPresenter.SetList(DraftSerealizer.DeSerialize());
+          //  _drawManager.SetList(DraftSerealizer.DeSerialize());
+        }
+
+        private void leftGroupBox_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mainPictureBox_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

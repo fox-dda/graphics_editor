@@ -9,7 +9,7 @@ using GraphicsEditor.Enums;
 namespace GraphicsEditor
 {
     class Presenter
-    {
+    {/*/
         private List<IDrawable> _draftList = new List<IDrawable>();
         private List<IDrawable> _highlightDrafts = new List<IDrawable>();
 
@@ -206,7 +206,6 @@ namespace GraphicsEditor
             {
                 _draftList.Add(_cacheDraft);
             }
-            Console.WriteLine("Список изменен. Количество элементов в списке: " + _draftList.Count().ToString());
             _cacheDraft = null;
         }
 
@@ -293,7 +292,7 @@ namespace GraphicsEditor
                         }
                         else if (_drawingStrategy == Strategy.selection)
                         {
-                            LassoSelection(e.Location);
+                                LassoSelection(e.Location);
                         }   
                         else if(_drawingStrategy == Strategy.dragAndDrop)
                         {
@@ -346,11 +345,14 @@ namespace GraphicsEditor
         //Логика захвата в ласо
         private void LassoSelection(Point mousePoint)
         {
+            if (mousePoint != _inPocessPoints.Last())
+                _highlightDrafts.Clear();
             if (_cacheLasso != null)
             {
                 HighlightingDraftInLasso(Selector.LassoSearch(_cacheLasso, _draftList));
                 ReDrawCache();
             }
+           // _cacheLasso = null;
             _inPocessPoints.Clear();
         }
 
@@ -445,7 +447,7 @@ namespace GraphicsEditor
             _inPocessPoints.Clear();
         }
 
-        //Обработка выхода за канву
+        //Обработка конечной точки фигуры при выходе за канву при рисовании
         public void LeaveCanvas()
         {
             if (_draftList.Count > 0)
@@ -457,8 +459,6 @@ namespace GraphicsEditor
                     (_draftList[_draftList.Count - 1] as Polyline).DotList[(_draftList[_draftList.Count - 1] as Polyline).DotList.Count - 1] =
                          (_draftList[_draftList.Count - 1] as Polyline).DotList[(_draftList[_draftList.Count - 1] as Polyline).DotList.Count - 2];
             }
-        }
-
-        
+        }/*/      
     }
 }

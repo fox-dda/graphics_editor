@@ -61,15 +61,6 @@ namespace GraphicsEditor.Model
             }
         }
 
-        public void Draw(Graphics g)
-        {
-            if (_brush != null)
-                g.FillEllipse(_brush, new RectangleF(StartPoint.X, StartPoint.Y,
-                -(StartPoint.X - EndPoint.X), -(StartPoint.Y - EndPoint.Y)));
-            g.DrawEllipse(Pen, new RectangleF(StartPoint.X, StartPoint.Y, 
-                -(StartPoint.X - EndPoint.X), -(StartPoint.Y - EndPoint.Y)));
-        }
-
         public Ellipse(Point _startPoint, Point _endPoint, Pen _pen)
         {
             StartPoint = _startPoint;

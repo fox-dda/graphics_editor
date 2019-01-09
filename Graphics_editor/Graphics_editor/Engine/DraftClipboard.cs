@@ -7,7 +7,7 @@ using GraphicsEditor.Model;
 
 namespace GraphicsEditor
 {
-    class DrawClipboard
+    class DraftClipboard
     {
         private List<IDrawable> _clipboard = new List<IDrawable>();
 
