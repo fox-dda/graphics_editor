@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.drawGroupBox = new System.Windows.Forms.GroupBox();
             this.polygonButton = new System.Windows.Forms.Button();
             this.ellipseButton = new System.Windows.Forms.Button();
@@ -56,14 +55,14 @@
             this.canvasGroupBox = new System.Windows.Forms.GroupBox();
             this.leftGroupBox = new System.Windows.Forms.GroupBox();
             this.rightGroupBox = new System.Windows.Forms.GroupBox();
-            this.selectionPanel = new GraphicsEditor.SelectionPanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
+            this.centreGroupBox = new System.Windows.Forms.GroupBox();
+            this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
             this.penStyleGroupBox.SuspendLayout();
@@ -74,24 +73,9 @@
             this.leftGroupBox.SuspendLayout();
             this.rightGroupBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.centreGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // mainPictureBox
-            // 
-            this.mainPictureBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.mainPictureBox.BackColor = System.Drawing.SystemColors.Window;
-            this.mainPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("mainPictureBox.Image")));
-            this.mainPictureBox.Location = new System.Drawing.Point(164, 12);
-            this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(697, 549);
-            this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.mainPictureBox.TabIndex = 0;
-            this.mainPictureBox.TabStop = false;
-            this.mainPictureBox.Click += new System.EventHandler(this.mainPictureBox_Click);
-            this.mainPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseDown);
-            this.mainPictureBox.MouseLeave += new System.EventHandler(this.mainPictureBox_MouseLeave);
-            this.mainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseMove);
-            this.mainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseUp);
             // 
             // drawGroupBox
             // 
@@ -318,7 +302,7 @@
             // 
             this.SelectionGroupBox.Controls.Add(this.discardButton);
             this.SelectionGroupBox.Controls.Add(this.selectMouseButton);
-            this.SelectionGroupBox.Location = new System.Drawing.Point(6, 307);
+            this.SelectionGroupBox.Location = new System.Drawing.Point(12, 281);
             this.SelectionGroupBox.Name = "SelectionGroupBox";
             this.SelectionGroupBox.Size = new System.Drawing.Size(167, 79);
             this.SelectionGroupBox.TabIndex = 6;
@@ -357,11 +341,9 @@
             this.leftGroupBox.Size = new System.Drawing.Size(158, 537);
             this.leftGroupBox.TabIndex = 9;
             this.leftGroupBox.TabStop = false;
-            this.leftGroupBox.Enter += new System.EventHandler(this.leftGroupBox_Enter);
             // 
             // rightGroupBox
             // 
-            this.rightGroupBox.Controls.Add(this.selectionPanel);
             this.rightGroupBox.Controls.Add(this.SelectionGroupBox);
             this.rightGroupBox.Dock = System.Windows.Forms.DockStyle.Right;
             this.rightGroupBox.Location = new System.Drawing.Point(861, 24);
@@ -369,14 +351,6 @@
             this.rightGroupBox.Size = new System.Drawing.Size(191, 537);
             this.rightGroupBox.TabIndex = 10;
             this.rightGroupBox.TabStop = false;
-            // 
-            // selectionPanel
-            // 
-            this.selectionPanel.Drafts = ((System.Collections.Generic.List<GraphicsEditor.Model.IDrawable>)(resources.GetObject("selectionPanel.Drafts")));
-            this.selectionPanel.Location = new System.Drawing.Point(6, 12);
-            this.selectionPanel.Name = "selectionPanel";
-            this.selectionPanel.Size = new System.Drawing.Size(179, 289);
-            this.selectionPanel.TabIndex = 7;
             // 
             // menuStrip1
             // 
@@ -423,14 +397,36 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // centreGroupBox
+            // 
+            this.centreGroupBox.Controls.Add(this.mainPictureBox);
+            this.centreGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.centreGroupBox.Location = new System.Drawing.Point(158, 24);
+            this.centreGroupBox.Name = "centreGroupBox";
+            this.centreGroupBox.Size = new System.Drawing.Size(703, 537);
+            this.centreGroupBox.TabIndex = 12;
+            this.centreGroupBox.TabStop = false;
+            // 
+            // mainPictureBox
+            // 
+            this.mainPictureBox.BackColor = System.Drawing.Color.White;
+            this.mainPictureBox.Location = new System.Drawing.Point(6, 12);
+            this.mainPictureBox.Name = "mainPictureBox";
+            this.mainPictureBox.Size = new System.Drawing.Size(691, 513);
+            this.mainPictureBox.TabIndex = 0;
+            this.mainPictureBox.TabStop = false;
+            this.mainPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseDown_1);
+            this.mainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseMove_1);
+            this.mainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseUp_1);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1052, 561);
+            this.Controls.Add(this.centreGroupBox);
             this.Controls.Add(this.rightGroupBox);
             this.Controls.Add(this.leftGroupBox);
-            this.Controls.Add(this.mainPictureBox);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -441,7 +437,6 @@
             this.Text = "Graphics editor [v0.4]";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
             this.drawGroupBox.ResumeLayout(false);
             this.colorGroupBox.ResumeLayout(false);
             this.penStyleGroupBox.ResumeLayout(false);
@@ -454,14 +449,14 @@
             this.rightGroupBox.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.centreGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox mainPictureBox;
         private System.Windows.Forms.GroupBox drawGroupBox;
         private System.Windows.Forms.Button lineButton;
         private System.Windows.Forms.Button polylineButton;
@@ -487,13 +482,14 @@
         private System.Windows.Forms.GroupBox canvasGroupBox;
         private System.Windows.Forms.GroupBox leftGroupBox;
         private System.Windows.Forms.GroupBox rightGroupBox;
-        private SelectionPanel selectionPanel;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.GroupBox centreGroupBox;
+        private System.Windows.Forms.PictureBox mainPictureBox;
     }
 }
 

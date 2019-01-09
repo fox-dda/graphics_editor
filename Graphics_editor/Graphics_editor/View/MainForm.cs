@@ -14,9 +14,8 @@ namespace GraphicsEditor
         private DrawManager _drawManager;
         private DraftClipboard _buffer = new DraftClipboard();
         private DraftStorage _storage = new DraftStorage();
-        private Graphics _paintCore;    
+        private Graphics _paintCore;
         private DraftPainter _draftPainter;
-        private SelectionPanel _highlightPanel;
 
 
         public MainForm()
@@ -34,30 +33,9 @@ namespace GraphicsEditor
             _paintCore = Graphics.FromImage(btm);
             _draftPainter = new DraftPainter(_paintCore);
             _drawManager = new DrawManager(_draftPainter, _storage);
-            _highlightPanel = new SelectionPanel() { StorageManager = new DraftTools.StorageManager(_storage), Location = new Point(rightGroupBox.Location.X + 2, rightGroupBox.Location.Y + 2)};
-            //rightGroupBox
-            _highlightPanel.Show();
-            // selectionPanel.StorageManager = new DraftTools.StorageManager(_storage);
+            selectionPanel.StorageManager = new DraftTools.StorageManager(_storage);
         }
 
-        private void mainPictureBox_MouseMove_1(object sender, MouseEventArgs e)
-        {
-            _drawManager.Process(e, MouseAction.move);
-            mainPictureBox.Invalidate();
-        }
-
-        private void mainPictureBox_MouseUp_1(object sender, MouseEventArgs e)
-        {
-            _drawManager.Process(e, MouseAction.up);
-            RefreshView();
-        }
-        
-        private void mainPictureBox_MouseDown_1(object sender, MouseEventArgs e)
-        {
-            _drawManager.Process(e, MouseAction.down);
-            mainPictureBox.Invalidate();
-        }
-        /*/
         private void mainPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             _drawManager.Process(e, MouseAction.down);
@@ -69,7 +47,7 @@ namespace GraphicsEditor
             _drawManager.Process(e, MouseAction.move);
             mainPictureBox.Invalidate();
         }
-        /*/
+
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             _drawManager.Process(e, MouseAction.up);
@@ -181,7 +159,7 @@ namespace GraphicsEditor
 
         private void discardButton_Click(object sender, EventArgs e)
         {
-           // _drawManager.DraftPainter.DisradHighlightingAll();
+            // _drawManager.DraftPainter.DisradHighlightingAll();
             mainPictureBox.Invalidate();
         }
 
@@ -192,15 +170,15 @@ namespace GraphicsEditor
 
         private void mainPictureBox_MouseLeave(object sender, EventArgs e)
         {
-            
+
         }
 
         private void RefreshView()
         {
             if (_drawManager.Corrector.GetHighlights().Count != 0)
-                _highlightPanel.Drafts = _drawManager.Corrector.GetHighlights();
+                selectionPanel.Drafts = _drawManager.Corrector.GetHighlights();
             else
-                _highlightPanel.Drafts = null;
+                selectionPanel.Drafts = null;
             mainPictureBox.Invalidate();
         }
 
@@ -229,12 +207,22 @@ namespace GraphicsEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-         //   DraftSerealizer.Serialize(_drawManager.GetListForSave());
+            //   DraftSerealizer.Serialize(_drawManager.GetListForSave());
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-          //  _drawManager.SetList(DraftSerealizer.DeSerialize());
+            //  _drawManager.SetList(DraftSerealizer.DeSerialize());
+        }
+
+        private void leftGroupBox_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mainPictureBox_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
