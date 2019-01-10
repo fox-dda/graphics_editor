@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using GraphicsEditor.Model;
+using System.Windows.Forms;
 
 namespace GraphicsEditor.DraftTools
 {
@@ -72,6 +73,32 @@ namespace GraphicsEditor.DraftTools
         public void EditRangeHighlightDrafts(Point sp, Point ep, Pen pen, Color color)
         {
 
+        }
+
+        public void DragDotInDraft(DotInDraft dotInDraft, Point newPoint)
+        {
+            var item = dotInDraft.Draft;
+            var point = dotInDraft.Point;      
+
+            if (item is Polygon)
+            {
+                (item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] = newPoint;
+            }
+            else if (item is Polyline)
+            {
+                (item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] = newPoint;
+            }
+            else
+            {
+                if (item.StartPoint == point)
+                {
+                    item.StartPoint = newPoint;
+                }
+                else if (item.EndPoint == point)
+                {
+                    item.EndPoint = newPoint;
+                }
+            }
         }
     }
 }

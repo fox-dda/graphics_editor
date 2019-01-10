@@ -92,36 +92,6 @@ namespace GraphicsEditor
             }
         }
 
-        public static void DragDotInDraft(DotInDraft dotInDraft, Point newPoint)
-        {
-            var item = dotInDraft.Draft;
-            var point = dotInDraft.Point;
-
-            if (item is Polygon)
-            {
-                if ((item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] != newPoint)
-                    (item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] = newPoint;
-            }
-            else if (item is Polyline)
-            {
-                if ((item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] != newPoint)
-                    (item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] = newPoint;
-            }
-            else
-            {
-                if (item.StartPoint == point)
-                {
-                    if (item.StartPoint != newPoint)
-                        item.StartPoint = newPoint;
-                }
-                else if (item.EndPoint == point)
-                {
-                    if (item.EndPoint != newPoint)
-                        item.EndPoint = newPoint;
-                }
-            }
-        }
-
         public static IDrawable Clone(IDrawable draft)
         {
             if (draft is Polygon)

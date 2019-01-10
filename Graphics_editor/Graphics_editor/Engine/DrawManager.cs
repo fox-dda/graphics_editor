@@ -49,11 +49,12 @@ namespace GraphicsEditor.Engine
                                 }
                                 else
                                 {
-                                    var gravitySector = Selector.SearchGravityCentre(e.Location, Corrector.GetHighlights());
-                                    if (gravitySector != null)
+                                    //var gravitySector = Selector.SearchGravityCentre(e.Location, Corrector.GetHighlights());
+                                    var shape = Selector.PointSearch(e.Location, Corrector.GetDrafts());
+                                    if (shape != null)
                                     {
                                         State.Figure = Figure.dragDraft;
-                                        State.DragDropDraft = gravitySector;
+                                        State.DragDropDraft = shape;
                                         State.InPocessPoints.Add(e.Location);
                                     }
                                 }
@@ -69,7 +70,7 @@ namespace GraphicsEditor.Engine
 
                         if (State.DrawingStrategy == Strategy.dragAndDrop)
                         {
-                           // DraftPainter.DragAndDrop(e.Location);
+                            DragAndDrop(e.Location);
                         }
                         else
                         {
@@ -147,6 +148,26 @@ namespace GraphicsEditor.Engine
             State.InPocessPoints.Clear();
         }
 
+        //Логика распределеня ответственности перетаскивания
+        private void DragAndDrop(Point newPoint)
+        {
+            if (State.DragDropDot.Draft != null)
+            {
+                DragDot(newPoint);
+            }
 
+            if (State.DragDropDraft != null)
+            {
+               // DragDraft(newPoint);
+            }
+        }
+
+        private void DragDot(Point newPoint)
+        {
+            Corrector.DragDotInDraft(State.DragDropDot, newPoint);
+            State.DragDropDot.Point = newPoint;
+
+            DraftPainter.RefreshCanvas();
+        }
     }
 }

@@ -56,7 +56,7 @@ namespace GraphicsEditor.Model
         {
             StartPoint = startPoint;
             EndPoint = endPoint;
-            this.Pen = pen;
+            Pen = pen;
         }
     }
 }

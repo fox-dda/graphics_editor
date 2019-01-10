@@ -31,6 +31,8 @@ namespace GraphicsEditor
             }
         }
 
+        private bool _enabledData = true;
+
         private bool IsShortData()
         {
             if ((Drafts.Count > 1) &&
@@ -71,6 +73,9 @@ namespace GraphicsEditor
 
         private void RefreshModel()
         {
+            if (_enabledData == false)
+                return;
+
             if(IsFullData() && Drafts.Count == 1)
             {
                 var startPoint = DraftFactory.CreatePoint(Convert.ToInt32(selectObjectSPXMaskedTextBox.Text), Convert.ToInt32(selectObjectSPYMaskedTextBox.Text));
@@ -109,7 +114,7 @@ namespace GraphicsEditor
 
         private void RefreshView()
         {
-
+            _enabledData = false;
             if (Drafts.Count != 0)
             {
                 if (Drafts.Count == 1)
@@ -201,6 +206,7 @@ namespace GraphicsEditor
                 selectedColorPanel.BackColor = Color.White;
                 selectedBrushPanel.BackColor = Color.White;
             }
+            _enabledData = true;
         }
 
         public SelectionPanel()

@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.Timer refreshCanvasTimer;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.drawGroupBox = new System.Windows.Forms.GroupBox();
             this.polygonButton = new System.Windows.Forms.Button();
@@ -63,7 +61,6 @@
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.centreGroupBox = new System.Windows.Forms.GroupBox();
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
-            refreshCanvasTimer = new System.Windows.Forms.Timer(this.components);
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
             this.penStyleGroupBox.SuspendLayout();
@@ -77,12 +74,6 @@
             this.centreGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // refreshCanvasTimer
-            // 
-            refreshCanvasTimer.Enabled = true;
-            refreshCanvasTimer.Interval = 500;
-            refreshCanvasTimer.Tick += new System.EventHandler(this.refreshCanvasTimer_Tick);
             // 
             // drawGroupBox
             // 
@@ -441,6 +432,7 @@
             this.Name = "MainForm";
             this.Text = "Graphics editor [v0.4]";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.drawGroupBox.ResumeLayout(false);
             this.colorGroupBox.ResumeLayout(false);

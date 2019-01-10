@@ -2,7 +2,7 @@
 
 namespace GraphicsEditor.Model
 {
-    struct DotInDraft
+    public struct DotInDraft
     {
         public IDrawable Draft;
         public Point Point;

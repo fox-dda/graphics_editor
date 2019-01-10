@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using GraphicsEditor.Enums;
 using System.Reflection;
 using GraphicsEditor.Engine;
-using GraphicsEditor.Model;
 
 
 namespace GraphicsEditor
@@ -43,6 +42,7 @@ namespace GraphicsEditor
         private void mainPictureBox_MouseMove_1(object sender, MouseEventArgs e)
         {
             _drawManager.Process(e, MouseAction.move);
+           // RefreshView();
             mainPictureBox.Invalidate();
         }
 
@@ -50,11 +50,13 @@ namespace GraphicsEditor
         {
             _drawManager.Process(e, MouseAction.up);
             RefreshView();
+            mainPictureBox.Invalidate();
         }
         
         private void mainPictureBox_MouseDown_1(object sender, MouseEventArgs e)
         {
             _drawManager.Process(e, MouseAction.down);
+            RefreshView();
             mainPictureBox.Invalidate();
         }
         /*/
@@ -219,9 +221,9 @@ namespace GraphicsEditor
             {
                 _buffer.SetRange(_drawManager.GetHighlightObjects());
                 _drawManager.RemoveHighlightObjects();
-            }
-            _drawManager.ReDrawCache();
-            mainPictureBox.Invalidate();/*/
+            }/*/
+            _draftPainter.RefreshCanvas();
+            mainPictureBox.Invalidate();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -234,11 +236,10 @@ namespace GraphicsEditor
           //  _drawManager.SetList(DraftSerealizer.DeSerialize());
         }
 
-        private void refreshCanvasTimer_Tick(object sender, EventArgs e)
+        private void MainForm_KeyUp(object sender, KeyEventArgs e)
         {
             _draftPainter.RefreshCanvas();
             mainPictureBox.Invalidate();
-            
         }
     }
 }

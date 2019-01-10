@@ -23,7 +23,7 @@ namespace GraphicsEditor.Model
                 _brush = new SolidBrush(value);
             }
         }
-        public List<Point> _dotList = new List<Point>();        
+        private List<Point> _dotList = new List<Point>();        
         public Point StartPoint
         {
             get
