@@ -10,6 +10,7 @@ namespace GraphicsEditor.Model.Drawers
     public class DrawerFacade
     {
         private readonly Dictionary<Type, BaseDrawer> _drawerDictionary = new Dictionary<Type, BaseDrawer>();
+        private readonly HighlightDrawer _highlightDrawer;
 
         public DrawerFacade()
         {
@@ -19,11 +20,17 @@ namespace GraphicsEditor.Model.Drawers
             _drawerDictionary.Add(typeof(Circle), new CircleDrawer());
             _drawerDictionary.Add(typeof(Ellipse), new EllipseDrawer());
             _drawerDictionary.Add(typeof(HighlightRect), new HighlightRectDrawer());
+            _highlightDrawer = new HighlightDrawer();
         }
 
         public void DrawShape(IDrawable shape, Graphics graphics)
         {
             _drawerDictionary[shape.GetType()]?.DrawShape(shape, graphics);
+        }
+
+        public void DrawHighlight(IDrawable shape, Graphics graphics)
+        {
+            _highlightDrawer.DrawShape(shape, graphics);
         }
     }
 }

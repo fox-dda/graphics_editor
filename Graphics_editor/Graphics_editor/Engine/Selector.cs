@@ -100,12 +100,12 @@ namespace GraphicsEditor
         public static IDrawable SearchGravityCentre(Point mousePoint, List<IDrawable> highlighList)
         {
             IDrawable gravityInDraft = null;
-            foreach (IDrawable draft in highlighList)
+           /*/ foreach (IDrawable draft in highlighList)
             {
                 HighlightRect rect = new HighlightRect(draft);
                 if (IsInRect(mousePoint, new Point(rect.DragDropMarkerPoint.X +10, rect.DragDropMarkerPoint.Y - 10), 10))
                     gravityInDraft = draft;
-            }
+            }/*/
             return gravityInDraft;
         }
     }

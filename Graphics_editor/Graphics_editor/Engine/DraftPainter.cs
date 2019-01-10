@@ -81,12 +81,10 @@ namespace GraphicsEditor.Engine
 
                 if ((State.CacheDraft is Polygon) && (State.Figure == Figure.polygon))
                 {
-                    //(State.CacheDraft as Polyline).DotList.Add(State.InPocessPoints.Last());
                     (State.CacheDraft as Polygon).DotList[(State.CacheDraft as Polygon).DotList.Count - 1] = mousePoint;
                 }
                 if ((State.CacheDraft is Polyline) && (State.Figure == Figure.polyline))
                 {
-                   // (State.CacheDraft as Polyline).DotList.Add(State.InPocessPoints.Last());
                     (State.CacheDraft as Polyline).DotList[(State.CacheDraft as Polyline).DotList.Count - 1] = mousePoint;
                      
                 }
@@ -115,7 +113,7 @@ namespace GraphicsEditor.Engine
             {
                 if (draft != null)
                 {
-                    _drawer.DrawShape(draft, Painter);
+                    _drawer.DrawHighlight(draft, Painter);
                 }
             }       
         }

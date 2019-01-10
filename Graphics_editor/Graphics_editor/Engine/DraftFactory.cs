@@ -40,16 +40,6 @@ namespace GraphicsEditor
             }
         }
 
-        public static HighlightRect CreateDraft(Figure figure, IDrawable frameItem)
-        {
-            switch (figure)
-            {
-                case Figure.select:
-                    return new HighlightRect(frameItem);
-                default:
-                    return null;
-            }
-        }
         //Перегрузка для создания объектов с количеством точек 2 и более
         public static IDrawable CreateDraft(Figure figure, List<Point> pointList, Pen gPen, Color brushColor)
         {

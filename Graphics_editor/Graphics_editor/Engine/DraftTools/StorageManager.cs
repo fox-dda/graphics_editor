@@ -40,16 +40,10 @@ namespace GraphicsEditor.DraftTools
 
         public void AddHighlightDraft(IDrawable draft)
         {
-            foreach (HighlightRect frame in _storage.HighlightDraftsList)
-            {
-                if (draft == frame.LightItem)
-                {
-                    _storage.HighlightDraftsList.Remove(frame);
-                    return;
-                }
-            }
-
-            _storage.HighlightDraftsList.Add(DraftFactory.CreateDraft(Enums.Figure.select, draft));
+            if (GetHighlights().Contains(draft))
+                _storage.HighlightDraftsList.Remove(draft);
+            else
+                _storage.HighlightDraftsList.Add(draft);
         }
 
         public void DiscardAll()
@@ -59,8 +53,7 @@ namespace GraphicsEditor.DraftTools
 
         public void HighlightingDraftRange(List<IDrawable> highlightRange)
         {
-            foreach(IDrawable frame in highlightRange)
-                _storage.HighlightDraftsList.Add(DraftFactory.CreateDraft(Enums.Figure.select, frame));
+            _storage.HighlightDraftsList.AddRange(highlightRange);
         }
 
         public void EditHighlightDraft(IDrawable draft, Point sp, Point ep, Pen pen, Color brush)

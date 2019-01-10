@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.Timer refreshCanvasTimer;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.drawGroupBox = new System.Windows.Forms.GroupBox();
             this.polygonButton = new System.Windows.Forms.Button();
@@ -60,9 +61,9 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.centreGroupBox = new System.Windows.Forms.GroupBox();
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
+            refreshCanvasTimer = new System.Windows.Forms.Timer(this.components);
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
             this.penStyleGroupBox.SuspendLayout();
@@ -76,6 +77,12 @@
             this.centreGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.SuspendLayout();
+            // 
+            // refreshCanvasTimer
+            // 
+            refreshCanvasTimer.Enabled = true;
+            refreshCanvasTimer.Interval = 500;
+            refreshCanvasTimer.Tick += new System.EventHandler(this.refreshCanvasTimer_Tick);
             // 
             // drawGroupBox
             // 
@@ -392,15 +399,12 @@
             this.saveAsToolStripMenuItem.Text = "Save as...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
             // centreGroupBox
             // 
+            this.centreGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.centreGroupBox.Controls.Add(this.mainPictureBox);
-            this.centreGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.centreGroupBox.Location = new System.Drawing.Point(158, 24);
             this.centreGroupBox.Name = "centreGroupBox";
             this.centreGroupBox.Size = new System.Drawing.Size(703, 537);
@@ -410,9 +414,10 @@
             // mainPictureBox
             // 
             this.mainPictureBox.BackColor = System.Drawing.Color.White;
-            this.mainPictureBox.Location = new System.Drawing.Point(6, 12);
+            this.mainPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainPictureBox.Location = new System.Drawing.Point(3, 16);
             this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(691, 513);
+            this.mainPictureBox.Size = new System.Drawing.Size(697, 518);
             this.mainPictureBox.TabIndex = 0;
             this.mainPictureBox.TabStop = false;
             this.mainPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseDown_1);
@@ -487,7 +492,6 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.GroupBox centreGroupBox;
         private System.Windows.Forms.PictureBox mainPictureBox;
     }

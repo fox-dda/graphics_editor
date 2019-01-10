@@ -76,6 +76,7 @@
     <Compile Include="Engine\UndoRedo\ICommand.cs" />
     <Compile Include="Engine\UndoRedo\UndoRedoStack.cs" />
     <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Model\Drawers\HighlightDrawer.cs" />
     <Compile Include="View\GraphicsForm.cs">
       <SubType>Form</SubType>
     </Compile>

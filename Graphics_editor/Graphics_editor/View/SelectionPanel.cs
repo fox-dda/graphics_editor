@@ -16,7 +16,7 @@ namespace GraphicsEditor
     {
         public StorageManager StorageManager = null;
 
-        private List<IDrawable> _draftList = new List<IDrawable>();
+        private List<IDrawable> _draftList;
 
         public List<IDrawable> Drafts
         {
@@ -26,48 +26,53 @@ namespace GraphicsEditor
             }
             set
             {
-                _draftList.Clear();
-
-                if (value == null)
-                {
-                    RefreshView();
-                    return;
-                }
-
-                foreach (IDrawable draft in value)
-                {
-                    _draftList.Add((draft as HighlightRect).LightItem);
-                }
+                _draftList = value;
                 RefreshView();
             }
         }
 
-        private bool IsFullData()
+        private bool IsShortData()
         {
-            if (
-                (selectObjectSPXMaskedTextBox.Text != "") &&
-                (selectObjectSPYMaskedTextBox.Text != "") &&
-                (selectObjectEPXMaskedTextBox.Text != "") &&
-                (selectObjectEPYMaskedTextBox.Text != "") &&
-                (selectedBrushPanel.Enabled == true) && 
-                (selectedColorPanel.Enabled == true) && 
+            if ((Drafts.Count > 1) &&
+                ((selectedBrushPanel.Enabled == true) &&
+                (selectedColorPanel.Enabled == true) &&
                 (selectedStrokeNumericUpDown.Enabled == true) &&
-                (selectedWidthNnumericUpDown.Enabled == true) &&
-                (selectObjectSPXMaskedTextBox.Enabled == true) &&
-                (selectObjectSPYMaskedTextBox.Enabled == true) &&
-                (selectObjectEPXMaskedTextBox.Enabled == true) &&
-                (selectObjectEPYMaskedTextBox.Enabled == true)
-                )
+                (selectedWidthNnumericUpDown.Enabled == true)))
                 return true;
             else
                 return false;
+        }
+
+        private bool IsFullData()
+        {
+            if (Drafts.Count == 1)
+            {
+                if ((selectObjectSPXMaskedTextBox.Text != "") &&
+                    (selectObjectSPYMaskedTextBox.Text != "") &&
+                    (selectObjectEPXMaskedTextBox.Text != "") &&
+                    (selectObjectEPYMaskedTextBox.Text != "") &&
+                    (selectedBrushPanel.Enabled == true) &&
+                    (selectedColorPanel.Enabled == true) &&
+                    (selectedStrokeNumericUpDown.Enabled == true) &&
+                    (selectedWidthNnumericUpDown.Enabled == true) &&
+                    (selectObjectSPXMaskedTextBox.Enabled == true) &&
+                    (selectObjectSPYMaskedTextBox.Enabled == true) &&
+                    (selectObjectEPXMaskedTextBox.Enabled == true) &&
+                    (selectObjectEPYMaskedTextBox.Enabled == true))
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private void RefreshModel()
         {
             if(IsFullData() && Drafts.Count == 1)
             {
-
                 var startPoint = DraftFactory.CreatePoint(Convert.ToInt32(selectObjectSPXMaskedTextBox.Text), Convert.ToInt32(selectObjectSPYMaskedTextBox.Text));
                 var endPoint = DraftFactory.CreatePoint(Convert.ToInt32(selectObjectEPXMaskedTextBox.Text), Convert.ToInt32(selectObjectEPYMaskedTextBox.Text));
                 var pen = new Pen(selectedColorPanel.BackColor, (float)selectedWidthNnumericUpDown.Value);
@@ -84,9 +89,21 @@ namespace GraphicsEditor
                 else
                     StorageManager.EditHighlightDraft(Drafts[0], startPoint, endPoint, pen);
             }
-            else if(Drafts.Count > 0)
+            else if(IsShortData())
             {
+               /*/ var pen = new Pen(selectedColorPanel.BackColor, (float)selectedWidthNnumericUpDown.Value);
 
+                if (selectedStrokeNumericUpDown.Value > 0)
+                    pen.DashPattern = new float[]
+                    {
+                        (float)selectedStrokeNumericUpDown.Value,
+                        (float)selectedStrokeNumericUpDown.Value
+                    };
+
+                if (Drafts[0] is IBrushable)
+                    StorageManager.EditHighlightDraft(Drafts[0], startPoint, endPoint, pen, selectedBrushPanel.BackColor);
+                else
+                    StorageManager.EditHighlightDraft(Drafts[0], startPoint, endPoint, pen);/*/
             }
         }
 
@@ -105,8 +122,8 @@ namespace GraphicsEditor
                     selectObjectEPYMaskedTextBox.Text = Drafts[0].EndPoint.Y.ToString();
                     selectedWidthNnumericUpDown.Value = (int)Drafts[0].Pen.Width;
                     selectedColorPanel.BackColor = Drafts[0].Pen.Color;
-                    if (Drafts is IBrushable)
-                        selectedBrushPanel.BackColor = (Drafts as IBrushable).BrushColor;
+                    if (Drafts[0] is IBrushable)
+                        selectedBrushPanel.BackColor = (Drafts[0] as IBrushable).BrushColor;
                     else
                         selectedBrushPanel.BackColor = Color.White;
 
@@ -137,6 +154,11 @@ namespace GraphicsEditor
                     selectObjectEPXMaskedTextBox.Enabled = false;
                     selectObjectEPYMaskedTextBox.Enabled = false;
 
+                    selectedColorPanel.Enabled = false;
+                    selectedBrushPanel.Enabled = false;
+                    selectedStrokeNumericUpDown.Enabled = false;
+                    selectedWidthNnumericUpDown.Enabled = false;
+
                     selectObjectSPXMaskedTextBox.Text = "";
                     selectObjectSPYMaskedTextBox.Text = "";
                     selectObjectEPXMaskedTextBox.Text = "";
@@ -147,12 +169,11 @@ namespace GraphicsEditor
                     if (type == null)
                     {
                         typeLabel.Text = "Draft collection";
-                        selectedColorPanel.Enabled = true;
+                     /*/   selectedColorPanel.Enabled = true;
                         selectedBrushPanel.Enabled = true;
                         selectedStrokeNumericUpDown.Enabled = true;
-                        selectedWidthNnumericUpDown.Enabled = true;
+                        selectedWidthNnumericUpDown.Enabled = true;/*/
                     }
-                    //else if((type == typeof(Line)) && (type == typeof(Circle)) && (type == typeof(Ellipse)))
                     else
                     {
                         var typeStr = Drafts[0].GetType().ToString().Split('.');

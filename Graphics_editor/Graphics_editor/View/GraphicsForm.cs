@@ -37,8 +37,7 @@ namespace GraphicsEditor
             _highlightPanel = new SelectionPanel() { StorageManager = new DraftTools.StorageManager(_storage)};
             Controls.Add(_highlightPanel);
             rightGroupBox.Controls.Add(_highlightPanel);
-            _highlightPanel.Show();
-            // selectionPanel.StorageManager = new DraftTools.StorageManager(_storage);
+            _highlightPanel.Location = new Point(3, 2);          
         }
 
         private void mainPictureBox_MouseMove_1(object sender, MouseEventArgs e)
@@ -198,10 +197,7 @@ namespace GraphicsEditor
 
         private void RefreshView()
         {
-            if (_drawManager.Corrector.GetHighlights().Count != 0)
-                _highlightPanel.Drafts = _drawManager.Corrector.GetHighlights();
-            else
-                _highlightPanel.Drafts = null;
+            _highlightPanel.Drafts = _drawManager.Corrector.GetHighlights();
             mainPictureBox.Invalidate();
         }
 
@@ -236,6 +232,13 @@ namespace GraphicsEditor
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
           //  _drawManager.SetList(DraftSerealizer.DeSerialize());
+        }
+
+        private void refreshCanvasTimer_Tick(object sender, EventArgs e)
+        {
+            _draftPainter.RefreshCanvas();
+            mainPictureBox.Invalidate();
+            
         }
     }
 }
