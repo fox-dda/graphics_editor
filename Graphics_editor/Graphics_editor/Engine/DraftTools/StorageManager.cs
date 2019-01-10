@@ -70,11 +70,6 @@ namespace GraphicsEditor.DraftTools
             draft.Pen = pen;
         }
 
-        public void EditRangeHighlightDrafts(Point sp, Point ep, Pen pen, Color color)
-        {
-
-        }
-
         public void DragDotInDraft(DotInDraft dotInDraft, Point newPoint)
         {
             var item = dotInDraft.Draft;
@@ -98,6 +93,18 @@ namespace GraphicsEditor.DraftTools
                 {
                     item.EndPoint = newPoint;
                 }
+            }
+        }
+
+        public void RemoveDraft(IDrawable draft)
+        {
+            if(GetDrafts().Contains(draft))
+            {
+                _storage.DraftList.Remove(draft);
+            }
+            if (GetHighlights().Contains(draft))
+            {
+                _storage.HighlightDraftsList.Remove(draft);
             }
         }
     }

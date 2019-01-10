@@ -49,14 +49,15 @@ namespace GraphicsEditor.Engine
                                 }
                                 else
                                 {
-                                    /*/var gravitySector = Selector.SearchGravityCentre(e.Location, Corrector.GetHighlights());
-                                    var shape = Selector.PointSearch(e.Location, Corrector.GetDrafts());
+                                    //var gravitySector = Selector.PointSearch(e.Location, Corrector.GetHighlights());
+                                    var shape = Selector.PointSearch(e.Location, Corrector.GetHighlights());
                                     if (shape != null)
                                     {
                                         State.Figure = Figure.dragDraft;
                                         State.DragDropDraft = shape;
                                         State.InPocessPoints.Add(e.Location);
-                                    }/*/
+                                        return;
+                                    }
                                 }
                             }
                             if (State.DrawingStrategy == Strategy.selection)
@@ -111,14 +112,14 @@ namespace GraphicsEditor.Engine
                         else if (State.DrawingStrategy == Strategy.dragAndDrop)
                         {
                             if (State.DragDropDraft != null)
-                            {/*/
-                                _draftList.Add(State.DragDropDraft);
-                                _highlightDrafts.Add(State.DragDropDraft);
-                                /*/
+                            {
+                                Corrector.AddDraft(State.DragDropDraft);
+                                Corrector.AddHighlightDraft(State.DragDropDraft);                   
                             }
                             State.Figure = Figure.select;
                             State.DragDropDot.Draft = null;
                             State.DragDropDraft = null;
+                            DraftPainter.RefreshCanvas();
                         }
                         break;
                     }
@@ -158,10 +159,20 @@ namespace GraphicsEditor.Engine
 
             if (State.DragDropDraft != null)
             {
-               // DragDraft(newPoint);
+                DragDraft(newPoint);
             }
         }
-        
+
+        private void DragDraft(Point newPoint)
+        {
+            var bais = new Point(newPoint.X - State.InPocessPoints.Last().X, newPoint.Y - State.InPocessPoints.Last().Y);
+            Corrector.RemoveDraft(State.DragDropDraft);
+            DraftFactory.BaisObject(State.DragDropDraft, bais);
+            State.InPocessPoints.Add(newPoint);
+            DraftPainter.RefreshCanvas();
+            DraftPainter.SoloDraw(State.DragDropDraft);
+        }
+
         //Перетащить точку в рисунке
         private void DragDot(Point newPoint)
         {

@@ -141,5 +141,11 @@ namespace GraphicsEditor.Engine
             State.InPocessPoints.Clear();
             RefreshCanvas();
         }
+
+        public void SoloDraw(IDrawable draft)
+        {
+            _drawer.DrawShape(draft, Painter);
+            _drawer.DrawHighlight(draft, Painter);
+        }
     }
 }
