@@ -432,7 +432,6 @@
             this.Name = "MainForm";
             this.Text = "Graphics editor [v0.4]";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.drawGroupBox.ResumeLayout(false);
             this.colorGroupBox.ResumeLayout(false);

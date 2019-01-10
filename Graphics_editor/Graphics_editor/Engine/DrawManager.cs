@@ -49,14 +49,14 @@ namespace GraphicsEditor.Engine
                                 }
                                 else
                                 {
-                                    //var gravitySector = Selector.SearchGravityCentre(e.Location, Corrector.GetHighlights());
+                                    /*/var gravitySector = Selector.SearchGravityCentre(e.Location, Corrector.GetHighlights());
                                     var shape = Selector.PointSearch(e.Location, Corrector.GetDrafts());
                                     if (shape != null)
                                     {
                                         State.Figure = Figure.dragDraft;
                                         State.DragDropDraft = shape;
                                         State.InPocessPoints.Add(e.Location);
-                                    }
+                                    }/*/
                                 }
                             }
                             if (State.DrawingStrategy == Strategy.selection)
@@ -161,7 +161,8 @@ namespace GraphicsEditor.Engine
                // DragDraft(newPoint);
             }
         }
-
+        
+        //Перетащить точку в рисунке
         private void DragDot(Point newPoint)
         {
             Corrector.DragDotInDraft(State.DragDropDot, newPoint);

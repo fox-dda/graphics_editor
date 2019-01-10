@@ -110,6 +110,7 @@ namespace GraphicsEditor
                 else
                     StorageManager.EditHighlightDraft(Drafts[0], startPoint, endPoint, pen);/*/
             }
+            ModelChanged();
         }
 
         private void RefreshView()
@@ -274,9 +275,9 @@ namespace GraphicsEditor
             }
         }
 
-        // public delegate void _dataChanged();
+         public delegate void DataChanged();
 
-        // public event _dataChanged DataChanged;
+         public event  DataChanged ModelChanged;
     }
 }
 

@@ -36,7 +36,9 @@ namespace GraphicsEditor
             _highlightPanel = new SelectionPanel() { StorageManager = new DraftTools.StorageManager(_storage)};
             Controls.Add(_highlightPanel);
             rightGroupBox.Controls.Add(_highlightPanel);
-            _highlightPanel.Location = new Point(3, 2);          
+            _highlightPanel.Location = new Point(3, 2);
+            _highlightPanel.ModelChanged += _draftPainter.RefreshCanvas;
+            _highlightPanel.ModelChanged += mainPictureBox.Invalidate;
         }
 
         private void mainPictureBox_MouseMove_1(object sender, MouseEventArgs e)
@@ -59,19 +61,7 @@ namespace GraphicsEditor
             RefreshView();
             mainPictureBox.Invalidate();
         }
-        /*/
-        private void mainPictureBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            _drawManager.Process(e, MouseAction.down);
-            mainPictureBox.Invalidate();
-        }
 
-        private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
-        {
-            _drawManager.Process(e, MouseAction.move);
-            mainPictureBox.Invalidate();
-        }
-        /*/
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             _drawManager.Process(e, MouseAction.up);
@@ -234,12 +224,6 @@ namespace GraphicsEditor
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
           //  _drawManager.SetList(DraftSerealizer.DeSerialize());
-        }
-
-        private void MainForm_KeyUp(object sender, KeyEventArgs e)
-        {
-            _draftPainter.RefreshCanvas();
-            mainPictureBox.Invalidate();
         }
     }
 }
