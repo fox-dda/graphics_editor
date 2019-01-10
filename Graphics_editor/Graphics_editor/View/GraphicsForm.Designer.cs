@@ -40,9 +40,6 @@
             this.brushColorpanel = new System.Windows.Forms.Panel();
             this.canvasColorpanel = new System.Windows.Forms.Panel();
             this.penColorpanel = new System.Windows.Forms.Panel();
-            this.selectBrushColorButton = new System.Windows.Forms.Button();
-            this.selectCanvasColorButton = new System.Windows.Forms.Button();
-            this.selectPenColorButton = new System.Windows.Forms.Button();
             this.clearCanvasButton = new System.Windows.Forms.Button();
             this.penStyleGroupBox = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,6 +58,9 @@
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.centreGroupBox = new System.Windows.Forms.GroupBox();
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
+            this.selectPenColorLabel = new System.Windows.Forms.Label();
+            this.selectCanvasColorLabel = new System.Windows.Forms.Label();
+            this.selectBrushColorLabel = new System.Windows.Forms.Label();
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
             this.penStyleGroupBox.SuspendLayout();
@@ -151,12 +151,12 @@
             // 
             // colorGroupBox
             // 
+            this.colorGroupBox.Controls.Add(this.selectBrushColorLabel);
+            this.colorGroupBox.Controls.Add(this.selectCanvasColorLabel);
+            this.colorGroupBox.Controls.Add(this.selectPenColorLabel);
             this.colorGroupBox.Controls.Add(this.brushColorpanel);
             this.colorGroupBox.Controls.Add(this.canvasColorpanel);
             this.colorGroupBox.Controls.Add(this.penColorpanel);
-            this.colorGroupBox.Controls.Add(this.selectBrushColorButton);
-            this.colorGroupBox.Controls.Add(this.selectCanvasColorButton);
-            this.colorGroupBox.Controls.Add(this.selectPenColorButton);
             this.colorGroupBox.Location = new System.Drawing.Point(6, 269);
             this.colorGroupBox.Name = "colorGroupBox";
             this.colorGroupBox.Size = new System.Drawing.Size(133, 106);
@@ -167,57 +167,30 @@
             // brushColorpanel
             // 
             this.brushColorpanel.BackColor = System.Drawing.Color.White;
-            this.brushColorpanel.Location = new System.Drawing.Point(94, 77);
+            this.brushColorpanel.Location = new System.Drawing.Point(71, 47);
             this.brushColorpanel.Name = "brushColorpanel";
             this.brushColorpanel.Size = new System.Drawing.Size(23, 23);
             this.brushColorpanel.TabIndex = 9;
+            this.brushColorpanel.Click += new System.EventHandler(this.brushColorpanel_Click);
             // 
             // canvasColorpanel
             // 
             this.canvasColorpanel.BackColor = System.Drawing.Color.White;
             this.canvasColorpanel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.canvasColorpanel.Location = new System.Drawing.Point(94, 48);
+            this.canvasColorpanel.Location = new System.Drawing.Point(71, 77);
             this.canvasColorpanel.Name = "canvasColorpanel";
             this.canvasColorpanel.Size = new System.Drawing.Size(23, 23);
             this.canvasColorpanel.TabIndex = 8;
+            this.canvasColorpanel.Click += new System.EventHandler(this.canvasColorpanel_Click);
             // 
             // penColorpanel
             // 
             this.penColorpanel.BackColor = System.Drawing.Color.Black;
-            this.penColorpanel.Location = new System.Drawing.Point(94, 19);
+            this.penColorpanel.Location = new System.Drawing.Point(71, 19);
             this.penColorpanel.Name = "penColorpanel";
             this.penColorpanel.Size = new System.Drawing.Size(23, 23);
             this.penColorpanel.TabIndex = 7;
-            // 
-            // selectBrushColorButton
-            // 
-            this.selectBrushColorButton.Location = new System.Drawing.Point(13, 77);
-            this.selectBrushColorButton.Name = "selectBrushColorButton";
-            this.selectBrushColorButton.Size = new System.Drawing.Size(75, 23);
-            this.selectBrushColorButton.TabIndex = 6;
-            this.selectBrushColorButton.Text = "Brush";
-            this.selectBrushColorButton.UseVisualStyleBackColor = true;
-            this.selectBrushColorButton.Click += new System.EventHandler(this.selectBrushColorButton_Click);
-            // 
-            // selectCanvasColorButton
-            // 
-            this.selectCanvasColorButton.Location = new System.Drawing.Point(13, 48);
-            this.selectCanvasColorButton.Name = "selectCanvasColorButton";
-            this.selectCanvasColorButton.Size = new System.Drawing.Size(75, 23);
-            this.selectCanvasColorButton.TabIndex = 3;
-            this.selectCanvasColorButton.Text = "Canvas";
-            this.selectCanvasColorButton.UseVisualStyleBackColor = true;
-            this.selectCanvasColorButton.Click += new System.EventHandler(this.selectCanvasColorButton_Click);
-            // 
-            // selectPenColorButton
-            // 
-            this.selectPenColorButton.Location = new System.Drawing.Point(13, 19);
-            this.selectPenColorButton.Name = "selectPenColorButton";
-            this.selectPenColorButton.Size = new System.Drawing.Size(75, 23);
-            this.selectPenColorButton.TabIndex = 3;
-            this.selectPenColorButton.Text = "Pen";
-            this.selectPenColorButton.UseVisualStyleBackColor = true;
-            this.selectPenColorButton.Click += new System.EventHandler(this.selectColorButton_Click);
+            this.penColorpanel.Click += new System.EventHandler(this.penColorpanel_Click);
             // 
             // clearCanvasButton
             // 
@@ -415,6 +388,33 @@
             this.mainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseMove_1);
             this.mainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseUp_1);
             // 
+            // selectPenColorLabel
+            // 
+            this.selectPenColorLabel.AutoSize = true;
+            this.selectPenColorLabel.Location = new System.Drawing.Point(10, 24);
+            this.selectPenColorLabel.Name = "selectPenColorLabel";
+            this.selectPenColorLabel.Size = new System.Drawing.Size(26, 13);
+            this.selectPenColorLabel.TabIndex = 1;
+            this.selectPenColorLabel.Text = "Pen";
+            // 
+            // selectCanvasColorLabel
+            // 
+            this.selectCanvasColorLabel.AutoSize = true;
+            this.selectCanvasColorLabel.Location = new System.Drawing.Point(10, 81);
+            this.selectCanvasColorLabel.Name = "selectCanvasColorLabel";
+            this.selectCanvasColorLabel.Size = new System.Drawing.Size(43, 13);
+            this.selectCanvasColorLabel.TabIndex = 1;
+            this.selectCanvasColorLabel.Text = "Canvas";
+            // 
+            // selectBrushColorLabel
+            // 
+            this.selectBrushColorLabel.AutoSize = true;
+            this.selectBrushColorLabel.Location = new System.Drawing.Point(10, 51);
+            this.selectBrushColorLabel.Name = "selectBrushColorLabel";
+            this.selectBrushColorLabel.Size = new System.Drawing.Size(34, 13);
+            this.selectBrushColorLabel.TabIndex = 1;
+            this.selectBrushColorLabel.Text = "Brush";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -435,6 +435,7 @@
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.drawGroupBox.ResumeLayout(false);
             this.colorGroupBox.ResumeLayout(false);
+            this.colorGroupBox.PerformLayout();
             this.penStyleGroupBox.ResumeLayout(false);
             this.penStyleGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.penStrokeWidthNumericUpDown)).EndInit();
@@ -458,8 +459,6 @@
         private System.Windows.Forms.Button polylineButton;
         private System.Windows.Forms.Button circleButton;
         private System.Windows.Forms.GroupBox colorGroupBox;
-        private System.Windows.Forms.Button selectPenColorButton;
-        private System.Windows.Forms.Button selectCanvasColorButton;
         private System.Windows.Forms.Button clearCanvasButton;
         private System.Windows.Forms.Button ellipseButton;
         private System.Windows.Forms.GroupBox penStyleGroupBox;
@@ -467,7 +466,6 @@
         private System.Windows.Forms.Label widthLabel;
         private System.Windows.Forms.NumericUpDown penStrokeWidthNumericUpDown;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button selectBrushColorButton;
         private System.Windows.Forms.Button selectMouseButton;
         private System.Windows.Forms.GroupBox SelectionGroupBox;
         private System.Windows.Forms.Button discardButton;
@@ -485,6 +483,9 @@
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.GroupBox centreGroupBox;
         private System.Windows.Forms.PictureBox mainPictureBox;
+        private System.Windows.Forms.Label selectBrushColorLabel;
+        private System.Windows.Forms.Label selectCanvasColorLabel;
+        private System.Windows.Forms.Label selectPenColorLabel;
     }
 }
 

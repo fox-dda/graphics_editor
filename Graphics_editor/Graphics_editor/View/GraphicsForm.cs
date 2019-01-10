@@ -13,7 +13,7 @@ namespace GraphicsEditor
         private DrawManager _drawManager;
         private DraftClipboard _buffer = new DraftClipboard();
         private DraftStorage _storage = new DraftStorage();
-        private Graphics _paintCore;    
+        private Graphics _paintCore;
         private DraftPainter _draftPainter;
         private SelectionPanel _highlightPanel;
 
@@ -33,7 +33,7 @@ namespace GraphicsEditor
             _paintCore = Graphics.FromImage(btm);
             _draftPainter = new DraftPainter(_paintCore);
             _drawManager = new DrawManager(_draftPainter, _storage);
-            _highlightPanel = new SelectionPanel() { StorageManager = new DraftTools.StorageManager(_storage)};
+            _highlightPanel = new SelectionPanel() { StorageManager = new DraftTools.StorageManager(_storage) };
             Controls.Add(_highlightPanel);
             rightGroupBox.Controls.Add(_highlightPanel);
             _highlightPanel.Location = new Point(3, 2);
@@ -44,7 +44,7 @@ namespace GraphicsEditor
         private void mainPictureBox_MouseMove_1(object sender, MouseEventArgs e)
         {
             _drawManager.Process(e, MouseAction.move);
-           // RefreshView();
+            // RefreshView();
             mainPictureBox.Invalidate();
         }
 
@@ -54,7 +54,7 @@ namespace GraphicsEditor
             RefreshView();
             mainPictureBox.Invalidate();
         }
-        
+
         private void mainPictureBox_MouseDown_1(object sender, MouseEventArgs e)
         {
             _drawManager.Process(e, MouseAction.down);
@@ -88,33 +88,10 @@ namespace GraphicsEditor
             _drawManager.State.Figure = Figure.triangle;
         }
 
-        private void selectColorButton_Click(object sender, EventArgs e)
-        {
-            ColorDialog colorDialog = new ColorDialog();
-
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                _drawManager.DraftPainter.Parameters.GPen = new Pen(colorDialog.Color, _drawManager.DraftPainter.Parameters.GPen.Width);
-                penColorpanel.BackColor = colorDialog.Color;
-            }
-            refreshPen();
-        }
-
-        private void selectCanvasColorButton_Click(object sender, EventArgs e)
-        {
-            ColorDialog colorDialog = new ColorDialog();
-
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                _drawManager.DraftPainter.SetCanvasColor(colorDialog.Color);
-                canvasColorpanel.BackColor = colorDialog.Color;
-            }
-        }
-
         private void clearCanvasButton_Click(object sender, EventArgs e)
         {
-            _drawManager.DraftPainter.ClearCanvas();
             canvasColorpanel.BackColor = Color.White;
+            _drawManager.DraftPainter.ClearCanvas();
             RefreshView();
             mainPictureBox.Invalidate();
         }
@@ -155,17 +132,6 @@ namespace GraphicsEditor
             mainPictureBox.Invalidate();
         }
 
-        private void selectBrushColorButton_Click(object sender, EventArgs e)
-        {
-            ColorDialog colorDialog = new ColorDialog();
-
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                _drawManager.DraftPainter.Parameters.BrushColor = colorDialog.Color;
-                brushColorpanel.BackColor = colorDialog.Color;
-            }
-        }
-
         private void selectMouseButton_Click(object sender, EventArgs e)
         {
             _drawManager.State.Figure = Figure.select;
@@ -173,7 +139,7 @@ namespace GraphicsEditor
 
         private void discardButton_Click(object sender, EventArgs e)
         {
-           // _drawManager.DraftPainter.DisradHighlightingAll();
+            // _drawManager.DraftPainter.DisradHighlightingAll();
             mainPictureBox.Invalidate();
         }
 
@@ -184,7 +150,7 @@ namespace GraphicsEditor
 
         private void mainPictureBox_MouseLeave(object sender, EventArgs e)
         {
-            
+
         }
 
         private void RefreshView()
@@ -218,12 +184,46 @@ namespace GraphicsEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-         //   DraftSerealizer.Serialize(_drawManager.GetListForSave());
+            //   DraftSerealizer.Serialize(_drawManager.GetListForSave());
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-          //  _drawManager.SetList(DraftSerealizer.DeSerialize());
+            //  _drawManager.SetList(DraftSerealizer.DeSerialize());
+        }
+
+        private void penColorpanel_Click(object sender, EventArgs e)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                _drawManager.DraftPainter.Parameters.GPen = new Pen(colorDialog.Color, _drawManager.DraftPainter.Parameters.GPen.Width);
+                penColorpanel.BackColor = colorDialog.Color;
+            }
+            refreshPen();
+        }
+
+        private void canvasColorpanel_Click(object sender, EventArgs e)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                _drawManager.DraftPainter.SetCanvasColor(colorDialog.Color);
+                canvasColorpanel.BackColor = colorDialog.Color;
+            }
+        }
+
+        private void brushColorpanel_Click(object sender, EventArgs e)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                _drawManager.DraftPainter.Parameters.BrushColor = colorDialog.Color;
+                brushColorpanel.BackColor = colorDialog.Color;
+            }
         }
     }
 }

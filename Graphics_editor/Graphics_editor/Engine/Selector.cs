@@ -14,6 +14,8 @@ namespace GraphicsEditor
 
             for (int i = draftList.Count - 1; i > -1; i--)
             {
+                if (draftList[i] == null)
+                    continue;
                 var sy = draftList[i].StartPoint.Y;
                 var sx = draftList[i].StartPoint.X;
                 var ex = draftList[i].EndPoint.X;
@@ -38,6 +40,8 @@ namespace GraphicsEditor
             List<IDrawable> findList = new List<IDrawable>();
             for (int i = draftList.Count - 1; i > -1; i--)
             {
+                if (draftList[i] == null)
+                    continue;
                 var sy = draftList[i].StartPoint.Y;
                 var sx = draftList[i].StartPoint.X;
                 var ex = draftList[i].EndPoint.X;

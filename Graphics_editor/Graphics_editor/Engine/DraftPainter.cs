@@ -130,7 +130,7 @@ namespace GraphicsEditor.Engine
         {
             Corrector.ClearStorage();
             State.CacheDraft = null;
-            Painter.Clear(Parameters.CanvasColor);
+            Painter.Clear(Color.White);
             State.InPocessPoints.Clear();
             Parameters.CanvasColor = Color.White;
         }
