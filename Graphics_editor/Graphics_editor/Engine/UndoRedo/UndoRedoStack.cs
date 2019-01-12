@@ -2,77 +2,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using System.Threading.Tasks;
+using GraphicsEditor.Engine.UndoRedo.Commands;
 
-namespace GraphicsEditor.UndoRedo
+namespace GraphicsEditor.Engine.UndoRedo
 {
-    public class UndoRedoStack<T>
+    public class UndoRedoStack
     {
-        private Stack<ICommand<T>> _undo;
-        private Stack<ICommand<T>> _redo;
+        private Stack<ICommand> _undo;
+        private Stack<ICommand> _redo;
 
         public UndoRedoStack()
         {
             Reset();
         }
 
-        public int UndoCount
-        {
-            get
-            {
-                return _undo.Count;
-            }
-        }
-
-        public int RedoCount
-        {
-            get
-            {
-                return _redo.Count;
-            }
-        }
-
         public void Reset()
         {
-            _undo = new Stack<ICommand<T>>();
-            _redo = new Stack<ICommand<T>>();
+            _undo = new Stack<ICommand>();
+            _redo = new Stack<ICommand>(); 
         }
 
-        public T Do(ICommand<T> cmd, T input)
+        public void Do(ICommand command)
         {
-            T output = cmd.Do(input);
-            _undo.Push(cmd);
+            command.Do();
+            _undo.Push(command);
             _redo.Clear();
-            return output;
+           // MessageBox.Show("Do");
         }
 
-        public T Undo(T input)
+        public void Undo()
         {
-            if(_undo.Count > 0)
+            if (_undo.Count > 0)
             {
-                ICommand<T> cmd = _undo.Pop();
-                T output = cmd.Undo(input);
+                ICommand cmd = _undo.Pop();
+                cmd.Undo();
                 _redo.Push(cmd);
-                return output;
-            }
-            else
-            {
-                return input;
+             //   MessageBox.Show("Undo");
             }
         }
 
-        public T Redo(T input)
+        public void Redo()
         {
             if (_redo.Count > 0)
             {
-                ICommand<T> cmd = _redo.Pop();
-                T output = cmd.Do(input);
+                ICommand cmd = _redo.Pop();
+                cmd.Do();
                 _undo.Push(cmd);
-                return output;
-            }
-            else
-            {
-                return input;
+               // MessageBox.Show("Redo");
             }
         }
     }

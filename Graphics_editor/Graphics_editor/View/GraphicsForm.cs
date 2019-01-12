@@ -43,28 +43,28 @@ namespace GraphicsEditor
 
         private void mainPictureBox_MouseMove_1(object sender, MouseEventArgs e)
         {
-            _drawManager.Process(e, MouseAction.move);
+            _drawManager.MouseProcess(e, MouseAction.move);
             // RefreshView();
             mainPictureBox.Invalidate();
         }
 
         private void mainPictureBox_MouseUp_1(object sender, MouseEventArgs e)
         {
-            _drawManager.Process(e, MouseAction.up);
+            _drawManager.MouseProcess(e, MouseAction.up);
             RefreshView();
             mainPictureBox.Invalidate();
         }
 
         private void mainPictureBox_MouseDown_1(object sender, MouseEventArgs e)
         {
-            _drawManager.Process(e, MouseAction.down);
+            _drawManager.MouseProcess(e, MouseAction.down);
             RefreshView();
             mainPictureBox.Invalidate();
         }
 
         private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            _drawManager.Process(e, MouseAction.up);
+            _drawManager.MouseProcess(e, MouseAction.up);
             RefreshView();
         }
 
@@ -124,6 +124,9 @@ namespace GraphicsEditor
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
+            if ((mainPictureBox.Width < 1) && (mainPictureBox.Height < 1))
+                return;
+
             Bitmap btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
             mainPictureBox.Image = btm;
             _paintCore = Graphics.FromImage(btm);
@@ -160,26 +163,11 @@ namespace GraphicsEditor
         }
 
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
-        {/*/
-            if (e.KeyChar == (Char)3)//c
-            {
-                _buffer.SetRange(_drawManager.GetHighlightObjects()); 
-            }
-            else if (e.KeyChar == (Char)22)//v
-            {
-                _drawManager.AddObjects(_buffer.GetAll());
-            }
-            else if (e.KeyChar == (Char)4)//d
-            {
-                _drawManager.RemoveHighlightObjects();
-            }
-            else if (e.KeyChar == (Char)24)//x
-            {
-                _buffer.SetRange(_drawManager.GetHighlightObjects());
-                _drawManager.RemoveHighlightObjects();
-            }/*/
+        {
+            _drawManager.KeyProcess(e, _buffer);
             _draftPainter.RefreshCanvas();
             mainPictureBox.Invalidate();
+            RefreshView();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)

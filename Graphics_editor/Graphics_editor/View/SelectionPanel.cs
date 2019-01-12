@@ -90,9 +90,9 @@ namespace GraphicsEditor
                     };
 
                 if (Drafts[0] is IBrushable)
-                    StorageManager.EditHighlightDraft(Drafts[0], startPoint, endPoint, pen, selectedBrushPanel.BackColor);
+                    StorageManager.EditBrushableDraft(Drafts[0], startPoint, endPoint, pen, selectedBrushPanel.BackColor);
                 else
-                    StorageManager.EditHighlightDraft(Drafts[0], startPoint, endPoint, pen);
+                    StorageManager.EditDraft(Drafts[0], startPoint, endPoint, pen);
             }
             else if(IsShortData())
             {
@@ -174,16 +174,16 @@ namespace GraphicsEditor
 
                     if (type == null)
                     {
-                        typeLabel.Text = "Draft collection";
-                     /*/   selectedColorPanel.Enabled = true;
-                        selectedBrushPanel.Enabled = true;
-                        selectedStrokeNumericUpDown.Enabled = true;
-                        selectedWidthNnumericUpDown.Enabled = true;/*/
+                        typeLabel.Text = "Draft collection[" + Drafts.Count.ToString() + "]";
+                        /*/   selectedColorPanel.Enabled = true;
+                           selectedBrushPanel.Enabled = true;
+                           selectedStrokeNumericUpDown.Enabled = true;
+                           selectedWidthNnumericUpDown.Enabled = true;/*/
                     }
                     else
                     {
                         var typeStr = Drafts[0].GetType().ToString().Split('.');
-                        typeLabel.Text = typeStr[typeStr.Length - 1] + " collection";
+                        typeLabel.Text = typeStr[typeStr.Length - 1] + " collection[" + Drafts.Count.ToString() + "]";
                     }
                 }
             }

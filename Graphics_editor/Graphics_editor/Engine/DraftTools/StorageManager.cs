@@ -5,13 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using GraphicsEditor.Model;
-using System.Windows.Forms;
+using GraphicsEditor.Engine.UndoRedo;
+using GraphicsEditor.Engine.UndoRedo.Commands;
 
 namespace GraphicsEditor.DraftTools
 {
     public class StorageManager
     {
         private DraftStorage _storage;
+        private UndoRedoStack _undoRedoStack = new UndoRedoStack();
+
+        public void RedoCommand()
+        {
+            _undoRedoStack.Redo();
+        }
+
+        public void UndoCommand()
+        {
+            _undoRedoStack.Undo();
+        }
 
         public StorageManager(DraftStorage storage)
         {
@@ -30,12 +42,28 @@ namespace GraphicsEditor.DraftTools
 
         public void AddDraft(IDrawable draft)
         {
-            _storage.DraftList.Add(draft);
+            _undoRedoStack.Do(CommandFactory.CreateAddDraftCommand(_storage.DraftList, draft));
+        }
+
+        public void AddRangeDrafts(List<IDrawable> drafts)
+        {
+            _undoRedoStack.Do(CommandFactory.CreateAddRangeDraftCommand(_storage.DraftList, drafts));
+        }
+
+        public void AddHighlightRangeDraft(List<IDrawable> drafts)
+        {
+            foreach (IDrawable draft in drafts)
+            {
+                if (GetHighlights().Contains(draft))
+                    _storage.HighlightDraftsList.Remove(draft);
+                else
+                    _storage.HighlightDraftsList.Add(draft);
+            }
         }
 
         public void ClearStorage()
         {
-            _storage.DraftList.Clear();
+            _undoRedoStack.Do(CommandFactory.CreateClearStorageCommand(_storage.DraftList));
             _storage.HighlightDraftsList.Clear();
         }
 
@@ -57,17 +85,14 @@ namespace GraphicsEditor.DraftTools
             _storage.HighlightDraftsList.AddRange(highlightRange);
         }
 
-        public void EditHighlightDraft(IDrawable draft, Point sp, Point ep, Pen pen, Color brush)
+        public void EditBrushableDraft(IDrawable draft, Point sp, Point ep, Pen pen, Color brush)
         {
-            EditHighlightDraft(draft, sp, ep, pen);
-            (draft as IBrushable).BrushColor = brush;
+            _undoRedoStack.Do(CommandFactory.CreateEditBrushableDraftCommand(draft, sp, ep, pen, brush));
         }
 
-        public void EditHighlightDraft(IDrawable draft, Point sp, Point ep, Pen pen)
+        public void EditDraft(IDrawable draft, Point sp, Point ep, Pen pen)
         {
-            draft.StartPoint = sp;
-            draft.EndPoint = ep;
-            draft.Pen = pen;
+            _undoRedoStack.Do(CommandFactory.CreateEditDraftCommand(draft, sp, ep, pen));
         }
 
         public void DragDotInDraft(DotInDraft dotInDraft, Point newPoint)
@@ -98,14 +123,40 @@ namespace GraphicsEditor.DraftTools
 
         public void RemoveDraft(IDrawable draft)
         {
-            if(GetDrafts().Contains(draft))
-            {
-                _storage.DraftList.Remove(draft);
-            }
             if (GetHighlights().Contains(draft))
             {
                 _storage.HighlightDraftsList.Remove(draft);
             }
+            _undoRedoStack.Do(CommandFactory.CreateRemoveDraftCommand(_storage.DraftList, draft));
+        }
+
+        public void RemoveRangeDrafts(List<IDrawable> drafts)
+        {
+
+            foreach (IDrawable draft in drafts)
+            {
+                if (_storage.HighlightDraftsList.Contains(draft))
+                {
+                    _storage.HighlightDraftsList.Remove(draft);
+                }
+            }
+            _undoRedoStack.Do(CommandFactory.CreateRemoveRangeDraftsCommand(_storage.DraftList, drafts));
+        }
+
+        public void RemoveRangeHighligtDrafts()
+        {
+            _undoRedoStack.Do(CommandFactory.CreateRemoveRangeDraftsCommand(_storage.DraftList, _storage.HighlightDraftsList));
+            /*/
+            foreach (IDrawable draft in GetHighlights())
+            {
+                if (_storage.DraftList.Contains(draft))
+                {
+                    _storage.HighlightDraftsList.Remove(draft);
+                }               
+            }
+            _storage.HighlightDraftsList.Clear();
+            /*/
+            _storage.HighlightDraftsList.Clear();
         }
     }
 }

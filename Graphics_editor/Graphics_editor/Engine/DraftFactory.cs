@@ -54,6 +54,28 @@ namespace GraphicsEditor
             }
         }
 
+        public static IDrawable CreateDraft(Figure figure, List<Point> pointList, Pen gPen)
+        {
+            switch (figure)
+            {
+                case Figure.polyline:
+                    return new Polyline(pointList, gPen);
+                default:
+                    return null;
+            }
+        }
+
+        public static IDrawable CreateDraft(Figure figure, Point startPoint, Point endPoint, Pen gPen)
+        {
+            switch (figure)
+            {
+                case Figure.line:
+                    return new Line(startPoint, endPoint, gPen);
+                default:
+                    return null;
+            }
+        }
+
         //Определение стратегии отрисовки фигуры по её классу
         public static Strategy DefineStrategy(Figure figure)
         {
@@ -113,6 +135,22 @@ namespace GraphicsEditor
                 }
 
                 return new Polyline(cloneList, (draft as Polyline).Pen);
+            }
+            else if (draft is Circle)
+            {
+                return new Circle(new Point(draft.StartPoint.X, draft.StartPoint.Y),
+                    new Point(draft.EndPoint.X, draft.EndPoint.Y), new Pen(draft.Pen.Color, draft.Pen.Width)){ BrushColor = (draft as Circle).BrushColor};
+            }
+            else if (draft is Ellipse)
+            {
+                return new Ellipse(new Point(draft.StartPoint.X, draft.StartPoint.Y),
+                    new Point(draft.EndPoint.X, draft.EndPoint.Y), draft.Pen)
+                { BrushColor = (draft as Ellipse).BrushColor };
+            }
+            else if (draft is Line)
+            {
+                return new Line(new Point(draft.StartPoint.X, draft.StartPoint.Y),
+                    new Point(draft.EndPoint.X, draft.EndPoint.Y), draft.Pen);
             }
             return null;
         }

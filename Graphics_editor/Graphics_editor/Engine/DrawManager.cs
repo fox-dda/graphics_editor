@@ -26,7 +26,40 @@ namespace GraphicsEditor.Engine
             DraftPainter.Corrector = Corrector;
         }
 
-        public void Process(MouseEventArgs e, MouseAction mouseAction)
+        public void KeyProcess(KeyPressEventArgs e, DraftClipboard _buffer)
+        {
+            if (e.KeyChar == (Char)3)//c
+            {
+                _buffer.SetRange(Corrector.GetHighlights());
+            }
+            else if (e.KeyChar == (Char)22)//v
+            {
+                Corrector.AddRangeDrafts(_buffer.GetAll());
+            }
+            else if (e.KeyChar == (Char)4)//d
+            {
+                Corrector.RemoveRangeHighligtDrafts();
+            }
+            else if (e.KeyChar == (Char)24)//x
+            {
+                _buffer.SetRange(Corrector.GetHighlights());
+                Corrector.RemoveRangeHighligtDrafts();
+            }
+            else if (e.KeyChar == (Char)26)//z
+            {
+                Corrector.DiscardAll();
+                Corrector.UndoCommand();
+                DraftPainter.RefreshCanvas();
+            }
+            else if (e.KeyChar == (Char)25)//y
+            {
+                Corrector.DiscardAll();
+                Corrector.RedoCommand();
+                DraftPainter.RefreshCanvas();
+            }
+        }
+
+        public void MouseProcess(MouseEventArgs e, MouseAction mouseAction)
         {
             switch (mouseAction)
             {
@@ -128,6 +161,7 @@ namespace GraphicsEditor.Engine
 
         private void DotSelection(Point mousePoint)
         {
+            Corrector.DiscardAll();
             var selectedDraft = Selector.PointSearch(mousePoint, Corrector.GetDrafts());
             if (selectedDraft != null)
             {

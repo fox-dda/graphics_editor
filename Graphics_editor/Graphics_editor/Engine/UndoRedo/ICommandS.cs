@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphicsEditor.UndoRedo
 {
-    public interface ICommand<T> 
+    public interface ICommandS<T>
     {
         T Do(T input);
         T Undo(T input);
