@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System;
 using GraphicsEditor.Model;
 using System.Windows.Forms;
 
@@ -11,17 +12,110 @@ namespace GraphicsEditor
         {
             if (draftList == null)
                 return null;
-
+            
             for (int i = draftList.Count - 1; i > -1; i--)
             {
                 if (draftList[i] == null)
                     continue;
+
                 var sy = draftList[i].StartPoint.Y;
                 var sx = draftList[i].StartPoint.X;
                 var ex = draftList[i].EndPoint.X;
                 var ey = draftList[i].EndPoint.Y;
                 var my = mousePoint.Y;
                 var mx = mousePoint.X;
+
+                if (draftList[i] is Polygon)
+                {
+                    int minX = draftList[i].StartPoint.X;
+                    int maxX = draftList[i].StartPoint.X;
+                    int minY = draftList[i].StartPoint.Y;
+                    int maxY = draftList[i].StartPoint.Y;
+                    foreach (Point point in (draftList[i] as Polygon).DotList)
+                    {
+                        if (minX > point.X)
+                        {
+                            minX = point.X;
+                        }
+                        if (maxX < point.X)
+                        {
+                            maxX = point.X;
+                        }
+                        if (minY > point.Y)
+                        {
+                            minY = point.Y;
+                        }
+                        if (maxY < point.Y)
+                        {
+                            maxY = point.Y;
+                        }
+                    }
+                    sx = minX;
+                    sy = minY;
+                    ex = maxX;
+                    ey = maxY;
+                }
+                else if(draftList[i] is Polyline)
+                {
+                    int minX = draftList[i].StartPoint.X;
+                    int maxX = draftList[i].StartPoint.X;
+                    int minY = draftList[i].StartPoint.Y;
+                    int maxY = draftList[i].StartPoint.Y;
+                    foreach (Point point in (draftList[i] as Polyline).DotList)
+                    {
+                        if (minX > point.X)
+                        {
+                            minX = point.X;
+                        }
+                        if (maxX < point.X)
+                        {
+                            maxX = point.X;
+                        }
+                        if (minY > point.Y)
+                        {
+                            minY = point.Y;
+                        }
+                        if (maxY < point.Y)
+                        {
+                            maxY = point.Y;
+                        }
+                    }
+                    sx = minX;
+                    sy = minY;
+                    ex = maxX;
+                    ey = maxY;
+                }
+                else if (draftList[i] is Circle)
+                {
+                    var size = Math.Abs(draftList[i].EndPoint.X - draftList[i].StartPoint.X) > Math.Abs(draftList[i].EndPoint.Y - draftList[i].StartPoint.Y) ?
+                        Math.Abs(draftList[i].EndPoint.X - draftList[i].StartPoint.X) : Math.Abs(draftList[i].EndPoint.Y - draftList[i].StartPoint.Y);
+
+                    //сверху вниз слево направа
+                    if ((draftList[i].StartPoint.Y < draftList[i].EndPoint.Y) && (draftList[i].StartPoint.X < draftList[i].EndPoint.X))
+                    {
+
+                    }
+                    //сверху вниз справа налево
+                    else if ((draftList[i].StartPoint.Y < draftList[i].EndPoint.Y) && (draftList[i].StartPoint.X > draftList[i].EndPoint.X))
+                    {
+                        sx = draftList[i].StartPoint.X - size;
+                        sy = draftList[i].StartPoint.Y;
+                    }
+                    //cнизу вверх слево на права
+                    else if ((draftList[i].StartPoint.Y > draftList[i].EndPoint.Y) && (draftList[i].StartPoint.X < draftList[i].EndPoint.X))
+                    {
+                        sx = draftList[i].StartPoint.X;
+                        sy = draftList[i].StartPoint.Y - size;
+                    }
+                    //cнизу вверх справа налево
+                    else if ((draftList[i].StartPoint.Y > draftList[i].EndPoint.Y) && (draftList[i].StartPoint.X > draftList[i].EndPoint.X))
+                    {
+                        sx = draftList[i].StartPoint.X - size;
+                        sy = draftList[i].StartPoint.Y - size;
+                    }
+                    ex = draftList[i].StartPoint.X + size;
+                    ey = draftList[i].StartPoint.Y + size;
+                }
 
                 if ((sy < my) && (sx < mx) && (ey > my) && (ex > mx))
                     return draftList[i];
