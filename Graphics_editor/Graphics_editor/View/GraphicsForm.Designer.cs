@@ -37,6 +37,9 @@
             this.polylineButton = new System.Windows.Forms.Button();
             this.selectMouseButton = new System.Windows.Forms.Button();
             this.colorGroupBox = new System.Windows.Forms.GroupBox();
+            this.selectBrushColorLabel = new System.Windows.Forms.Label();
+            this.selectCanvasColorLabel = new System.Windows.Forms.Label();
+            this.selectPenColorLabel = new System.Windows.Forms.Label();
             this.brushColorpanel = new System.Windows.Forms.Panel();
             this.canvasColorpanel = new System.Windows.Forms.Panel();
             this.penColorpanel = new System.Windows.Forms.Panel();
@@ -58,9 +61,7 @@
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.centreGroupBox = new System.Windows.Forms.GroupBox();
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
-            this.selectPenColorLabel = new System.Windows.Forms.Label();
-            this.selectCanvasColorLabel = new System.Windows.Forms.Label();
-            this.selectBrushColorLabel = new System.Windows.Forms.Label();
+            this.exportToBmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
             this.penStyleGroupBox.SuspendLayout();
@@ -163,6 +164,33 @@
             this.colorGroupBox.TabIndex = 2;
             this.colorGroupBox.TabStop = false;
             this.colorGroupBox.Text = "Color";
+            // 
+            // selectBrushColorLabel
+            // 
+            this.selectBrushColorLabel.AutoSize = true;
+            this.selectBrushColorLabel.Location = new System.Drawing.Point(10, 51);
+            this.selectBrushColorLabel.Name = "selectBrushColorLabel";
+            this.selectBrushColorLabel.Size = new System.Drawing.Size(34, 13);
+            this.selectBrushColorLabel.TabIndex = 1;
+            this.selectBrushColorLabel.Text = "Brush";
+            // 
+            // selectCanvasColorLabel
+            // 
+            this.selectCanvasColorLabel.AutoSize = true;
+            this.selectCanvasColorLabel.Location = new System.Drawing.Point(10, 81);
+            this.selectCanvasColorLabel.Name = "selectCanvasColorLabel";
+            this.selectCanvasColorLabel.Size = new System.Drawing.Size(43, 13);
+            this.selectCanvasColorLabel.TabIndex = 1;
+            this.selectCanvasColorLabel.Text = "Canvas";
+            // 
+            // selectPenColorLabel
+            // 
+            this.selectPenColorLabel.AutoSize = true;
+            this.selectPenColorLabel.Location = new System.Drawing.Point(10, 24);
+            this.selectPenColorLabel.Name = "selectPenColorLabel";
+            this.selectPenColorLabel.Size = new System.Drawing.Size(26, 13);
+            this.selectPenColorLabel.TabIndex = 1;
+            this.selectPenColorLabel.Text = "Pen";
             // 
             // brushColorpanel
             // 
@@ -338,7 +366,8 @@
             this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
-            this.saveAsToolStripMenuItem});
+            this.saveAsToolStripMenuItem,
+            this.exportToBmpToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
             this.projectToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.projectToolStripMenuItem.Text = "Project";
@@ -346,20 +375,20 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "New...";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Open";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsToolStripMenuItem.Text = "Save as...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -388,32 +417,12 @@
             this.mainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseMove_1);
             this.mainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseUp_1);
             // 
-            // selectPenColorLabel
+            // exportToBmpToolStripMenuItem
             // 
-            this.selectPenColorLabel.AutoSize = true;
-            this.selectPenColorLabel.Location = new System.Drawing.Point(10, 24);
-            this.selectPenColorLabel.Name = "selectPenColorLabel";
-            this.selectPenColorLabel.Size = new System.Drawing.Size(26, 13);
-            this.selectPenColorLabel.TabIndex = 1;
-            this.selectPenColorLabel.Text = "Pen";
-            // 
-            // selectCanvasColorLabel
-            // 
-            this.selectCanvasColorLabel.AutoSize = true;
-            this.selectCanvasColorLabel.Location = new System.Drawing.Point(10, 81);
-            this.selectCanvasColorLabel.Name = "selectCanvasColorLabel";
-            this.selectCanvasColorLabel.Size = new System.Drawing.Size(43, 13);
-            this.selectCanvasColorLabel.TabIndex = 1;
-            this.selectCanvasColorLabel.Text = "Canvas";
-            // 
-            // selectBrushColorLabel
-            // 
-            this.selectBrushColorLabel.AutoSize = true;
-            this.selectBrushColorLabel.Location = new System.Drawing.Point(10, 51);
-            this.selectBrushColorLabel.Name = "selectBrushColorLabel";
-            this.selectBrushColorLabel.Size = new System.Drawing.Size(34, 13);
-            this.selectBrushColorLabel.TabIndex = 1;
-            this.selectBrushColorLabel.Text = "Brush";
+            this.exportToBmpToolStripMenuItem.Name = "exportToBmpToolStripMenuItem";
+            this.exportToBmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToBmpToolStripMenuItem.Text = "Export to bmp";
+            this.exportToBmpToolStripMenuItem.Click += new System.EventHandler(this.exportToBmpToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -486,6 +495,7 @@
         private System.Windows.Forms.Label selectBrushColorLabel;
         private System.Windows.Forms.Label selectCanvasColorLabel;
         private System.Windows.Forms.Label selectPenColorLabel;
+        private System.Windows.Forms.ToolStripMenuItem exportToBmpToolStripMenuItem;
     }
 }
 

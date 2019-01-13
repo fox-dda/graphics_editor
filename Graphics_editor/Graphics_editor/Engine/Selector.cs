@@ -140,12 +140,23 @@ namespace GraphicsEditor
                 var sx = draftList[i].StartPoint.X;
                 var ex = draftList[i].EndPoint.X;
                 var ey = draftList[i].EndPoint.Y;
+
                 var fsy = frame.StartPoint.Y;
                 var fsx = frame.StartPoint.X;
                 var fey = frame.EndPoint.Y;
                 var fex = frame.EndPoint.X;
-                //////////////////////////////////////////////////////////
-                if ((sy > fsy) && (ey < fey) && (sx > fsx) && (ex < fex) )//&& (ey > fsy) && (sy < fey) && (sx > fsx))
+
+                int minX = fsx > fex ? fex : fsx;
+                int maxX = fsx > fex ? fsx : fex;
+                int minY = fsy > fey ? fey : fsy;
+                int maxY = fsy > fey ? fsy : fey;
+
+                fsx = minX;
+                fsy = minY;
+                fex = maxX;
+                fey = maxY;
+
+                if ((sy > fsy) && (ey < fey) && (sx > fsx) && (ex < fex) )
                     findList.Add(draftList[i]);
             }
             return findList;
@@ -193,18 +204,6 @@ namespace GraphicsEditor
             }
 
         return dotInDraft;
-        }
-
-        public static IDrawable SearchGravityCentre(Point mousePoint, List<IDrawable> highlighList)
-        {
-            IDrawable gravityInDraft = null;
-           /*/ foreach (IDrawable draft in highlighList)
-            {
-                HighlightRect rect = new HighlightRect(draft);
-                if (IsInRect(mousePoint, new Point(rect.DragDropMarkerPoint.X +10, rect.DragDropMarkerPoint.Y - 10), 10))
-                    gravityInDraft = draft;
-            }/*/
-            return gravityInDraft;
         }
     }
 }

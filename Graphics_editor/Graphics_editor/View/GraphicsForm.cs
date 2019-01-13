@@ -28,6 +28,7 @@ namespace GraphicsEditor
                 BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
                 null, control, new object[] { true });
             }
+
             Bitmap btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
             mainPictureBox.Image = btm;
             _paintCore = Graphics.FromImage(btm);
@@ -211,6 +212,21 @@ namespace GraphicsEditor
             {
                 _drawManager.DraftPainter.Parameters.BrushColor = colorDialog.Color;
                 brushColorpanel.BackColor = colorDialog.Color;
+            }
+        }
+
+        private void exportToBmpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            // saveDialog.DefaultExt = "bmp";
+            // saveDialog.DefaultExt = "Image files (*bmp)|*.bmp|All files (*.*)|*.*";
+            _drawManager.Corrector.DiscardAll();
+            _draftPainter.RefreshCanvas();
+            mainPictureBox.Invalidate();
+
+            if(saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                mainPictureBox.Image.Save(saveDialog.FileName +".bmp");
             }
         }
     }
