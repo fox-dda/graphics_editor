@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using GraphicsEditor.Model.Shapes;
 using System.Drawing;
 
 namespace GraphicsEditor.Model
@@ -10,7 +10,7 @@ namespace GraphicsEditor.Model
     [Serializable]
     class Rectangle : IDrawable, IBrushable
     {
-        private Pen _pen;
+        private PenSettings _pen;
         private Point _startPoint;
         private Point _endPoint;
         private SolidBrush _brush;
@@ -51,7 +51,7 @@ namespace GraphicsEditor.Model
             }
         }
 
-        public Pen Pen
+        public PenSettings Pen
         {
             get
             {

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using GraphicsEditor.Model;
+using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
 {
@@ -15,7 +16,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         private IDrawable _backUpDraft;
         private Point _sp;
         private Point _ep;
-        private Pen _pen;
+        private PenSettings _pen;
 
         public void Do()
         {
@@ -29,7 +30,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
             _editedDraft = _backUpDraft;
         }
 
-        public EditDraftCommand(IDrawable draft, Point sp, Point ep, Pen pen)
+        public EditDraftCommand(IDrawable draft, Point sp, Point ep, PenSettings pen)
         {
             _backUpDraft = DraftFactory.Clone(draft);
             _editedDraft = draft;

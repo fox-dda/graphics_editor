@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor.Model
 {
     public interface IDrawable
     {
-        Pen Pen { get; set; }
+        PenSettings Pen { get; set; }
         Point StartPoint { get; set; }
         Point EndPoint { get; set; }
     }

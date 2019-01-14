@@ -11,8 +11,8 @@ namespace GraphicsEditor.Engine.UndoRedo
     [Serializable]
     public class UndoRedoStack
     {
-        private Stack<ICommand> _undo;
-        private Stack<ICommand> _redo;
+        public Stack<ICommand> _undo;
+        public Stack<ICommand> _redo;
 
         public UndoRedoStack()
         {
@@ -29,6 +29,7 @@ namespace GraphicsEditor.Engine.UndoRedo
         {
             foreach (ICommand cmd in _undo)
                 cmd.Do();
+            _redo.Clear();
         }
 
         public void Do(ICommand command)

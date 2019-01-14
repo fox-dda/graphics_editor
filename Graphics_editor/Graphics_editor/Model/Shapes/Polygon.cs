@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor.Model
 {
@@ -11,7 +12,7 @@ namespace GraphicsEditor.Model
     class Polygon : IDrawable, IBrushable
     {
         private SolidBrush _brush;
-        private Pen _pen;
+        private PenSettings _pen;
 
         public Color BrushColor
         {
@@ -47,7 +48,7 @@ namespace GraphicsEditor.Model
                 DotList[DotList.Count - 1] = value;
             }
         }
-        public Pen Pen
+        public PenSettings Pen
         {
             get
             {
@@ -82,7 +83,7 @@ namespace GraphicsEditor.Model
             _dotList.Add(point);
         }
 
-        public Polygon(List<Point> dotlist, Pen pen)//, Color brushColor)
+        public Polygon(List<Point> dotlist, PenSettings pen)//, Color brushColor)
         {
             Pen = pen;
             DotList = dotlist;

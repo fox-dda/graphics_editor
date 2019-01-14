@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using GraphicsEditor.Model;
+using GraphicsEditor.Model.Shapes;
 using GraphicsEditor.Engine.UndoRedo;
 using GraphicsEditor.Engine.UndoRedo.Commands;
 
@@ -13,7 +14,7 @@ namespace GraphicsEditor.DraftTools
     public class StorageManager
     {
         private DraftStorage _storage;
-        private UndoRedoStack _undoRedoStack = new UndoRedoStack();
+        public UndoRedoStack _undoRedoStack = new UndoRedoStack();
 
         public void SetUndoRedoStack(UndoRedoStack stack)
         {
@@ -95,12 +96,12 @@ namespace GraphicsEditor.DraftTools
             _storage.HighlightDraftsList.AddRange(highlightRange);
         }
 
-        public void EditBrushableDraft(IDrawable draft, Point sp, Point ep, Pen pen, Color brush)
+        public void EditBrushableDraft(IDrawable draft, Point sp, Point ep, PenSettings pen, Color brush)
         {
             _undoRedoStack.Do(CommandFactory.CreateEditBrushableDraftCommand(draft, sp, ep, pen, brush));
         }
 
-        public void EditDraft(IDrawable draft, Point sp, Point ep, Pen pen)
+        public void EditDraft(IDrawable draft, Point sp, Point ep, PenSettings pen)
         {
             _undoRedoStack.Do(CommandFactory.CreateEditDraftCommand(draft, sp, ep, pen));
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GraphicsEditor.Model;
+using GraphicsEditor.Model.Shapes;
 using System.Drawing;
 
 
@@ -26,12 +27,12 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
             return new ClearStorageCommand(storage);
         }
 
-        public static EditBrushableDraftCommand CreateEditBrushableDraftCommand(IDrawable draft, Point sp, Point ep, Pen pen, Color brush)
+        public static EditBrushableDraftCommand CreateEditBrushableDraftCommand(IDrawable draft, Point sp, Point ep, PenSettings pen, Color brush)
         {
             return new EditBrushableDraftCommand(draft, sp, ep, pen, brush);
         }
 
-        public static EditDraftCommand CreateEditDraftCommand(IDrawable draft, Point sp, Point ep, Pen pen)
+        public static EditDraftCommand CreateEditDraftCommand(IDrawable draft, Point sp, Point ep, PenSettings pen)
         {
             return new EditDraftCommand(draft, sp, ep, pen);
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using GraphicsEditor.Model.Shapes;
 using System.Drawing;
 
 namespace GraphicsEditor.Model
@@ -10,7 +10,7 @@ namespace GraphicsEditor.Model
     [Serializable]
     class Polyline: IDrawable
     {
-        private Pen _pen;
+        private PenSettings _pen;
         public List<Point> _dotList = new List<Point>();
 
         public Point StartPoint
@@ -35,7 +35,7 @@ namespace GraphicsEditor.Model
                 DotList[DotList.Count-1] = value;
             }
         }
-        public Pen Pen
+        public PenSettings Pen
         {
             get
             {
@@ -71,9 +71,9 @@ namespace GraphicsEditor.Model
             _dotList.Add(point);
         }
 
-        public Polyline(List<Point> dotlist, Pen pen)
+        public Polyline(List<Point> dotlist, PenSettings pen)
         {
-            this.Pen = pen;
+            Pen = pen;
             DotList = dotlist;
         }
     }

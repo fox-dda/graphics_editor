@@ -17,10 +17,10 @@ namespace GraphicsEditor
             binaryFormatter.Serialize(stream, stack);
         }
 
-        public void Deserialize(Stream stream, UndoRedoStack targetStack)
+        public UndoRedoStack Deserialize(Stream stream)
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
-            targetStack = (UndoRedoStack)binaryFormatter.Deserialize(stream);
+            return (UndoRedoStack)binaryFormatter.Deserialize(stream);
         }
     }
 }

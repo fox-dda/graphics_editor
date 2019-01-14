@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor.Model
 {
@@ -14,27 +15,27 @@ namespace GraphicsEditor.Model
         {
             get
             {
-                return _brush.Color;
+                return _brush;
             }
             set
             {
-                _brush = new SolidBrush(value);
+                _brush = value;
             }
         }
-        private Point startPoint;
-        private Point endPoint;
-        private Pen pen;
-        protected  SolidBrush _brush;
+        private Point _startPoint;
+        private Point _endPoint;
+        private PenSettings _pen;
+        protected  Color _brush;
 
         public Point StartPoint
         {
             get
             {
-                return startPoint;
+                return _startPoint;
             }
             set
             {
-                startPoint = value;
+                _startPoint = value;
             }
         }
 
@@ -42,27 +43,27 @@ namespace GraphicsEditor.Model
         {
             get
             {
-                return endPoint;
+                return _endPoint;
             }
             set
             {
-                endPoint = value;
+                _endPoint = value;
             }
         }
 
-        public Pen Pen
+        public PenSettings Pen
         {
             get
             {
-                return pen;
+                return _pen;
             }
             set
             {
-                pen = value;
+                _pen = value;
             }
         }
 
-        public Ellipse(Point _startPoint, Point _endPoint, Pen _pen)
+        public Ellipse(Point _startPoint, Point _endPoint, PenSettings _pen)
         {
             StartPoint = _startPoint;
             EndPoint = _endPoint;

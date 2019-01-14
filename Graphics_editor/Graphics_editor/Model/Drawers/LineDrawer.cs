@@ -11,7 +11,7 @@ namespace GraphicsEditor.Model.Drawers
     {
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
-            graphics.DrawLine(shape.Pen, shape.StartPoint, shape.EndPoint);
+            graphics.DrawLine(new Pen(shape.Pen.Color, shape.Pen.Width) { DashPattern = shape.Pen.DashPattern }, shape.StartPoint, shape.EndPoint);
         }     
     }
 }

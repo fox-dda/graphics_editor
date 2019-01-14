@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor
 {
@@ -39,7 +40,7 @@ namespace GraphicsEditor
                 _dashPattern = value;
             }
         }
-        public Pen GPen = new Pen(Color.Black, 1);
+        public PenSettings GPen = new PenSettings() {Color = Color.Black, Width = 1};
         private Color _canvasColor = Color.White;
         public Color CanvasColor
         {

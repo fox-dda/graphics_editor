@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GraphicsEditor.Model;
+using GraphicsEditor.Model.Shapes;
 using System.Drawing;
 
 namespace GraphicsEditor.Model
@@ -10,14 +10,11 @@ namespace GraphicsEditor.Model
     {
         private Point _startPoint;
         private Point _endPoint;
-        public Pen Pen
+        public PenSettings Pen
         {
             get
             {
-                return new Pen(Color.Gray, 1)
-                {
-                    DashPattern = new float[] { 2, 2 }
-                };
+                return new PenSettings { DashPattern = new float[] { 2, 2 }, Width = 1, Color = Color.Gray };
             }
             set{}
         }

@@ -15,7 +15,7 @@ namespace GraphicsEditor.Model.Drawers
             var startPoint = circle.StartPoint;
             var endPoint = circle.EndPoint;
             var brush = (circle as IBrushable).BrushColor;
-            var pen = circle.Pen;
+            var pen = new Pen(circle.Pen.Color, circle.Pen.Width) { DashPattern = circle.Pen.DashPattern };
             var size = Math.Abs(endPoint.X - startPoint.X) > Math.Abs(endPoint.Y - startPoint.Y) ?
                 Math.Abs(endPoint.X - startPoint.X) : Math.Abs(endPoint.Y - startPoint.Y);
 

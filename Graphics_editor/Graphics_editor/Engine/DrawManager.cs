@@ -9,6 +9,8 @@ using GraphicsEditor.Enums;
 using System.Drawing;
 using GraphicsEditor.DraftTools;
 using System.IO;
+using GraphicsEditor.Engine.UndoRedo;
+using GraphicsEditor.Engine.UndoRedo.Commands;
 
 namespace GraphicsEditor.Engine
 {
@@ -226,8 +228,9 @@ namespace GraphicsEditor.Engine
         public void Deserialize(Stream stream)
         {
             Corrector.ClearStorage();
-            var serealizer = new DraftSerealizer();
-            serealizer.Deserialize(stream, Corrector.GetUndoRedoStack());
+            var serealizer = new DraftSerealizer();     
+            Corrector._undoRedoStack = serealizer.Deserialize(stream);
+            Corrector._undoRedoStack.DoAll();
             DraftPainter.RefreshCanvas();
         }
     }

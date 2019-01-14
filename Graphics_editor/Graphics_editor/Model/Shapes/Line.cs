@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-using System.Windows.Forms;
+using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor.Model
 {
     [Serializable]
     class Line : IDrawable
     {
-        private Pen _pen;
+        private PenSettings _pen;
         private Point _startPoint;
         private Point _endPoint;
 
@@ -39,7 +39,7 @@ namespace GraphicsEditor.Model
             }
         }
 
-        public Pen Pen
+        public PenSettings Pen
         {
             get
             {
@@ -51,7 +51,7 @@ namespace GraphicsEditor.Model
             }
         }
 
-        public Line(Point startPoint, Point endPoint, Pen pen)
+        public Line(Point startPoint, Point endPoint, PenSettings pen)
         {
             StartPoint = startPoint;
             EndPoint = endPoint;

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GraphicsEditor.DraftTools;
+using GraphicsEditor.Model.Shapes;
 using System.Windows.Forms;
 using GraphicsEditor.Model;
 
@@ -80,7 +81,7 @@ namespace GraphicsEditor
             {
                 var startPoint = DraftFactory.CreatePoint(Convert.ToInt32(selectObjectSPXMaskedTextBox.Text), Convert.ToInt32(selectObjectSPYMaskedTextBox.Text));
                 var endPoint = DraftFactory.CreatePoint(Convert.ToInt32(selectObjectEPXMaskedTextBox.Text), Convert.ToInt32(selectObjectEPYMaskedTextBox.Text));
-                var pen = new Pen(selectedColorPanel.BackColor, (float)selectedWidthNnumericUpDown.Value);
+                var pen = new PenSettings() {Color =  selectedColorPanel.BackColor, Width = (float)selectedWidthNnumericUpDown.Value };
 
                 if (selectedStrokeNumericUpDown.Value > 0)
                     pen.DashPattern = new float[]
@@ -93,22 +94,6 @@ namespace GraphicsEditor
                     StorageManager.EditBrushableDraft(Drafts[0], startPoint, endPoint, pen, selectedBrushPanel.BackColor);
                 else
                     StorageManager.EditDraft(Drafts[0], startPoint, endPoint, pen);
-            }
-            else if(IsShortData())
-            {
-               /*/ var pen = new Pen(selectedColorPanel.BackColor, (float)selectedWidthNnumericUpDown.Value);
-
-                if (selectedStrokeNumericUpDown.Value > 0)
-                    pen.DashPattern = new float[]
-                    {
-                        (float)selectedStrokeNumericUpDown.Value,
-                        (float)selectedStrokeNumericUpDown.Value
-                    };
-
-                if (Drafts[0] is IBrushable)
-                    StorageManager.EditHighlightDraft(Drafts[0], startPoint, endPoint, pen, selectedBrushPanel.BackColor);
-                else
-                    StorageManager.EditHighlightDraft(Drafts[0], startPoint, endPoint, pen);/*/
             }
             ModelChanged();
         }

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using GraphicsEditor.Enums;
 using System.Reflection;
 using GraphicsEditor.Engine;
+using GraphicsEditor.Model.Shapes;
 
 
 namespace GraphicsEditor
@@ -114,7 +115,7 @@ namespace GraphicsEditor
 
         private void refreshPen()
         {
-            _drawManager.DraftPainter.Parameters.GPen = new Pen(_draftPainter.Parameters.GPen.Color, (float)thicknessNumericUpDown.Value);
+            _drawManager.DraftPainter.Parameters.GPen = new PenSettings() {Color = _draftPainter.Parameters.GPen.Color, Width = (float)thicknessNumericUpDown.Value, DashPattern = _draftPainter.Parameters.GPen.DashPattern};
             if (penStrokeWidthNumericUpDown.Value > 0)
                 _drawManager.DraftPainter.Parameters.DashPattern = new float[]
                 {
@@ -199,7 +200,7 @@ namespace GraphicsEditor
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                _drawManager.DraftPainter.Parameters.GPen = new Pen(colorDialog.Color, _drawManager.DraftPainter.Parameters.GPen.Width);
+                _drawManager.DraftPainter.Parameters.GPen = new PenSettings() { Color = colorDialog.Color, Width = _drawManager.DraftPainter.Parameters.GPen.Width, DashPattern = _drawManager.DraftPainter.Parameters.GPen.DashPattern };
                 penColorpanel.BackColor = colorDialog.Color;
             }
             refreshPen();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GraphicsEditor.Model;
+using GraphicsEditor.Model.Shapes;
 using GraphicsEditor.Enums;
 using System.Drawing;
 
@@ -12,7 +13,7 @@ namespace GraphicsEditor
     static class DraftFactory
     {
         //Создание объекта фигуры с количеством точек равным 2
-        public static IDrawable CreateDraft(Figure figure, Point startPoint, Point endPoint, Pen gPen, Color brushColor)
+        public static IDrawable CreateDraft(Figure figure, Point startPoint, Point endPoint, PenSettings gPen, Color brushColor)
         {
             switch (figure)
             {
@@ -39,7 +40,7 @@ namespace GraphicsEditor
         }
 
         //Перегрузка для создания объектов с количеством точек 2 и более
-        public static IDrawable CreateDraft(Figure figure, List<Point> pointList, Pen gPen, Color brushColor)
+        public static IDrawable CreateDraft(Figure figure, List<Point> pointList, PenSettings gPen, Color brushColor)
         {
             switch (figure)
             {
@@ -52,7 +53,7 @@ namespace GraphicsEditor
             }
         }
 
-        public static IDrawable CreateDraft(Figure figure, List<Point> pointList, Pen gPen)
+        public static IDrawable CreateDraft(Figure figure, List<Point> pointList, PenSettings gPen)
         {
             switch (figure)
             {
@@ -63,7 +64,7 @@ namespace GraphicsEditor
             }
         }
 
-        public static IDrawable CreateDraft(Figure figure, Point startPoint, Point endPoint, Pen gPen)
+        public static IDrawable CreateDraft(Figure figure, Point startPoint, Point endPoint, PenSettings gPen)
         {
             switch (figure)
             {
@@ -137,7 +138,7 @@ namespace GraphicsEditor
             else if (draft is Circle)
             {
                 return new Circle(new Point(draft.StartPoint.X, draft.StartPoint.Y),
-                    new Point(draft.EndPoint.X, draft.EndPoint.Y), new Pen(draft.Pen.Color, draft.Pen.Width)){ BrushColor = (draft as Circle).BrushColor};
+                    new Point(draft.EndPoint.X, draft.EndPoint.Y), new PenSettings() {Color = draft.Pen.Color, Width = draft.Pen.Width, DashPattern = draft.Pen.DashPattern }){ BrushColor = (draft as Circle).BrushColor};
             }
             else if (draft is Ellipse)
             {

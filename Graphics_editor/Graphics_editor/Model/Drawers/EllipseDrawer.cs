@@ -15,7 +15,7 @@ namespace GraphicsEditor.Model.Drawers
             var StartPoint = ellipse.StartPoint;
             var EndPoint = ellipse.EndPoint;
             var brush = (ellipse as IBrushable).BrushColor;
-            var pen = ellipse.Pen;
+            var pen = new Pen(ellipse.Pen.Color, ellipse.Pen.Width) { DashPattern = ellipse.Pen.DashPattern };
 
             if (brush != null)
                 graphics.FillEllipse(new SolidBrush(brush), new RectangleF(StartPoint.X, StartPoint.Y,
