@@ -8,6 +8,7 @@ using GraphicsEditor.Model;
 using GraphicsEditor.Enums;
 using System.Drawing;
 using GraphicsEditor.DraftTools;
+using System.IO;
 
 namespace GraphicsEditor.Engine
 {
@@ -213,6 +214,20 @@ namespace GraphicsEditor.Engine
             Corrector.DragDotInDraft(State.DragDropDot, newPoint);
             State.DragDropDot.Point = newPoint;
 
+            DraftPainter.RefreshCanvas();
+        }
+
+        public void Serealize(Stream stream)
+        {
+            var serealizer = new DraftSerealizer();
+            serealizer.Serialize(stream, Corrector.GetUndoRedoStack());
+        }
+
+        public void Deserialize(Stream stream)
+        {
+            Corrector.ClearStorage();
+            var serealizer = new DraftSerealizer();
+            serealizer.Deserialize(stream, Corrector.GetUndoRedoStack());
             DraftPainter.RefreshCanvas();
         }
     }

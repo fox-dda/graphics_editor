@@ -20,8 +20,6 @@ namespace GraphicsEditor
                     return new Line(startPoint, endPoint, gPen);
                 case Figure.circle:
                     return new Circle(startPoint, endPoint, gPen) { BrushColor = brushColor };
-                case Figure.triangle:
-                    return new Triangle(startPoint, endPoint, gPen) { BrushColor = brushColor };
                 case Figure.ellipse:
                     return new Ellipse(startPoint, endPoint, gPen) { BrushColor = brushColor };
                 default:

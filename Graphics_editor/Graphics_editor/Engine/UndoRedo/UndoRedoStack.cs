@@ -8,6 +8,7 @@ using GraphicsEditor.Engine.UndoRedo.Commands;
 
 namespace GraphicsEditor.Engine.UndoRedo
 {
+    [Serializable]
     public class UndoRedoStack
     {
         private Stack<ICommand> _undo;
@@ -21,7 +22,13 @@ namespace GraphicsEditor.Engine.UndoRedo
         public void Reset()
         {
             _undo = new Stack<ICommand>();
-            _redo = new Stack<ICommand>(); 
+            _redo = new Stack<ICommand>();
+        }
+
+        public void DoAll()
+        {
+            foreach (ICommand cmd in _undo)
+                cmd.Do();
         }
 
         public void Do(ICommand command)

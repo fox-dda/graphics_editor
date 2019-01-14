@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 namespace GraphicsEditor.Model
-{
+{ 
+    [Serializable]
     class Rectangle : IDrawable, IBrushable
     {
         private Pen _pen;

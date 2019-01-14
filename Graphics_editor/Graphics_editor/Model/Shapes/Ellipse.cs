@@ -7,6 +7,7 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model
 {
+    [Serializable]
     class Ellipse : IDrawable, IBrushable
     {
         public Color BrushColor

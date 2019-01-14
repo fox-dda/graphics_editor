@@ -8,6 +8,7 @@ using GraphicsEditor.Model;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
 {
+    [Serializable]
     public class EditDraftCommand : ICommand
     {
         private IDrawable _editedDraft;

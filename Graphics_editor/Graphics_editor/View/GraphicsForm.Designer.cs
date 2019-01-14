@@ -50,7 +50,6 @@
             this.widthLabel = new System.Windows.Forms.Label();
             this.thicknessNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.SelectionGroupBox = new System.Windows.Forms.GroupBox();
-            this.discardButton = new System.Windows.Forms.Button();
             this.canvasGroupBox = new System.Windows.Forms.GroupBox();
             this.leftGroupBox = new System.Windows.Forms.GroupBox();
             this.rightGroupBox = new System.Windows.Forms.GroupBox();
@@ -59,9 +58,9 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToBmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.centreGroupBox = new System.Windows.Forms.GroupBox();
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
-            this.exportToBmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
             this.penStyleGroupBox.SuspendLayout();
@@ -299,24 +298,13 @@
             // 
             // SelectionGroupBox
             // 
-            this.SelectionGroupBox.Controls.Add(this.discardButton);
             this.SelectionGroupBox.Controls.Add(this.selectMouseButton);
             this.SelectionGroupBox.Location = new System.Drawing.Point(12, 281);
             this.SelectionGroupBox.Name = "SelectionGroupBox";
-            this.SelectionGroupBox.Size = new System.Drawing.Size(167, 79);
+            this.SelectionGroupBox.Size = new System.Drawing.Size(167, 52);
             this.SelectionGroupBox.TabIndex = 6;
             this.SelectionGroupBox.TabStop = false;
             this.SelectionGroupBox.Text = "Selection";
-            // 
-            // discardButton
-            // 
-            this.discardButton.Location = new System.Drawing.Point(13, 48);
-            this.discardButton.Name = "discardButton";
-            this.discardButton.Size = new System.Drawing.Size(75, 23);
-            this.discardButton.TabIndex = 7;
-            this.discardButton.Text = "Discard all";
-            this.discardButton.UseVisualStyleBackColor = true;
-            this.discardButton.Click += new System.EventHandler(this.discardButton_Click);
             // 
             // canvasGroupBox
             // 
@@ -375,22 +363,29 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.openToolStripMenuItem.Text = "New...";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.saveToolStripMenuItem.Text = "Open";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.saveAsToolStripMenuItem.Text = "Save as...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            // 
+            // exportToBmpToolStripMenuItem
+            // 
+            this.exportToBmpToolStripMenuItem.Name = "exportToBmpToolStripMenuItem";
+            this.exportToBmpToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.exportToBmpToolStripMenuItem.Text = "Export to bmp";
+            this.exportToBmpToolStripMenuItem.Click += new System.EventHandler(this.exportToBmpToolStripMenuItem_Click);
             // 
             // centreGroupBox
             // 
@@ -416,13 +411,6 @@
             this.mainPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseDown_1);
             this.mainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseMove_1);
             this.mainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseUp_1);
-            // 
-            // exportToBmpToolStripMenuItem
-            // 
-            this.exportToBmpToolStripMenuItem.Name = "exportToBmpToolStripMenuItem";
-            this.exportToBmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exportToBmpToolStripMenuItem.Text = "Export to bmp";
-            this.exportToBmpToolStripMenuItem.Click += new System.EventHandler(this.exportToBmpToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -477,7 +465,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button selectMouseButton;
         private System.Windows.Forms.GroupBox SelectionGroupBox;
-        private System.Windows.Forms.Button discardButton;
         private System.Windows.Forms.Button polygonButton;
         private System.Windows.Forms.Panel brushColorpanel;
         private System.Windows.Forms.Panel canvasColorpanel;

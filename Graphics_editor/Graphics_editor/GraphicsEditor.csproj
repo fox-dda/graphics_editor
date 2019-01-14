@@ -82,9 +82,7 @@
     <Compile Include="Engine\UndoRedo\Commands\ICommand.cs" />
     <Compile Include="Engine\UndoRedo\Commands\RemoveDraftCommand.cs" />
     <Compile Include="Engine\UndoRedo\Commands\RemoveRangeDraftsCommand.cs" />
-    <Compile Include="Engine\UndoRedo\ICommandS.cs" />
     <Compile Include="Engine\UndoRedo\UndoRedoStack.cs" />
-    <Compile Include="Engine\UndoRedo\UndoRedoStackT.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Model\Drawers\HighlightDrawer.cs" />
     <Compile Include="View\GraphicsForm.cs">
@@ -112,7 +110,6 @@
     <Compile Include="Model\Shapes\Polygon.cs" />
     <Compile Include="Model\Shapes\Polyline.cs" />
     <Compile Include="Model\Shapes\Rectangle.cs" />
-    <Compile Include="Model\Shapes\Triangle.cs" />
     <Compile Include="Engine\Presenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

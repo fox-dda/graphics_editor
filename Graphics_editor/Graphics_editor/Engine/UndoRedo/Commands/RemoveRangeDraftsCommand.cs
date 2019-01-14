@@ -7,6 +7,7 @@ using GraphicsEditor.Model;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
 {
+    [Serializable]
     public class RemoveRangeDraftsCommand : ICommand
     {
         private List<IDrawable> _storage;

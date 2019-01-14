@@ -141,12 +141,6 @@ namespace GraphicsEditor
             _drawManager.State.Figure = Figure.select;
         }
 
-        private void discardButton_Click(object sender, EventArgs e)
-        {
-            // _drawManager.DraftPainter.DisradHighlightingAll();
-            mainPictureBox.Invalidate();
-        }
-
         private void polygonButton_Click(object sender, EventArgs e)
         {
             _drawManager.State.Figure = Figure.polygon;
@@ -173,12 +167,30 @@ namespace GraphicsEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //   DraftSerealizer.Serialize(_drawManager.GetListForSave());
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "GraphicsEditor Project|*.proj";
+            //saveFileDialog.FileName = _controlUnit.GetDocument().Name;
+            if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
+            {
+                using (var stream = saveFileDialog.OpenFile())
+                {
+                    _drawManager.Serealize(stream);
+                }
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //  _drawManager.SetList(DraftSerealizer.DeSerialize());
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "GraphicsEditor Project|*.proj";
+            if (openFileDialog.ShowDialog() != DialogResult.Cancel)
+            {
+                using (var stream = openFileDialog.OpenFile())
+                {
+                    _drawManager.Deserialize(stream);
+                }
+            }
+            mainPictureBox.Invalidate();
         }
 
         private void penColorpanel_Click(object sender, EventArgs e)

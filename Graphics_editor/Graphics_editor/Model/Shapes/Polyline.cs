@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 namespace GraphicsEditor.Model
-{
+{ 
+    [Serializable]
     class Polyline: IDrawable
     {
         private Pen _pen;

@@ -15,6 +15,16 @@ namespace GraphicsEditor.DraftTools
         private DraftStorage _storage;
         private UndoRedoStack _undoRedoStack = new UndoRedoStack();
 
+        public void SetUndoRedoStack(UndoRedoStack stack)
+        {
+            _undoRedoStack = stack;
+        }
+
+        public UndoRedoStack GetUndoRedoStack()
+        {
+            return _undoRedoStack;
+        }
+
         public void RedoCommand()
         {
             _undoRedoStack.Redo();

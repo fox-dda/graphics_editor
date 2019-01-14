@@ -7,6 +7,7 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model
 {
+    [Serializable]
     class Polygon : IDrawable, IBrushable
     {
         private SolidBrush _brush;
