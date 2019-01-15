@@ -13,7 +13,7 @@ namespace GraphicsEditor.Model.Drawers
         {
             var startPoint = shape.StartPoint;
             var endPoint = shape.EndPoint;
-            var pen = new Pen(shape.Pen.Color, shape.Pen.Width) { DashPattern = shape.Pen.DashPattern };
+            var pen = DraftFactory.CreatePen(shape.Pen);
 
             //сверху вниз слево направа
             if ((startPoint.Y < endPoint.Y) && (startPoint.X < endPoint.X))

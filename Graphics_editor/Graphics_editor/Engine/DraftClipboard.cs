@@ -23,7 +23,7 @@ namespace GraphicsEditor
                     {
                         dotList.Add(DraftFactory.CreatePoint(point.X, point.Y));
                     }
-                    _clipboard.Add(DraftFactory.CreateDraft(Enums.Figure.polygon, (item as Polygon).DotList, item.Pen, (item as Polygon).BrushColor));
+                    _clipboard.Add(DraftFactory.CreateDraft(Enums.Figure.polygon, dotList, item.Pen, (item as Polygon).BrushColor));
                 }
                 else if(item is Polyline)
                 {
@@ -32,7 +32,7 @@ namespace GraphicsEditor
                     {
                         dotList.Add(DraftFactory.CreatePoint(point.X, point.Y));
                     }
-                    _clipboard.Add(DraftFactory.CreateDraft(Enums.Figure.polyline, (item as Polyline).DotList, item.Pen));
+                    _clipboard.Add(DraftFactory.CreateDraft(Enums.Figure.polyline, dotList, item.Pen));
                 }
                 else if (item is Circle)
                 {

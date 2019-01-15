@@ -12,7 +12,7 @@ namespace GraphicsEditor.Model.Drawers
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
             var dotList = (shape as Polyline).DotList;
-            var pen = new Pen(shape.Pen.Color, shape.Pen.Width) { DashPattern = shape.Pen.DashPattern };
+            var pen = DraftFactory.CreatePen(shape.Pen);
 
             for (int i = 0; i < dotList.Count - 1; i++)
                 graphics.DrawLine(pen, dotList[i].X, dotList[i].Y, dotList[i + 1].X, dotList[i + 1].Y);

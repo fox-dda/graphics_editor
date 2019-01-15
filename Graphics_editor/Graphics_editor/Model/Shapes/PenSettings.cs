@@ -10,7 +10,7 @@ namespace GraphicsEditor.Model.Shapes
     [Serializable]
     public class PenSettings
     {
-        public float[] DashPattern = new float[] { 1, 1 };
+        public float[] DashPattern ;
         public float Width;
         public Color Color;
     }

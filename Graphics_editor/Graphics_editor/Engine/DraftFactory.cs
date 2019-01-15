@@ -113,6 +113,18 @@ namespace GraphicsEditor
             }
         }
 
+        public static Pen CreatePen(PenSettings settings)
+        {
+            if(settings.DashPattern != null)
+            {
+                return new Pen(settings.Color, settings.Width) { DashPattern = settings.DashPattern};
+            }
+            else
+            {
+                return new Pen(settings.Color, settings.Width);
+            }
+        }
+
         public static IDrawable Clone(IDrawable draft)
         {
             if (draft is Polygon)

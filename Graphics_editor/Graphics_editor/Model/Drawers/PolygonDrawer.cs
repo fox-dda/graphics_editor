@@ -13,7 +13,7 @@ namespace GraphicsEditor.Model.Drawers
         {
             var brush = (shape as IBrushable).BrushColor;
             var dotList = (shape as Polygon).DotList.ToArray();
-            var pen = new Pen(shape.Pen.Color, shape.Pen.Width) { DashPattern = shape.Pen.DashPattern };
+            var pen = DraftFactory.CreatePen(shape.Pen);
             if (brush != null)
                 graphics.FillPolygon(new SolidBrush(brush), dotList);
             graphics.DrawPolygon(pen, dotList);
