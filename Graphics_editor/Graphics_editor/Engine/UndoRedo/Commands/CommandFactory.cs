@@ -27,14 +27,9 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
             return new ClearStorageCommand(storage);
         }
 
-        public static EditBrushableDraftCommand CreateEditBrushableDraftCommand(IDrawable draft, Point sp, Point ep, PenSettings pen, Color brush)
+        public static EditBrushableDraftCommand CreateEditDraftCommand(List<IDrawable> targetStorage, IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
         {
-            return new EditBrushableDraftCommand(draft, sp, ep, pen, brush);
-        }
-
-        public static EditDraftCommand CreateEditDraftCommand(IDrawable draft, Point sp, Point ep, PenSettings pen)
-        {
-            return new EditDraftCommand(draft, sp, ep, pen);
+            return new EditBrushableDraftCommand(targetStorage, draft, pointList, pen, brush);
         }
 
         public static RemoveDraftCommand CreateRemoveDraftCommand(List<IDrawable> storage, IDrawable draft)

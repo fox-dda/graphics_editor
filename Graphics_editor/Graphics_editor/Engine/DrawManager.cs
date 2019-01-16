@@ -174,8 +174,9 @@ namespace GraphicsEditor.Engine
 
         private void LassoSelection(Point mousePoint)
         {
-            if (mousePoint != State.InPocessPoints.Last())
-                Corrector.DiscardAll();
+            if (State.InPocessPoints.Count > 0)
+                if (mousePoint != State.InPocessPoints.Last())
+                    Corrector.DiscardAll();
 
             if (State.CacheLasso != null)
             {
@@ -228,10 +229,52 @@ namespace GraphicsEditor.Engine
         public void Deserialize(Stream stream)
         {
             Corrector.ClearStorage();
-            var serealizer = new DraftSerealizer();     
-            Corrector._undoRedoStack = serealizer.Deserialize(stream);
-            Corrector._undoRedoStack.DoAll();
+            var serializer = new DraftSerealizer();
+            var stack = serializer.Deserialize(stream)._undo.ToArray();
+            RepairCommands(stack);
+            foreach (ICommand cmd in stack.ToArray().Reverse())
+            {
+                Corrector.DoCommand(cmd);
+            }
             DraftPainter.RefreshCanvas();
+            MessageBox.Show(Corrector.GetDrafts().Count().ToString());
+        }
+
+        private void RepairCommands(ICommand[] commands)
+        {
+            foreach (var cmd in commands)
+            {
+                if (cmd is AddDraftCommand addDraftCommand)
+                {
+                    addDraftCommand.DraftList = Corrector.GetStorageForRepairCommands();
+                    continue;
+                }
+                else if (cmd is AddRangeDraftCommand addRangeDraftCommand)
+                {
+                    addRangeDraftCommand.TargetStorage = Corrector.GetStorageForRepairCommands();
+                    continue;
+                }
+                /*/if (cmd is ChangeDocumentPreferencesCommand changeDocumentPreferencesCommand)
+                {
+                    changeDocumentPreferencesCommand.ControlUnit = this;
+                    continue;
+                }
+                if (cmd is ChangeShapePropertyValuesCommand changeShapePropertyValuesCommand)
+                {
+                    changeShapePropertyValuesCommand.ControlUnit = this;
+                    continue;
+                }
+                if (cmd is ClearDocumentCommand clearDocumentCommand)
+                {
+                    clearDocumentCommand.ControlUnit = this;
+                    continue;
+                }
+                if (cmd is RemoveShapeCommand removeShapeCommand)
+                {
+                    removeShapeCommand.ControlUnit = this;
+                    continue;
+                }/*/
+            }
         }
     }
 }

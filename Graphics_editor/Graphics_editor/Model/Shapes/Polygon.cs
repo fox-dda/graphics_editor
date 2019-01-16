@@ -11,18 +11,18 @@ namespace GraphicsEditor.Model
     [Serializable]
     class Polygon : IDrawable, IBrushable
     {
-        private SolidBrush _brush;
+        private Color _brush;
         private PenSettings _pen;
 
         public Color BrushColor
         {
             get
             {
-                return _brush.Color;
+                return _brush;
             }
             set
             {
-                _brush = new SolidBrush(value);
+                _brush = value;
             }
         }
         private List<Point> _dotList = new List<Point>();        
@@ -89,5 +89,6 @@ namespace GraphicsEditor.Model
             DotList = dotlist;
            // BrushColor = brushColor;
         }
+        public Polygon() { }
     }
 }

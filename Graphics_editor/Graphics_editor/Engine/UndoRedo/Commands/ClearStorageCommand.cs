@@ -10,25 +10,25 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
     [Serializable]
     public class ClearStorageCommand : ICommand
     {
-        private List<IDrawable> _storage;
+        [field: NonSerialized] public List<IDrawable> TargetStorage;
         private List<IDrawable> _backUp;
 
         public void Do()
         {
-            _storage.Clear();
+            TargetStorage.Clear();
         }
 
         public void Undo()
         {
             foreach (IDrawable draft in _backUp)
             {
-                _storage.Add(draft);
+                TargetStorage.Add(draft);
             }
         }
 
         public ClearStorageCommand(List<IDrawable> storage)
         {
-            _storage = storage;
+            TargetStorage = storage;
             _backUp = new List<IDrawable>();
             foreach(IDrawable draft in storage)
             {

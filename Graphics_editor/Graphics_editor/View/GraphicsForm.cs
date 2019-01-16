@@ -35,7 +35,7 @@ namespace GraphicsEditor
             _paintCore = Graphics.FromImage(btm);
             _draftPainter = new DraftPainter(_paintCore);
             _drawManager = new DrawManager(_draftPainter, _storage);
-            _highlightPanel = new SelectionPanel() { StorageManager = new DraftTools.StorageManager(_storage) };
+            _highlightPanel = new SelectionPanel() { StorageManager = _drawManager.Corrector };
             Controls.Add(_highlightPanel);
             rightGroupBox.Controls.Add(_highlightPanel);
             _highlightPanel.Location = new Point(3, 2);

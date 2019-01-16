@@ -90,10 +90,28 @@ namespace GraphicsEditor
                         (float)selectedStrokeNumericUpDown.Value
                     };
 
-                if (Drafts[0] is IBrushable)
-                    StorageManager.EditBrushableDraft(Drafts[0], startPoint, endPoint, pen, selectedBrushPanel.BackColor);
+                List<Point> pointList;
+                if(Drafts[0] is Polygon)
+                {
+                    pointList = (Drafts[0] as Polygon).DotList;
+                    pointList[0] = startPoint;
+                    pointList[pointList.Count - 1] = endPoint;
+                }
+                else if (Drafts[0] is Polyline)
+                {
+                    pointList = (Drafts[0] as Polyline).DotList;
+                    pointList[0] = startPoint;
+                    pointList[pointList.Count - 1] = endPoint;
+                }
                 else
-                    StorageManager.EditDraft(Drafts[0], startPoint, endPoint, pen);
+                {
+                    pointList = new List<Point>() { startPoint, endPoint };
+                }
+
+                if (Drafts[0] is IBrushable)
+                    StorageManager.EditDraft(Drafts[0], pointList, pen, selectedBrushPanel.BackColor);
+                else
+                    StorageManager.EditDraft(Drafts[0], pointList, pen, Color.White);
             }
             ModelChanged();
         }

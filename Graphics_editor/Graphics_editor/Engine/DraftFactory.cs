@@ -75,6 +75,33 @@ namespace GraphicsEditor
             }
         }
 
+        public static Figure DefineDraftEnum(IDrawable draft)
+        {
+            switch(draft.GetType().ToString().Split('.').Last())
+            {
+                case "Line":
+                    {
+                        return Figure.line;              
+                    }
+                case "Ellipse":
+                    {
+                        return Figure.ellipse;
+                    }
+                case "Circle":
+                    {
+                        return Figure.circle;
+                    }
+                case "Polyline":
+                    {
+                        return Figure.polyline;
+                    }
+                default:
+                    {
+                        return Figure.polygon;
+                    }
+            }
+        }
+
         //Определение стратегии отрисовки фигуры по её классу
         public static Strategy DefineStrategy(Figure figure)
         {
@@ -132,7 +159,7 @@ namespace GraphicsEditor
                 List<Point> cloneList = new List<Point>();
                 foreach (Point point in (draft as Polygon).DotList)
                 {
-                    cloneList.Add(point);
+                    cloneList.Add(new Point(point.X, point.Y));
                 }
 
                 return new Polygon(cloneList, (draft as Polygon).Pen) { BrushColor = (draft as Polygon).BrushColor };
@@ -142,7 +169,7 @@ namespace GraphicsEditor
                 List<Point> cloneList = new List<Point>();
                 foreach (Point point in (draft as Polyline).DotList)
                 {
-                    cloneList.Add(point);
+                    cloneList.Add(new Point(point.X, point.Y));
                 }
 
                 return new Polyline(cloneList, (draft as Polyline).Pen);
@@ -150,18 +177,21 @@ namespace GraphicsEditor
             else if (draft is Circle)
             {
                 return new Circle(new Point(draft.StartPoint.X, draft.StartPoint.Y),
-                    new Point(draft.EndPoint.X, draft.EndPoint.Y), new PenSettings() {Color = draft.Pen.Color, Width = draft.Pen.Width, DashPattern = draft.Pen.DashPattern }){ BrushColor = (draft as Circle).BrushColor};
+                    new Point(draft.EndPoint.X, draft.EndPoint.Y), new PenSettings() {Color = draft.Pen.Color, Width = draft.Pen.Width, DashPattern = draft.Pen.DashPattern })
+                { BrushColor = (draft as Circle).BrushColor};
             }
             else if (draft is Ellipse)
             {
                 return new Ellipse(new Point(draft.StartPoint.X, draft.StartPoint.Y),
-                    new Point(draft.EndPoint.X, draft.EndPoint.Y), draft.Pen)
-                { BrushColor = (draft as Ellipse).BrushColor };
+                    new Point(draft.EndPoint.X, draft.EndPoint.Y), new PenSettings()
+                    { Color = draft.Pen.Color, Width = draft.Pen.Width, DashPattern = draft.Pen.DashPattern })
+                    { BrushColor = (draft as Ellipse).BrushColor };
             }
             else if (draft is Line)
             {
                 return new Line(new Point(draft.StartPoint.X, draft.StartPoint.Y),
-                    new Point(draft.EndPoint.X, draft.EndPoint.Y), draft.Pen);
+                    new Point(draft.EndPoint.X, draft.EndPoint.Y), new PenSettings()
+                    { Color = draft.Pen.Color, Width = draft.Pen.Width, DashPattern = draft.Pen.DashPattern });
             }
             return null;
         }
@@ -184,6 +214,30 @@ namespace GraphicsEditor
                     return null;
             }
             return type;
+        }
+
+        public static IDrawable CopyShape(IDrawable shape)
+        {
+            
+            if (shape is Polygon)
+            {
+                var copy = (Polygon)Activator.CreateInstance(shape.GetType());
+                foreach (var point in (shape as Polygon).DotList)
+                {
+                    (copy as Polygon).DotList.Add(new Point(point.X, point.Y));
+                }
+                var pen = new PenSettings();
+                
+                pen.Color = shape.Pen.Color;
+                pen.DashPattern = shape.Pen.DashPattern;
+                pen.Width = shape.Pen.Width;
+                copy.Pen = pen;
+                if (shape is IBrushable)
+                    (copy as IBrushable).BrushColor = (shape as IBrushable).BrushColor;
+
+                return copy;
+            }
+            return null;
         }
     }
 }

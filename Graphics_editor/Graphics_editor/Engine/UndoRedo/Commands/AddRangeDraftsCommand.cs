@@ -10,14 +10,14 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
     [Serializable]
     public class AddRangeDraftCommand : ICommand
     {
-        private List<IDrawable> _storage;
+        [field: NonSerialized] public List<IDrawable> TargetStorage;
         private List<IDrawable> _addebleList;
 
         public void Do()
         {
             foreach(IDrawable draft in _addebleList)
             {
-                _storage.Add(draft);
+                TargetStorage.Add(draft);
             }
         }
 
@@ -25,14 +25,18 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         {
             foreach (IDrawable draft in _addebleList)
             {
-                _storage.Remove(draft);
+                TargetStorage.Remove(draft);
             }
         }
 
         public AddRangeDraftCommand(List<IDrawable> storage, List<IDrawable> addebleList)
         {
-            _storage = storage;
-            _addebleList = addebleList;
+            TargetStorage = storage;
+            _addebleList = new List<IDrawable>();
+            foreach (IDrawable draft in addebleList)
+            {
+                _addebleList.Add(draft);
+            }
         }
     }
 }

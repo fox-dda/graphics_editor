@@ -4,28 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GraphicsEditor.Model;
+using System.Windows.Forms;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
 {
     [Serializable]
     public class AddDraftCommand: ICommand
     {
-        private List<IDrawable> _list;
+        [field: NonSerialized] public List<IDrawable> DraftList;
         private IDrawable _draft;
 
         public void Do()
         {
-            _list.Add(_draft);
+            DraftList.Add(_draft);
         }
 
         public void Undo()
         {
-            _list.Remove(_draft);
+            DraftList.Remove(_draft);
         }
 
         public AddDraftCommand(List<IDrawable> storage, IDrawable draft)
         {
-            _list = storage;
+            DraftList = storage;
             _draft = draft;
         }
     }

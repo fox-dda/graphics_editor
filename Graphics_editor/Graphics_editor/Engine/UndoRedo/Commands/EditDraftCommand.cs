@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 using System.Drawing;
 using GraphicsEditor.Model;
 using GraphicsEditor.Model.Shapes;
+using System.Windows.Forms;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
-{
+{/*/
     [Serializable]
     public class EditDraftCommand : ICommand
     {
@@ -27,6 +28,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
 
         public void Undo()
         {
+            MessageBox.Show("Undoo");
             _editedDraft = _backUpDraft;
         }
 
@@ -38,5 +40,5 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
             _ep = ep;
             _pen = pen;
         }
-    }
+    }/*/
 }

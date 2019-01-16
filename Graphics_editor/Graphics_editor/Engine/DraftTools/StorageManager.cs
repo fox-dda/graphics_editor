@@ -14,7 +14,22 @@ namespace GraphicsEditor.DraftTools
     public class StorageManager
     {
         private DraftStorage _storage;
-        public UndoRedoStack _undoRedoStack = new UndoRedoStack();
+        private UndoRedoStack _undoRedoStack = new UndoRedoStack();
+
+        public void ClearCommandStack()
+        {
+            _undoRedoStack.Reset();
+        }
+
+        public List<IDrawable> GetStorageForRepairCommands()
+        {
+            return _storage.DraftList;
+        }
+
+        public void DoCommand(ICommand command)
+        {
+            _undoRedoStack.Do(command);
+        }
 
         public void SetUndoRedoStack(UndoRedoStack stack)
         {
@@ -95,15 +110,15 @@ namespace GraphicsEditor.DraftTools
         {
             _storage.HighlightDraftsList.AddRange(highlightRange);
         }
-
-        public void EditBrushableDraft(IDrawable draft, Point sp, Point ep, PenSettings pen, Color brush)
+        /*/
+        public void EditBrushableDraft(IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
         {
-            _undoRedoStack.Do(CommandFactory.CreateEditBrushableDraftCommand(draft, sp, ep, pen, brush));
+            _undoRedoStack.Do(CommandFactory.CreateEditBrushableDraftCommand(_storage.DraftList, draft, pointList, pen, brush));
         }
-
-        public void EditDraft(IDrawable draft, Point sp, Point ep, PenSettings pen)
+        /*/
+        public void EditDraft(IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
         {
-            _undoRedoStack.Do(CommandFactory.CreateEditDraftCommand(draft, sp, ep, pen));
+            _undoRedoStack.Do(CommandFactory.CreateEditDraftCommand(_storage.DraftList, draft, pointList, pen, brush));
         }
 
         public void DragDotInDraft(DotInDraft dotInDraft, Point newPoint)
@@ -143,7 +158,6 @@ namespace GraphicsEditor.DraftTools
 
         public void RemoveRangeDrafts(List<IDrawable> drafts)
         {
-
             foreach (IDrawable draft in drafts)
             {
                 if (_storage.HighlightDraftsList.Contains(draft))
