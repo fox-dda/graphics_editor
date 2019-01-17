@@ -116,51 +116,6 @@ namespace GraphicsEditor.DraftTools
             _undoRedoStack.Do(CommandFactory.CreateEditDraftCommand(draft, pointList, pen, brush));
         }
 
-        public void DragDotInDraft(DotInDraft dotInDraft, Point newPoint)
-        {
-            var item = dotInDraft.Draft;
-            var point = dotInDraft.Point;
-            List<Point> newPointList = new List<Point>();
-
-            if (item is Polygon)
-            {
-                foreach(Point pointInDraft in (item as Polygon).DotList)
-                {
-                    if (point == pointInDraft)
-                        newPointList.Add(newPoint);
-                    else
-                        newPointList.Add(pointInDraft);
-                }
-            }
-            else if (item is Polyline)
-            {
-                foreach (Point pointInDraft in (item as Polyline).DotList)
-                {
-                    if (point == pointInDraft)
-                        newPointList.Add(newPoint);
-                    else
-                        newPointList.Add(pointInDraft);
-                }
-            }
-            else
-            {
-                if (item.StartPoint == point)
-                {
-                    newPointList.Add(newPoint);
-                    newPointList.Add(item.EndPoint);
-                }
-                else if (item.EndPoint == point)
-                {
-                    newPointList.Add(item.StartPoint);
-                    newPointList.Add(newPoint);             
-                }
-            }
-            if(item is IBrushable)
-                EditDraft(item, newPointList, item.Pen, (item as IBrushable).BrushColor);
-            else
-                EditDraft(item, newPointList, item.Pen, Color.White);
-        }
-
         public void RemoveDraft(IDrawable draft)
         {
             if (GetHighlights().Contains(draft))
@@ -211,6 +166,32 @@ namespace GraphicsEditor.DraftTools
                 draft.StartPoint = new Point(draft.StartPoint.X + bais.X, draft.StartPoint.Y + bais.Y);
                 draft.EndPoint = new Point(draft.EndPoint.X + bais.X, draft.EndPoint.Y + bais.Y);
             }
+        }
+
+        public List<Point> PullPoints(IDrawable item)
+        {
+            List<Point> pullPointList = new List<Point>();
+            if (item is Polygon)
+            {
+                foreach (Point pointInDraft in (item as Polygon).DotList)
+                {
+                    pullPointList.Add(pointInDraft);
+                }
+            }
+            else if (item is Polyline)
+            {
+                foreach (Point pointInDraft in (item as Polyline).DotList)
+                {
+                    pullPointList.Add(pointInDraft);
+                }
+            }
+            else
+            {
+                pullPointList.Add(item.StartPoint);
+                pullPointList.Add(item.EndPoint);
+            }
+
+            return pullPointList;
         }
     }
 }

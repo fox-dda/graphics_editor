@@ -81,7 +81,11 @@ namespace GraphicsEditor.Engine
                                 if (refDot.Draft != null)
                                 {
                                     State.Figure = Figure.dragPoint;
-                                    State.DragDropDot = refDot;
+                                    State.UndrawableDraft = refDot.Draft;
+
+                                    State.DragDropDot.Draft = DraftFactory.Clone(refDot.Draft);
+                                    State.DragDropDot.PointInDraft = Selector.SearchReferenceDot(e.Location, new List<IDrawable>()
+                                    { State.DragDropDot.Draft }).PointInDraft;
                                 }
                                 else
                                 {
@@ -89,7 +93,8 @@ namespace GraphicsEditor.Engine
                                     if (shape != null)
                                     {
                                         State.Figure = Figure.dragDraft;
-                                        State.DragDropDraft = shape;
+                                        State.DragDropDraft = DraftFactory.Clone(shape);
+                                        State.UndrawableDraft = shape;
                                         State.InPocessPoints.Add(e.Location);
                                         return;
                                     }
@@ -102,8 +107,6 @@ namespace GraphicsEditor.Engine
                     }
                 case MouseAction.move:
                     {
-                     //   DraftPainter.RefreshCanvas();
-
                         if (State.DrawingStrategy == Strategy.dragAndDrop)
                         {
                             DragAndDrop(e.Location);
@@ -148,12 +151,24 @@ namespace GraphicsEditor.Engine
                         {
                             if (State.DragDropDraft != null)
                             {
-                                Corrector.AddDraft(State.DragDropDraft);
-                                Corrector.AddHighlightDraft(State.DragDropDraft);                   
+                                var newPoints = Corrector.PullPoints(State.DragDropDraft);
+                                if (State.UndrawableDraft is IBrushable)
+                                    Corrector.EditDraft(State.UndrawableDraft, newPoints, State.DragDropDraft.Pen, (State.DragDropDraft as IBrushable).BrushColor);
+                                else
+                                    Corrector.EditDraft(State.UndrawableDraft, newPoints, State.DragDropDraft.Pen, Color.White);                   
+                            }
+                            if (State.DragDropDot.Draft != null)
+                            {
+                                var newPoints = Corrector.PullPoints(State.DragDropDot.Draft);
+                                if (State.UndrawableDraft is IBrushable)
+                                    Corrector.EditDraft(State.UndrawableDraft, newPoints, State.UndrawableDraft.Pen, (State.UndrawableDraft as IBrushable).BrushColor);
+                                else
+                                    Corrector.EditDraft(State.UndrawableDraft, newPoints, State.UndrawableDraft.Pen, Color.White);
                             }
                             State.Figure = Figure.select;
                             State.DragDropDot.Draft = null;
                             State.DragDropDraft = null;
+                            State.UndrawableDraft = null;
                             DraftPainter.RefreshCanvas();
                         }
                         break;
@@ -203,7 +218,6 @@ namespace GraphicsEditor.Engine
         private void DragDraft(Point newPoint)
         {
             var bais = new Point(newPoint.X - State.InPocessPoints.Last().X, newPoint.Y - State.InPocessPoints.Last().Y);
-            Corrector.RemoveDraft(State.DragDropDraft);
             Corrector.BaisObject(State.DragDropDraft, bais);
             State.InPocessPoints.Add(newPoint);
             DraftPainter.RefreshCanvas();
@@ -212,11 +226,49 @@ namespace GraphicsEditor.Engine
 
         //Перетащить точку в рисунке
         private void DragDot(Point newPoint)
-        {
-            Corrector.DragDotInDraft(State.DragDropDot, newPoint);
-            State.DragDropDot.Point = newPoint;
-
+        {         
+            DragDotInDraft(State.DragDropDot, newPoint);
+            State.DragDropDot.PointInDraft = newPoint;
             DraftPainter.RefreshCanvas();
+            DraftPainter.SoloDraw(State.DragDropDot.Draft);
+        }
+
+        public void DragDotInDraft(DotInDraft dotInDraft, Point newPoint)
+        {
+            var item = dotInDraft.Draft;
+            var point = dotInDraft.PointInDraft;
+            int editedPoint = 0;
+
+            if (item is Polygon)
+            {
+                foreach (Point pointInDraft in (item as Polygon).DotList)
+                {
+                    if ((point.X == pointInDraft.X) && ((point.Y == pointInDraft.Y)))
+                    {
+                        editedPoint = (item as Polygon).DotList.IndexOf(pointInDraft);
+                    }
+                }
+                (item as Polygon).DotList[editedPoint] = newPoint;
+            }
+            else if (item is Polyline)
+            {
+                foreach (Point pointInDraft in (item as Polyline).DotList)
+                {
+                    editedPoint = (item as Polyline).DotList.IndexOf(pointInDraft);
+                }
+                (item as Polyline).DotList[editedPoint] = newPoint;
+            }
+            else
+            {
+                if ((point.X == item.StartPoint.X) && ((point.Y == item.StartPoint.Y)))
+                {
+                    item.StartPoint = newPoint;
+                }
+                else if ((point.X == item.EndPoint.X) && ((point.Y == item.EndPoint.Y)))
+                {
+                    item.EndPoint = newPoint;
+                }
+            }
         }
 
         public void Serealize(Stream stream)

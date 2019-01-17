@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using GraphicsEditor.Model;
 using GraphicsEditor.Model.Drawers;
@@ -101,6 +98,9 @@ namespace GraphicsEditor.Engine
 
             foreach (IDrawable draft in drawList)
             {
+                if (State.UndrawableDraft == draft)
+                    continue;
+
                 if (draft != null)
                 {
                     _drawer.DrawShape(draft, Painter);
@@ -111,6 +111,9 @@ namespace GraphicsEditor.Engine
 
             foreach (IDrawable draft in highlightList)
             {
+                if (State.UndrawableDraft == draft)
+                    continue;
+
                 if (draft != null)
                 {
                     _drawer.DrawHighlight(draft, Painter);

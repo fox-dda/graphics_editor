@@ -22,6 +22,8 @@ namespace GraphicsEditor.Engine
 
         private Figure _figure = Figure.select;
 
+        public IDrawable UndrawableDraft;
+
         public Figure Figure
         {
             get
