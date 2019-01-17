@@ -47,7 +47,6 @@ namespace GraphicsEditor
         private void mainPictureBox_MouseMove_1(object sender, MouseEventArgs e)
         {
             _drawManager.MouseProcess(e, MouseAction.move);
-            // RefreshView();
             mainPictureBox.Invalidate();
         }
 
@@ -116,7 +115,7 @@ namespace GraphicsEditor
 
         private void refreshPen()
         {
-            _drawManager.DraftPainter.Parameters.GPen = new PenSettings() {Color = _draftPainter.Parameters.GPen.Color, Width = (float)thicknessNumericUpDown.Value, DashPattern = _draftPainter.Parameters.GPen.DashPattern};
+            _drawManager.DraftPainter.Parameters.GPen = new PenSettings() { Color = _draftPainter.Parameters.GPen.Color, Width = (float)thicknessNumericUpDown.Value, DashPattern = _draftPainter.Parameters.GPen.DashPattern };
             if (penStrokeWidthNumericUpDown.Value > 0)
                 _drawManager.DraftPainter.Parameters.DashPattern = new float[]
                 {
@@ -163,29 +162,12 @@ namespace GraphicsEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "GraphicsEditor Project|*.proj";
-            if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
-            {
-                using (var stream = saveFileDialog.OpenFile())
-                {
-                    _drawManager.Serealize(stream);
-                }
-            }
+            SaveProject();
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "GraphicsEditor Project|*.proj";
-            if (openFileDialog.ShowDialog() != DialogResult.Cancel)
-            {
-                using (var stream = openFileDialog.OpenFile())
-                {
-                    _drawManager.Deserialize(stream);
-                }
-            }
-            mainPictureBox.Invalidate();
+            OpenProject();
         }
 
         private void penColorpanel_Click(object sender, EventArgs e)
@@ -233,9 +215,9 @@ namespace GraphicsEditor
             _draftPainter.RefreshCanvas();
             mainPictureBox.Invalidate();
 
-            if(saveDialog.ShowDialog() == DialogResult.OK)
+            if (saveDialog.ShowDialog() == DialogResult.OK)
             {
-                mainPictureBox.Image.Save(saveDialog.FileName +".bmp");
+                mainPictureBox.Image.Save(saveDialog.FileName + ".bmp");
             }
         }
 
@@ -287,18 +269,59 @@ namespace GraphicsEditor
 
             if (result == DialogResult.Yes)
             {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "GraphicsEditor Project|*.proj";
-                if (openFileDialog.ShowDialog() != DialogResult.Cancel)
-                {
-                    using (var stream = openFileDialog.OpenFile())
-                    {
-                        _drawManager.Deserialize(stream);
-                    }
-                }
+                SaveProject();
             }
             else if (result == DialogResult.Cancel)
                 e.Cancel = true;
+        }
+
+        private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "You want to create a new project. Save current project?",
+                Text,
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+
+            if (result == DialogResult.Yes)
+            {
+                SaveProject();
+                _drawManager.CreateNewProject();
+            }
+            if (result == DialogResult.No)
+            {
+                _drawManager.CreateNewProject();
+            }
+            mainPictureBox.Invalidate();
+        }
+
+        private void SaveProject()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "GraphicsEditor Project|*.proj";
+            if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
+            {
+                using (var stream = saveFileDialog.OpenFile())
+                {
+                    _drawManager.Serealize(stream);
+                }
+            }
+        }
+
+        private void OpenProject()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "GraphicsEditor Project|*.proj";
+            if (openFileDialog.ShowDialog() != DialogResult.Cancel)
+            {
+                using (var stream = openFileDialog.OpenFile())
+                {
+                    _drawManager.Deserialize(stream);
+                }
+            }
+            mainPictureBox.Invalidate();
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using GraphicsEditor.Model;
 using GraphicsEditor.Model.Shapes;
@@ -192,6 +188,13 @@ namespace GraphicsEditor.DraftTools
             }
 
             return pullPointList;
+        }
+
+        public void ClearHistory()
+        {
+            _storage.DraftList.Clear();
+            _storage.HighlightDraftsList.Clear();
+            _undoRedoStack.Reset();
         }
     }
 }

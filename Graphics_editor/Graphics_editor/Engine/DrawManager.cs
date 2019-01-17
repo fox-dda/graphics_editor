@@ -356,5 +356,11 @@ namespace GraphicsEditor.Engine
             Corrector.RemoveRangeHighligtDrafts();
             DraftPainter.RefreshCanvas();
         }
+
+        public void CreateNewProject()
+        {
+            Corrector.ClearHistory();
+            DraftPainter.RefreshCanvas();
+        }
     }
 }
