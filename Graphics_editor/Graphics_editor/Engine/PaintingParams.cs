@@ -10,7 +10,7 @@ namespace GraphicsEditor
 {
     class PaintingParameters
     {
-        private Color _brushColor;
+        private Color _brushColor = Color.White;
         private float[] _dashPattern = new float[] { 0, 0 };
         public Color BrushColor
         {

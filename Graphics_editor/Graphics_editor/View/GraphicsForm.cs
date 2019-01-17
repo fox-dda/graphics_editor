@@ -274,5 +274,31 @@ namespace GraphicsEditor
             _drawManager.Redo();
             RefreshView();
         }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "Save project?",
+                Text,
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+
+            if (result == DialogResult.Yes)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "GraphicsEditor Project|*.proj";
+                if (openFileDialog.ShowDialog() != DialogResult.Cancel)
+                {
+                    using (var stream = openFileDialog.OpenFile())
+                    {
+                        _drawManager.Deserialize(stream);
+                    }
+                }
+            }
+            else if (result == DialogResult.Cancel)
+                e.Cancel = true;
+        }
     }
 }
