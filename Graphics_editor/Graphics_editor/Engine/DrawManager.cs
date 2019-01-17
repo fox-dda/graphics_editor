@@ -85,7 +85,6 @@ namespace GraphicsEditor.Engine
                                 }
                                 else
                                 {
-                                    //var gravitySector = Selector.PointSearch(e.Location, Corrector.GetHighlights());
                                     var shape = Selector.PointSearch(e.Location, Corrector.GetHighlights());
                                     if (shape != null)
                                     {
@@ -205,7 +204,7 @@ namespace GraphicsEditor.Engine
         {
             var bais = new Point(newPoint.X - State.InPocessPoints.Last().X, newPoint.Y - State.InPocessPoints.Last().Y);
             Corrector.RemoveDraft(State.DragDropDraft);
-            DraftFactory.BaisObject(State.DragDropDraft, bais);
+            Corrector.BaisObject(State.DragDropDraft, bais);
             State.InPocessPoints.Add(newPoint);
             DraftPainter.RefreshCanvas();
             DraftPainter.SoloDraw(State.DragDropDraft);
@@ -254,26 +253,21 @@ namespace GraphicsEditor.Engine
                     addRangeDraftCommand.TargetStorage = Corrector.GetStorageForRepairCommands();
                     continue;
                 }
-                /*/if (cmd is ChangeDocumentPreferencesCommand changeDocumentPreferencesCommand)
+                if (cmd is ClearStorageCommand clearStorageCommand)
                 {
-                    changeDocumentPreferencesCommand.ControlUnit = this;
+                    clearStorageCommand.TargetStorage = Corrector.GetStorageForRepairCommands();
                     continue;
                 }
-                if (cmd is ChangeShapePropertyValuesCommand changeShapePropertyValuesCommand)
+                if (cmd is RemoveDraftCommand removeDraftCommand)
                 {
-                    changeShapePropertyValuesCommand.ControlUnit = this;
+                    removeDraftCommand.TargetStorage = Corrector.GetStorageForRepairCommands();
                     continue;
                 }
-                if (cmd is ClearDocumentCommand clearDocumentCommand)
+                if (cmd is RemoveRangeDraftsCommand removeRangeDraftsCommand)
                 {
-                    clearDocumentCommand.ControlUnit = this;
+                    removeRangeDraftsCommand.TargetStorage = Corrector.GetStorageForRepairCommands();
                     continue;
                 }
-                if (cmd is RemoveShapeCommand removeShapeCommand)
-                {
-                    removeShapeCommand.ControlUnit = this;
-                    continue;
-                }/*/
             }
         }
     }

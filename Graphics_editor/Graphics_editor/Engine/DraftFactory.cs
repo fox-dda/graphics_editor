@@ -114,31 +114,6 @@ namespace GraphicsEditor
             else
                 return Strategy.selection;
         }
-        
-        public static void BaisObject(IDrawable draft, Point bais)
-        {
-            if (draft is Polygon)
-            {
-                for (int i = 0; i < (draft as Polygon).DotList.Count; i++)
-                {
-                    (draft as Polygon).DotList[i] = new Point((draft as Polygon).DotList[i].X + bais.X,
-                        (draft as Polygon).DotList[i].Y + +bais.Y);
-                }
-            }
-            else if (draft is Polyline)
-            {
-                for (int i = 0; i < (draft as Polyline).DotList.Count; i++)
-                {
-                    (draft as Polyline).DotList[i] = new Point((draft as Polyline).DotList[i].X + bais.X,
-                        (draft as Polyline).DotList[i].Y + +bais.Y);
-                }
-            }
-            else
-            {
-                draft.StartPoint = new Point(draft.StartPoint.X + bais.X, draft.StartPoint.Y + bais.Y);
-                draft.EndPoint = new Point(draft.EndPoint.X + bais.X, draft.EndPoint.Y + bais.Y);
-            }
-        }
 
         public static Pen CreatePen(PenSettings settings)
         {
@@ -214,30 +189,6 @@ namespace GraphicsEditor
                     return null;
             }
             return type;
-        }
-
-        public static IDrawable CopyShape(IDrawable shape)
-        {
-            
-            if (shape is Polygon)
-            {
-                var copy = (Polygon)Activator.CreateInstance(shape.GetType());
-                foreach (var point in (shape as Polygon).DotList)
-                {
-                    (copy as Polygon).DotList.Add(new Point(point.X, point.Y));
-                }
-                var pen = new PenSettings();
-                
-                pen.Color = shape.Pen.Color;
-                pen.DashPattern = shape.Pen.DashPattern;
-                pen.Width = shape.Pen.Width;
-                copy.Pen = pen;
-                if (shape is IBrushable)
-                    (copy as IBrushable).BrushColor = (shape as IBrushable).BrushColor;
-
-                return copy;
-            }
-            return null;
         }
     }
 }

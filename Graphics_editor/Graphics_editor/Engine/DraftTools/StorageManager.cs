@@ -110,41 +110,55 @@ namespace GraphicsEditor.DraftTools
         {
             _storage.HighlightDraftsList.AddRange(highlightRange);
         }
-        /*/
-        public void EditBrushableDraft(IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
-        {
-            _undoRedoStack.Do(CommandFactory.CreateEditBrushableDraftCommand(_storage.DraftList, draft, pointList, pen, brush));
-        }
-        /*/
+
         public void EditDraft(IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
         {
-            _undoRedoStack.Do(CommandFactory.CreateEditDraftCommand(_storage.DraftList, draft, pointList, pen, brush));
+            _undoRedoStack.Do(CommandFactory.CreateEditDraftCommand(draft, pointList, pen, brush));
         }
 
         public void DragDotInDraft(DotInDraft dotInDraft, Point newPoint)
         {
             var item = dotInDraft.Draft;
-            var point = dotInDraft.Point;      
+            var point = dotInDraft.Point;
+            List<Point> newPointList = new List<Point>();
 
             if (item is Polygon)
             {
-                (item as Polygon).DotList[(item as Polygon).DotList.IndexOf(point)] = newPoint;
+                foreach(Point pointInDraft in (item as Polygon).DotList)
+                {
+                    if (point == pointInDraft)
+                        newPointList.Add(newPoint);
+                    else
+                        newPointList.Add(pointInDraft);
+                }
             }
             else if (item is Polyline)
             {
-                (item as Polyline).DotList[(item as Polyline).DotList.IndexOf(point)] = newPoint;
+                foreach (Point pointInDraft in (item as Polyline).DotList)
+                {
+                    if (point == pointInDraft)
+                        newPointList.Add(newPoint);
+                    else
+                        newPointList.Add(pointInDraft);
+                }
             }
             else
             {
                 if (item.StartPoint == point)
                 {
-                    item.StartPoint = newPoint;
+                    newPointList.Add(newPoint);
+                    newPointList.Add(item.EndPoint);
                 }
                 else if (item.EndPoint == point)
                 {
-                    item.EndPoint = newPoint;
+                    newPointList.Add(item.StartPoint);
+                    newPointList.Add(newPoint);             
                 }
             }
+            if(item is IBrushable)
+                EditDraft(item, newPointList, item.Pen, (item as IBrushable).BrushColor);
+            else
+                EditDraft(item, newPointList, item.Pen, Color.White);
         }
 
         public void RemoveDraft(IDrawable draft)
@@ -171,17 +185,32 @@ namespace GraphicsEditor.DraftTools
         public void RemoveRangeHighligtDrafts()
         {
             _undoRedoStack.Do(CommandFactory.CreateRemoveRangeDraftsCommand(_storage.DraftList, _storage.HighlightDraftsList));
-            /*/
-            foreach (IDrawable draft in GetHighlights())
+            _storage.HighlightDraftsList.Clear();
+        }
+
+        public void BaisObject(IDrawable draft, Point bais)
+        {
+            if (draft is Polygon)
             {
-                if (_storage.DraftList.Contains(draft))
+                for (int i = 0; i < (draft as Polygon).DotList.Count; i++)
                 {
-                    _storage.HighlightDraftsList.Remove(draft);
-                }               
+                    (draft as Polygon).DotList[i] = new Point((draft as Polygon).DotList[i].X + bais.X,
+                        (draft as Polygon).DotList[i].Y + +bais.Y);
+                }
             }
-            _storage.HighlightDraftsList.Clear();
-            /*/
-            _storage.HighlightDraftsList.Clear();
+            else if (draft is Polyline)
+            {
+                for (int i = 0; i < (draft as Polyline).DotList.Count; i++)
+                {
+                    (draft as Polyline).DotList[i] = new Point((draft as Polyline).DotList[i].X + bais.X,
+                        (draft as Polyline).DotList[i].Y + +bais.Y);
+                }
+            }
+            else
+            {
+                draft.StartPoint = new Point(draft.StartPoint.X + bais.X, draft.StartPoint.Y + bais.Y);
+                draft.EndPoint = new Point(draft.EndPoint.X + bais.X, draft.EndPoint.Y + bais.Y);
+            }
         }
     }
 }

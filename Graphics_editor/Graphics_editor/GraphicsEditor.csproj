@@ -77,7 +77,7 @@
     <Compile Include="Engine\UndoRedo\Commands\AddRangeDraftsCommand.cs" />
     <Compile Include="Engine\UndoRedo\Commands\ClearStorageCommand.cs" />
     <Compile Include="Engine\UndoRedo\Commands\CommandFactory.cs" />
-    <Compile Include="Engine\UndoRedo\Commands\EditBrushableDraftCommand.cs" />
+    <Compile Include="Engine\UndoRedo\Commands\DragDropDotCommand.cs" />
     <Compile Include="Engine\UndoRedo\Commands\EditDraftCommand.cs" />
     <Compile Include="Engine\UndoRedo\Commands\ICommand.cs" />
     <Compile Include="Engine\UndoRedo\Commands\RemoveDraftCommand.cs" />

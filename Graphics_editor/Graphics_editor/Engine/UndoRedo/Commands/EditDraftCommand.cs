@@ -9,36 +9,71 @@ using GraphicsEditor.Model.Shapes;
 using System.Windows.Forms;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
-{/*/
+{
     [Serializable]
     public class EditDraftCommand : ICommand
     {
         private IDrawable _editedDraft;
         private IDrawable _backUpDraft;
-        private Point _sp;
-        private Point _ep;
-        private PenSettings _pen;
+        private List<Point> _pointList;
+        private PenSettings _penSettings;
+        private Color _brush;
+
 
         public void Do()
         {
-            _editedDraft.StartPoint = _sp;
-            _editedDraft.EndPoint = _ep;
-            _editedDraft.Pen = _pen;
+            if (_editedDraft is Polygon)
+            {
+                (_editedDraft as Polygon).DotList = _pointList;
+                (_editedDraft as IBrushable).BrushColor = _brush;
+                _editedDraft.Pen = _penSettings;
+            }
+            else if (_editedDraft is Polyline)
+            {
+                (_editedDraft as Polyline).DotList = _pointList;
+                _editedDraft.Pen = _penSettings;
+            }
+            else
+            {
+                _editedDraft.StartPoint = _pointList[0];
+                _editedDraft.EndPoint = _pointList.Last();
+                if(_editedDraft is IBrushable)
+                    (_editedDraft as IBrushable).BrushColor = _brush;
+                _editedDraft.Pen = _penSettings;
+            }
         }
 
         public void Undo()
-        {
-            MessageBox.Show("Undoo");
-            _editedDraft = _backUpDraft;
+        {          
+            if (_editedDraft is Polygon)
+            {
+                (_editedDraft as Polygon).DotList = (_backUpDraft as Polygon).DotList;
+                (_editedDraft as IBrushable).BrushColor = (_backUpDraft as IBrushable).BrushColor;
+                _editedDraft.Pen = _backUpDraft.Pen;
+            }
+            if (_editedDraft is Polyline)
+            {
+                (_editedDraft as Polyline).DotList = (_backUpDraft as Polyline).DotList;
+                _editedDraft.Pen = _backUpDraft.Pen;
+            }
+            else
+            {
+                _editedDraft.StartPoint = _backUpDraft.StartPoint;
+                _editedDraft.EndPoint = _backUpDraft.EndPoint;
+                if(_editedDraft is IBrushable)
+                    (_editedDraft as IBrushable).BrushColor = (_backUpDraft as IBrushable).BrushColor;
+                _editedDraft.Pen = _backUpDraft.Pen;
+            }
         }
 
-        public EditDraftCommand(IDrawable draft, Point sp, Point ep, PenSettings pen)
+        public EditDraftCommand(IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
         {
-            _backUpDraft = DraftFactory.Clone(draft);
             _editedDraft = draft;
-            _sp = sp;
-            _ep = ep;
-            _pen = pen;
+            _backUpDraft = DraftFactory.Clone(draft);
+            _pointList = pointList;
+            _penSettings = pen;
+            if (brush != null)
+                _brush = brush;
         }
-    }/*/
+    }
 }
