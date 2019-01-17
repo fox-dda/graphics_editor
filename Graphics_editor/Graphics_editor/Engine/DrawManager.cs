@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using System.Text;
-using System.Threading.Tasks;
 using GraphicsEditor.Model;
 using GraphicsEditor.Enums;
 using System.Drawing;
 using GraphicsEditor.DraftTools;
 using System.IO;
-using GraphicsEditor.Engine.UndoRedo;
 using GraphicsEditor.Engine.UndoRedo.Commands;
 
 namespace GraphicsEditor.Engine
@@ -33,32 +30,27 @@ namespace GraphicsEditor.Engine
         {
             if (e.KeyChar == (Char)3)//c
             {
-                _buffer.SetRange(Corrector.GetHighlights());
+                Copy(_buffer);
             }
             else if (e.KeyChar == (Char)22)//v
             {
-                Corrector.AddRangeDrafts(_buffer.GetAll());
+                Paste(_buffer);
             }
             else if (e.KeyChar == (Char)4)//d
             {
-                Corrector.RemoveRangeHighligtDrafts();
+                Remove();
             }
             else if (e.KeyChar == (Char)24)//x
             {
-                _buffer.SetRange(Corrector.GetHighlights());
-                Corrector.RemoveRangeHighligtDrafts();
+                Cut(_buffer);
             }
             else if (e.KeyChar == (Char)26)//z
             {
-                Corrector.DiscardAll();
-                Corrector.UndoCommand();
-                DraftPainter.RefreshCanvas();
+                Undo();
             }
             else if (e.KeyChar == (Char)25)//y
             {
-                Corrector.DiscardAll();
-                Corrector.RedoCommand();
-                DraftPainter.RefreshCanvas();
+                Redo();
             }
         }
 
@@ -321,6 +313,48 @@ namespace GraphicsEditor.Engine
                     continue;
                 }
             }
+        }
+
+        public void Redo()
+        {
+            Corrector.DiscardAll();
+            Corrector.RedoCommand();
+            DraftPainter.RefreshCanvas();
+        }
+
+        public void Undo()
+        {
+            Corrector.DiscardAll();
+            Corrector.UndoCommand();
+            DraftPainter.RefreshCanvas();
+        }
+
+        public void Cut(DraftClipboard _buffer)
+        {
+            _buffer.SetRange(Corrector.GetHighlights());
+            Corrector.RemoveRangeHighligtDrafts();
+            DraftPainter.RefreshCanvas();
+
+        }
+
+        public void Copy(DraftClipboard _buffer)
+        {
+            _buffer.SetRange(Corrector.GetHighlights());
+            DraftPainter.RefreshCanvas();
+
+        }
+
+        public void Paste(DraftClipboard _buffer)
+        {
+            Corrector.AddRangeDrafts(_buffer.GetAll());
+            DraftPainter.RefreshCanvas();
+
+        }
+
+        public void Remove()
+        {
+            Corrector.RemoveRangeHighligtDrafts();
+            DraftPainter.RefreshCanvas();
         }
     }
 }

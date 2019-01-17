@@ -35,6 +35,7 @@ namespace GraphicsEditor
             _paintCore = Graphics.FromImage(btm);
             _draftPainter = new DraftPainter(_paintCore);
             _drawManager = new DrawManager(_draftPainter, _storage);
+
             _highlightPanel = new SelectionPanel() { StorageManager = _drawManager.Corrector };
             Controls.Add(_highlightPanel);
             rightGroupBox.Controls.Add(_highlightPanel);
@@ -147,11 +148,6 @@ namespace GraphicsEditor
             _drawManager.State.Figure = Figure.polygon;
         }
 
-        private void mainPictureBox_MouseLeave(object sender, EventArgs e)
-        {
-
-        }
-
         private void RefreshView()
         {
             _highlightPanel.Drafts = _drawManager.Corrector.GetHighlights();
@@ -162,7 +158,6 @@ namespace GraphicsEditor
         {
             _drawManager.KeyProcess(e, _buffer);
             _draftPainter.RefreshCanvas();
-            mainPictureBox.Invalidate();
             RefreshView();
         }
 
@@ -170,7 +165,6 @@ namespace GraphicsEditor
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "GraphicsEditor Project|*.proj";
-            //saveFileDialog.FileName = _controlUnit.GetDocument().Name;
             if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
             {
                 using (var stream = saveFileDialog.OpenFile())
@@ -200,7 +194,11 @@ namespace GraphicsEditor
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                _drawManager.DraftPainter.Parameters.GPen = new PenSettings() { Color = colorDialog.Color, Width = _drawManager.DraftPainter.Parameters.GPen.Width, DashPattern = _drawManager.DraftPainter.Parameters.GPen.DashPattern };
+                _drawManager.DraftPainter.Parameters.GPen = new PenSettings()
+                { Color = colorDialog.Color,
+                    Width = _drawManager.DraftPainter.Parameters.GPen.Width,
+                    DashPattern = _drawManager.DraftPainter.Parameters.GPen.DashPattern
+                };
                 penColorpanel.BackColor = colorDialog.Color;
             }
             refreshPen();
@@ -231,8 +229,6 @@ namespace GraphicsEditor
         private void exportToBmpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
-            // saveDialog.DefaultExt = "bmp";
-            // saveDialog.DefaultExt = "Image files (*bmp)|*.bmp|All files (*.*)|*.*";
             _drawManager.Corrector.DiscardAll();
             _draftPainter.RefreshCanvas();
             mainPictureBox.Invalidate();
@@ -241,6 +237,42 @@ namespace GraphicsEditor
             {
                 mainPictureBox.Image.Save(saveDialog.FileName +".bmp");
             }
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _drawManager.Copy(_buffer);
+            RefreshView();
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _drawManager.Cut(_buffer);
+            RefreshView();
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _drawManager.Remove();
+            RefreshView();
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _drawManager.Paste(_buffer);
+            RefreshView();
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _drawManager.Undo();
+            RefreshView();
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _drawManager.Redo();
+            RefreshView();
         }
     }
 }
