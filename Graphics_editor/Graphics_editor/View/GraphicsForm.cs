@@ -36,7 +36,7 @@ namespace GraphicsEditor
             _draftPainter = new DraftPainter(_paintCore);
             _drawManager = new DrawManager(_draftPainter, _storage);
 
-            _highlightPanel = new SelectionPanel() { StorageManager = _drawManager.Corrector };
+            _highlightPanel = new SelectionPanel() { StorageManager = _drawManager.DraftStorageManager };
             Controls.Add(_highlightPanel);
             rightGroupBox.Controls.Add(_highlightPanel);
             _highlightPanel.Location = new Point(3, 2);
@@ -149,7 +149,7 @@ namespace GraphicsEditor
 
         private void RefreshView()
         {
-            _highlightPanel.Drafts = _drawManager.Corrector.GetHighlights();
+            _highlightPanel.Drafts = _drawManager.DraftStorageManager.GetHighlights();
             mainPictureBox.Invalidate();
         }
 
@@ -212,7 +212,7 @@ namespace GraphicsEditor
         private void exportToBmpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
-            _drawManager.Corrector.DiscardAll();
+            _drawManager.DraftStorageManager.DiscardAll();
             _draftPainter.RefreshCanvas();
             mainPictureBox.Invalidate();
 

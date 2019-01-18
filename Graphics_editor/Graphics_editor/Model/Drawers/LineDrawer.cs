@@ -7,8 +7,16 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model.Drawers
 {
+   /// <summary>
+   /// Отрисовщик линий
+   /// </summary>
     class LineDrawer: BaseDrawer
     {
+        /// <summary>
+        /// Отрисовать линию
+        /// </summary>
+        /// <param name="shape">Линия</param>
+        /// <param name="graphics">Ядро рисования</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
             graphics.DrawLine(DraftFactory.CreatePen(shape.Pen), shape.StartPoint, shape.EndPoint);

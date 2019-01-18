@@ -10,8 +10,14 @@ using System.Drawing;
 
 namespace GraphicsEditor.Engine
 {
+    /// <summary>
+    /// Состаяние художника
+    /// </summary>
     class PainterState
     {
+        /// <summary>
+        /// Стратегия отрисовки
+        /// </summary>
         public Strategy DrawingStrategy
         {
             get
@@ -20,10 +26,19 @@ namespace GraphicsEditor.Engine
             }
         }
 
+        /// <summary>
+        /// Рисуемая фигура
+        /// </summary>
         private Figure _figure = Figure.select;
 
+        /// <summary>
+        /// Нерисуемая фигура
+        /// </summary>
         public IDrawable UndrawableDraft;
 
+        /// <summary>
+        /// Рисуемая фигура
+        /// </summary>
         public Figure Figure
         {
             get
@@ -42,15 +57,29 @@ namespace GraphicsEditor.Engine
             }
         }
 
+        /// <summary>
+        /// Список обрабатываемых точек
+        /// </summary>
         public List<Point> InPocessPoints = new List<Point>();
 
+        /// <summary>
+        /// Двигаемая фигура
+        /// </summary>
         public IDrawable DragDropDraft;
 
+        /// <summary>
+        /// Двигаемая точка в фигуре
+        /// </summary>
         public DotInDraft DragDropDot;
 
+        /// <summary>
+        /// Фигура в кэше
+        /// </summary>
         public IDrawable CacheDraft;
 
+        /// <summary>
+        /// Ласо в кэше
+        /// </summary>
         public HighlightRect CacheLasso;
-
     }
 }

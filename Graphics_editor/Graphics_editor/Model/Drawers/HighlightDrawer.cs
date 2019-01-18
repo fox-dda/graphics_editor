@@ -7,8 +7,16 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model.Drawers
 {
+    /// <summary>
+    /// Отрисовщик выделения
+    /// </summary>
     class HighlightDrawer: BaseDrawer
     {
+        /// <summary>
+        /// Отрисовать выделеление
+        /// </summary>
+        /// <param name="frameItem">Фигура, по которой рисуется выделение</param>
+        /// <param name="graphics">Ядро рисования</param>
         public override void DrawShape(IDrawable frameItem, Graphics graphics)
         {
             var startPoint = frameItem.StartPoint;

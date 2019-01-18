@@ -7,12 +7,24 @@ using GraphicsEditor.Model;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
 {
+    /// <summary>
+    /// Команда удаления нескольких фигур
+    /// </summary>
     [Serializable]
     public class RemoveRangeDraftsCommand : ICommand
     {
+        /// <summary>
+        /// Целевой список
+        /// </summary>
         [field: NonSerialized] public List<IDrawable> TargetStorage;
+        /// <summary>
+        /// Удаляемые фигуры
+        /// </summary>
         private List<IDrawable> _removebleList;
 
+        /// <summary>
+        /// Выпонить команду
+        /// </summary>
         public void Do()
         {
             foreach (IDrawable draft in _removebleList)
@@ -21,6 +33,9 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
             }
         }
 
+        /// <summary>
+        /// Откатить команду
+        /// </summary>
         public void Undo()
         {
             foreach (IDrawable draft in _removebleList)
@@ -29,6 +44,11 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
             }
         }
 
+        /// <summary>
+        /// Конструктор команды удаления несколькиз фигур
+        /// </summary>
+        /// <param name="storage"></param>
+        /// <param name="removebleList"></param>
         public RemoveRangeDraftsCommand(List<IDrawable> storage, List<IDrawable> removebleList)
         {
             TargetStorage = storage;

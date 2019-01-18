@@ -7,8 +7,16 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model.Drawers
 {
+    /// <summary>
+    /// Отрисовщик кругов
+    /// </summary>
     class CircleDrawer: BaseDrawer
     {
+        /// <summary>
+        /// Отрисовать круг
+        /// </summary>
+        /// <param name="shape">Круг</param>
+        /// <param name="graphics">Ядро отрисовки</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
             var circle = shape as Circle;

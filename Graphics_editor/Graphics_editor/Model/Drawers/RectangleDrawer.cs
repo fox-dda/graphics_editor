@@ -7,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace GraphicsEditor.Model.Drawers
 {
+    /// <summary>
+    /// Отрисовщик примоугольников
+    /// </summary>
     class RectangleDrawer: BaseDrawer
     {
+        /// <summary>
+        /// Отрисовать прямоугольник
+        /// </summary>
+        /// <param name="shape">Прямоугольник</param>
+        /// <param name="graphics">Ядро рисования</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
             var StartPoint = shape.StartPoint;

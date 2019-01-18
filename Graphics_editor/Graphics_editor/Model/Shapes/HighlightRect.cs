@@ -1,15 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GraphicsEditor.Model.Shapes;
+﻿using GraphicsEditor.Model.Shapes;
 using System.Drawing;
 
 namespace GraphicsEditor.Model
 {
+    /// <summary>
+    /// Рамка выделения
+    /// </summary>
     class HighlightRect: IDrawable
     {
+        /// <summary>
+        /// Точка старта
+        /// </summary>
         private Point _startPoint;
+
+        /// <summary>
+        /// Точка конца
+        /// </summary>
         private Point _endPoint;
+
+        /// <summary>
+        /// Настройки пера
+        /// </summary>
         public PenSettings Pen
         {
             get
@@ -19,6 +30,9 @@ namespace GraphicsEditor.Model
             set{}
         }
 
+        /// <summary>
+        /// Точка старта
+        /// </summary>
         public Point StartPoint
         {
             get
@@ -31,6 +45,9 @@ namespace GraphicsEditor.Model
             }
         }
 
+        /// <summary>
+        /// Точка конца
+        /// </summary>
         public Point EndPoint
         {
             get
@@ -43,6 +60,11 @@ namespace GraphicsEditor.Model
             }
         }
 
+        /// <summary>
+        /// Консткуктор прямоугольника выделения
+        /// </summary>
+        /// <param name="startPoint"></param>
+        /// <param name="endPoint"></param>
         public HighlightRect(Point startPoint, Point endPoint)
         {
             StartPoint = startPoint;

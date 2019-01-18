@@ -10,9 +10,20 @@ using System.Drawing;
 
 namespace GraphicsEditor
 {
+    /// <summary>
+    /// Фабрика фигур
+    /// </summary>
     static class DraftFactory
     {
-        //Создание объекта фигуры с количеством точек равным 2
+        /// <summary>
+        /// Создать фигуру
+        /// </summary>
+        /// <param name="figure">Фигура</param>
+        /// <param name="startPoint">Начальная точка</param>
+        /// <param name="endPoint">Конечная точка</param>
+        /// <param name="gPen">Перо</param>
+        /// <param name="brushColor">Цвет заливки</param>
+        /// <returns>Созданная фигура</returns>
         public static IDrawable CreateDraft(Figure figure, Point startPoint, Point endPoint, PenSettings gPen, Color brushColor)
         {
             switch (figure)
@@ -28,6 +39,13 @@ namespace GraphicsEditor
             }
         }
 
+        /// <summary>
+        /// Создать прямоугольник выдиления
+        /// </summary>
+        /// <param name="figure">Фигура</param>
+        /// <param name="startPoint">Стартовая точка</param>
+        /// <param name="endPoint">Конечная точка</param>
+        /// <returns>Созданный прямоуголькик выдиления</returns>
         public static HighlightRect CreateDraft(Figure figure, Point startPoint, Point endPoint)
         {
             switch (figure)
@@ -39,7 +57,14 @@ namespace GraphicsEditor
             }
         }
 
-        //Перегрузка для создания объектов с количеством точек 2 и более
+        /// <summary>
+        /// Создать фигуру
+        /// </summary>
+        /// <param name="figure">Фигура</param>
+        /// <param name="pointList">Список точек</param>
+        /// <param name="gPen">Перо</param>
+        /// <param name="brushColor">Цвет заливки</param>
+        /// <returns>Созданная фигура</returns>
         public static IDrawable CreateDraft(Figure figure, List<Point> pointList, PenSettings gPen, Color brushColor)
         {
             switch (figure)
@@ -53,6 +78,13 @@ namespace GraphicsEditor
             }
         }
 
+        /// <summary>
+        /// Создать фигру
+        /// </summary>
+        /// <param name="figure">Фигура</param>
+        /// <param name="pointList">Список точек</param>
+        /// <param name="gPen">Перо</param>
+        /// <returns>Созданная фигура</returns>
         public static IDrawable CreateDraft(Figure figure, List<Point> pointList, PenSettings gPen)
         {
             switch (figure)
@@ -64,6 +96,14 @@ namespace GraphicsEditor
             }
         }
 
+        /// <summary>
+        /// Создать фигуру
+        /// </summary>
+        /// <param name="figure">Фигура</param>
+        /// <param name="startPoint">Стартовая точка</param>
+        /// <param name="endPoint">Конечная точка</param>
+        /// <param name="gPen">Перо</param>
+        /// <returns>Созданная фигура</returns>
         public static IDrawable CreateDraft(Figure figure, Point startPoint, Point endPoint, PenSettings gPen)
         {
             switch (figure)
@@ -75,6 +115,11 @@ namespace GraphicsEditor
             }
         }
 
+        /// <summary>
+        /// Определить енум по фигурк
+        /// </summary>
+        /// <param name="draft">Фигура, для которой необходимо определить енум</param>
+        /// <returns>Енум</returns>
         public static Figure DefineDraftEnum(IDrawable draft)
         {
             switch(draft.GetType().ToString().Split('.').Last())
@@ -102,7 +147,11 @@ namespace GraphicsEditor
             }
         }
 
-        //Определение стратегии отрисовки фигуры по её классу
+        /// <summary>
+        /// Определить статегию отрисовки по фигуре
+        /// </summary>
+        /// <param name="figure">Фигура</param>
+        /// <returns>Стратегия</returns>
         public static Strategy DefineStrategy(Figure figure)
         {
             if ((figure == Figure.line) || (figure == Figure.ellipse) || (figure == Figure.triangle) || (figure == Figure.circle))
@@ -115,6 +164,11 @@ namespace GraphicsEditor
                 return Strategy.selection;
         }
 
+        /// <summary>
+        /// Создать перо
+        /// </summary>
+        /// <param name="settings">Настройки пера</param>
+        /// <returns>Перо</returns>
         public static Pen CreatePen(PenSettings settings)
         {
             if(settings.DashPattern != null)
@@ -127,6 +181,11 @@ namespace GraphicsEditor
             }
         }
 
+        /// <summary>
+        /// Создать клон фигуры
+        /// </summary>
+        /// <param name="draft">Клонируемая фигура</param>
+        /// <returns>Клон фигуры</returns>
         public static IDrawable Clone(IDrawable draft)
         {
             if (draft is Polygon)
@@ -171,11 +230,22 @@ namespace GraphicsEditor
             return null;
         }
 
+        /// <summary>
+        /// Создать точку
+        /// </summary>
+        /// <param name="X">Координата X</param>
+        /// <param name="Y">Координата Y</param>
+        /// <returns>Созданная точка</returns>
         public static Point CreatePoint(int X, int Y)
         {
             return new Point(X, Y);
         }
 
+        /// <summary>
+        /// Определить однородность фигур, в случае неоднородности вернуть null
+        /// </summary>
+        /// <param name="draftList">Список фигур</param>
+        /// <returns>Тип однородных фигур</returns>
         public static Type CheckUniformity(List<IDrawable> draftList)
         {
             if (draftList == null)

@@ -11,21 +11,43 @@ using GraphicsEditor.Engine.UndoRedo.Commands;
 
 namespace GraphicsEditor.Engine
 {
+    /// <summary>
+    /// Менеджер рисования
+    /// </summary>
     class DrawManager
     {
+        /// <summary>
+        /// Художник фигур
+        /// </summary>
         public DraftPainter DraftPainter;
+        /// <summary>
+        /// Состаяние художника фигур
+        /// </summary>
         public PainterState State;
-        public StorageManager Corrector;
+        /// <summary>
+        /// Менеджер хранилища фигур
+        /// </summary>
+        public StorageManager DraftStorageManager;
 
+        /// <summary>
+        /// Конструктор менеджера рисования
+        /// </summary>
+        /// <param name="draftPainter">Художник фигур</param>
+        /// <param name="storage">Менеджер хранилища</param>
         public DrawManager(DraftPainter draftPainter, DraftStorage storage)
         {
             DraftPainter = draftPainter;
-            Corrector = new StorageManager(storage);
+            DraftStorageManager = new StorageManager(storage);
             State = new PainterState();
             DraftPainter.State = State;
-            DraftPainter.Corrector = Corrector;
+            DraftPainter.Corrector = DraftStorageManager;
         }
 
+        /// <summary>
+        /// Обработка событий клавиш
+        /// </summary>
+        /// <param name="e">Событие</param>
+        /// <param name="_buffer">Буфер обмена</param>
         public void KeyProcess(KeyPressEventArgs e, DraftClipboard _buffer)
         {
             if (e.KeyChar == (Char)3)//c
@@ -54,6 +76,11 @@ namespace GraphicsEditor.Engine
             }
         }
 
+        /// <summary>
+        /// Обработка событий мыши
+        /// </summary>
+        /// <param name="e">Событие</param>
+        /// <param name="mouseAction">Параметры события</param>
         public void MouseProcess(MouseEventArgs e, MouseAction mouseAction)
         {
             switch (mouseAction)
@@ -67,9 +94,9 @@ namespace GraphicsEditor.Engine
                         else if (State.DrawingStrategy == Strategy.selection)
                         {
                             State.InPocessPoints.Add(e.Location);
-                            if (Corrector.GetHighlights().Count > 0)
+                            if (DraftStorageManager.GetHighlights().Count > 0)
                             {// меняем стратегию если найдена опорная точка или точка опоры
-                                var refDot = Selector.SearchReferenceDot(e.Location, Corrector.GetHighlights());
+                                var refDot = Selector.SearchReferenceDot(e.Location, DraftStorageManager.GetHighlights());
                                 if (refDot.Draft != null)
                                 {
                                     State.Figure = Figure.dragPoint;
@@ -81,7 +108,7 @@ namespace GraphicsEditor.Engine
                                 }
                                 else
                                 {
-                                    var shape = Selector.PointSearch(e.Location, Corrector.GetHighlights());
+                                    var shape = Selector.PointSearch(e.Location, DraftStorageManager.GetHighlights());
                                     if (shape != null)
                                     {
                                         State.Figure = Figure.dragDraft;
@@ -143,19 +170,19 @@ namespace GraphicsEditor.Engine
                         {
                             if (State.DragDropDraft != null)
                             {
-                                var newPoints = Corrector.PullPoints(State.DragDropDraft);
+                                var newPoints = DraftStorageManager.PullPoints(State.DragDropDraft);
                                 if (State.UndrawableDraft is IBrushable)
-                                    Corrector.EditDraft(State.UndrawableDraft, newPoints, State.DragDropDraft.Pen, (State.DragDropDraft as IBrushable).BrushColor);
+                                    DraftStorageManager.EditDraft(State.UndrawableDraft, newPoints, State.DragDropDraft.Pen, (State.DragDropDraft as IBrushable).BrushColor);
                                 else
-                                    Corrector.EditDraft(State.UndrawableDraft, newPoints, State.DragDropDraft.Pen, Color.White);                   
+                                    DraftStorageManager.EditDraft(State.UndrawableDraft, newPoints, State.DragDropDraft.Pen, Color.White);                   
                             }
                             if (State.DragDropDot.Draft != null)
                             {
-                                var newPoints = Corrector.PullPoints(State.DragDropDot.Draft);
+                                var newPoints = DraftStorageManager.PullPoints(State.DragDropDot.Draft);
                                 if (State.UndrawableDraft is IBrushable)
-                                    Corrector.EditDraft(State.UndrawableDraft, newPoints, State.UndrawableDraft.Pen, (State.UndrawableDraft as IBrushable).BrushColor);
+                                    DraftStorageManager.EditDraft(State.UndrawableDraft, newPoints, State.UndrawableDraft.Pen, (State.UndrawableDraft as IBrushable).BrushColor);
                                 else
-                                    Corrector.EditDraft(State.UndrawableDraft, newPoints, State.UndrawableDraft.Pen, Color.White);
+                                    DraftStorageManager.EditDraft(State.UndrawableDraft, newPoints, State.UndrawableDraft.Pen, Color.White);
                             }
                             State.Figure = Figure.select;
                             State.DragDropDot.Draft = null;
@@ -168,38 +195,53 @@ namespace GraphicsEditor.Engine
             }
         }
 
+        /// <summary>
+        /// Измененить цвет фона
+        /// </summary>
+        /// <param name="newColor">Новый цвет фона</param>
         public void EditCanvasColor(Color newColor)
         {
-            Corrector.EditCanvasColor(DraftPainter.Parameters, newColor);
+            DraftStorageManager.EditCanvasColor(DraftPainter.Parameters, newColor);
             DraftPainter.RefreshCanvas();
         }
 
+        /// <summary>
+        /// Точечное выделение объекта
+        /// </summary>
+        /// <param name="mousePoint"></param>
         private void DotSelection(Point mousePoint)
         {
-            Corrector.DiscardAll();
-            var selectedDraft = Selector.PointSearch(mousePoint, Corrector.GetDrafts());
+            DraftStorageManager.DiscardAll();
+            var selectedDraft = Selector.PointSearch(mousePoint, DraftStorageManager.GetDrafts());
             if (selectedDraft != null)
             {
-                Corrector.AddHighlightDraft(selectedDraft);
+                DraftStorageManager.AddHighlightDraft(selectedDraft);
             }
         }
 
+        /// <summary>
+        /// Выделение объекта с помощью лассо
+        /// </summary>
+        /// <param name="mousePoint"></param>
         private void LassoSelection(Point mousePoint)
         {
             if (State.InPocessPoints.Count > 0)
                 if (mousePoint != State.InPocessPoints.Last())
-                    Corrector.DiscardAll();
+                    DraftStorageManager.DiscardAll();
 
             if (State.CacheLasso != null)
             {
-                Corrector.HighlightingDraftRange(Selector.LassoSearch(State.CacheLasso, Corrector.GetDrafts()));
+                DraftStorageManager.HighlightingDraftRange(Selector.LassoSearch(State.CacheLasso, DraftStorageManager.GetDrafts()));
                 DraftPainter.RefreshCanvas();
             }
             State.CacheLasso = null;
             State.InPocessPoints.Clear();
         }
 
-        //Логика распределеня ответственности перетаскивания
+        /// <summary>
+        /// Установление ответственности за перетаскивание
+        /// </summary>
+        /// <param name="newPoint">Координаты мыши</param>
         private void DragAndDrop(Point newPoint)
         {
             if (State.DragDropDot.Draft != null)
@@ -213,16 +255,23 @@ namespace GraphicsEditor.Engine
             }
         }
 
+        /// <summary>
+        /// Перетащить фигуру
+        /// </summary>
+        /// <param name="newPoint">Координаты мыши</param>
         private void DragDraft(Point newPoint)
         {
             var bais = new Point(newPoint.X - State.InPocessPoints.Last().X, newPoint.Y - State.InPocessPoints.Last().Y);
-            Corrector.BaisObject(State.DragDropDraft, bais);
+            BaisObject(State.DragDropDraft, bais);
             State.InPocessPoints.Add(newPoint);
             DraftPainter.RefreshCanvas();
             DraftPainter.SoloDraw(State.DragDropDraft);
         }
 
-        //Перетащить точку в рисунке
+        /// <summary>
+        /// Перетащить точку в фигурк
+        /// </summary>
+        /// <param name="newPoint">Координая мыши</param>
         private void DragDot(Point newPoint)
         {         
             DragDotInDraft(State.DragDropDot, newPoint);
@@ -231,6 +280,41 @@ namespace GraphicsEditor.Engine
             DraftPainter.SoloDraw(State.DragDropDot.Draft);
         }
 
+        /// <summary>
+        /// Сдвинуть объект
+        /// </summary>
+        /// <param name="draft">Сдвигаемый объект</param>
+        /// <param name="bais">Величина сдвига по X и Y</param>
+        public void BaisObject(IDrawable draft, Point bais)
+        {
+            if (draft is Polygon)
+            {
+                for (int i = 0; i < (draft as Polygon).DotList.Count; i++)
+                {
+                    (draft as Polygon).DotList[i] = new Point((draft as Polygon).DotList[i].X + bais.X,
+                        (draft as Polygon).DotList[i].Y + +bais.Y);
+                }
+            }
+            else if (draft is Polyline)
+            {
+                for (int i = 0; i < (draft as Polyline).DotList.Count; i++)
+                {
+                    (draft as Polyline).DotList[i] = new Point((draft as Polyline).DotList[i].X + bais.X,
+                        (draft as Polyline).DotList[i].Y + +bais.Y);
+                }
+            }
+            else
+            {
+                draft.StartPoint = new Point(draft.StartPoint.X + bais.X, draft.StartPoint.Y + bais.Y);
+                draft.EndPoint = new Point(draft.EndPoint.X + bais.X, draft.EndPoint.Y + bais.Y);
+            }
+        }
+
+        /// <summary>
+        /// Сдвинуть точку в фигурк
+        /// </summary>
+        /// <param name="dotInDraft">Точка в фигуре</param>
+        /// <param name="newPoint">Новые координаты сдвинутой точки</param>
         public void DragDotInDraft(DotInDraft dotInDraft, Point newPoint)
         {
             var item = dotInDraft.Draft;
@@ -269,52 +353,64 @@ namespace GraphicsEditor.Engine
             }
         }
 
+        /// <summary>
+        /// Сериализовать проект
+        /// </summary>
+        /// <param name="stream">Поток</param>
         public void Serealize(Stream stream)
         {
             var serealizer = new DraftSerealizer();
-            serealizer.Serialize(stream, Corrector.GetUndoRedoStack());
+            serealizer.Serialize(stream, DraftStorageManager.GetUndoRedoStack());
         }
 
+        /// <summary>
+        /// Десериализовать проект
+        /// </summary>
+        /// <param name="stream">Поток</param>
         public void Deserialize(Stream stream)
         {
-            Corrector.ClearStorage();
+            DraftStorageManager.ClearStorage();
             var serializer = new DraftSerealizer();
-            var stack = serializer.Deserialize(stream)._undo.ToArray();
+            var stack = serializer.Deserialize(stream).GetUndo().ToArray();
             RepairCommands(stack);
             foreach (ICommand cmd in stack.ToArray().Reverse())
             {
-                Corrector.DoCommand(cmd);
+                DraftStorageManager.DoCommand(cmd);
             }
             DraftPainter.RefreshCanvas();
         }
 
+        /// <summary>
+        /// Актуализировать комманды, работающие по ссылкам при десериализации проекта
+        /// </summary>
+        /// <param name="commands">Массив комманд</param>
         private void RepairCommands(ICommand[] commands)
         {
             foreach (var cmd in commands)
             {
                 if (cmd is AddDraftCommand addDraftCommand)
                 {
-                    addDraftCommand.DraftList = Corrector.GetStorageForRepairCommands();
+                    addDraftCommand.DraftList = DraftStorageManager.GetStorageForRepairCommands();
                     continue;
                 }
                 else if (cmd is AddRangeDraftCommand addRangeDraftCommand)
                 {
-                    addRangeDraftCommand.TargetStorage = Corrector.GetStorageForRepairCommands();
+                    addRangeDraftCommand.TargetStorage = DraftStorageManager.GetStorageForRepairCommands();
                     continue;
                 }
                 if (cmd is ClearStorageCommand clearStorageCommand)
                 {
-                    clearStorageCommand.TargetStorage = Corrector.GetStorageForRepairCommands();
+                    clearStorageCommand.TargetStorage = DraftStorageManager.GetStorageForRepairCommands();
                     continue;
                 }
                 if (cmd is RemoveDraftCommand removeDraftCommand)
                 {
-                    removeDraftCommand.TargetStorage = Corrector.GetStorageForRepairCommands();
+                    removeDraftCommand.TargetStorage = DraftStorageManager.GetStorageForRepairCommands();
                     continue;
                 }
                 if (cmd is RemoveRangeDraftsCommand removeRangeDraftsCommand)
                 {
-                    removeRangeDraftsCommand.TargetStorage = Corrector.GetStorageForRepairCommands();
+                    removeRangeDraftsCommand.TargetStorage = DraftStorageManager.GetStorageForRepairCommands();
                     continue;
                 }
                 if (cmd is EditCanvasColorCommand editCanvasColorCommand)
@@ -325,51 +421,75 @@ namespace GraphicsEditor.Engine
             }
         }
 
+        /// <summary>
+        /// Повторить последнее действие
+        /// </summary>
         public void Redo()
         {
-            Corrector.DiscardAll();
-            Corrector.RedoCommand();
+            DraftStorageManager.DiscardAll();
+            DraftStorageManager.RedoCommand();
             DraftPainter.RefreshCanvas();
         }
 
+        /// <summary>
+        /// Отменить последнее действие
+        /// </summary>
         public void Undo()
         {
-            Corrector.DiscardAll();
-            Corrector.UndoCommand();
+            DraftStorageManager.DiscardAll();
+            DraftStorageManager.UndoCommand();
             DraftPainter.RefreshCanvas();
         }
 
+        /// <summary>
+        /// Вырезать объект
+        /// </summary>
+        /// <param name="_buffer">Буфер обмена</param>
         public void Cut(DraftClipboard _buffer)
         {
-            _buffer.SetRange(Corrector.GetHighlights());
-            Corrector.RemoveRangeHighligtDrafts();
+            _buffer.SetRange(DraftStorageManager.GetHighlights());
+            DraftStorageManager.RemoveRangeHighligtDrafts();
             DraftPainter.RefreshCanvas();
 
         }
 
+        /// <summary>
+        /// Копировать в буффер обмена
+        /// </summary>
+        /// <param name="_buffer">Буфер обмена</param>
         public void Copy(DraftClipboard _buffer)
         {
-            _buffer.SetRange(Corrector.GetHighlights());
+            _buffer.SetRange(DraftStorageManager.GetHighlights());
             DraftPainter.RefreshCanvas();
 
         }
 
+        /// <summary>
+        /// Вставить в буффер обмена
+        /// </summary>
+        /// <param name="_buffer">Буфер обмена</param>
         public void Paste(DraftClipboard _buffer)
         {
-            Corrector.AddRangeDrafts(_buffer.GetAll());
+            DraftStorageManager.AddRangeDrafts(_buffer.GetAll());
             DraftPainter.RefreshCanvas();
 
         }
 
+        /// <summary>
+        /// Удалить объект
+        /// </summary>
         public void Remove()
         {
-            Corrector.RemoveRangeHighligtDrafts();
+            DraftStorageManager.RemoveRangeHighligtDrafts();
             DraftPainter.RefreshCanvas();
         }
 
+        /// <summary>
+        /// Создать новый проект
+        /// </summary>
         public void CreateNewProject()
         {
-            Corrector.ClearHistory();
+            DraftStorageManager.ClearHistory();
             DraftPainter.RefreshCanvas();
         }
     }

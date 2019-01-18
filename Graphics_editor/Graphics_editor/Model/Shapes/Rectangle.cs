@@ -7,14 +7,35 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model
 { 
+    /// <summary>
+    /// Прямоугольник
+    /// </summary>
     [Serializable]
     class Rectangle : IDrawable, IBrushable
     {
+        /// <summary>
+        /// Настройки пера
+        /// </summary>
         private PenSettings _pen;
-        private Point _startPoint;
-        private Point _endPoint;
-        private SolidBrush _brush;
 
+        /// <summary>
+        /// Точка старта
+        /// </summary>
+        private Point _startPoint;
+
+        /// <summary>
+        /// Точка конца
+        /// </summary>
+        private Point _endPoint;
+
+        /// <summary>
+        /// Цвет заливки
+        /// </summary>
+        private SolidBrush _brush;
+        
+        /// <summary>
+        /// Цвет заливки
+        /// </summary>
         public Color BrushColor
         {
             get
@@ -27,6 +48,9 @@ namespace GraphicsEditor.Model
             }
         }
 
+        /// <summary>
+        /// Точка старта
+        /// </summary>
         public Point StartPoint
         {
             get
@@ -39,6 +63,9 @@ namespace GraphicsEditor.Model
             }
         }
 
+        /// <summary>
+        /// Точка конца
+        /// </summary>
         public Point EndPoint
         {
             get
@@ -51,6 +78,9 @@ namespace GraphicsEditor.Model
             }
         }
 
+        /// <summary>
+        /// Настройки пера
+        /// </summary>
         public PenSettings Pen
         {
             get

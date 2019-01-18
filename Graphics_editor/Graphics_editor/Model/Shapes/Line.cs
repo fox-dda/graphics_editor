@@ -8,13 +8,30 @@ using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor.Model
 {
+    /// <summary>
+    /// Линия
+    /// </summary>
     [Serializable]
     class Line : IDrawable
     {
+        /// <summary>
+        /// Настройки пера
+        /// </summary>
         private PenSettings _pen;
+
+        /// <summary>
+        /// Точка старта
+        /// </summary>
         private Point _startPoint;
+
+        /// <summary>
+        /// Точка конца
+        /// </summary>
         private Point _endPoint;
 
+        /// <summary>
+        /// Точка начала
+        /// </summary>
         public Point StartPoint
         {
             get
@@ -27,6 +44,9 @@ namespace GraphicsEditor.Model
             }
         }
 
+        /// <summary>
+        /// Точка конца
+        /// </summary>
         public Point EndPoint
         {
             get
@@ -39,6 +59,9 @@ namespace GraphicsEditor.Model
             }
         }
 
+        /// <summary>
+        /// Настройки пера
+        /// </summary>
         public PenSettings Pen
         {
             get
@@ -51,6 +74,12 @@ namespace GraphicsEditor.Model
             }
         }
 
+        /// <summary>
+        /// Конструктор линии
+        /// </summary>
+        /// <param name="startPoint">Точка старта</param>
+        /// <param name="endPoint">Точка конца</param>
+        /// <param name="pen">Настройки пера</param>
         public Line(Point startPoint, Point endPoint, PenSettings pen)
         {
             StartPoint = startPoint;

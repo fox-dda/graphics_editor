@@ -7,12 +7,25 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model
 { 
+    /// <summary>
+    /// Полилиния
+    /// </summary>
     [Serializable]
     class Polyline: IDrawable
     {
+        /// <summary>
+        /// Настройки пера
+        /// </summary>
         private PenSettings _pen;
+
+        /// <summary>
+        /// Список точек
+        /// </summary>
         public List<Point> _dotList = new List<Point>();
 
+        /// <summary>
+        /// Точка старта
+        /// </summary>
         public Point StartPoint
         {
             get
@@ -24,6 +37,10 @@ namespace GraphicsEditor.Model
                 DotList[0] = value;
             }
         }
+
+        /// <summary>
+        /// Точка конца
+        /// </summary>
         public Point EndPoint
         {
             get
@@ -35,6 +52,10 @@ namespace GraphicsEditor.Model
                 DotList[DotList.Count-1] = value;
             }
         }
+
+        /// <summary>
+        /// Настройки пера
+        /// </summary>
         public PenSettings Pen
         {
             get
@@ -47,6 +68,9 @@ namespace GraphicsEditor.Model
             }
         }
 
+        /// <summary>
+        /// Список точек
+        /// </summary>
         public List<Point> DotList
         {
             get
@@ -66,11 +90,20 @@ namespace GraphicsEditor.Model
             }
         }
 
+        /// <summary>
+        /// Добавить точку
+        /// </summary>
+        /// <param name="point">Добавляемая точка</param>
         public void AddPoint(Point point)
         {
             _dotList.Add(point);
         }
 
+        /// <summary>
+        /// Конструктор полилинии
+        /// </summary>
+        /// <param name="dotlist">Список точек</param>
+        /// <param name="pen">Настройки пера</param>
         public Polyline(List<Point> dotlist, PenSettings pen)
         {
             Pen = pen;

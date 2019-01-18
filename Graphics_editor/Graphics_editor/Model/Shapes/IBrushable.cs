@@ -7,8 +7,14 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model
 {
+    /// <summary>
+    /// Интерфейс для закрашиваемых фигур
+    /// </summary>
     interface IBrushable
     {
+        /// <summary>
+        /// Цвет заливки
+        /// </summary>
         Color BrushColor { get; set; }
     }
 }

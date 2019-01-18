@@ -8,12 +8,25 @@ using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor.Model
 {
+    /// <summary>
+    /// Полигон
+    /// </summary>
     [Serializable]
     class Polygon : IDrawable, IBrushable
     {
+        /// <summary>
+        /// Цвет заливки
+        /// </summary>
         private Color _brush;
+
+        /// <summary>
+        /// Настройки пера
+        /// </summary>
         private PenSettings _pen;
 
+        /// <summary>
+        /// Цвет заливки
+        /// </summary>
         public Color BrushColor
         {
             get
@@ -25,7 +38,15 @@ namespace GraphicsEditor.Model
                 _brush = value;
             }
         }
-        private List<Point> _dotList = new List<Point>();        
+
+        /// <summary>
+        /// Список точек
+        /// </summary>
+        private List<Point> _dotList = new List<Point>();
+        
+        /// <summary>
+        /// Точка старта
+        /// </summary>
         public Point StartPoint
         {
             get
@@ -37,6 +58,10 @@ namespace GraphicsEditor.Model
                 DotList[0] = value;
             }
         }
+
+        /// <summary>
+        /// Точка конца
+        /// </summary>
         public Point EndPoint
         {
             get
@@ -48,6 +73,10 @@ namespace GraphicsEditor.Model
                 DotList[DotList.Count - 1] = value;
             }
         }
+
+        /// <summary>
+        /// Настройки пера
+        /// </summary>
         public PenSettings Pen
         {
             get
@@ -59,6 +88,10 @@ namespace GraphicsEditor.Model
                 _pen = value;
             }
         }
+
+        /// <summary>
+        /// Список точек
+        /// </summary>
         public List<Point> DotList
         {
             get
@@ -78,17 +111,24 @@ namespace GraphicsEditor.Model
             }
         }
 
+        /// <summary>
+        /// Добавиь точку
+        /// </summary>
+        /// <param name="point">Добавляемая точка</param>
         public void AddPoint(Point point)
         {
             _dotList.Add(point);
         }
 
-        public Polygon(List<Point> dotlist, PenSettings pen)//, Color brushColor)
+        /// <summary>
+        /// Конструктор полигона
+        /// </summary>
+        /// <param name="dotlist">Список точек</param>
+        /// <param name="pen">Настройки пера</param>
+        public Polygon(List<Point> dotlist, PenSettings pen)
         {
             Pen = pen;
             DotList = dotlist;
-           // BrushColor = brushColor;
         }
-        public Polygon() { }
     }
 }

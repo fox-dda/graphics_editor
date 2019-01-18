@@ -8,22 +8,42 @@ using System.Windows.Forms;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
 {
+    /// <summary>
+    /// Команда удаления фигуры
+    /// </summary>
     [Serializable]
     public class RemoveDraftCommand : ICommand
     {
+        /// <summary>
+        /// Целевой список
+        /// </summary>
         [field: NonSerialized] public List<IDrawable> TargetStorage;
+        /// <summary>
+        /// Удаляемая фигура
+        /// </summary>
         private IDrawable _removebleDraft;
 
+        /// <summary>
+        /// Выполнить команду
+        /// </summary>
         public void Do()
         {
             TargetStorage.Remove(_removebleDraft);
         }
 
+        /// <summary>
+        /// Откатить команду
+        /// </summary>
         public void Undo()
         {
             TargetStorage.Add(_removebleDraft);
         }
-
+        
+        /// <summary>
+        /// Конструктор команды удаления фигуры
+        /// </summary>
+        /// <param name="storage">Целевой список</param>
+        /// <param name="draft">Удаляемая фигура</param>
         public RemoveDraftCommand(List<IDrawable> storage, IDrawable draft)
         {
             TargetStorage = storage;

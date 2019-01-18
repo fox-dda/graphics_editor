@@ -7,8 +7,16 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model.Drawers
 {
+    /// <summary>
+    /// Отрисовщик эллипсов
+    /// </summary>
     class EllipseDrawer: BaseDrawer
     {
+        /// <summary>
+        /// Отрисовать эллипс
+        /// </summary>
+        /// <param name="shape">Эллипс</param>
+        /// <param name="graphics">Ядро отрисовки</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
             var ellipse = shape as Ellipse;

@@ -8,30 +8,51 @@ using GraphicsEditor.Engine.UndoRedo.Commands;
 
 namespace GraphicsEditor.Engine.UndoRedo
 {
+    /// <summary>
+    /// Стек команд
+    /// </summary>
     [Serializable]
     public class UndoRedoStack
     {
-        public Stack<ICommand> _undo;
-        public Stack<ICommand> _redo;
+        /// <summary>
+        /// Стек отката команд
+        /// </summary>
+        private Stack<ICommand> _undo;
+        /// <summary>
+        /// Стек наката команд
+        /// </summary>
+        private Stack<ICommand> _redo;
 
+        /// <summary>
+        /// Конструктор стека команд
+        /// </summary>
         public UndoRedoStack()
         {
             Reset();
         }
 
+        /// <summary>
+        /// Перезагрузить стек
+        /// </summary>
         public void Reset()
         {
             _undo = new Stack<ICommand>();
             _redo = new Stack<ICommand>();
         }
 
-        public void DoAll()
+        /// <summary>
+        /// Вернуть стек отката
+        /// </summary>
+        /// <returns></returns>
+        public Stack<ICommand> GetUndo()
         {
-            foreach (ICommand cmd in _undo)
-                cmd.Do();
-            _redo.Clear();
+            return _undo;
         }
 
+        /// <summary>
+        /// Выполнить команду
+        /// </summary>
+        /// <param name="command"></param>
         public void Do(ICommand command)
         {
             Console.WriteLine("Undo stack length = " + _undo.Count().ToString());
@@ -42,6 +63,9 @@ namespace GraphicsEditor.Engine.UndoRedo
             Console.WriteLine("Undo stack length = " + _undo.Count().ToString());
         }
 
+        /// <summary>
+        /// Откатить команду
+        /// </summary>
         public void Undo()
         {
             Console.WriteLine("Undo stack length = " + _undo.Count().ToString());
@@ -54,7 +78,10 @@ namespace GraphicsEditor.Engine.UndoRedo
                 Console.WriteLine("Undo stack length = " + _undo.Count().ToString());
             }
         }
-
+        
+        /// <summary>
+        /// Накатить команду
+        /// </summary>
         public void Redo()
         {
             Console.WriteLine("Undo stack length = " + _undo.Count().ToString());

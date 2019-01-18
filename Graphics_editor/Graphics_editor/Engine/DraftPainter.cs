@@ -8,24 +8,44 @@ using GraphicsEditor.DraftTools;
 
 namespace GraphicsEditor.Engine
 {
+    /// <summary>
+    /// Художник фигур
+    /// </summary>
     class DraftPainter
     {
+        /// <summary>
+        /// Фасад отрисовщиков
+        /// </summary>
         private DrawerFacade _drawer = new DrawerFacade();
-
+        /// <summary>
+        /// Состаяние художника фигур
+        /// </summary>
         public PainterState State;
-
+        /// <summary>
+        /// Ядро рисования
+        /// </summary>
         public Graphics Painter;
-
+        /// <summary>
+        /// Менеджер хранилища
+        /// </summary>
         public StorageManager Corrector;
-
+        /// <summary>
+        /// Параметры рисования
+        /// </summary>
         public PaintingParameters Parameters = new PaintingParameters();
-        
+        /// <summary>
+        /// Ядро рисования
+        /// </summary>
+        /// <param name="paintCore">Ядро рисования</param>
         public DraftPainter(Graphics paintCore)
         {
             Painter = paintCore;
         }
 
-        //Динамическое рисование
+        /// <summary>
+        /// Динамическая отрисовка
+        /// </summary>
+        /// <param name="mousePoint">Координаты мыши</param>
         public void DynamicDrawing(Point mousePoint)
         {
             RefreshCanvas();
@@ -43,21 +63,30 @@ namespace GraphicsEditor.Engine
             }
         }
 
-        //Логика динамичечкой отрисовки ласо, и захвата объектов в ласо
+        /// <summary>
+        /// Динамическая отрисовка лассо
+        /// </summary>
+        /// <param name="mousePoint">Координаты мыши</param>
         private void LassoDynamicDrawing(Point mousePoint)
         {
             State.CacheLasso = DraftFactory.CreateDraft(State.Figure, State.InPocessPoints[0], mousePoint);
             _drawer.DrawShape(State.CacheLasso, Painter);
         }
 
-        //Логика динамического рисования по двум точкам
+        /// <summary>
+        /// Динамическая отрисовка двуточечных фигур
+        /// </summary>
+        /// <param name="mousePoint">Координаты мыши</param>
         private void DoublePointDynamicDrawing(Point mousePoint)
         {
             State.CacheDraft = DraftFactory.CreateDraft(State.Figure, State.InPocessPoints[0], mousePoint, Parameters.GPen, Parameters.BrushColor);
             _drawer.DrawShape(State.CacheDraft, Painter);
         }
 
-        //Логика добавления точки в фигру
+        /// <summary>
+        /// Добавление точки в рисуемую фигуру
+        /// </summary>
+        /// <param name="clickPoint">Координаты добавляемой точки</param>
         public void AddPointToCacheDraft(Point clickPoint)
         {
             if ((State.CacheDraft is Polygon) && (State.Figure == Figure.polygon))
@@ -66,7 +95,10 @@ namespace GraphicsEditor.Engine
                 (State.CacheDraft as Polyline).DotList.Add(clickPoint);
         }
 
-        //Логика мультиточечного динамического рисования
+        /// <summary>
+        /// Динамическое рисование мультиточечной фигуры
+        /// </summary>
+        /// <param name="mousePoint">Координаты мыши</param>
         private void MultiPointDynamicDrawing(Point mousePoint)
         {
             if (State.CacheDraft == null)
@@ -89,7 +121,9 @@ namespace GraphicsEditor.Engine
             _drawer.DrawShape(State.CacheDraft, Painter);
         }
 
-        //Обновить канву
+        /// <summary>
+        /// Перерисовка всех объектов
+        /// </summary>
         public void RefreshCanvas()
         {
             Painter.Clear(Parameters.CanvasColor);
@@ -121,7 +155,10 @@ namespace GraphicsEditor.Engine
             }       
         }
 
-        //Задать цвет канвы
+        /// <summary>
+        /// Сменить цвет фона
+        /// </summary>
+        /// <param name="color">Новый цвет</param>
         public void SetCanvasColor(Color color)
         {
             Parameters.CanvasColor = color;
@@ -129,6 +166,9 @@ namespace GraphicsEditor.Engine
             RefreshCanvas();
         }
 
+        /// <summary>
+        /// Очистить канву
+        /// </summary>
         public void ClearCanvas()
         {
             Corrector.ClearStorage();
@@ -138,6 +178,9 @@ namespace GraphicsEditor.Engine
             Parameters.CanvasColor = Color.White;
         }
 
+        /// <summary>
+        /// Передать фигуру в хранилище
+        /// </summary>
         public void AddToStorage()
         {
             Corrector.AddDraft(State.CacheDraft);
@@ -145,6 +188,10 @@ namespace GraphicsEditor.Engine
             RefreshCanvas();
         }
 
+        /// <summary>
+        /// Отрисовка одного объекта
+        /// </summary>
+        /// <param name="draft"></param>
         public void SoloDraw(IDrawable draft)
         {
             _drawer.DrawShape(draft, Painter);

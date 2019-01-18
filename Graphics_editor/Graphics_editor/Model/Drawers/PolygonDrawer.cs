@@ -7,8 +7,16 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model.Drawers
 {
+    /// <summary>
+    /// Отрисовщик полигонов
+    /// </summary>
     class PolygonDrawer: BaseDrawer
     {
+        /// <summary>
+        /// Отрисовать полигон
+        /// </summary>
+        /// <param name="shape">Полигон</param>
+        /// <param name="graphics">Ядро отрисовки</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
             var brush = (shape as IBrushable).BrushColor;

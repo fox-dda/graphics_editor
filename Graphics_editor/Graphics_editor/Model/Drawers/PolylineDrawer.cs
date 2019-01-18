@@ -7,8 +7,16 @@ using System.Drawing;
 
 namespace GraphicsEditor.Model.Drawers
 {
+    /// <summary>
+    /// Отрисовщик полилиний
+    /// </summary>
     class PolylineDrawer: BaseDrawer
     {
+        /// <summary>
+        /// Отрисовать полилинию
+        /// </summary>
+        /// <param name="shape">Полилиния</param>
+        /// <param name="graphics">Ядро отрисовки</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
             var dotList = (shape as Polyline).DotList;

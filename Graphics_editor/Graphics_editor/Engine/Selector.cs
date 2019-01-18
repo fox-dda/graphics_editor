@@ -6,8 +6,17 @@ using System.Windows.Forms;
 
 namespace GraphicsEditor
 {
+    /// <summary>
+    /// Искатель фигур
+    /// </summary>
     static class Selector
     {
+        /// <summary>
+        /// Поиск фигуры по точке
+        /// </summary>
+        /// <param name="mousePoint">Точка для поиска</param>
+        /// <param name="draftList">Список фигур, где производится поиск</param>
+        /// <returns>Найденная фигура</returns>
         public static IDrawable PointSearch(Point  mousePoint, List<IDrawable> draftList)
         {
             if (draftList == null)
@@ -129,6 +138,12 @@ namespace GraphicsEditor
             return null;
         }
 
+        /// <summary>
+        /// Поиск фигур в области
+        /// </summary>
+        /// <param name="frame">Область в которой осуществляется поиск</param>
+        /// <param name="draftList">Список фигур, где производится поиск</param>
+        /// <returns>Найденные фигуры</returns>
         public static List<IDrawable> LassoSearch(HighlightRect frame, List<IDrawable> draftList)
         {
             List<IDrawable> findList = new List<IDrawable>();
@@ -162,6 +177,13 @@ namespace GraphicsEditor
             return findList;
         }
 
+        /// <summary>
+        /// Определить находится ли точка в заданной области
+        /// </summary>
+        /// <param name="desiredPoint">Искомая тоска</param>
+        /// <param name="rectPoint">Левая верхняя точка области поиска</param>
+        /// <param name="regionSize">Ширина области поиска</param>
+        /// <returns>Вхождение в область</returns>
         private static bool IsInRect(Point desiredPoint, Point rectPoint, int regionSize)
         {
             if ((desiredPoint.X > rectPoint.X) && (desiredPoint.X < rectPoint.X + regionSize) && 
@@ -171,6 +193,12 @@ namespace GraphicsEditor
                 return false;
         }
 
+        /// <summary>
+        /// Найти точку в фигуре по заданным координатам
+        /// </summary>
+        /// <param name="mousePoint">Заданные координаты</param>
+        /// <param name="highlighList">Список, где производится поиск</param>
+        /// <returns>Точка в фигуре</returns>
         public static DotInDraft SearchReferenceDot(Point mousePoint, List<IDrawable> highlighList)
         {
             DotInDraft dotInDraft = new DotInDraft();

@@ -7,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace GraphicsEditor.Model.Drawers
 {
+    /// <summary>
+    /// Отрисовщик приямоугольника выделения
+    /// </summary>
     class HighlightRectDrawer: BaseDrawer
     {
+        /// <summary>
+        /// Отрисовать приямоугольник выделения
+        /// </summary>
+        /// <param name="shape">Фигура</param>
+        /// <param name="graphics">Ядро рисования</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
             var startPoint = shape.StartPoint;

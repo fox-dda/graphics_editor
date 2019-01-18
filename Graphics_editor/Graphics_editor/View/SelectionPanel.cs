@@ -173,10 +173,6 @@ namespace GraphicsEditor
                     if (type == null)
                     {
                         typeLabel.Text = "Draft collection[" + Drafts.Count.ToString() + "]";
-                        /*/   selectedColorPanel.Enabled = true;
-                           selectedBrushPanel.Enabled = true;
-                           selectedStrokeNumericUpDown.Enabled = true;
-                           selectedWidthNnumericUpDown.Enabled = true;/*/
                     }
                     else
                     {

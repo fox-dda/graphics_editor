@@ -10,16 +10,36 @@ using System.Windows.Forms;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
 {
+    /// <summary>
+    /// Команда изменения фигуры 
+    /// </summary>
     [Serializable]
     public class EditDraftCommand : ICommand
     {
+        /// <summary>
+        /// Изменяемая фигура
+        /// </summary>
         private IDrawable _editedDraft;
+        /// <summary>
+        /// Бэкап фигуры
+        /// </summary>
         private IDrawable _backUpDraft;
+        /// <summary>
+        /// Список новых точек
+        /// </summary>
         private List<Point> _pointList;
+        /// <summary>
+        /// Новые настройки пера
+        /// </summary>
         private PenSettings _penSettings;
+        /// <summary>
+        /// Новый цвет заливки
+        /// </summary>
         private Color _brush;
 
-
+        /// <summary>
+        /// Выполнить команду
+        /// </summary>
         public void Do()
         {
             if (_editedDraft is Polygon)
@@ -43,6 +63,9 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
             }
         }
 
+        /// <summary>
+        /// Откатить команду
+        /// </summary>
         public void Undo()
         {          
             if (_editedDraft is Polygon)
@@ -66,6 +89,13 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
             }
         }
 
+        /// <summary>
+        /// Конструктор команды
+        /// </summary>
+        /// <param name="draft">Изменяемая фигура</param>
+        /// <param name="pointList">Список новых точек</param>
+        /// <param name="pen">Новые настройки пера</param>
+        /// <param name="brush">Новый цвет заливки</param>
         public EditDraftCommand(IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
         {
             _editedDraft = draft;
