@@ -41,5 +41,10 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         {
             return new RemoveRangeDraftsCommand(storage, removebleList);
         }
+
+        public static EditCanvasColorCommand CreateEditCanvasColorCommand(PaintingParameters paintengParameters, Color newColor)
+        {
+            return new EditCanvasColorCommand(paintengParameters, newColor);
+        }
     }
 }

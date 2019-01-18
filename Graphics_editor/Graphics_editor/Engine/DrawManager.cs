@@ -168,6 +168,12 @@ namespace GraphicsEditor.Engine
             }
         }
 
+        public void EditCanvasColor(Color newColor)
+        {
+            Corrector.EditCanvasColor(DraftPainter.Parameters, newColor);
+            DraftPainter.RefreshCanvas();
+        }
+
         private void DotSelection(Point mousePoint)
         {
             Corrector.DiscardAll();
@@ -280,7 +286,6 @@ namespace GraphicsEditor.Engine
                 Corrector.DoCommand(cmd);
             }
             DraftPainter.RefreshCanvas();
-            MessageBox.Show(Corrector.GetDrafts().Count().ToString());
         }
 
         private void RepairCommands(ICommand[] commands)
@@ -310,6 +315,11 @@ namespace GraphicsEditor.Engine
                 if (cmd is RemoveRangeDraftsCommand removeRangeDraftsCommand)
                 {
                     removeRangeDraftsCommand.TargetStorage = Corrector.GetStorageForRepairCommands();
+                    continue;
+                }
+                if (cmd is EditCanvasColorCommand editCanvasColorCommand)
+                {
+                    editCanvasColorCommand.TargetCanvas = DraftPainter.Parameters;
                     continue;
                 }
             }

@@ -192,9 +192,10 @@ namespace GraphicsEditor
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                _drawManager.DraftPainter.SetCanvasColor(colorDialog.Color);
+                _drawManager.EditCanvasColor(colorDialog.Color);
                 canvasColorpanel.BackColor = colorDialog.Color;
             }
+            mainPictureBox.Invalidate();
         }
 
         private void brushColorpanel_Click(object sender, EventArgs e)

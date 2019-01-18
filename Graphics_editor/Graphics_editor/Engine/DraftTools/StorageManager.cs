@@ -190,6 +190,11 @@ namespace GraphicsEditor.DraftTools
             return pullPointList;
         }
 
+        public void EditCanvasColor(PaintingParameters paintingParameters, Color newColor)
+        {
+            _undoRedoStack.Do(CommandFactory.CreateEditCanvasColorCommand(paintingParameters, newColor));
+        }
+
         public void ClearHistory()
         {
             _storage.DraftList.Clear();
