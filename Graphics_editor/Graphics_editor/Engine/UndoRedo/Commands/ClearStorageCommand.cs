@@ -14,9 +14,20 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
     public class ClearStorageCommand : ICommand
     {
         /// <summary>
-        /// Очищаемое хранилище
+        /// Список, в который нужно добавить фигуру
         /// </summary>
-        [field: NonSerialized] public List<IDrawable> TargetStorage;
+        public List<IDrawable> TargetStorage
+        {
+            get => _draftList;
+            set => _draftList = value;
+        }
+
+        /// <summary>
+        /// Целевой список
+        /// </summary>
+        [field: NonSerialized]
+        private List<IDrawable> _draftList;
+
         /// <summary>
         /// Бэкап хранилища
         /// </summary>
@@ -35,7 +46,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// </summary>
         public void Undo()
         {
-            foreach (IDrawable draft in _backUp)
+            foreach (var draft in _backUp)
             {
                 TargetStorage.Add(draft);
             }
@@ -49,7 +60,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         {
             TargetStorage = storage;
             _backUp = new List<IDrawable>();
-            foreach(IDrawable draft in storage)
+            foreach(var draft in storage)
             {
                 _backUp.Add(draft);
             }

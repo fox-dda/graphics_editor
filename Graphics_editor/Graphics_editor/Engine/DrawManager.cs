@@ -415,7 +415,7 @@ namespace GraphicsEditor.Engine
                 }
                 if (cmd is EditCanvasColorCommand editCanvasColorCommand)
                 {
-                    editCanvasColorCommand.TargetCanvas = DraftPainter.Parameters;
+                    editCanvasColorCommand.TargetPaintingParameters = DraftPainter.Parameters;
                     continue;
                 }
             }
@@ -448,7 +448,7 @@ namespace GraphicsEditor.Engine
         public void Cut(DraftClipboard _buffer)
         {
             _buffer.SetRange(DraftStorageManager.HighlightDraftStorage);
-            DraftStorageManager.RemoveRangeHighligtDrafts();
+            DraftStorageManager.RemoveRangeHighlightDrafts();
             DraftPainter.RefreshCanvas();
 
         }
@@ -480,7 +480,7 @@ namespace GraphicsEditor.Engine
         /// </summary>
         public void Remove()
         {
-            DraftStorageManager.RemoveRangeHighligtDrafts();
+            DraftStorageManager.RemoveRangeHighlightDrafts();
             DraftPainter.RefreshCanvas();
         }
 

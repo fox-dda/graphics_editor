@@ -14,9 +14,20 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
     public class AddRangeDraftCommand : ICommand
     {
         /// <summary>
-        /// Целевой список для добавления
+        /// Список, в который нужно добавить фигуру
         /// </summary>
-        [field: NonSerialized] public List<IDrawable> TargetStorage;
+        public List<IDrawable> TargetStorage
+        {
+            get => _draftList;
+            set => _draftList = value;
+        }
+
+        /// <summary>
+        /// Целевой список
+        /// </summary>
+        [field: NonSerialized]
+        private List<IDrawable> _draftList;
+
         /// <summary>
         /// Добавляемая фигура
         /// </summary>
@@ -27,7 +38,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// </summary>
         public void Do()
         {
-            foreach(IDrawable draft in _addebleList)
+            foreach(var draft in _addebleList)
             {
                 TargetStorage.Add(draft);
             }
@@ -38,7 +49,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// </summary>
         public void Undo()
         {
-            foreach (IDrawable draft in _addebleList)
+            foreach (var draft in _addebleList)
             {
                 TargetStorage.Remove(draft);
             }
@@ -53,7 +64,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         {
             TargetStorage = storage;
             _addebleList = new List<IDrawable>();
-            foreach (IDrawable draft in addebleList)
+            foreach (var draft in addebleList)
             {
                 _addebleList.Add(draft);
             }

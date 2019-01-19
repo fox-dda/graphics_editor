@@ -20,18 +20,22 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// Изменяемая фигура
         /// </summary>
         private IDrawable _editedDraft;
+
         /// <summary>
         /// Бэкап фигуры
         /// </summary>
         private IDrawable _backUpDraft;
+
         /// <summary>
         /// Список новых точек
         /// </summary>
         private List<Point> _pointList;
+
         /// <summary>
         /// Новые настройки пера
         /// </summary>
         private PenSettings _penSettings;
+
         /// <summary>
         /// Новый цвет заливки
         /// </summary>
@@ -42,25 +46,21 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// </summary>
         public void Do()
         {
-            if (_editedDraft is Polygon)
+            if (_editedDraft is IMultipoint multipoint)
             {
-                (_editedDraft as Polygon).DotList = _pointList;
-                (_editedDraft as IBrushable).BrushColor = _brush;
-                _editedDraft.Pen = _penSettings;
-            }
-            else if (_editedDraft is Polyline)
-            {
-                (_editedDraft as Polyline).DotList = _pointList;
-                _editedDraft.Pen = _penSettings;
+                multipoint.DotList = _pointList;
             }
             else
             {
                 _editedDraft.StartPoint = _pointList[0];
                 _editedDraft.EndPoint = _pointList.Last();
-                if(_editedDraft is IBrushable)
-                    (_editedDraft as IBrushable).BrushColor = _brush;
-                _editedDraft.Pen = _penSettings;
             }
+
+            if (_editedDraft is IBrushable brushable)
+            {
+                brushable.BrushColor = _brush;
+            }
+            _editedDraft.Pen = _penSettings;
         }
 
         /// <summary>
@@ -68,25 +68,22 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// </summary>
         public void Undo()
         {          
-            if (_editedDraft is Polygon)
+            if (_editedDraft is IMultipoint multipoint)
             {
-                (_editedDraft as Polygon).DotList = (_backUpDraft as Polygon).DotList;
-                (_editedDraft as IBrushable).BrushColor = (_backUpDraft as IBrushable).BrushColor;
-                _editedDraft.Pen = _backUpDraft.Pen;
-            }
-            if (_editedDraft is Polyline)
-            {
-                (_editedDraft as Polyline).DotList = (_backUpDraft as Polyline).DotList;
-                _editedDraft.Pen = _backUpDraft.Pen;
+                multipoint.DotList = (_backUpDraft as IMultipoint)?.DotList;
             }
             else
             {
                 _editedDraft.StartPoint = _backUpDraft.StartPoint;
                 _editedDraft.EndPoint = _backUpDraft.EndPoint;
-                if(_editedDraft is IBrushable)
-                    (_editedDraft as IBrushable).BrushColor = (_backUpDraft as IBrushable).BrushColor;
-                _editedDraft.Pen = _backUpDraft.Pen;
             }
+
+            if (_editedDraft is IBrushable brushable)
+            {
+                brushable.BrushColor = ((IBrushable) _backUpDraft).BrushColor;
+            }
+
+            _editedDraft.Pen = _backUpDraft.Pen;
         }
 
         /// <summary>
@@ -102,8 +99,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
             _backUpDraft = DraftFactory.Clone(draft);
             _pointList = pointList;
             _penSettings = pen;
-            if (brush != null)
-                _brush = brush;
+            _brush = brush;
         }
     }
 }

@@ -17,7 +17,18 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <summary>
         /// Список, в который нужно добавить фигуру
         /// </summary>
-        [field: NonSerialized] public List<IDrawable> DraftList;
+        public List<IDrawable> DraftList
+        {
+            get => _draftList;
+            set => _draftList = value;
+        }
+
+        /// <summary>
+        /// Целевой список
+        /// </summary>
+        [field: NonSerialized]
+        private List<IDrawable> _draftList;
+
         /// <summary>
         /// Добавляемая фигура
         /// </summary>

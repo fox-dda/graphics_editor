@@ -17,7 +17,18 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <summary>
         /// Целевой список
         /// </summary>
-        [field: NonSerialized] public List<IDrawable> TargetStorage;
+        public List<IDrawable> TargetStorage
+        {
+            get => _draftList;
+            set => _draftList = value;
+        }
+
+        /// <summary>
+        /// Целевой список
+        /// </summary>
+        [field: NonSerialized]
+        private List<IDrawable> _draftList;
+
         /// <summary>
         /// Удаляемая фигура
         /// </summary>

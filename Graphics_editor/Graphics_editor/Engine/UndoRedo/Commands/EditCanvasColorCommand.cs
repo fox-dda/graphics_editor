@@ -13,11 +13,23 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <summary>
         /// Параметры изменяемого канваса
         /// </summary>
-        [field: NonSerialized] public PaintingParameters TargetCanvas;
+        public PaintingParameters TargetPaintingParameters
+        {
+            get => _targetParameters; 
+            set => _targetParameters = value;
+        }
+
+        /// <summary>
+        /// Параметры изменямого канваса
+        /// </summary>
+        [field: NonSerialized]
+        private PaintingParameters _targetParameters;
+
         /// <summary>
         /// Бекап цвета
         /// </summary>
         private Color _backUpCanvasColor;
+
         /// <summary>
         /// Новый цвет
         /// </summary>
@@ -28,7 +40,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// </summary>
         public void Do()
         {
-            TargetCanvas.CanvasColor = _newColor;
+            TargetPaintingParameters.CanvasColor = _newColor;
         }
 
         /// <summary>
@@ -36,18 +48,18 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// </summary>
         public void Undo()
         {
-            TargetCanvas.CanvasColor = _backUpCanvasColor;
+            TargetPaintingParameters.CanvasColor = _backUpCanvasColor;
         }
 
         /// <summary>
         /// Конструктор команды
         /// </summary>
-        /// <param name="editedPaintingPatameters">Параметры изменяемого канваса</param>
+        /// <param name="editedPaintingParameters">Параметры изменяемого канваса</param>
         /// <param name="newColor">Новый цвет канваса</param>
-        public EditCanvasColorCommand(PaintingParameters editedPaintingPatameters, Color newColor)
+        public EditCanvasColorCommand(PaintingParameters editedPaintingParameters, Color newColor)
         {
-            TargetCanvas = editedPaintingPatameters;
-            _backUpCanvasColor = editedPaintingPatameters.CanvasColor;
+            TargetPaintingParameters = editedPaintingParameters;
+            _backUpCanvasColor = editedPaintingParameters.CanvasColor;
             _newColor = newColor;
         }
     }
