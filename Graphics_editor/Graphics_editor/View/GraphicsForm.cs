@@ -143,7 +143,7 @@ namespace GraphicsEditor
 
         private void RefreshView()
         {
-            _highlightPanel.Drafts = _drawManager.DraftStorageManager.PaintedDraftStorage;
+            _highlightPanel.Drafts = _drawManager.DraftStorageManager.HighlightDraftStorage;
             mainPictureBox.Invalidate();
         }
 
