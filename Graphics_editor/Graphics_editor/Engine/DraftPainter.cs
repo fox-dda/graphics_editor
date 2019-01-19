@@ -141,7 +141,7 @@ namespace GraphicsEditor.Engine
                 }
             }
 
-            var highlightList = Corrector.GetHighlights();
+            var highlightList = Corrector.HighlightDraftStorage;
 
             foreach (IDrawable draft in highlightList)
             {

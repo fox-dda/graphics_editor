@@ -11,7 +11,7 @@ namespace GraphicsEditor.Model
     /// Полилиния
     /// </summary>
     [Serializable]
-    class Polyline: IDrawable
+    class Polyline: IDrawable, IMultipoint
     {
         /// <summary>
         /// Настройки пера

@@ -94,9 +94,9 @@ namespace GraphicsEditor.Engine
                         else if (State.DrawingStrategy == Strategy.selection)
                         {
                             State.InPocessPoints.Add(e.Location);
-                            if (DraftStorageManager.GetHighlights().Count > 0)
-                            {// меняем стратегию если найдена опорная точка или точка опоры
-                                var refDot = Selector.SearchReferenceDot(e.Location, DraftStorageManager.GetHighlights());
+                            if (DraftStorageManager.HighlightDraftStorage.Count > 0)
+                            {// меняем стратегию если найдена опорная точка
+                                var refDot = Selector.SearchReferenceDot(e.Location, DraftStorageManager.HighlightDraftStorage);
                                 if (refDot.Draft != null)
                                 {
                                     State.Figure = Figure.dragPoint;
@@ -108,7 +108,7 @@ namespace GraphicsEditor.Engine
                                 }
                                 else
                                 {
-                                    var shape = Selector.PointSearch(e.Location, DraftStorageManager.GetHighlights());
+                                    var shape = Selector.PointSearch(e.Location, DraftStorageManager.HighlightDraftStorage);
                                     if (shape != null)
                                     {
                                         State.Figure = Figure.dragDraft;
@@ -215,7 +215,7 @@ namespace GraphicsEditor.Engine
             var selectedDraft = Selector.PointSearch(mousePoint, DraftStorageManager.GetDrafts());
             if (selectedDraft != null)
             {
-                DraftStorageManager.AddHighlightDraft(selectedDraft);
+                DraftStorageManager.EditHighlightDraft(selectedDraft);
             }
         }
 
@@ -360,7 +360,7 @@ namespace GraphicsEditor.Engine
         public void Serealize(Stream stream)
         {
             var serealizer = new DraftSerealizer();
-            serealizer.Serialize(stream, DraftStorageManager.GetUndoRedoStack());
+            serealizer.Serialize(stream, DraftStorageManager.GetUndoRedoStack);
         }
 
         /// <summary>
@@ -390,27 +390,27 @@ namespace GraphicsEditor.Engine
             {
                 if (cmd is AddDraftCommand addDraftCommand)
                 {
-                    addDraftCommand.DraftList = DraftStorageManager.GetStorageForRepairCommands();
+                    addDraftCommand.DraftList = DraftStorageManager.PaintedDraftStorage;
                     continue;
                 }
                 else if (cmd is AddRangeDraftCommand addRangeDraftCommand)
                 {
-                    addRangeDraftCommand.TargetStorage = DraftStorageManager.GetStorageForRepairCommands();
+                    addRangeDraftCommand.TargetStorage = DraftStorageManager.PaintedDraftStorage;
                     continue;
                 }
                 if (cmd is ClearStorageCommand clearStorageCommand)
                 {
-                    clearStorageCommand.TargetStorage = DraftStorageManager.GetStorageForRepairCommands();
+                    clearStorageCommand.TargetStorage = DraftStorageManager.PaintedDraftStorage;
                     continue;
                 }
                 if (cmd is RemoveDraftCommand removeDraftCommand)
                 {
-                    removeDraftCommand.TargetStorage = DraftStorageManager.GetStorageForRepairCommands();
+                    removeDraftCommand.TargetStorage = DraftStorageManager.PaintedDraftStorage;
                     continue;
                 }
                 if (cmd is RemoveRangeDraftsCommand removeRangeDraftsCommand)
                 {
-                    removeRangeDraftsCommand.TargetStorage = DraftStorageManager.GetStorageForRepairCommands();
+                    removeRangeDraftsCommand.TargetStorage = DraftStorageManager.PaintedDraftStorage;
                     continue;
                 }
                 if (cmd is EditCanvasColorCommand editCanvasColorCommand)
@@ -447,7 +447,7 @@ namespace GraphicsEditor.Engine
         /// <param name="_buffer">Буфер обмена</param>
         public void Cut(DraftClipboard _buffer)
         {
-            _buffer.SetRange(DraftStorageManager.GetHighlights());
+            _buffer.SetRange(DraftStorageManager.HighlightDraftStorage);
             DraftStorageManager.RemoveRangeHighligtDrafts();
             DraftPainter.RefreshCanvas();
 
@@ -459,7 +459,7 @@ namespace GraphicsEditor.Engine
         /// <param name="_buffer">Буфер обмена</param>
         public void Copy(DraftClipboard _buffer)
         {
-            _buffer.SetRange(DraftStorageManager.GetHighlights());
+            _buffer.SetRange(DraftStorageManager.HighlightDraftStorage);
             DraftPainter.RefreshCanvas();
 
         }

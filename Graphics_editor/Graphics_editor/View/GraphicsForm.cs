@@ -64,12 +64,6 @@ namespace GraphicsEditor
             mainPictureBox.Invalidate();
         }
 
-        private void mainPictureBox_MouseUp(object sender, MouseEventArgs e)
-        {
-            _drawManager.MouseProcess(e, MouseAction.up);
-            RefreshView();
-        }
-
         private void lineButton_Click(object sender, EventArgs e)
         {
             _drawManager.State.Figure = Figure.line;
@@ -149,7 +143,7 @@ namespace GraphicsEditor
 
         private void RefreshView()
         {
-            _highlightPanel.Drafts = _drawManager.DraftStorageManager.GetHighlights();
+            _highlightPanel.Drafts = _drawManager.DraftStorageManager.PaintedDraftStorage;
             mainPictureBox.Invalidate();
         }
 

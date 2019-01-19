@@ -12,7 +12,7 @@ namespace GraphicsEditor.Model
     /// Полигон
     /// </summary>
     [Serializable]
-    class Polygon : IDrawable, IBrushable
+    class Polygon : IDrawable, IBrushable, IMultipoint
     {
         /// <summary>
         /// Цвет заливки

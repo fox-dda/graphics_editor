@@ -1,18 +1,13 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using GraphicsEditor.Model;
-using System.Windows.Forms;
-using Newtonsoft.Json;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using GraphicsEditor.Engine.UndoRedo;
-
 
 namespace GraphicsEditor
 {
     /// <summary>
     /// Сериалайзер проекта
     /// </summary>
-    class DraftSerealizer
+    public class DraftSerealizer
     {
         /// <summary>
         /// Сериализовать стек команд

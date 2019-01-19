@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.Threading.Tasks;
 using GraphicsEditor.Engine.UndoRedo.Commands;
 
 namespace GraphicsEditor.Engine.UndoRedo
@@ -18,6 +15,7 @@ namespace GraphicsEditor.Engine.UndoRedo
         /// Стек отката команд
         /// </summary>
         private Stack<ICommand> _undo;
+
         /// <summary>
         /// Стек наката команд
         /// </summary>
