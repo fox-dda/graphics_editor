@@ -46,42 +46,37 @@ namespace GraphicsEditor
 
         private void mainPictureBox_MouseMove_1(object sender, MouseEventArgs e)
         {
-            _drawManager.MouseProcess(e, MouseAction.move);
+            _drawManager.MouseProcess(e, MouseAction.Move);
             mainPictureBox.Invalidate();
         }
 
         private void mainPictureBox_MouseUp_1(object sender, MouseEventArgs e)
         {
-            _drawManager.MouseProcess(e, MouseAction.up);
+            _drawManager.MouseProcess(e, MouseAction.Up);
             RefreshView();
             mainPictureBox.Invalidate();
         }
 
         private void mainPictureBox_MouseDown_1(object sender, MouseEventArgs e)
         {
-            _drawManager.MouseProcess(e, MouseAction.down);
+            _drawManager.MouseProcess(e, MouseAction.Down);
             RefreshView();
             mainPictureBox.Invalidate();
         }
 
         private void lineButton_Click(object sender, EventArgs e)
         {
-            _drawManager.State.Figure = Figure.line;
+            _drawManager.State.Figure = Figure.Line;
         }
 
         private void polylineButton_Click(object sender, EventArgs e)
         {
-            _drawManager.State.Figure = Figure.polyline;
+            _drawManager.State.Figure = Figure.Polyline;
         }
 
         private void circleButton_Click(object sender, EventArgs e)
         {
-            _drawManager.State.Figure = Figure.circle;
-        }
-
-        private void triangleButton_Click(object sender, EventArgs e)
-        {
-            _drawManager.State.Figure = Figure.triangle;
+            _drawManager.State.Figure = Figure.Circle;
         }
 
         private void clearCanvasButton_Click(object sender, EventArgs e)
@@ -94,7 +89,7 @@ namespace GraphicsEditor
 
         private void ellipseButton_Click(object sender, EventArgs e)
         {
-            _drawManager.State.Figure = Figure.ellipse;
+            _drawManager.State.Figure = Figure.Ellipse;
         }
 
         private void thicknessNumericUpDown_ValueChanged(object sender, EventArgs e)
@@ -133,12 +128,12 @@ namespace GraphicsEditor
 
         private void selectMouseButton_Click(object sender, EventArgs e)
         {
-            _drawManager.State.Figure = Figure.select;
+            _drawManager.State.Figure = Figure.Select;
         }
 
         private void polygonButton_Click(object sender, EventArgs e)
         {
-            _drawManager.State.Figure = Figure.polygon;
+            _drawManager.State.Figure = Figure.Polygon;
         }
 
         private void RefreshView()

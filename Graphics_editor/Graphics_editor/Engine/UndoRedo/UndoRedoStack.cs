@@ -39,12 +39,12 @@ namespace GraphicsEditor.Engine.UndoRedo
         }
 
         /// <summary>
-        /// Вернуть стек отката
+        /// Cтек отката
         /// </summary>
         /// <returns></returns>
-        public Stack<ICommand> GetUndo()
+        public Stack<ICommand> UndoStack
         {
-            return _undo;
+            get => _undo;
         }
 
         /// <summary>

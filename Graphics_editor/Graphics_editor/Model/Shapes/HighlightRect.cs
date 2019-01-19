@@ -6,7 +6,7 @@ namespace GraphicsEditor.Model
     /// <summary>
     /// Рамка выделения
     /// </summary>
-    class HighlightRect: IDrawable
+    public class HighlightRect: IDrawable
     {
         /// <summary>
         /// Точка старта

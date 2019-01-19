@@ -6,31 +6,30 @@ using System.Threading.Tasks;
 
 namespace GraphicsEditor.Enums
 {
-    enum Strategy
+    public enum Strategy
     {
-        twoPoint,
-        multipoint,
-        selection,
-        dragAndDrop
+        TwoPoint,
+        Multipoint,
+        Selection,
+        DragAndDrop
     };
 
-    enum MouseAction
+    public enum MouseAction
     {
-        up,
-        down,
-        move
+        Up,
+        Down,
+        Move
     }
 
-    enum Figure
+    public enum Figure
     {
-        circle,
-        ellipse,
-        line,
-        polyline,
-        triangle,
-        polygon,
-        select,     
-        dragPoint,
-        dragDraft
+        Circle,
+        Ellipse,
+        Line,
+        Polyline,
+        Polygon,
+        Select,     
+        DragPoint,
+        DragDraft
     }
 }

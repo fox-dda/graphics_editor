@@ -28,11 +28,11 @@ namespace GraphicsEditor
         {
             switch (figure)
             {
-                case Figure.line:
+                case Figure.Line:
                     return new Line(startPoint, endPoint, gPen);
-                case Figure.circle:
+                case Figure.Circle:
                     return new Circle(startPoint, endPoint, gPen) { BrushColor = brushColor };
-                case Figure.ellipse:
+                case Figure.Ellipse:
                     return new Ellipse(startPoint, endPoint, gPen) { BrushColor = brushColor };
                 default:
                     return null;
@@ -50,7 +50,7 @@ namespace GraphicsEditor
         {
             switch (figure)
             {
-                case Figure.select:
+                case Figure.Select:
                     return new HighlightRect(startPoint, endPoint); 
                 default:
                     return null;
@@ -69,9 +69,9 @@ namespace GraphicsEditor
         {
             switch (figure)
             {
-                case Figure.polyline:
+                case Figure.Polyline:
                     return new Polyline(pointList, gPen);
-                case Figure.polygon:
+                case Figure.Polygon:
                     return new Polygon(pointList, gPen) { BrushColor = brushColor };
                 default:
                     return null;
@@ -89,7 +89,7 @@ namespace GraphicsEditor
         {
             switch (figure)
             {
-                case Figure.polyline:
+                case Figure.Polyline:
                     return new Polyline(pointList, gPen);
                 default:
                     return null;
@@ -108,7 +108,7 @@ namespace GraphicsEditor
         {
             switch (figure)
             {
-                case Figure.line:
+                case Figure.Line:
                     return new Line(startPoint, endPoint, gPen);
                 default:
                     return null;
@@ -126,23 +126,23 @@ namespace GraphicsEditor
             {
                 case "Line":
                     {
-                        return Figure.line;              
+                        return Figure.Line;              
                     }
                 case "Ellipse":
                     {
-                        return Figure.ellipse;
+                        return Figure.Ellipse;
                     }
                 case "Circle":
                     {
-                        return Figure.circle;
+                        return Figure.Circle;
                     }
                 case "Polyline":
                     {
-                        return Figure.polyline;
+                        return Figure.Polyline;
                     }
                 default:
                     {
-                        return Figure.polygon;
+                        return Figure.Polygon;
                     }
             }
         }
@@ -154,14 +154,14 @@ namespace GraphicsEditor
         /// <returns>Стратегия</returns>
         public static Strategy DefineStrategy(Figure figure)
         {
-            if ((figure == Figure.line) || (figure == Figure.ellipse) || (figure == Figure.triangle) || (figure == Figure.circle))
-                return Strategy.twoPoint;
-            else if ((figure == Figure.polyline) || (figure == Figure.polygon))
-                return Strategy.multipoint;
-            else if ((figure == Figure.dragPoint) || (figure == Figure.dragDraft))
-                return Strategy.dragAndDrop;
+            if ((figure == Figure.Line) || (figure == Figure.Ellipse) || (figure == Figure.Circle))
+                return Strategy.TwoPoint;
+            else if ((figure == Figure.Polyline) || (figure == Figure.Polygon))
+                return Strategy.Multipoint;
+            else if ((figure == Figure.DragPoint) || (figure == Figure.DragDraft))
+                return Strategy.DragAndDrop;
             else
-                return Strategy.selection;
+                return Strategy.Selection;
         }
 
         /// <summary>
@@ -228,17 +228,6 @@ namespace GraphicsEditor
                     { Color = draft.Pen.Color, Width = draft.Pen.Width, DashPattern = draft.Pen.DashPattern });
             }
             return null;
-        }
-
-        /// <summary>
-        /// Создать точку
-        /// </summary>
-        /// <param name="X">Координата X</param>
-        /// <param name="Y">Координата Y</param>
-        /// <returns>Созданная точка</returns>
-        public static Point CreatePoint(int X, int Y)
-        {
-            return new Point(X, Y);
         }
 
         /// <summary>

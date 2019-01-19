@@ -74,8 +74,8 @@ namespace GraphicsEditor
 
             if(IsFullData() && Drafts.Count == 1)
             {
-                var startPoint = DraftFactory.CreatePoint(Convert.ToInt32(selectObjectSPXMaskedTextBox.Text), Convert.ToInt32(selectObjectSPYMaskedTextBox.Text));
-                var endPoint = DraftFactory.CreatePoint(Convert.ToInt32(selectObjectEPXMaskedTextBox.Text), Convert.ToInt32(selectObjectEPYMaskedTextBox.Text));
+                var startPoint = new Point(Convert.ToInt32(selectObjectSPXMaskedTextBox.Text), Convert.ToInt32(selectObjectSPYMaskedTextBox.Text));
+                var endPoint = new Point(Convert.ToInt32(selectObjectEPXMaskedTextBox.Text), Convert.ToInt32(selectObjectEPYMaskedTextBox.Text));
                 var pen = new PenSettings() {Color =  selectedColorPanel.BackColor, Width = (float)selectedWidthNnumericUpDown.Value };
 
                 if (selectedStrokeNumericUpDown.Value > 0)

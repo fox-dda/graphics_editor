@@ -13,7 +13,7 @@ namespace GraphicsEditor.Engine
     /// <summary>
     /// Состаяние художника
     /// </summary>
-    class PainterState
+    public class PainterState
     {
         /// <summary>
         /// Стратегия отрисовки
@@ -29,7 +29,7 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Рисуемая фигура
         /// </summary>
-        private Figure _figure = Figure.select;
+        private Figure _figure = Figure.Select;
 
         /// <summary>
         /// Нерисуемая фигура

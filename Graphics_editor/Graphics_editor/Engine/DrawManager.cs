@@ -85,13 +85,13 @@ namespace GraphicsEditor.Engine
         {
             switch (mouseAction)
             {
-                case MouseAction.down:
+                case MouseAction.Down:
                     {
-                        if (State.DrawingStrategy == Strategy.twoPoint)
+                        if (State.DrawingStrategy == Strategy.TwoPoint)
                         {
                             State.InPocessPoints.Add(e.Location);
                         }
-                        else if (State.DrawingStrategy == Strategy.selection)
+                        else if (State.DrawingStrategy == Strategy.Selection)
                         {
                             State.InPocessPoints.Add(e.Location);
                             if (DraftStorageManager.HighlightDraftStorage.Count > 0)
@@ -99,7 +99,7 @@ namespace GraphicsEditor.Engine
                                 var refDot = Selector.SearchReferenceDot(e.Location, DraftStorageManager.HighlightDraftStorage);
                                 if (refDot.Draft != null)
                                 {
-                                    State.Figure = Figure.dragPoint;
+                                    State.Figure = Figure.DragPoint;
                                     State.UndrawableDraft = refDot.Draft;
 
                                     State.DragDropDot.Draft = DraftFactory.Clone(refDot.Draft);
@@ -111,7 +111,7 @@ namespace GraphicsEditor.Engine
                                     var shape = Selector.PointSearch(e.Location, DraftStorageManager.HighlightDraftStorage);
                                     if (shape != null)
                                     {
-                                        State.Figure = Figure.dragDraft;
+                                        State.Figure = Figure.DragDraft;
                                         State.DragDropDraft = DraftFactory.Clone(shape);
                                         State.UndrawableDraft = shape;
                                         State.InPocessPoints.Add(e.Location);
@@ -119,14 +119,14 @@ namespace GraphicsEditor.Engine
                                     }
                                 }
                             }
-                            if (State.DrawingStrategy == Strategy.selection)
+                            if (State.DrawingStrategy == Strategy.Selection)
                                 DotSelection(e.Location);
                         }
                         break;
                     }
-                case MouseAction.move:
+                case MouseAction.Move:
                     {
-                        if (State.DrawingStrategy == Strategy.dragAndDrop)
+                        if (State.DrawingStrategy == Strategy.DragAndDrop)
                         {
                             DragAndDrop(e.Location);
                         }
@@ -139,14 +139,14 @@ namespace GraphicsEditor.Engine
                         }
                         break;
                     }
-                case MouseAction.up:
+                case MouseAction.Up:
                     {
-                        if (State.DrawingStrategy == Strategy.twoPoint)
+                        if (State.DrawingStrategy == Strategy.TwoPoint)
                         {
                             State.InPocessPoints.Add(e.Location);
                             DraftPainter.AddToStorage();
                         }
-                        else if (State.DrawingStrategy == Strategy.multipoint)
+                        else if (State.DrawingStrategy == Strategy.Multipoint)
                         {
                             if (e.Button == MouseButtons.Left)
                             {
@@ -160,13 +160,13 @@ namespace GraphicsEditor.Engine
                             }
                             DraftPainter.RefreshCanvas();
                         }
-                        else if (State.DrawingStrategy == Strategy.selection)
+                        else if (State.DrawingStrategy == Strategy.Selection)
                         {
                             LassoSelection(e.Location);
                             State.InPocessPoints.Clear();
                             DraftPainter.RefreshCanvas();
                         }
-                        else if (State.DrawingStrategy == Strategy.dragAndDrop)
+                        else if (State.DrawingStrategy == Strategy.DragAndDrop)
                         {
                             if (State.DragDropDraft != null)
                             {
@@ -184,7 +184,7 @@ namespace GraphicsEditor.Engine
                                 else
                                     DraftStorageManager.EditDraft(State.UndrawableDraft, newPoints, State.UndrawableDraft.Pen, Color.White);
                             }
-                            State.Figure = Figure.select;
+                            State.Figure = Figure.Select;
                             State.DragDropDot.Draft = null;
                             State.DragDropDraft = null;
                             State.UndrawableDraft = null;
@@ -371,7 +371,7 @@ namespace GraphicsEditor.Engine
         {
             DraftStorageManager.ClearStorage();
             var serializer = new DraftSerealizer();
-            var stack = serializer.Deserialize(stream).GetUndo().ToArray();
+            var stack = serializer.Deserialize(stream).UndoStack.ToArray();
             RepairCommands(stack);
             foreach (ICommand cmd in stack.ToArray().Reverse())
             {

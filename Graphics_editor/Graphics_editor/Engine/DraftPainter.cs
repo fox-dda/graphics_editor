@@ -11,12 +11,13 @@ namespace GraphicsEditor.Engine
     /// <summary>
     /// Художник фигур
     /// </summary>
-    class DraftPainter
+    public class DraftPainter
     {
         /// <summary>
         /// Фасад отрисовщиков
         /// </summary>
         private DrawerFacade _drawer = new DrawerFacade();
+
         /// <summary>
         /// Состаяние художника фигур
         /// </summary>
@@ -50,14 +51,14 @@ namespace GraphicsEditor.Engine
         {
             RefreshCanvas();
 
-            if (State.DrawingStrategy == Strategy.twoPoint)
+            if (State.DrawingStrategy == Strategy.TwoPoint)
                 DoublePointDynamicDrawing(mousePoint);
 
-            else if (State.DrawingStrategy == Strategy.multipoint)
+            else if (State.DrawingStrategy == Strategy.Multipoint)
             {
                 MultiPointDynamicDrawing(mousePoint);
             }
-            else if (State.DrawingStrategy == Strategy.selection)
+            else if (State.DrawingStrategy == Strategy.Selection)
             {
                 LassoDynamicDrawing(mousePoint);
             }
@@ -89,9 +90,9 @@ namespace GraphicsEditor.Engine
         /// <param name="clickPoint">Координаты добавляемой точки</param>
         public void AddPointToCacheDraft(Point clickPoint)
         {
-            if ((State.CacheDraft is Polygon) && (State.Figure == Figure.polygon))
+            if ((State.CacheDraft is Polygon) && (State.Figure == Figure.Polygon))
                 (State.CacheDraft as Polygon).DotList.Add(clickPoint);
-            if ((State.CacheDraft is Polyline) && (State.Figure == Figure.polyline))
+            if ((State.CacheDraft is Polyline) && (State.Figure == Figure.Polyline))
                 (State.CacheDraft as Polyline).DotList.Add(clickPoint);
         }
 
@@ -108,11 +109,11 @@ namespace GraphicsEditor.Engine
             else
             {
 
-                if ((State.CacheDraft is Polygon) && (State.Figure == Figure.polygon))
+                if ((State.CacheDraft is Polygon) && (State.Figure == Figure.Polygon))
                 {
                     (State.CacheDraft as Polygon).DotList[(State.CacheDraft as Polygon).DotList.Count - 1] = mousePoint;
                 }
-                if ((State.CacheDraft is Polyline) && (State.Figure == Figure.polyline))
+                if ((State.CacheDraft is Polyline) && (State.Figure == Figure.Polyline))
                 {
                     (State.CacheDraft as Polyline).DotList[(State.CacheDraft as Polyline).DotList.Count - 1] = mousePoint;
                      

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using GraphicsEditor.Model;
-using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor
 {
