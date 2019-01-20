@@ -46,8 +46,10 @@ namespace GraphicsEditor.Model.Drawers
             }
             else if (frameItem is Circle)
             {
-                var size = Math.Abs(endPoint.X - startPoint.X) > Math.Abs(endPoint.Y - startPoint.Y) ?
-                Math.Abs(endPoint.X - startPoint.X) : Math.Abs(endPoint.Y - startPoint.Y);
+                var size = Math.Abs(endPoint.X - startPoint.X) >
+                           Math.Abs(endPoint.Y - startPoint.Y) ?
+                Math.Abs(endPoint.X - startPoint.X) :
+                Math.Abs(endPoint.Y - startPoint.Y);
 
                 if ((startPoint.Y < endPoint.Y) && (startPoint.X > endPoint.X))
                 {
@@ -75,26 +77,30 @@ namespace GraphicsEditor.Model.Drawers
             if ((startPoint.Y < endPoint.Y) && (startPoint.X < endPoint.X))
             {
                 graphics.DrawRectangle(_pen, startPoint.X, startPoint.Y,
-                    Math.Abs(endPoint.X - startPoint.X), Math.Abs(endPoint.Y - startPoint.Y));
+                    Math.Abs(endPoint.X - startPoint.X),
+                    Math.Abs(endPoint.Y - startPoint.Y));
             }
             //сверху вниз справа налево
             else if ((startPoint.Y < endPoint.Y) && (startPoint.X > endPoint.X))
             {
                 graphics.DrawRectangle(_pen, endPoint.X, startPoint.Y,
-                    Math.Abs(endPoint.X - startPoint.X), Math.Abs(endPoint.Y - startPoint.Y));
+                    Math.Abs(endPoint.X - startPoint.X),
+                    Math.Abs(endPoint.Y - startPoint.Y));
             }
             //cнизу вверх слево на права
             else if ((startPoint.Y > endPoint.Y) && (startPoint.X < endPoint.X))
             {
                 graphics.DrawRectangle(_pen, startPoint.X, endPoint.Y,
-                    Math.Abs(endPoint.X - startPoint.X), Math.Abs(endPoint.Y - startPoint.Y));
+                    Math.Abs(endPoint.X - startPoint.X),
+                    Math.Abs(endPoint.Y - startPoint.Y));
             }
 
             //cнизу вверх справа налево
             else if ((startPoint.Y > endPoint.Y) && (startPoint.X > endPoint.X))
             {
                 graphics.DrawRectangle(_pen, endPoint.X, endPoint.Y,
-                    Math.Abs(endPoint.X - startPoint.X), Math.Abs(endPoint.Y - startPoint.Y));
+                    Math.Abs(endPoint.X - startPoint.X),
+                    Math.Abs(endPoint.Y - startPoint.Y));
             }
             
             if ((frameItem is IMultipoint multipoint))
@@ -102,16 +108,22 @@ namespace GraphicsEditor.Model.Drawers
                 if(multipoint is IMultipoint)
                     foreach (Point dot in multipoint.DotList)
                     {
-                        graphics.DrawRectangle(new Pen(Color.Red), dot.X, dot.Y, 4, 4);
-                        graphics.FillEllipse(new SolidBrush(Color.Blue), dot.X, dot.Y, 3, 3);
+                        graphics.DrawRectangle(new Pen(Color.Red),
+                            dot.X, dot.Y, 4, 4);
+                        graphics.FillEllipse(new SolidBrush(Color.Blue),
+                            dot.X, dot.Y, 3, 3);
                     }
             }
             else
             {
-                graphics.FillEllipse(new SolidBrush(Color.Blue), frameItem.StartPoint.X, frameItem.StartPoint.Y, 3, 3);
-                graphics.FillEllipse(new SolidBrush(Color.Blue), frameItem.EndPoint.X, frameItem.EndPoint.Y, 3, 3);
-                graphics.DrawRectangle(new Pen(Color.Red), frameItem.StartPoint.X, frameItem.StartPoint.Y, 4, 4);
-                graphics.DrawRectangle(new Pen(Color.Red), frameItem.EndPoint.X, frameItem.EndPoint.Y, 4, 4);
+                graphics.FillEllipse(new SolidBrush(Color.Blue),
+                    frameItem.StartPoint.X, frameItem.StartPoint.Y, 3, 3);
+                graphics.FillEllipse(new SolidBrush(Color.Blue),
+                    frameItem.EndPoint.X, frameItem.EndPoint.Y, 3, 3);
+                graphics.DrawRectangle(new Pen(Color.Red),
+                    frameItem.StartPoint.X, frameItem.StartPoint.Y, 4, 4);
+                graphics.DrawRectangle(new Pen(Color.Red),
+                    frameItem.EndPoint.X, frameItem.EndPoint.Y, 4, 4);
             }
         }
     }

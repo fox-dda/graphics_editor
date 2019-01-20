@@ -10,10 +10,28 @@ namespace GraphicsEditor
 {
     public partial class SelectionPanel : UserControl
     {
-        public StorageManager StorageManager = null;
+        /// <summary>
+        /// Менеджер хранилища
+        /// </summary>
+        public StorageManager StorageManager
+        {
+            get => _storageManager;
+            set => _storageManager = value;
+        }
 
+        /// <summary>
+        /// Менеджер хранилища
+        /// </summary>
+        private StorageManager _storageManager;
+
+        /// <summary>
+        /// Список фигур
+        /// </summary>
         private List<IDrawable> _draftList;
 
+        /// <summary>
+        /// Список фигур
+        /// </summary>
         public List<IDrawable> Drafts
         {
             get
@@ -27,20 +45,15 @@ namespace GraphicsEditor
             }
         }
 
+        /// <summary>
+        /// Поле для регулировки политики доступности данных
+        /// </summary>
         private bool _enabledData = true;
 
-        private bool IsShortData()
-        {
-            if ((Drafts.Count > 1) &&
-                ((selectedBrushPanel.Enabled == true) &&
-                (selectedColorPanel.Enabled == true) &&
-                (selectedStrokeNumericUpDown.Enabled == true) &&
-                (selectedWidthNnumericUpDown.Enabled == true)))
-                return true;
-            else
-                return false;
-        }
-
+        /// <summary>
+        /// Проверка на полноту данных
+        /// </summary>
+        /// <returns></returns>
         private bool IsFullData()
         {
             if (Drafts.Count == 1)
@@ -67,6 +80,9 @@ namespace GraphicsEditor
             }
         }
 
+        /// <summary>
+        /// Обновить модель
+        /// </summary>
         private void RefreshModel()
         {
             if (_enabledData == false)
@@ -74,9 +90,17 @@ namespace GraphicsEditor
 
             if(IsFullData() && Drafts.Count == 1)
             {
-                var startPoint = new Point(Convert.ToInt32(selectObjectSPXMaskedTextBox.Text), Convert.ToInt32(selectObjectSPYMaskedTextBox.Text));
-                var endPoint = new Point(Convert.ToInt32(selectObjectEPXMaskedTextBox.Text), Convert.ToInt32(selectObjectEPYMaskedTextBox.Text));
-                var pen = new PenSettings() {Color =  selectedColorPanel.BackColor, Width = (float)selectedWidthNnumericUpDown.Value };
+                var startPoint = new Point(
+                    Convert.ToInt32(selectObjectSPXMaskedTextBox.Text),
+                    Convert.ToInt32(selectObjectSPYMaskedTextBox.Text));
+                var endPoint = new Point(
+                    Convert.ToInt32(selectObjectEPXMaskedTextBox.Text),
+                    Convert.ToInt32(selectObjectEPYMaskedTextBox.Text));
+                var pen = new PenSettings()
+                {
+                    Color =  selectedColorPanel.BackColor,
+                    Width = (float)selectedWidthNnumericUpDown.Value
+                };
 
                 if (selectedStrokeNumericUpDown.Value > 0)
                     pen.DashPattern = new float[]
@@ -86,15 +110,9 @@ namespace GraphicsEditor
                     };
 
                 List<Point> pointList;
-                if(Drafts[0] is Polygon)
+                if(Drafts[0] is IMultipoint)
                 {
-                    pointList = (Drafts[0] as Polygon).DotList;
-                    pointList[0] = startPoint;
-                    pointList[pointList.Count - 1] = endPoint;
-                }
-                else if (Drafts[0] is Polyline)
-                {
-                    pointList = (Drafts[0] as Polyline).DotList;
+                    pointList = (Drafts[0] as IMultipoint).DotList;
                     pointList[0] = startPoint;
                     pointList[pointList.Count - 1] = endPoint;
                 }
@@ -104,13 +122,21 @@ namespace GraphicsEditor
                 }
 
                 if (Drafts[0] is IBrushable)
-                    StorageManager.EditDraft(Drafts[0], pointList, pen, selectedBrushPanel.BackColor);
+                {
+                    StorageManager.EditDraft(Drafts[0], pointList, pen,
+                        selectedBrushPanel.BackColor);
+                }
                 else
+                {
                     StorageManager.EditDraft(Drafts[0], pointList, pen, Color.White);
+                }
             }
             ModelChanged();
         }
 
+        /// <summary>
+        /// Перерисовать контрол
+        /// </summary>
         private void RefreshView()
         {
             _enabledData = false;
@@ -127,9 +153,14 @@ namespace GraphicsEditor
                     selectedWidthNnumericUpDown.Value = (int)Drafts[0].Pen.Width;
                     selectedColorPanel.BackColor = Drafts[0].Pen.Color;
                     if (Drafts[0] is IBrushable)
-                        selectedBrushPanel.BackColor = (Drafts[0] as IBrushable).BrushColor;
+                    {
+                        selectedBrushPanel.BackColor =
+                            (Drafts[0] as IBrushable).BrushColor;
+                    }
                     else
+                    {
                         selectedBrushPanel.BackColor = Color.White;
+                    }
 
                     selectedColorPanel.Enabled = true;
                     selectedBrushPanel.Enabled = true;
@@ -144,7 +175,10 @@ namespace GraphicsEditor
                     try
                     {
                         if (Drafts[0].Pen.DashPattern.Length > 0)
-                            selectedStrokeNumericUpDown.Value = (int)Drafts[0].Pen.DashPattern[0];
+                        {
+                            selectedStrokeNumericUpDown.Value =
+                                (int) Drafts[0].Pen.DashPattern[0];
+                        }
                     }
                     catch
                     {
@@ -172,12 +206,15 @@ namespace GraphicsEditor
 
                     if (type == null)
                     {
-                        typeLabel.Text = "Draft collection[" + Drafts.Count.ToString() + "]";
+                        typeLabel.Text = "Draft collection[" +
+                                         Drafts.Count.ToString() + "]";
                     }
                     else
                     {
-                        var typeStr = Drafts[0].GetType().ToString().Split('.');
-                        typeLabel.Text = typeStr[typeStr.Length - 1] + " collection[" + Drafts.Count.ToString() + "]";
+                        var typeStr = Drafts[0].GetType().ToString().Split(
+                            '.');
+                        typeLabel.Text = typeStr[typeStr.Length - 1] +
+                                         " collection[" + Drafts.Count.ToString() + "]";
                     }
                 }
             }
@@ -269,8 +306,14 @@ namespace GraphicsEditor
             }
         }
 
+        /// <summary>
+        /// Делегат изменения данных
+        /// </summary>
          public delegate void DataChanged();
 
+        /// <summary>
+        /// Событие изменения данных
+        /// </summary>
          public event  DataChanged ModelChanged;
     }
 }

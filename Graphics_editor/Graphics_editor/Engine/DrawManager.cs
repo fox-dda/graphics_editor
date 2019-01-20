@@ -195,7 +195,7 @@ namespace GraphicsEditor.Engine
                                 : Color.White);
                     }
                     State.Figure = Figure.Select;
-                    State.DragDropDot.Draft = null;
+                 //   State.DragDropDot.Draft = null;
                     State.DragDropDraft = null;
                     State.UndrawableDraft = null;
                     DraftPainter.RefreshCanvas();

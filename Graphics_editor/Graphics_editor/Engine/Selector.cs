@@ -158,9 +158,11 @@ namespace GraphicsEditor
                 }
                 else
                 {
-                    if (IsInRect(mousePoint, draft.StartPoint, 6))
+                    if (IsInRect(mousePoint,
+                        draft.StartPoint, 6))
                         dotInDraft.Set(draft, draft.StartPoint);
-                    if (IsInRect(mousePoint, draft.EndPoint, 6))
+                    if (IsInRect(mousePoint,
+                        draft.EndPoint, 6))
                         dotInDraft.Set(draft, draft.EndPoint);
                 }
             }
