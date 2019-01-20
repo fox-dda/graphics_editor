@@ -13,7 +13,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
     /// <summary>
     /// Фабрика команд
     /// </summary>
-    public static class CommandFactory
+    public class CommandFactory
     {
         /// <summary>
         /// Создать команду добавления фигуры в список
@@ -21,7 +21,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="storage">Целевой список</param>
         /// <param name="draft">Добавляемая фигура</param>
         /// <returns>Команда добавления фигуры</returns>
-        public static AddDraftCommand CreateAddDraftCommand(List<IDrawable> storage, IDrawable draft)
+        public AddDraftCommand CreateAddDraftCommand(List<IDrawable> storage, IDrawable draft)
         {
             return new AddDraftCommand(storage, draft);
         }
@@ -32,7 +32,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="storage">Целевой список</param>
         /// <param name="draft">Добавляемые фигуры</param>
         /// <returns>Команда добавления нескольких фигур</returns>
-        public static AddRangeDraftCommand CreateAddRangeDraftCommand(List<IDrawable> storage, List<IDrawable> addebleList)
+        public AddRangeDraftCommand CreateAddRangeDraftCommand(List<IDrawable> storage, List<IDrawable> addebleList)
         {
             return new AddRangeDraftCommand(storage, addebleList);
         }
@@ -42,7 +42,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// </summary>
         /// <param name="storage">Очищаемое хранилище</param>
         /// <returns>Команда очиски хранилища</returns>
-        public static ClearStorageCommand CreateClearStorageCommand(List<IDrawable> storage)
+        public ClearStorageCommand CreateClearStorageCommand(List<IDrawable> storage)
         {
             return new ClearStorageCommand(storage);
         }
@@ -55,7 +55,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="pen">Новое перо</param>
         /// <param name="brush">Новый цвет заливки</param>
         /// <returns>Команда изменения фигуры</returns>
-        public static EditDraftCommand CreateEditDraftCommand(IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
+        public EditDraftCommand CreateEditDraftCommand(IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
         {
             return new EditDraftCommand(draft, pointList, pen, brush);
         }
@@ -66,7 +66,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="storage">Целевой список</param>
         /// <param name="draft">Удаляемая фигура</param>
         /// <returns>Команда удаления фигуры</returns>
-        public static RemoveDraftCommand CreateRemoveDraftCommand(List<IDrawable> storage, IDrawable draft)
+        public RemoveDraftCommand CreateRemoveDraftCommand(List<IDrawable> storage, IDrawable draft)
         {
             return new RemoveDraftCommand(storage, draft);
         }
@@ -77,7 +77,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="storage">Целевой список</param>
         /// <param name="draft">Удаляемые фигуры</param>
         /// <returns>Команда удаления нескольких фигур</returns>
-        public static RemoveRangeDraftsCommand CreateRemoveRangeDraftsCommand(List<IDrawable> storage, List<IDrawable> removebleList)
+        public RemoveRangeDraftsCommand CreateRemoveRangeDraftsCommand(List<IDrawable> storage, List<IDrawable> removebleList)
         {
             return new RemoveRangeDraftsCommand(storage, removebleList);
         }
@@ -88,7 +88,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="paintengParameters">Параметры рисования</param>
         /// <param name="newColor">Новый цвет канвы</param>
         /// <returns>Команда изменения цвета канвы</returns>
-        public static EditCanvasColorCommand CreateEditCanvasColorCommand(PaintingParameters paintengParameters, Color newColor)
+        public EditCanvasColorCommand CreateEditCanvasColorCommand(PaintingParameters paintengParameters, Color newColor)
         {
             return new EditCanvasColorCommand(paintengParameters, newColor);
         }

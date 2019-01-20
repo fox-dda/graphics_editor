@@ -68,6 +68,7 @@
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.centreGroupBox = new System.Windows.Forms.GroupBox();
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
+            this.CommandStackView = new System.Windows.Forms.ListBox();
             this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
             this.penStyleGroupBox.SuspendLayout();
@@ -338,6 +339,7 @@
             // 
             // rightGroupBox
             // 
+            this.rightGroupBox.Controls.Add(this.CommandStackView);
             this.rightGroupBox.Controls.Add(this.SelectionGroupBox);
             this.rightGroupBox.Dock = System.Windows.Forms.DockStyle.Right;
             this.rightGroupBox.Location = new System.Drawing.Point(861, 24);
@@ -371,28 +373,28 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.openToolStripMenuItem.Text = "New project";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.saveToolStripMenuItem.Text = "Open project";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.saveAsToolStripMenuItem.Text = "Save project";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // exportToBmpToolStripMenuItem
             // 
             this.exportToBmpToolStripMenuItem.Name = "exportToBmpToolStripMenuItem";
-            this.exportToBmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToBmpToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.exportToBmpToolStripMenuItem.Text = "Export to bmp";
             this.exportToBmpToolStripMenuItem.Click += new System.EventHandler(this.exportToBmpToolStripMenuItem_Click);
             // 
@@ -476,6 +478,14 @@
             this.mainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseMove_1);
             this.mainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseUp_1);
             // 
+            // CommandStackView
+            // 
+            this.CommandStackView.FormattingEnabled = true;
+            this.CommandStackView.Location = new System.Drawing.Point(12, 339);
+            this.CommandStackView.Name = "CommandStackView";
+            this.CommandStackView.Size = new System.Drawing.Size(167, 186);
+            this.CommandStackView.TabIndex = 7;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -489,7 +499,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(700, 400);
+            this.MinimumSize = new System.Drawing.Size(1000, 600);
             this.Name = "MainForm";
             this.Text = "Graphics editor [v0.4]";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -555,6 +565,7 @@
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
+        private System.Windows.Forms.ListBox CommandStackView;
     }
 }
 

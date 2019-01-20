@@ -52,14 +52,21 @@ namespace GraphicsEditor
         /// <returns>Стратегия</returns>
         public static Strategy DefineStrategy(Figure figure)
         {
-            if ((figure == Figure.Line) || (figure == Figure.Ellipse) || (figure == Figure.Circle))
-                return Strategy.TwoPoint;
-            else if ((figure == Figure.Polyline) || (figure == Figure.Polygon))
-                return Strategy.Multipoint;
-            else if ((figure == Figure.DragPoint) || (figure == Figure.DragDraft))
-                return Strategy.DragAndDrop;
-            else
-                return Strategy.Selection;
+            switch (figure)
+            {
+                case Figure.Line:
+                case Figure.Ellipse:
+                case Figure.Circle:
+                    return Strategy.TwoPoint;
+                case Figure.Polyline:
+                case Figure.Polygon:
+                    return Strategy.Multipoint;
+                case Figure.DragPoint:
+                case Figure.DragDraft:
+                    return Strategy.DragAndDrop;
+                default:
+                    return Strategy.Selection;
+            }
         }
 
         /// <summary>
@@ -97,7 +104,10 @@ namespace GraphicsEditor
             {
                 case Polygon polygon:
                 {
-                    return new Polygon(cloneList, polygon.Pen) { BrushColor = polygon.BrushColor };
+                    return new Polygon(cloneList, polygon.Pen)
+                    {
+                        BrushColor = polygon.BrushColor
+                    };
                 }
                 case Polyline polyline:
                 {

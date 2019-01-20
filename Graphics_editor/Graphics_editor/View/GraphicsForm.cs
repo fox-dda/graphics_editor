@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using GraphicsEditor.Enums;
 using System.Reflection;
@@ -111,15 +112,15 @@ namespace GraphicsEditor
 
         private void thicknessNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            refreshPen();
+            RefreshPen();
         }
 
         private void penStrokeWidthNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            refreshPen();
+            RefreshPen();
         }
 
-        private void refreshPen()
+        private void RefreshPen()
         {
             _drawManager.DraftPainter.Parameters.GPen = new PenSettings()
             {
@@ -162,10 +163,33 @@ namespace GraphicsEditor
         {
             _drawManager.State.Figure = Figure.Polygon;
         }
-
+        
+        /// <summary>
+        /// Обновить настройки пера
+        /// </summary>
         private void RefreshView()
         {
-            _highlightPanel.Drafts = _drawManager.DraftStorageManager.HighlightDraftStorage;
+            _highlightPanel.Drafts =
+                _drawManager.DraftStorageManager.HighlightDraftStorage;
+            CommandStackView.Items.Clear();
+            foreach (var command in _drawManager.CommandStack.UndoStack.ToArray().Reverse())
+            {    
+                CommandStackView.Items.Add(
+                    command.ToString().Split('.').Last());
+            }
+
+            if (CommandStackView.Items.Count > 0)
+            {
+               CommandStackView.Items[CommandStackView.Items.Count - 1] =
+                    "-->" + CommandStackView.Items[CommandStackView.Items.Count - 1];
+               CommandStackView.TopIndex = CommandStackView.Items.Count - 1;
+            }
+
+            foreach (var command in _drawManager.CommandStack.RedoStack.ToArray())
+            {
+                CommandStackView.Items.Add(
+                    command.ToString().Split('.').Last());
+            }
             mainPictureBox.Invalidate();
         }
 
@@ -199,7 +223,7 @@ namespace GraphicsEditor
                 };
                 penColorpanel.BackColor = colorDialog.Color;
             }
-            refreshPen();
+            RefreshPen();
         }
 
         private void canvasColorpanel_Click(object sender, EventArgs e)
@@ -212,6 +236,7 @@ namespace GraphicsEditor
                 canvasColorpanel.BackColor = colorDialog.Color;
             }
             mainPictureBox.Invalidate();
+            RefreshView();
         }
 
         private void brushColorpanel_Click(object sender, EventArgs e)
@@ -309,6 +334,9 @@ namespace GraphicsEditor
             mainPictureBox.Invalidate();
         }
 
+        /// <summary>
+        /// Сохранение проекта
+        /// </summary>
         private void SaveProject()
         {
             var saveFileDialog = new SaveFileDialog();
@@ -322,6 +350,9 @@ namespace GraphicsEditor
             }
         }
 
+        /// <summary>
+        /// Открытие проекта
+        /// </summary>
         private void OpenProject()
         {
             var openFileDialog = new OpenFileDialog();
@@ -336,6 +367,11 @@ namespace GraphicsEditor
             mainPictureBox.Invalidate();
         }
 
+        /// <summary>
+        /// Создать диалог закрытия проекта
+        /// </summary>
+        /// <param name="message">Сообщение</param>
+        /// <returns>Результат диалога</returns>
         private DialogResult CreateCloseProjectDialog(string message)
         {
             var result = MessageBox.Show(

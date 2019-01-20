@@ -17,6 +17,8 @@ namespace GraphicsEditor.DraftTools
         /// </summary>
         private DraftStorage _storage;
 
+        private CommandFactory _commandFactory = new CommandFactory();
+
         /// <summary>
         /// Стек команд
         /// </summary>
@@ -53,7 +55,7 @@ namespace GraphicsEditor.DraftTools
         /// Вернуть стек выполненых команд
         /// </summary>
         /// <returns>Выполненные команды</returns>
-        public UndoRedoStack GetUndoRedoStack
+        public UndoRedoStack UndoRedoStack
         {
             get => _undoRedoStack;
             set => _undoRedoStack = value;
@@ -90,7 +92,7 @@ namespace GraphicsEditor.DraftTools
         /// <param name="draft">Добавляемая фигура</param>
         public void AddDraft(IDrawable draft)
         {
-            _undoRedoStack.Do(CommandFactory.CreateAddDraftCommand(_storage.DraftList, draft));
+            _undoRedoStack.Do(_commandFactory.CreateAddDraftCommand(_storage.DraftList, draft));
         }
 
         /// <summary>
@@ -99,7 +101,7 @@ namespace GraphicsEditor.DraftTools
         /// <param name="drafts">Добавляемые фигуры</param>
         public void AddRangeDrafts(List<IDrawable> drafts)
         {
-            _undoRedoStack.Do(CommandFactory.CreateAddRangeDraftCommand(_storage.DraftList, drafts));
+            _undoRedoStack.Do(_commandFactory.CreateAddRangeDraftCommand(_storage.DraftList, drafts));
         }
 
         /// <summary>
@@ -107,7 +109,7 @@ namespace GraphicsEditor.DraftTools
         /// </summary>
         public void ClearStorage()
         {
-            _undoRedoStack.Do(CommandFactory.CreateClearStorageCommand(_storage.DraftList));
+            _undoRedoStack.Do(_commandFactory.CreateClearStorageCommand(_storage.DraftList));
             DiscardAll();
         }
 
@@ -149,7 +151,7 @@ namespace GraphicsEditor.DraftTools
         /// <param name="brush">Новый цвет заливки</param>
         public void EditDraft(IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
         {
-            _undoRedoStack.Do(CommandFactory.CreateEditDraftCommand(draft, pointList, pen, brush));
+            _undoRedoStack.Do(_commandFactory.CreateEditDraftCommand(draft, pointList, pen, brush));
         }
 
         /// <summary>
@@ -157,7 +159,7 @@ namespace GraphicsEditor.DraftTools
         /// </summary>
         public void RemoveRangeHighlightDrafts()
         {
-            _undoRedoStack.Do(CommandFactory.CreateRemoveRangeDraftsCommand(_storage.DraftList, _storage.HighlightDraftsList));
+            _undoRedoStack.Do(_commandFactory.CreateRemoveRangeDraftsCommand(_storage.DraftList, _storage.HighlightDraftsList));
             DiscardAll();
         }
 
@@ -192,7 +194,7 @@ namespace GraphicsEditor.DraftTools
         /// <param name="newColor">Новый цвет</param>
         public void EditCanvasColor(PaintingParameters paintingParameters, Color newColor)
         {
-            _undoRedoStack.Do(CommandFactory.CreateEditCanvasColorCommand(paintingParameters, newColor));
+            _undoRedoStack.Do(_commandFactory.CreateEditCanvasColorCommand(paintingParameters, newColor));
         }
 
         /// <summary>

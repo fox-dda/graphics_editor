@@ -27,7 +27,9 @@ namespace GraphicsEditor.Engine
             get => _state;
             set => _state = value;
         }
-
+        /// <summary>
+        /// Состаяние художника
+        /// </summary>
         private PainterState _state;
 
         /// <summary>
@@ -39,6 +41,9 @@ namespace GraphicsEditor.Engine
             set => _painter = value;
         }
 
+        /// <summary>
+        /// Ядро рисования
+        /// </summary>
         private Graphics _painter;
 
         /// <summary>
@@ -50,6 +55,9 @@ namespace GraphicsEditor.Engine
             set => _corrector = value;
         }
 
+        /// <summary>
+        /// Менеджер хранилища
+        /// </summary>
         private StorageManager _corrector;
 
         /// <summary>
@@ -61,7 +69,10 @@ namespace GraphicsEditor.Engine
             set => _paintingParameters = value;
         }
 
-        private PaintingParameters _paintingParameters = new PaintingParameters();
+        /// <summary>
+        /// Параметры рисовани
+        /// </summary>
+        private PaintingParameters _paintingParameters;
 
         /// <summary>
         /// Ядро рисования
@@ -70,6 +81,7 @@ namespace GraphicsEditor.Engine
         public DraftPainter(Graphics paintCore)
         {
             Painter = paintCore;
+            Parameters = new PaintingParameters();
         }
 
         /// <summary>

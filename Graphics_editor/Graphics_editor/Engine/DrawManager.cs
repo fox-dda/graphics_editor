@@ -7,6 +7,7 @@ using GraphicsEditor.Enums;
 using System.Drawing;
 using GraphicsEditor.DraftTools;
 using System.IO;
+using GraphicsEditor.Engine.UndoRedo;
 using GraphicsEditor.Engine.UndoRedo.Commands;
 using GraphicsEditor.Model.Shapes;
 
@@ -27,6 +28,8 @@ namespace GraphicsEditor.Engine
         }
 
         private DraftPainter _draftPainter;
+
+        public UndoRedoStack CommandStack => DraftStorageManager.UndoRedoStack;
 
         /// <summary>
         /// Состаяние художника фигур
@@ -421,7 +424,7 @@ namespace GraphicsEditor.Engine
         public void Serealize(Stream stream)
         {
             var serealizer = new DraftSerealizer();
-            serealizer.Serialize(stream, DraftStorageManager.GetUndoRedoStack);
+            serealizer.Serialize(stream, DraftStorageManager.UndoRedoStack);
         }
 
         /// <summary>

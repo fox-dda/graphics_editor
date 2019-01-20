@@ -48,6 +48,13 @@ namespace GraphicsEditor.Engine.UndoRedo
         }
 
         /// <summary>
+        /// Стек наката
+        /// </summary>
+        public Stack<ICommand> RedoStack
+        {
+            get => _redo;
+        }
+        /// <summary>
         /// Выполнить команду
         /// </summary>
         /// <param name="command"></param>
