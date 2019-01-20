@@ -371,28 +371,28 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.openToolStripMenuItem.Text = "New...";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Text = "New project";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.saveToolStripMenuItem.Text = "Open...";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Text = "Open project";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.saveAsToolStripMenuItem.Text = "Save as...";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Text = "Save project";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // exportToBmpToolStripMenuItem
             // 
             this.exportToBmpToolStripMenuItem.Name = "exportToBmpToolStripMenuItem";
-            this.exportToBmpToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.exportToBmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exportToBmpToolStripMenuItem.Text = "Export to bmp";
             this.exportToBmpToolStripMenuItem.Click += new System.EventHandler(this.exportToBmpToolStripMenuItem_Click);
             // 

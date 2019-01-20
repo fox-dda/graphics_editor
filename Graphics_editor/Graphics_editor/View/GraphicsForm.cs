@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using GraphicsEditor.Enums;
 using System.Reflection;
+using System.Windows.Forms.VisualStyles;
 using GraphicsEditor.Engine;
 using GraphicsEditor.Model.Shapes;
 
@@ -11,11 +12,25 @@ namespace GraphicsEditor
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Менеджер рисования
+        /// </summary>
         private DrawManager _drawManager;
-        private DraftClipboard _buffer = new DraftClipboard();
-        private Graphics _paintCore;
-        private SelectionPanel _highlightPanel;
 
+        /// <summary>
+        /// Буффер обмена
+        /// </summary>
+        private DraftClipboard _buffer = new DraftClipboard();
+
+        /// <summary>
+        /// Ядро рисования
+        /// </summary>
+        private Graphics _paintCore;
+
+        /// <summary>
+        /// Панель выделенных объектов
+        /// </summary>
+        private SelectionPanel _highlightPanel;
 
         public MainForm()
         {
@@ -24,7 +39,9 @@ namespace GraphicsEditor
             foreach (Control control in Controls)
             {
                 typeof(Control).InvokeMember("DoubleBuffered",
-                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+                BindingFlags.SetProperty |
+                BindingFlags.Instance |
+                BindingFlags.NonPublic,
                 null, control, new object[] { true });
             }
 
@@ -33,7 +50,10 @@ namespace GraphicsEditor
             _paintCore = Graphics.FromImage(btm);
             _drawManager = new DrawManager(_paintCore);
 
-            _highlightPanel = new SelectionPanel() { StorageManager = _drawManager.DraftStorageManager };
+            _highlightPanel = new SelectionPanel
+            {
+                StorageManager = _drawManager.DraftStorageManager 
+            };
             Controls.Add(_highlightPanel);
             rightGroupBox.Controls.Add(_highlightPanel);
             _highlightPanel.Location = new Point(3, 2);
@@ -101,7 +121,13 @@ namespace GraphicsEditor
 
         private void refreshPen()
         {
-            _drawManager.DraftPainter.Parameters.GPen = new PenSettings() { Color = _drawManager.DraftPainter.Parameters.GPen.Color, Width = (float)thicknessNumericUpDown.Value, DashPattern = _drawManager.DraftPainter.Parameters.GPen.DashPattern };
+            _drawManager.DraftPainter.Parameters.GPen = new PenSettings()
+            {
+                Color = _drawManager.DraftPainter.Parameters.GPen.Color,
+                Width = (float)thicknessNumericUpDown.Value,
+                DashPattern = _drawManager.DraftPainter.Parameters.GPen.DashPattern
+            };
+
             if (penStrokeWidthNumericUpDown.Value > 0)
                 _drawManager.DraftPainter.Parameters.DashPattern = new float[]
                 {
@@ -119,7 +145,7 @@ namespace GraphicsEditor
             if ((mainPictureBox.Width < 1) && (mainPictureBox.Height < 1))
                 return;
 
-            Bitmap btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
+            var btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
             mainPictureBox.Image = btm;
             _paintCore = Graphics.FromImage(btm);
             _drawManager.DraftPainter.Painter = _paintCore;
@@ -162,7 +188,7 @@ namespace GraphicsEditor
 
         private void penColorpanel_Click(object sender, EventArgs e)
         {
-            ColorDialog colorDialog = new ColorDialog();
+            var colorDialog = new ColorDialog();
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
@@ -178,7 +204,7 @@ namespace GraphicsEditor
 
         private void canvasColorpanel_Click(object sender, EventArgs e)
         {
-            ColorDialog colorDialog = new ColorDialog();
+            var colorDialog = new ColorDialog();
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
@@ -190,7 +216,7 @@ namespace GraphicsEditor
 
         private void brushColorpanel_Click(object sender, EventArgs e)
         {
-            ColorDialog colorDialog = new ColorDialog();
+            var colorDialog = new ColorDialog();
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
@@ -201,7 +227,7 @@ namespace GraphicsEditor
 
         private void exportToBmpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveDialog = new SaveFileDialog();
+            var saveDialog = new SaveFileDialog();
             _drawManager.DraftStorageManager.DiscardAll();
             _drawManager.DraftPainter.RefreshCanvas();
             mainPictureBox.Invalidate();
@@ -250,47 +276,42 @@ namespace GraphicsEditor
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult result = MessageBox.Show(
-                "Save project?",
-                Text,
-                MessageBoxButtons.YesNoCancel,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
+            var result = CreateCloseProjectDialog(
+                "Save project?");
 
-            if (result == DialogResult.Yes)
+            switch (result)
             {
-                SaveProject();
+                case DialogResult.Yes:
+                    SaveProject();
+                    break;
+                case DialogResult.Cancel:
+                    e.Cancel = true;
+                    break;
             }
-            else if (result == DialogResult.Cancel)
-                e.Cancel = true;
         }
 
         private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show(
-                "You want to create a new project. Save current project?",
-                Text,
-                MessageBoxButtons.YesNoCancel,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
+            var result = CreateCloseProjectDialog(
+                "You want to create a new project. Save current project ?");
 
-            if (result == DialogResult.Yes)
+            switch (result)
             {
-                SaveProject();
-                _drawManager.CreateNewProject();
+                case DialogResult.Yes:
+                    SaveProject();
+                    _drawManager.CreateNewProject();
+                    break;
+                case DialogResult.No:
+                    _drawManager.CreateNewProject();
+                    break;
             }
-            if (result == DialogResult.No)
-            {
-                _drawManager.CreateNewProject();
-            }
+
             mainPictureBox.Invalidate();
         }
 
         private void SaveProject()
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            var saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "GraphicsEditor Project|*.proj";
             if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
             {
@@ -303,7 +324,7 @@ namespace GraphicsEditor
 
         private void OpenProject()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "GraphicsEditor Project|*.proj";
             if (openFileDialog.ShowDialog() != DialogResult.Cancel)
             {
@@ -313,6 +334,18 @@ namespace GraphicsEditor
                 }
             }
             mainPictureBox.Invalidate();
+        }
+
+        private DialogResult CreateCloseProjectDialog(string message)
+        {
+            var result = MessageBox.Show(
+                message,
+                Text,
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+            return result;
         }
     }
 }
