@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GraphicsEditor.Model;
 using GraphicsEditor.Model.Shapes;
 using GraphicsEditor.Enums;
 using System.Drawing;
+using System.Linq;
 
 namespace GraphicsEditor
 {
@@ -19,53 +17,12 @@ namespace GraphicsEditor
         /// Создать фигуру
         /// </summary>
         /// <param name="figure">Фигура</param>
-        /// <param name="startPoint">Начальная точка</param>
-        /// <param name="endPoint">Конечная точка</param>
-        /// <param name="gPen">Перо</param>
-        /// <param name="brushColor">Цвет заливки</param>
-        /// <returns>Созданная фигура</returns>
-        public static IDrawable CreateDraft(Figure figure, Point startPoint, Point endPoint, PenSettings gPen, Color brushColor)
-        {
-            switch (figure)
-            {
-                case Figure.Line:
-                    return new Line(startPoint, endPoint, gPen);
-                case Figure.Circle:
-                    return new Circle(startPoint, endPoint, gPen) { BrushColor = brushColor };
-                case Figure.Ellipse:
-                    return new Ellipse(startPoint, endPoint, gPen) { BrushColor = brushColor };
-                default:
-                    return null;
-            }
-        }
-
-        /// <summary>
-        /// Создать прямоугольник выдиления
-        /// </summary>
-        /// <param name="figure">Фигура</param>
-        /// <param name="startPoint">Стартовая точка</param>
-        /// <param name="endPoint">Конечная точка</param>
-        /// <returns>Созданный прямоуголькик выдиления</returns>
-        public static HighlightRect CreateDraft(Figure figure, Point startPoint, Point endPoint)
-        {
-            switch (figure)
-            {
-                case Figure.Select:
-                    return new HighlightRect(startPoint, endPoint); 
-                default:
-                    return null;
-            }
-        }
-
-        /// <summary>
-        /// Создать фигуру
-        /// </summary>
-        /// <param name="figure">Фигура</param>
         /// <param name="pointList">Список точек</param>
         /// <param name="gPen">Перо</param>
         /// <param name="brushColor">Цвет заливки</param>
         /// <returns>Созданная фигура</returns>
-        public static IDrawable CreateDraft(Figure figure, List<Point> pointList, PenSettings gPen, Color brushColor)
+        public static IDrawable CreateDraft(Figure figure, List<Point> pointList,
+            PenSettings gPen, Color brushColor)
         {
             switch (figure)
             {
@@ -73,77 +30,18 @@ namespace GraphicsEditor
                     return new Polyline(pointList, gPen);
                 case Figure.Polygon:
                     return new Polygon(pointList, gPen) { BrushColor = brushColor };
-                default:
-                    return null;
-            }
-        }
-
-        /// <summary>
-        /// Создать фигру
-        /// </summary>
-        /// <param name="figure">Фигура</param>
-        /// <param name="pointList">Список точек</param>
-        /// <param name="gPen">Перо</param>
-        /// <returns>Созданная фигура</returns>
-        public static IDrawable CreateDraft(Figure figure, List<Point> pointList, PenSettings gPen)
-        {
-            switch (figure)
-            {
-                case Figure.Polyline:
-                    return new Polyline(pointList, gPen);
-                default:
-                    return null;
-            }
-        }
-
-        /// <summary>
-        /// Создать фигуру
-        /// </summary>
-        /// <param name="figure">Фигура</param>
-        /// <param name="startPoint">Стартовая точка</param>
-        /// <param name="endPoint">Конечная точка</param>
-        /// <param name="gPen">Перо</param>
-        /// <returns>Созданная фигура</returns>
-        public static IDrawable CreateDraft(Figure figure, Point startPoint, Point endPoint, PenSettings gPen)
-        {
-            switch (figure)
-            {
                 case Figure.Line:
-                    return new Line(startPoint, endPoint, gPen);
+                    return new Line(pointList[0], pointList.Last(), gPen);
+                case Figure.Circle:
+                    return new Circle(pointList[0], pointList.Last(), gPen)
+                        { BrushColor = brushColor };
+                case Figure.Ellipse:
+                    return new Ellipse(pointList[0], pointList.Last(), gPen)
+                        { BrushColor = brushColor };
+                case Figure.Select:
+                    return new HighlightRect(pointList[0], pointList.Last());
                 default:
                     return null;
-            }
-        }
-
-        /// <summary>
-        /// Определить енум по фигурк
-        /// </summary>
-        /// <param name="draft">Фигура, для которой необходимо определить енум</param>
-        /// <returns>Енум</returns>
-        public static Figure DefineDraftEnum(IDrawable draft)
-        {
-            switch(draft.GetType().ToString().Split('.').Last())
-            {
-                case "Line":
-                    {
-                        return Figure.Line;              
-                    }
-                case "Ellipse":
-                    {
-                        return Figure.Ellipse;
-                    }
-                case "Circle":
-                    {
-                        return Figure.Circle;
-                    }
-                case "Polyline":
-                    {
-                        return Figure.Polyline;
-                    }
-                default:
-                    {
-                        return Figure.Polygon;
-                    }
             }
         }
 
@@ -171,14 +69,12 @@ namespace GraphicsEditor
         /// <returns>Перо</returns>
         public static Pen CreatePen(PenSettings settings)
         {
-            if(settings.DashPattern != null)
-            {
-               return new Pen(settings.Color, settings.Width) { DashPattern = settings.DashPattern};
-            }
-            else
-            {
-                return new Pen(settings.Color, settings.Width);
-            }
+            return settings.DashPattern != null ?
+                new Pen(settings.Color, settings.Width)
+                {
+                    DashPattern = settings.DashPattern
+                } :
+                new Pen(settings.Color, settings.Width);
         }
 
         /// <summary>
@@ -188,46 +84,60 @@ namespace GraphicsEditor
         /// <returns>Клон фигуры</returns>
         public static IDrawable Clone(IDrawable draft)
         {
-            if (draft is Polygon)
+            var cloneList = new List<Point>();
+            if (draft is IMultipoint multipoint)
             {
-                List<Point> cloneList = new List<Point>();
-                foreach (Point point in (draft as Polygon).DotList)
+                foreach (var point in multipoint.DotList)
                 {
                     cloneList.Add(new Point(point.X, point.Y));
                 }
-
-                return new Polygon(cloneList, (draft as Polygon).Pen) { BrushColor = (draft as Polygon).BrushColor };
             }
-            else if (draft is Polyline)
+
+            switch (draft)
             {
-                List<Point> cloneList = new List<Point>();
-                foreach (Point point in (draft as Polyline).DotList)
+                case Polygon polygon:
                 {
-                    cloneList.Add(new Point(point.X, point.Y));
+                    return new Polygon(cloneList, polygon.Pen) { BrushColor = polygon.BrushColor };
                 }
-
-                return new Polyline(cloneList, (draft as Polyline).Pen);
+                case Polyline polyline:
+                {
+                    return new Polyline(cloneList, polyline.Pen);
+                }
+                case Circle circle:
+                    return new Circle(
+                            new Point(circle.StartPoint.X, circle.StartPoint.Y),
+                            new Point(circle.EndPoint.X, circle.EndPoint.Y),
+                            new PenSettings
+                            {
+                                Color = circle.Pen.Color,
+                                Width = circle.Pen.Width,
+                                DashPattern = circle.Pen.DashPattern
+                            })
+                        { BrushColor = circle.BrushColor};
+                case Ellipse ellipse:
+                    return new Ellipse(
+                            new Point(ellipse.StartPoint.X, ellipse.StartPoint.Y),
+                            new Point(ellipse.EndPoint.X, ellipse.EndPoint.Y),
+                            new PenSettings
+                            {
+                                Color = ellipse.Pen.Color,
+                                Width = ellipse.Pen.Width,
+                                DashPattern = ellipse.Pen.DashPattern
+                            })
+                        { BrushColor = ellipse.BrushColor };
+                case Line _:
+                    return new Line(
+                        new Point(draft.StartPoint.X, draft.StartPoint.Y),
+                        new Point(draft.EndPoint.X, draft.EndPoint.Y),
+                        new PenSettings
+                            {
+                                Color = draft.Pen.Color,
+                                Width = draft.Pen.Width,
+                                DashPattern = draft.Pen.DashPattern
+                            });
+                default:
+                    return null;
             }
-            else if (draft is Circle)
-            {
-                return new Circle(new Point(draft.StartPoint.X, draft.StartPoint.Y),
-                    new Point(draft.EndPoint.X, draft.EndPoint.Y), new PenSettings() {Color = draft.Pen.Color, Width = draft.Pen.Width, DashPattern = draft.Pen.DashPattern })
-                { BrushColor = (draft as Circle).BrushColor};
-            }
-            else if (draft is Ellipse)
-            {
-                return new Ellipse(new Point(draft.StartPoint.X, draft.StartPoint.Y),
-                    new Point(draft.EndPoint.X, draft.EndPoint.Y), new PenSettings()
-                    { Color = draft.Pen.Color, Width = draft.Pen.Width, DashPattern = draft.Pen.DashPattern })
-                    { BrushColor = (draft as Ellipse).BrushColor };
-            }
-            else if (draft is Line)
-            {
-                return new Line(new Point(draft.StartPoint.X, draft.StartPoint.Y),
-                    new Point(draft.EndPoint.X, draft.EndPoint.Y), new PenSettings()
-                    { Color = draft.Pen.Color, Width = draft.Pen.Width, DashPattern = draft.Pen.DashPattern });
-            }
-            return null;
         }
 
         /// <summary>
@@ -242,7 +152,7 @@ namespace GraphicsEditor
 
             var type = draftList[0].GetType();
 
-            foreach (IDrawable draft in draftList)
+            foreach (var draft in draftList)
             {
                 if (draft.GetType() != type)
                     return null;

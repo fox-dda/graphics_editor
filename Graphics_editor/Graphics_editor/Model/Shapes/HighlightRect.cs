@@ -25,7 +25,12 @@ namespace GraphicsEditor.Model
         {
             get
             {
-                return new PenSettings { DashPattern = new float[] { 2, 2 }, Width = 1, Color = Color.Gray };
+                return new PenSettings
+                {
+                    DashPattern = new float[] { 2, 2 },
+                    Width = 1,
+                    Color = Color.Gray
+                };
             }
             set{}
         }
@@ -35,14 +40,8 @@ namespace GraphicsEditor.Model
         /// </summary>
         public Point StartPoint
         {
-            get
-            {
-                return _startPoint;
-            }
-            set
-            {
-                _startPoint = value;
-            }
+            get => _startPoint;
+            set => _startPoint = value;
         }
 
         /// <summary>
@@ -50,14 +49,8 @@ namespace GraphicsEditor.Model
         /// </summary>
         public Point EndPoint
         {
-            get
-            {
-                return _endPoint;
-            }
-            set
-            {
-                _endPoint = value;
-            }
+            get => _endPoint;
+            set => _endPoint = value;
         }
 
         /// <summary>

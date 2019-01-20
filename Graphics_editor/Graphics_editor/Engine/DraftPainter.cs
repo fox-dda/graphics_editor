@@ -100,10 +100,15 @@ namespace GraphicsEditor.Engine
         /// <param name="mousePoint">Координаты мыши</param>
         private void LassoDynamicDrawing(Point mousePoint)
         {
-            State.CacheLasso = DraftFactory.CreateDraft(
+            State.CacheLasso = (HighlightRect)DraftFactory.CreateDraft(
                 State.Figure,
-                State.InPocessPoints[0],
-                mousePoint);
+                new List<Point>
+                {
+                    State.InPocessPoints[0],
+                    mousePoint
+                }, 
+                Parameters.GPen,
+                Parameters.BrushColor);
             _drawer.DrawShape(State.CacheLasso, Painter);
         }
 
@@ -115,8 +120,9 @@ namespace GraphicsEditor.Engine
         {
             State.CacheDraft = DraftFactory.CreateDraft(
                 State.Figure,
-                State.InPocessPoints[0],
-                mousePoint, Parameters.GPen,
+                new List<Point>{State.InPocessPoints[0],
+                mousePoint},
+                Parameters.GPen,
                 Parameters.BrushColor);
             _drawer.DrawShape(State.CacheDraft, Painter);
         }
