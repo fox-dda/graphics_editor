@@ -85,17 +85,6 @@ namespace GraphicsEditor.DraftTools
         }
 
         /// <summary>
-        /// Вернуть все фигуры
-        /// </summary>
-        /// <returns></returns>
-        public List<IDrawable> GetDrafts()
-        {
-            return _storage.DraftList;
-        }
-
-
-
-        /// <summary>
         /// Добавить фигуру в хранилище
         /// </summary>
         /// <param name="draft">Добавляемая фигура</param>

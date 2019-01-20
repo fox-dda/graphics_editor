@@ -5,6 +5,7 @@ using GraphicsEditor.Model;
 using GraphicsEditor.Model.Drawers;
 using GraphicsEditor.Enums;
 using GraphicsEditor.DraftTools;
+using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor.Engine
 {
@@ -21,19 +22,47 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Состаяние художника фигур
         /// </summary>
-        public PainterState State;
+        public PainterState State
+        {
+            get => _state;
+            set => _state = value;
+        }
+
+        private PainterState _state;
+
         /// <summary>
         /// Ядро рисования
         /// </summary>
-        public Graphics Painter;
+        public Graphics Painter
+        {
+            get => _painter;
+            set => _painter = value;
+        }
+
+        private Graphics _painter;
+
         /// <summary>
         /// Менеджер хранилища
         /// </summary>
-        public StorageManager Corrector;
+        public StorageManager Corrector
+        {
+            get => _corrector;
+            set => _corrector = value;
+        }
+
+        private StorageManager _corrector;
+
         /// <summary>
         /// Параметры рисования
         /// </summary>
-        public PaintingParameters Parameters = new PaintingParameters();
+        public PaintingParameters Parameters
+        {
+            get => _paintingParameters;
+            set => _paintingParameters = value;
+        }
+
+        private PaintingParameters _paintingParameters = new PaintingParameters();
+
         /// <summary>
         /// Ядро рисования
         /// </summary>
@@ -51,16 +80,17 @@ namespace GraphicsEditor.Engine
         {
             RefreshCanvas();
 
-            if (State.DrawingStrategy == Strategy.TwoPoint)
-                DoublePointDynamicDrawing(mousePoint);
-
-            else if (State.DrawingStrategy == Strategy.Multipoint)
+            switch (State.DrawingStrategy)
             {
-                MultiPointDynamicDrawing(mousePoint);
-            }
-            else if (State.DrawingStrategy == Strategy.Selection)
-            {
-                LassoDynamicDrawing(mousePoint);
+                case Strategy.TwoPoint:
+                    DoublePointDynamicDrawing(mousePoint);
+                    break;
+                case Strategy.Multipoint:
+                    MultiPointDynamicDrawing(mousePoint);
+                    break;
+                case Strategy.Selection:
+                    LassoDynamicDrawing(mousePoint);
+                    break;
             }
         }
 
@@ -70,7 +100,10 @@ namespace GraphicsEditor.Engine
         /// <param name="mousePoint">Координаты мыши</param>
         private void LassoDynamicDrawing(Point mousePoint)
         {
-            State.CacheLasso = DraftFactory.CreateDraft(State.Figure, State.InPocessPoints[0], mousePoint);
+            State.CacheLasso = DraftFactory.CreateDraft(
+                State.Figure,
+                State.InPocessPoints[0],
+                mousePoint);
             _drawer.DrawShape(State.CacheLasso, Painter);
         }
 
@@ -80,7 +113,11 @@ namespace GraphicsEditor.Engine
         /// <param name="mousePoint">Координаты мыши</param>
         private void DoublePointDynamicDrawing(Point mousePoint)
         {
-            State.CacheDraft = DraftFactory.CreateDraft(State.Figure, State.InPocessPoints[0], mousePoint, Parameters.GPen, Parameters.BrushColor);
+            State.CacheDraft = DraftFactory.CreateDraft(
+                State.Figure,
+                State.InPocessPoints[0],
+                mousePoint, Parameters.GPen,
+                Parameters.BrushColor);
             _drawer.DrawShape(State.CacheDraft, Painter);
         }
 
@@ -90,10 +127,10 @@ namespace GraphicsEditor.Engine
         /// <param name="clickPoint">Координаты добавляемой точки</param>
         public void AddPointToCacheDraft(Point clickPoint)
         {
-            if ((State.CacheDraft is Polygon) && (State.Figure == Figure.Polygon))
-                (State.CacheDraft as Polygon).DotList.Add(clickPoint);
-            if ((State.CacheDraft is Polyline) && (State.Figure == Figure.Polyline))
-                (State.CacheDraft as Polyline).DotList.Add(clickPoint);
+            if (State.CacheDraft is IMultipoint multipoint)
+            {
+                multipoint.DotList.Add(clickPoint);
+            }
         }
 
         /// <summary>
@@ -104,19 +141,28 @@ namespace GraphicsEditor.Engine
         {
             if (State.CacheDraft == null)
             {
-                State.CacheDraft = DraftFactory.CreateDraft(State.Figure, new List<Point> {State.InPocessPoints.Last(), mousePoint, mousePoint }, Parameters.GPen, Parameters.BrushColor);
+                State.CacheDraft = DraftFactory.CreateDraft(
+                    State.Figure, 
+                    new List<Point>
+                    {
+                        State.InPocessPoints.Last(),
+                        mousePoint,
+                        mousePoint
+                    }, 
+                    Parameters.GPen,
+                    Parameters.BrushColor);
             }
             else
             {
-
-                if ((State.CacheDraft is Polygon) && (State.Figure == Figure.Polygon))
+                var cache = State.CacheDraft;
+                switch (cache)
                 {
-                    (State.CacheDraft as Polygon).DotList[(State.CacheDraft as Polygon).DotList.Count - 1] = mousePoint;
-                }
-                if ((State.CacheDraft is Polyline) && (State.Figure == Figure.Polyline))
-                {
-                    (State.CacheDraft as Polyline).DotList[(State.CacheDraft as Polyline).DotList.Count - 1] = mousePoint;
-                     
+                    case Polygon polygon when (State.Figure == Figure.Polygon):
+                        polygon.DotList[polygon.DotList.Count - 1] = mousePoint;
+                        break;
+                    case Polyline polyline when (State.Figure == Figure.Polyline):
+                        polyline.DotList[polyline.DotList.Count - 1] = mousePoint;
+                        break;
                 }
             }
             _drawer.DrawShape(State.CacheDraft, Painter);
@@ -128,43 +174,20 @@ namespace GraphicsEditor.Engine
         public void RefreshCanvas()
         {
             Painter.Clear(Parameters.CanvasColor);
+            var drawList = Corrector.PaintedDraftStorage;
 
-            var drawList = Corrector.GetDrafts();
-
-            foreach (IDrawable draft in drawList)
+            foreach (var draft in drawList)
             {
                 if (State.UndrawableDraft == draft)
                     continue;
 
-                if (draft != null)
-                {
-                    _drawer.DrawShape(draft, Painter);
-                }
-            }
+                _drawer.DrawShape(draft, Painter);
 
-            var highlightList = Corrector.HighlightDraftStorage;
-
-            foreach (IDrawable draft in highlightList)
-            {
-                if (State.UndrawableDraft == draft)
-                    continue;
-
-                if (draft != null)
+                if (Corrector.HighlightDraftStorage.Contains(draft))
                 {
                     _drawer.DrawHighlight(draft, Painter);
-                }
-            }       
-        }
-
-        /// <summary>
-        /// Сменить цвет фона
-        /// </summary>
-        /// <param name="color">Новый цвет</param>
-        public void SetCanvasColor(Color color)
-        {
-            Parameters.CanvasColor = color;
-            Painter.Clear(color);
-            RefreshCanvas();
+                }              
+            }     
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using System.Drawing;
 using System;
 using GraphicsEditor.Model;
 using System.Windows.Forms;
+using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor
 {
@@ -22,102 +23,52 @@ namespace GraphicsEditor
             if (draftList == null)
                 return null;
             
-            for (int i = draftList.Count - 1; i > -1; i--)
+            for (var i = draftList.Count - 1; i > -1; i--)
             {
                 if (draftList[i] == null)
                     continue;
+                var sy = Math.Min(draftList[i].StartPoint.Y, draftList[i].EndPoint.Y);
+                var sx = Math.Min(draftList[i].StartPoint.X, draftList[i].EndPoint.X);
+                var ey = Math.Max(draftList[i].StartPoint.Y, draftList[i].EndPoint.Y);
+                var ex = Math.Max(draftList[i].StartPoint.X, draftList[i].EndPoint.X);
 
-                var sy = draftList[i].StartPoint.Y;
-                var sx = draftList[i].StartPoint.X;
-                var ex = draftList[i].EndPoint.X;
-                var ey = draftList[i].EndPoint.Y;
                 var my = mousePoint.Y;
                 var mx = mousePoint.X;
 
-                if (draftList[i] is Polygon)
+                if (draftList[i] is IMultipoint multipoint)
                 {
-                    int minX = draftList[i].StartPoint.X;
-                    int maxX = draftList[i].StartPoint.X;
-                    int minY = draftList[i].StartPoint.Y;
-                    int maxY = draftList[i].StartPoint.Y;
-                    foreach (Point point in (draftList[i] as Polygon).DotList)
+                    foreach (var point in multipoint.DotList)
                     {
-                        if (minX > point.X)
-                        {
-                            minX = point.X;
-                        }
-                        if (maxX < point.X)
-                        {
-                            maxX = point.X;
-                        }
-                        if (minY > point.Y)
-                        {
-                            minY = point.Y;
-                        }
-                        if (maxY < point.Y)
-                        {
-                            maxY = point.Y;
-                        }
+                        sx = Math.Min(sx, point.X);
+                        ex = Math.Max(ex, point.X);
+                        sy = Math.Min(sy, point.Y);
+                        ey = Math.Max(ey, point.Y);
                     }
-                    sx = minX;
-                    sy = minY;
-                    ex = maxX;
-                    ey = maxY;
-                }
-                else if(draftList[i] is Polyline)
-                {
-                    int minX = draftList[i].StartPoint.X;
-                    int maxX = draftList[i].StartPoint.X;
-                    int minY = draftList[i].StartPoint.Y;
-                    int maxY = draftList[i].StartPoint.Y;
-                    foreach (Point point in (draftList[i] as Polyline).DotList)
-                    {
-                        if (minX > point.X)
-                        {
-                            minX = point.X;
-                        }
-                        if (maxX < point.X)
-                        {
-                            maxX = point.X;
-                        }
-                        if (minY > point.Y)
-                        {
-                            minY = point.Y;
-                        }
-                        if (maxY < point.Y)
-                        {
-                            maxY = point.Y;
-                        }
-                    }
-                    sx = minX;
-                    sy = minY;
-                    ex = maxX;
-                    ey = maxY;
                 }
                 else if (draftList[i] is Circle)
                 {
-                    var size = Math.Abs(draftList[i].EndPoint.X - draftList[i].StartPoint.X) > Math.Abs(draftList[i].EndPoint.Y - draftList[i].StartPoint.Y) ?
-                        Math.Abs(draftList[i].EndPoint.X - draftList[i].StartPoint.X) : Math.Abs(draftList[i].EndPoint.Y - draftList[i].StartPoint.Y);
-
-                    //сверху вниз слево направа
-                    if ((draftList[i].StartPoint.Y < draftList[i].EndPoint.Y) && (draftList[i].StartPoint.X < draftList[i].EndPoint.X))
-                    {
-
-                    }
+                    var size = Math.Abs(draftList[i].EndPoint.X - draftList[i].StartPoint.X) >
+                               Math.Abs(draftList[i].EndPoint.Y - draftList[i].StartPoint.Y) ?
+                        Math.Abs(draftList[i].EndPoint.X - draftList[i].StartPoint.X) :
+                        Math.Abs(draftList[i].EndPoint.Y - draftList[i].StartPoint.Y);
+                    //
                     //сверху вниз справа налево
-                    else if ((draftList[i].StartPoint.Y < draftList[i].EndPoint.Y) && (draftList[i].StartPoint.X > draftList[i].EndPoint.X))
+                    if ((draftList[i].StartPoint.Y < draftList[i].EndPoint.Y) && 
+                        (draftList[i].StartPoint.X > draftList[i].EndPoint.X))
                     {
                         sx = draftList[i].StartPoint.X - size;
                         sy = draftList[i].StartPoint.Y;
                     }
                     //cнизу вверх слево на права
-                    else if ((draftList[i].StartPoint.Y > draftList[i].EndPoint.Y) && (draftList[i].StartPoint.X < draftList[i].EndPoint.X))
+                    else if ((draftList[i].StartPoint.Y > draftList[i].EndPoint.Y) && 
+                             (draftList[i].StartPoint.X < draftList[i].EndPoint.X))
                     {
                         sx = draftList[i].StartPoint.X;
                         sy = draftList[i].StartPoint.Y - size;
                     }
                     //cнизу вверх справа налево
-                    else if ((draftList[i].StartPoint.Y > draftList[i].EndPoint.Y) && (draftList[i].StartPoint.X > draftList[i].EndPoint.X))
+                    else if ((draftList[i].StartPoint.Y > draftList[i].EndPoint.Y) && 
+                             (draftList[i].StartPoint.X > draftList[i].EndPoint.X))
                     {
                         sx = draftList[i].StartPoint.X - size;
                         sy = draftList[i].StartPoint.Y - size;
@@ -144,10 +95,11 @@ namespace GraphicsEditor
         /// <param name="frame">Область в которой осуществляется поиск</param>
         /// <param name="draftList">Список фигур, где производится поиск</param>
         /// <returns>Найденные фигуры</returns>
-        public static List<IDrawable> LassoSearch(HighlightRect frame, List<IDrawable> draftList)
+        public static List<IDrawable> LassoSearch(HighlightRect frame,
+            List<IDrawable> draftList)
         {
-            List<IDrawable> findList = new List<IDrawable>();
-            for (int i = draftList.Count - 1; i > -1; i--)
+            var findList = new List<IDrawable>();
+            for (var i = draftList.Count - 1; i > -1; i--)
             {
                 if (draftList[i] == null)
                     continue;
@@ -156,20 +108,10 @@ namespace GraphicsEditor
                 var ex = draftList[i].EndPoint.X;
                 var ey = draftList[i].EndPoint.Y;
 
-                var fsy = frame.StartPoint.Y;
-                var fsx = frame.StartPoint.X;
-                var fey = frame.EndPoint.Y;
-                var fex = frame.EndPoint.X;
-
-                int minX = fsx > fex ? fex : fsx;
-                int maxX = fsx > fex ? fsx : fex;
-                int minY = fsy > fey ? fey : fsy;
-                int maxY = fsy > fey ? fsy : fey;
-
-                fsx = minX;
-                fsy = minY;
-                fex = maxX;
-                fey = maxY;
+                var fsy = Math.Min(frame.StartPoint.Y, frame.EndPoint.Y);
+                var fsx = Math.Min(frame.StartPoint.X, frame.EndPoint.X);
+                var fey = Math.Max(frame.StartPoint.Y, frame.EndPoint.Y);
+                var fex = Math.Max(frame.StartPoint.X, frame.EndPoint.X);
 
                 if ((sy > fsy) && (ey < fey) && (sx > fsx) && (ex < fex) )
                     findList.Add(draftList[i]);
@@ -199,25 +141,17 @@ namespace GraphicsEditor
         /// <param name="mousePoint">Заданные координаты</param>
         /// <param name="highlighList">Список, где производится поиск</param>
         /// <returns>Точка в фигуре</returns>
-        public static DotInDraft SearchReferenceDot(Point mousePoint, List<IDrawable> highlighList)
+        public static DotInDraft SearchReferenceDot(Point mousePoint,
+            List<IDrawable> highlighList)
         {
             DotInDraft dotInDraft = new DotInDraft();
 
-            foreach(IDrawable draft in highlighList)
+            foreach(var draft in highlighList)
             {
-                if(draft is Polygon)
+                if(draft is IMultipoint multipoint)
                 {
-                    foreach(Point point in (draft as Polygon).DotList)
+                    foreach(Point point in multipoint.DotList)
                         {
-                        if (IsInRect(mousePoint, point, 6))
-                            dotInDraft.Set(draft, point);
-                    }
-                }
-                else if(draft is Polyline)
-                {
-
-                    foreach (Point point in (draft as Polyline).DotList)
-                    {
                         if (IsInRect(mousePoint, point, 6))
                             dotInDraft.Set(draft, point);
                     }

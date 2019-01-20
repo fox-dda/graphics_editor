@@ -111,6 +111,10 @@ namespace GraphicsEditor
                     (float)penStrokeWidthNumericUpDown.Value,
                     (float)penStrokeWidthNumericUpDown.Value
                 };
+            else
+            {
+                _drawManager.DraftPainter.Parameters.DashPattern = null;
+            }
         }
 
         private void MainForm_Resize(object sender, EventArgs e)

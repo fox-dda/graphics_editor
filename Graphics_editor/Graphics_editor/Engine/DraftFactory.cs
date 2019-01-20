@@ -173,7 +173,7 @@ namespace GraphicsEditor
         {
             if(settings.DashPattern != null)
             {
-                return new Pen(settings.Color, settings.Width) { DashPattern = settings.DashPattern};
+               return new Pen(settings.Color, settings.Width) { DashPattern = settings.DashPattern};
             }
             else
             {

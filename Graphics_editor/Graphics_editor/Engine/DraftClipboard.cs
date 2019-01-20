@@ -6,7 +6,7 @@ namespace GraphicsEditor
     /// <summary>
     /// Буфер обмена
     /// </summary>
-    class DraftClipboard
+    public class DraftClipboard
     {
         /// <summary>
         /// Хранилище объектов буфера обена

@@ -16,24 +16,15 @@ namespace GraphicsEditor
         /// <summary>
         /// Штрих паттерн
         /// </summary>
-        private float[] _dashPattern = new float[] { 0, 0 };
+        private float[] _dashPattern = new float[]{ 0, 0 };
 
         /// <summary>
         /// Цвет заливки
         /// </summary>
         public Color BrushColor
         {
-            get
-            {
-                if (_brushColor == null)
-                    return Color.White;
-                else
-                    return _brushColor;
-            }
-            set
-            {
-                _brushColor = value;
-            }
+            get => _brushColor;
+            set => _brushColor = value;
         }
 
         /// <summary>
@@ -41,12 +32,7 @@ namespace GraphicsEditor
         /// </summary>
         public float[] DashPattern
         {
-            get
-            {
-                if (_dashPattern[0] == 0)
-                    return null;
-                return _dashPattern;
-            }
+            get => _dashPattern[0] == 0 ? null : _dashPattern;
             set
             {
                 GPen.DashPattern = value;
@@ -57,7 +43,13 @@ namespace GraphicsEditor
         /// <summary>
         /// Настройки пера
         /// </summary>
-        public PenSettings GPen = new PenSettings() {Color = Color.Black, Width = 1};
+        public PenSettings GPen
+        {
+            get => _gPen; 
+            set => _gPen = value;
+        }
+
+        private PenSettings _gPen = new PenSettings { Color = Color.Black, Width = 1 };
 
         /// <summary>
         /// Цвет фона
@@ -69,14 +61,8 @@ namespace GraphicsEditor
         /// </summary>
         public Color CanvasColor
         {
-            get
-            {
-                return _canvasColor;
-            }
-            set
-            {
-                _canvasColor = value;
-            }
+            get => _canvasColor;
+            set => _canvasColor = value;
         }
     }
 }
