@@ -16,7 +16,7 @@ namespace GraphicsEditor.Engine
     /// <summary>
     /// Менеджер рисования
     /// </summary>
-    class DrawManager
+    public class DrawManager
     {
         /// <summary>
         /// Художник фигур
@@ -27,8 +27,14 @@ namespace GraphicsEditor.Engine
             set => _draftPainter = value;
         }
 
+        /// <summary>
+        /// Художник фигур
+        /// </summary>
         private DraftPainter _draftPainter;
 
+        /// <summary>
+        /// Стек комманд
+        /// </summary>
         public UndoRedoStack CommandStack => DraftStorageManager.UndoRedoStack;
 
         /// <summary>
@@ -40,6 +46,9 @@ namespace GraphicsEditor.Engine
             set => _state = value;
         }
 
+        /// <summary>
+        /// Состаяние художника фигур
+        /// </summary>
         private PainterState _state;
 
         /// <summary>
@@ -51,6 +60,9 @@ namespace GraphicsEditor.Engine
             set => _draftStorageManager = value;
         }
 
+        /// <summary>
+        /// Менеджер хранилища
+        /// </summary>
         private StorageManager _draftStorageManager;
 
         /// <summary>
@@ -135,7 +147,7 @@ namespace GraphicsEditor.Engine
             switch (State.DrawingStrategy)
             {
                 case Strategy.TwoPoint:
-                    State.InPocessPoints.Add(e.Location);
+                    State.InProcessPoints.Add(e.Location);
                     DraftPainter.AddToStorage();
                     break;
                 case Strategy.Multipoint:
@@ -143,7 +155,7 @@ namespace GraphicsEditor.Engine
                     switch (e.Button)
                     {
                         case MouseButtons.Left:
-                            State.InPocessPoints.Add(e.Location);
+                            State.InProcessPoints.Add(e.Location);
                             DraftPainter.AddPointToCacheDraft(e.Location);
                             break;
                         case MouseButtons.Right:
@@ -156,7 +168,7 @@ namespace GraphicsEditor.Engine
                 }
                 case Strategy.Selection:
                     LassoSelection(e.Location);
-                    State.InPocessPoints.Clear();
+                    State.InProcessPoints.Clear();
                     DraftPainter.RefreshCanvas();
                     break;
                 case Strategy.DragAndDrop:
@@ -200,7 +212,7 @@ namespace GraphicsEditor.Engine
             }
             else
             {
-                if (State.InPocessPoints.Count > 0)
+                if (State.InProcessPoints.Count > 0)
                 {
                     DraftPainter.DynamicDrawing(e.Location);
                 }
@@ -212,11 +224,11 @@ namespace GraphicsEditor.Engine
             switch (State.DrawingStrategy)
             {
                 case Strategy.TwoPoint:
-                    State.InPocessPoints.Add(e.Location);
+                    State.InProcessPoints.Add(e.Location);
                     break;
                 case Strategy.Selection:
                 {
-                    State.InPocessPoints.Add(e.Location);
+                    State.InProcessPoints.Add(e.Location);
                     if (DraftStorageManager.HighlightDraftStorage.Count > 0)
                     {// меняем стратегию если найдена опорная точка
                         var refDot = Selector.SearchReferenceDot(
@@ -242,7 +254,7 @@ namespace GraphicsEditor.Engine
                                 State.Figure = Figure.DragDraft;
                                 State.DragDropDraft = DraftFactory.Clone(shape);
                                 State.UndrawableDraft = shape;
-                                State.InPocessPoints.Add(e.Location);
+                                State.InProcessPoints.Add(e.Location);
                                 return;
                             }
                         }
@@ -291,9 +303,9 @@ namespace GraphicsEditor.Engine
         /// <param name="mousePoint"></param>
         private void LassoSelection(Point mousePoint)
         {
-            if (State.InPocessPoints.Count > 0)
+            if (State.InProcessPoints.Count > 0)
             {
-                if (mousePoint != State.InPocessPoints.Last())
+                if (mousePoint != State.InProcessPoints.Last())
                 {
                     DraftStorageManager.DiscardAll();
                 }
@@ -308,7 +320,7 @@ namespace GraphicsEditor.Engine
                 DraftPainter.RefreshCanvas();
             }
             State.CacheLasso = null;
-            State.InPocessPoints.Clear();
+            State.InProcessPoints.Clear();
         }
 
         /// <summary>
@@ -335,10 +347,10 @@ namespace GraphicsEditor.Engine
         private void DragDraft(Point newPoint)
         {
             var bais = new Point(
-                newPoint.X - State.InPocessPoints.Last().X,
-                newPoint.Y - State.InPocessPoints.Last().Y);
+                newPoint.X - State.InProcessPoints.Last().X,
+                newPoint.Y - State.InProcessPoints.Last().Y);
             BiasObject(State.DragDropDraft, bais);
-            State.InPocessPoints.Add(newPoint);
+            State.InProcessPoints.Add(newPoint);
             DraftPainter.RefreshCanvas();
             DraftPainter.SoloDraw(State.DragDropDraft);
         }
@@ -505,10 +517,10 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Вырезать объект
         /// </summary>
-        /// <param name="_buffer">Буфер обмена</param>
-        public void Cut(DraftClipboard _buffer)
+        /// <param name="buffer">Буфер обмена</param>
+        public void Cut(DraftClipboard buffer)
         {
-            _buffer.SetRange(DraftStorageManager.HighlightDraftStorage);
+            buffer.SetRange(DraftStorageManager.HighlightDraftStorage);
             DraftStorageManager.RemoveRangeHighlightDrafts();
             DraftPainter.RefreshCanvas();
 
@@ -517,10 +529,10 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Копировать в буффер обмена
         /// </summary>
-        /// <param name="_buffer">Буфер обмена</param>
-        public void Copy(DraftClipboard _buffer)
+        /// <param name="buffer">Буфер обмена</param>
+        public void Copy(DraftClipboard buffer)
         {
-            _buffer.SetRange(DraftStorageManager.HighlightDraftStorage);
+            buffer.SetRange(DraftStorageManager.HighlightDraftStorage);
             DraftPainter.RefreshCanvas();
 
         }
@@ -528,10 +540,10 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Вставить в буффер обмена
         /// </summary>
-        /// <param name="_buffer">Буфер обмена</param>
-        public void Paste(DraftClipboard _buffer)
+        /// <param name="buffer">Буфер обмена</param>
+        public void Paste(DraftClipboard buffer)
         {
-            DraftStorageManager.AddRangeDrafts(_buffer.GetAll());
+            DraftStorageManager.AddRangeDrafts(buffer.GetAll());
             DraftPainter.RefreshCanvas();
 
         }

@@ -34,22 +34,28 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Нерисуемая фигура
         /// </summary>
-        public IDrawable UndrawableDraft;
+        public IDrawable UndrawableDraft
+        {
+            get => _undrawable;
+            set => _undrawable = value;
+        }
+
+        /// <summary>
+        /// Нерисуемая фигура
+        /// </summary>
+        private IDrawable _undrawable;
 
         /// <summary>
         /// Рисуемая фигура
         /// </summary>
         public Figure Figure
         {
-            get
-            {
-                return _figure;
-            }
+            get => _figure;
             set
             {
-                InPocessPoints.Clear();
+                InProcessPoints.Clear();
                 DragDropDraft = null;
-                DragDropDot.Draft = null;
+                _dragDropDot.Draft = null;
                 CacheDraft = null;
                 CacheLasso = null;
 
@@ -60,26 +66,63 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Список обрабатываемых точек
         /// </summary>
-        public List<Point> InPocessPoints = new List<Point>();
+        public List<Point> InProcessPoints
+        {
+            get => _inProcessPoints;
+            set => _inProcessPoints = value;
+        }
+        
+        /// <summary>
+        /// Список обрабатываемых точек
+        /// </summary>
+        private List<Point> _inProcessPoints = new List<Point>();
 
         /// <summary>
         /// Двигаемая фигура
         /// </summary>
-        public IDrawable DragDropDraft;
+        public IDrawable DragDropDraft
+        {
+            get => _dragDropDraft;
+            set => _dragDropDraft = value;
+        }
+
+        private IDrawable _dragDropDraft;
 
         /// <summary>
         /// Двигаемая точка в фигуре
         /// </summary>
-        public DotInDraft DragDropDot;
+        public DotInDraft DragDropDot
+        {
+            get => _dragDropDot;
+            set
+            {
+                _dragDropDot.Draft = value.Draft;
+                _dragDropDot.PointInDraft = value.PointInDraft;
+            }
+        }
+
+        private DotInDraft _dragDropDot;
 
         /// <summary>
         /// Фигура в кэше
         /// </summary>
-        public IDrawable CacheDraft;
+        public IDrawable CacheDraft
+        {
+            get => _cacheDraft;
+            set => _cacheDraft = value;
+        }
+
+        private IDrawable _cacheDraft;
 
         /// <summary>
         /// Ласо в кэше
         /// </summary>
-        public HighlightRect CacheLasso;
+        public HighlightRect CacheLasso
+        {
+            get => _cacheLasso;
+            set => _cacheLasso = value;
+        }
+
+        private HighlightRect _cacheLasso;
     }
 }

@@ -116,7 +116,7 @@ namespace GraphicsEditor.Engine
                 State.Figure,
                 new List<Point>
                 {
-                    State.InPocessPoints[0],
+                    State.InProcessPoints[0],
                     mousePoint
                 }, 
                 Parameters.GPen,
@@ -132,7 +132,7 @@ namespace GraphicsEditor.Engine
         {
             State.CacheDraft = DraftFactory.CreateDraft(
                 State.Figure,
-                new List<Point>{State.InPocessPoints[0],
+                new List<Point>{State.InProcessPoints[0],
                 mousePoint},
                 Parameters.GPen,
                 Parameters.BrushColor);
@@ -163,7 +163,7 @@ namespace GraphicsEditor.Engine
                     State.Figure, 
                     new List<Point>
                     {
-                        State.InPocessPoints.Last(),
+                        State.InProcessPoints.Last(),
                         mousePoint,
                         mousePoint
                     }, 
@@ -216,7 +216,7 @@ namespace GraphicsEditor.Engine
             Corrector.ClearStorage();
             State.CacheDraft = null;
             Painter.Clear(Color.White);
-            State.InPocessPoints.Clear();
+            State.InProcessPoints.Clear();
             Parameters.CanvasColor = Color.White;
         }
 
@@ -226,7 +226,7 @@ namespace GraphicsEditor.Engine
         public void AddToStorage()
         {
             Corrector.AddDraft(State.CacheDraft);
-            State.InPocessPoints.Clear();
+            State.InProcessPoints.Clear();
             RefreshCanvas();
         }
 
