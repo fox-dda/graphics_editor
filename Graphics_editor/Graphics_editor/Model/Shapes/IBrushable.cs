@@ -10,7 +10,7 @@ namespace GraphicsEditor.Model
     /// <summary>
     /// Интерфейс для закрашиваемых фигур
     /// </summary>
-    interface IBrushable
+    public interface IBrushable
     {
         /// <summary>
         /// Цвет заливки

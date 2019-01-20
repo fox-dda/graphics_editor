@@ -101,7 +101,6 @@
     <Compile Include="Model\Drawers\LineDrawer.cs" />
     <Compile Include="Model\Drawers\PolygonDrawer.cs" />
     <Compile Include="Model\Drawers\PolylineDrawer.cs" />
-    <Compile Include="Model\Drawers\RectangleDrawer.cs" />
     <Compile Include="Model\Shapes\Circle.cs" />
     <Compile Include="Model\Shapes\DotInDraft.cs" />
     <Compile Include="Model\Shapes\Ellipse.cs" />
@@ -111,7 +110,6 @@
     <Compile Include="Model\Shapes\Line.cs" />
     <Compile Include="Model\Shapes\Polygon.cs" />
     <Compile Include="Model\Shapes\Polyline.cs" />
-    <Compile Include="Model\Shapes\Rectangle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\SelectionPanel.cs">

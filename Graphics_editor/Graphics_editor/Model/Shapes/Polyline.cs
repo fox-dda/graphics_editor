@@ -11,7 +11,7 @@ namespace GraphicsEditor.Model
     /// Полилиния
     /// </summary>
     [Serializable]
-    class Polyline: IDrawable, IMultipoint
+    public class Polyline: IDrawable, IMultipoint
     {
         /// <summary>
         /// Настройки пера
@@ -28,14 +28,8 @@ namespace GraphicsEditor.Model
         /// </summary>
         public Point StartPoint
         {
-            get
-            {
-                return DotList[0];
-            }
-            set
-            {
-                DotList[0] = value;
-            }
+            get => DotList[0];
+            set => DotList[0] = value;
         }
 
         /// <summary>
@@ -43,14 +37,8 @@ namespace GraphicsEditor.Model
         /// </summary>
         public Point EndPoint
         {
-            get
-            {
-                return DotList.Last();
-            }
-            set
-            {
-                DotList[DotList.Count-1] = value;
-            }
+            get => DotList.Last();
+            set => DotList[DotList.Count-1] = value;
         }
 
         /// <summary>
@@ -58,14 +46,8 @@ namespace GraphicsEditor.Model
         /// </summary>
         public PenSettings Pen
         {
-            get
-            {
-                return _pen;
-            }
-            set
-            {
-                _pen = value;
-            }
+            get => _pen;
+            set => _pen = value;
         }
 
         /// <summary>
@@ -73,30 +55,14 @@ namespace GraphicsEditor.Model
         /// </summary>
         public List<Point> DotList
         {
-            get
-            {
-                return _dotList; 
-            }
+            get => _dotList;
             set
             {
-                if (value.Count < 2)
-                {
-                    throw new Exception("Нельзя создать линию из одной точки!");
-                }
-                else
+                if (value.Count > 2)
                 {
                     _dotList = value;
                 }
             }
-        }
-
-        /// <summary>
-        /// Добавить точку
-        /// </summary>
-        /// <param name="point">Добавляемая точка</param>
-        public void AddPoint(Point point)
-        {
-            _dotList.Add(point);
         }
 
         /// <summary>

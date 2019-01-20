@@ -8,7 +8,7 @@ namespace GraphicsEditor.Model
     /// 
     /// </summary>
     [Serializable]
-    class Circle : Ellipse, IDrawable, IBrushable
+    public class Circle : Ellipse, IDrawable, IBrushable
     {
         /// <summary>
         /// Конструктор круга
@@ -16,6 +16,7 @@ namespace GraphicsEditor.Model
         /// <param name="_startPoint">Точка старта</param>
         /// <param name="_endPoint">Точка конца</param>
         /// <param name="_pen"></param>
-        public Circle(Point _startPoint, Point _endPoint, PenSettings _pen) : base(_startPoint, _endPoint, _pen){}
+        public Circle(Point _startPoint, Point _endPoint, PenSettings _pen)
+            : base(_startPoint, _endPoint, _pen){}
     }
 }

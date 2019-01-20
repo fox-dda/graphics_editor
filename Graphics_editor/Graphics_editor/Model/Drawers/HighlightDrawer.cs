@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor.Model.Drawers
 {
@@ -26,56 +27,19 @@ namespace GraphicsEditor.Model.Drawers
                 DashPattern = new float[] { 2, 2 }
             };
 
-            int minX = frameItem.StartPoint.X;
-            int maxX = frameItem.StartPoint.X;
-            int minY = frameItem.StartPoint.Y;
-            int maxY = frameItem.StartPoint.Y;
+            var minX = frameItem.StartPoint.X;
+            var maxX = frameItem.StartPoint.X;
+            var minY = frameItem.StartPoint.Y;
+            var maxY = frameItem.StartPoint.Y;
 
-            if (frameItem is Polygon)
+            if (frameItem is IMultipoint)
             {
-                foreach (Point point in (frameItem as Polygon).DotList)
+                foreach (Point point in (frameItem as IMultipoint).DotList)
                 {
-                    if (minX > point.X)
-                    {
-                        minX = point.X;
-                    }
-                    if (maxX < point.X)
-                    {
-                        maxX = point.X;
-                    }
-                    if (minY > point.Y)
-                    {
-                        minY = point.Y;
-                    }
-                    if (maxY < point.Y)
-                    {
-                        maxY = point.Y;
-                    }
-                }
-                startPoint = new Point(minX, minY);
-                endPoint = new Point(maxX, maxY);
-            }
-
-            else if (frameItem is Polyline)
-            {
-                foreach (Point point in (frameItem as Polyline).DotList)
-                {
-                    if (minX > point.X)
-                    {
-                        minX = point.X;
-                    }
-                    if (maxX < point.X)
-                    {
-                        maxX = point.X;
-                    }
-                    if (minY > point.Y)
-                    {
-                        minY = point.Y;
-                    }
-                    if (maxY < point.Y)
-                    {
-                        maxY = point.Y;
-                    }
+                    minX = Math.Min(minX, point.X);
+                    maxX = Math.Max(maxX, point.X);
+                    minY = Math.Min(minY, point.Y);
+                    maxY = Math.Max(maxY, point.Y);
                 }
                 startPoint = new Point(minX, minY);
                 endPoint = new Point(maxX, maxY);
@@ -85,13 +49,7 @@ namespace GraphicsEditor.Model.Drawers
                 var size = Math.Abs(endPoint.X - startPoint.X) > Math.Abs(endPoint.Y - startPoint.Y) ?
                 Math.Abs(endPoint.X - startPoint.X) : Math.Abs(endPoint.Y - startPoint.Y);
 
-                //сверху вниз слево направа
-                if ((startPoint.Y < endPoint.Y) && (startPoint.X < endPoint.X))
-                {
-
-                }
-                //сверху вниз справа налево
-                else if ((startPoint.Y < endPoint.Y) && (startPoint.X > endPoint.X))
+                if ((startPoint.Y < endPoint.Y) && (startPoint.X > endPoint.X))
                 {
                     startPoint = new Point(startPoint.X - size, startPoint.Y);
                 }
@@ -113,6 +71,7 @@ namespace GraphicsEditor.Model.Drawers
                 endPoint = frameItem.EndPoint;
             }
 
+            
             if ((startPoint.Y < endPoint.Y) && (startPoint.X < endPoint.X))
             {
                 graphics.DrawRectangle(_pen, startPoint.X, startPoint.Y,
@@ -138,16 +97,10 @@ namespace GraphicsEditor.Model.Drawers
                     Math.Abs(endPoint.X - startPoint.X), Math.Abs(endPoint.Y - startPoint.Y));
             }
             
-            if ((frameItem is Polyline) || (frameItem is Polygon))
+            if ((frameItem is IMultipoint multipoint))
             {
-                if(frameItem is Polyline)
-                    foreach (Point dot in (frameItem as Polyline).DotList)
-                    {
-                        graphics.DrawRectangle(new Pen(Color.Red), dot.X, dot.Y, 4, 4);
-                        graphics.FillEllipse(new SolidBrush(Color.Blue), dot.X, dot.Y, 3, 3);
-                    }
-                else
-                    foreach (Point dot in (frameItem as Polygon).DotList)
+                if(multipoint is IMultipoint)
+                    foreach (Point dot in multipoint.DotList)
                     {
                         graphics.DrawRectangle(new Pen(Color.Red), dot.X, dot.Y, 4, 4);
                         graphics.FillEllipse(new SolidBrush(Color.Blue), dot.X, dot.Y, 3, 3);

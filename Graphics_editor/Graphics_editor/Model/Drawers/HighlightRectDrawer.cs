@@ -27,26 +27,30 @@ namespace GraphicsEditor.Model.Drawers
             if ((startPoint.Y < endPoint.Y) && (startPoint.X < endPoint.X))
             {
                 graphics.DrawRectangle(pen, startPoint.X, startPoint.Y,
-                    Math.Abs(endPoint.X - startPoint.X), Math.Abs(endPoint.Y - startPoint.Y));
+                    Math.Abs(endPoint.X - startPoint.X),
+                    Math.Abs(endPoint.Y - startPoint.Y));
             }
             //сверху вниз справа налево
             else if ((startPoint.Y < endPoint.Y) && (startPoint.X > endPoint.X))
             {
                 graphics.DrawRectangle(pen, endPoint.X, startPoint.Y,
-                    Math.Abs(endPoint.X - startPoint.X), Math.Abs(endPoint.Y - startPoint.Y));
+                    Math.Abs(endPoint.X - startPoint.X),
+                    Math.Abs(endPoint.Y - startPoint.Y));
             }
             //cнизу вверх слево на права
             else if ((startPoint.Y > endPoint.Y) && (startPoint.X < endPoint.X))
             {
                 graphics.DrawRectangle(pen, startPoint.X, endPoint.Y,
-                    Math.Abs(endPoint.X - startPoint.X), Math.Abs(endPoint.Y - startPoint.Y));
+                    Math.Abs(endPoint.X - startPoint.X),
+                    Math.Abs(endPoint.Y - startPoint.Y));
             }
 
             //cнизу вверх справа налево
             else if ((startPoint.Y > endPoint.Y) && (startPoint.X > endPoint.X))
             {
                 graphics.DrawRectangle(pen, endPoint.X, endPoint.Y,
-                    Math.Abs(endPoint.X - startPoint.X), Math.Abs(endPoint.Y - startPoint.Y));
+                    Math.Abs(endPoint.X - startPoint.X),
+                    Math.Abs(endPoint.Y - startPoint.Y));
             }
         }
 

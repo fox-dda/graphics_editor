@@ -12,7 +12,7 @@ namespace GraphicsEditor.Model
     /// Линия
     /// </summary>
     [Serializable]
-    class Line : IDrawable
+    public class Line : IDrawable
     {
         /// <summary>
         /// Настройки пера

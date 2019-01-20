@@ -19,11 +19,11 @@ namespace GraphicsEditor.Model.Drawers
         /// <param name="graphics">Ядро отрисовки</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
-            var brush = (shape as IBrushable).BrushColor;
-            var dotList = (shape as Polygon).DotList.ToArray();
+            var brush = ((IBrushable) shape).BrushColor;
+            var dotList = (shape as Polygon)?.DotList.ToArray();
             var pen = DraftFactory.CreatePen(shape.Pen);
-            if (brush != null)
-                graphics.FillPolygon(new SolidBrush(brush), dotList);
+
+            graphics.FillPolygon(new SolidBrush(brush), dotList);
             graphics.DrawPolygon(pen, dotList);
         }
     }

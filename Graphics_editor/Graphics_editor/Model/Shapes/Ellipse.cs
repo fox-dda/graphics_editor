@@ -12,21 +12,15 @@ namespace GraphicsEditor.Model
     /// Эллипс
     /// </summary>
     [Serializable]
-    class Ellipse : IDrawable, IBrushable
+    public class Ellipse : IDrawable, IBrushable
     {
         /// <summary>
         /// Цвет заливки
         /// </summary>
         public Color BrushColor
         {
-            get
-            {
-                return _brush;
-            }
-            set
-            {
-                _brush = value;
-            }
+            get => _brush;
+            set => _brush = value;
         }
 
         /// <summary>
@@ -54,14 +48,8 @@ namespace GraphicsEditor.Model
         /// </summary>
         public Point StartPoint
         {
-            get
-            {
-                return _startPoint;
-            }
-            set
-            {
-                _startPoint = value;
-            }
+            get => _startPoint;
+            set => _startPoint = value;
         }
 
         /// <summary>
@@ -69,14 +57,8 @@ namespace GraphicsEditor.Model
         /// </summary>
         public Point EndPoint
         {
-            get
-            {
-                return _endPoint;
-            }
-            set
-            {
-                _endPoint = value;
-            }
+            get => _endPoint;
+            set => _endPoint = value;
         }
 
         /// <summary>
@@ -84,14 +66,8 @@ namespace GraphicsEditor.Model
         /// </summary>
         public PenSettings Pen
         {
-            get
-            {
-                return _pen;
-            }
-            set
-            {
-                _pen = value;
-            }
+            get => _pen;
+            set => _pen = value;
         }
 
         /// <summary>

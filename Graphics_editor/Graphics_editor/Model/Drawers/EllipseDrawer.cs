@@ -26,8 +26,14 @@ namespace GraphicsEditor.Model.Drawers
             var pen = DraftFactory.CreatePen(shape.Pen);
 
             if (brush != null)
-                graphics.FillEllipse(new SolidBrush(brush), new RectangleF(StartPoint.X, StartPoint.Y,
-                -(StartPoint.X - EndPoint.X), -(StartPoint.Y - EndPoint.Y)));
+            {
+                graphics.FillEllipse(
+                    new SolidBrush(brush),
+                    new RectangleF(StartPoint.X, StartPoint.Y,
+                    -(StartPoint.X - EndPoint.X),
+                    -(StartPoint.Y - EndPoint.Y)));
+            }
+
             graphics.DrawEllipse(pen, new RectangleF(StartPoint.X, StartPoint.Y,
                 -(StartPoint.X - EndPoint.X), -(StartPoint.Y - EndPoint.Y)));
         }
