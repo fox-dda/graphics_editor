@@ -55,10 +55,10 @@ namespace GraphicsEditor.Engine
         /// </summary>
         /// <param name="draftPainter">Художник фигур</param>
         /// <param name="storage">Менеджер хранилища</param>
-        public DrawManager(DraftPainter draftPainter, DraftStorage storage)
+        public DrawManager(Graphics _paintCore)
         {
-            DraftPainter = draftPainter;
-            DraftStorageManager = new StorageManager(storage);
+            DraftPainter = new DraftPainter(_paintCore);
+            DraftStorageManager = new StorageManager(new DraftStorage());
             State = new PainterState();
             DraftPainter.State = State;
             DraftPainter.Corrector = DraftStorageManager;

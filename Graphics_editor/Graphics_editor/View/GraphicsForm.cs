@@ -13,9 +13,7 @@ namespace GraphicsEditor
     {
         private DrawManager _drawManager;
         private DraftClipboard _buffer = new DraftClipboard();
-        private DraftStorage _storage = new DraftStorage();
         private Graphics _paintCore;
-        private DraftPainter _draftPainter;
         private SelectionPanel _highlightPanel;
 
 
@@ -33,14 +31,13 @@ namespace GraphicsEditor
             Bitmap btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
             mainPictureBox.Image = btm;
             _paintCore = Graphics.FromImage(btm);
-            _draftPainter = new DraftPainter(_paintCore);
-            _drawManager = new DrawManager(_draftPainter, _storage);
+            _drawManager = new DrawManager(_paintCore);
 
             _highlightPanel = new SelectionPanel() { StorageManager = _drawManager.DraftStorageManager };
             Controls.Add(_highlightPanel);
             rightGroupBox.Controls.Add(_highlightPanel);
             _highlightPanel.Location = new Point(3, 2);
-            _highlightPanel.ModelChanged += _draftPainter.RefreshCanvas;
+            _highlightPanel.ModelChanged += _drawManager.DraftPainter.RefreshCanvas;
             _highlightPanel.ModelChanged += mainPictureBox.Invalidate;
         }
 
@@ -104,7 +101,7 @@ namespace GraphicsEditor
 
         private void refreshPen()
         {
-            _drawManager.DraftPainter.Parameters.GPen = new PenSettings() { Color = _draftPainter.Parameters.GPen.Color, Width = (float)thicknessNumericUpDown.Value, DashPattern = _draftPainter.Parameters.GPen.DashPattern };
+            _drawManager.DraftPainter.Parameters.GPen = new PenSettings() { Color = _drawManager.DraftPainter.Parameters.GPen.Color, Width = (float)thicknessNumericUpDown.Value, DashPattern = _drawManager.DraftPainter.Parameters.GPen.DashPattern };
             if (penStrokeWidthNumericUpDown.Value > 0)
                 _drawManager.DraftPainter.Parameters.DashPattern = new float[]
                 {
@@ -125,7 +122,7 @@ namespace GraphicsEditor
             Bitmap btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
             mainPictureBox.Image = btm;
             _paintCore = Graphics.FromImage(btm);
-            _draftPainter.Painter = _paintCore;
+            _drawManager.DraftPainter.Painter = _paintCore;
             _drawManager.DraftPainter.RefreshCanvas();
             mainPictureBox.Invalidate();
         }
@@ -149,7 +146,7 @@ namespace GraphicsEditor
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
         {
             _drawManager.KeyProcess(e, _buffer);
-            _draftPainter.RefreshCanvas();
+            _drawManager.DraftPainter.RefreshCanvas();
             RefreshView();
         }
 
@@ -206,7 +203,7 @@ namespace GraphicsEditor
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
             _drawManager.DraftStorageManager.DiscardAll();
-            _draftPainter.RefreshCanvas();
+            _drawManager.DraftPainter.RefreshCanvas();
             mainPictureBox.Invalidate();
 
             if (saveDialog.ShowDialog() == DialogResult.OK)
