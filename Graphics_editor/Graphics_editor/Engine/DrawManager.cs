@@ -66,6 +66,11 @@ namespace GraphicsEditor.Engine
         private StorageManager _draftStorageManager;
 
         /// <summary>
+        /// Поисковик фигур на канве
+        /// </summary>
+        private Selector _selector;
+
+        /// <summary>
         /// Конструктор менеджера рисования
         /// </summary>
         /// <param name="draftPainter">Художник фигур</param>
@@ -77,6 +82,7 @@ namespace GraphicsEditor.Engine
             State = new PainterState();
             DraftPainter.State = State;
             DraftPainter.Corrector = DraftStorageManager;
+            _selector = new Selector();
         }
 
         /// <summary>
@@ -231,7 +237,7 @@ namespace GraphicsEditor.Engine
                     State.InProcessPoints.Add(e.Location);
                     if (DraftStorageManager.HighlightDraftStorage.Count > 0)
                     {// меняем стратегию если найдена опорная точка
-                        var refDot = Selector.SearchReferenceDot(
+                        var refDot = _selector.SearchReferenceDot(
                             e.Location, 
                             DraftStorageManager.HighlightDraftStorage);
                         if (refDot.Draft != null)
@@ -240,13 +246,13 @@ namespace GraphicsEditor.Engine
                             State.UndrawableDraft = refDot.Draft;
 
                             State.DragDropDot.Draft = DraftFactory.Clone(refDot.Draft);
-                            State.DragDropDot.PointInDraft = Selector.SearchReferenceDot(
+                            State.DragDropDot.PointInDraft = _selector.SearchReferenceDot(
                                 e.Location,
                                 new List<IDrawable>{ State.DragDropDot.Draft }).PointInDraft;
                         }
                         else
                         {
-                            var shape = Selector.PointSearch(
+                            var shape = _selector.PointSearch(
                                 e.Location,
                                 DraftStorageManager.HighlightDraftStorage);
                             if (shape != null)
@@ -287,7 +293,7 @@ namespace GraphicsEditor.Engine
         private void DotSelection(Point mousePoint)
         {
             DraftStorageManager.DiscardAll();
-            var selectedDraft = Selector.PointSearch(
+            var selectedDraft = _selector.PointSearch(
                 mousePoint,
                 DraftStorageManager.PaintedDraftStorage);
 
@@ -314,7 +320,7 @@ namespace GraphicsEditor.Engine
             if (State.CacheLasso != null)
             {
                 DraftStorageManager.HighlightingDraftRange(
-                    Selector.LassoSearch(
+                    _selector.LassoSearch(
                         State.CacheLasso,
                         DraftStorageManager.PaintedDraftStorage));
                 DraftPainter.RefreshCanvas();
