@@ -19,7 +19,8 @@ namespace GraphicsEditor.Model.Drawers
         /// <param name="graphics">Ядро рисования</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
-            graphics.DrawLine(DraftFactory.CreatePen(shape.Pen),
+            var factory = new DraftFactory();
+            graphics.DrawLine(ConvertPen(shape.Pen),
                 shape.StartPoint,
                 shape.EndPoint);
         }     

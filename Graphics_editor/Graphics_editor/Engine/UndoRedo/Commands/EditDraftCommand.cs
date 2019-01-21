@@ -96,7 +96,8 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         public EditDraftCommand(IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
         {
             _editedDraft = draft;
-            _backUpDraft = DraftFactory.Clone(draft);
+            var factory = new DraftFactory();
+            _backUpDraft = factory.Clone(draft);
             _pointList = pointList;
             _penSettings = pen;
             _brush = brush;

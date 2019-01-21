@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
+using System.Runtime.Remoting.Messaging;
 using GraphicsEditor.Model;
 using GraphicsEditor.Model.Drawers;
 using GraphicsEditor.Enums;
@@ -45,6 +46,20 @@ namespace GraphicsEditor.Engine
         /// Ядро рисования
         /// </summary>
         private Graphics _painter;
+
+        /// <summary>
+        /// Фабрика фигур
+        /// </summary>
+        private DraftFactory _draftFactory;
+
+        /// <summary>
+        /// Фабрика фигур
+        /// </summary>
+        public DraftFactory DraftFactory
+        {
+            get => _draftFactory;
+            set => _draftFactory = value;
+        }
 
         /// <summary>
         /// Менеджер хранилища

@@ -73,6 +73,7 @@
     <Compile Include="Engine\DraftStorage.cs" />
     <Compile Include="Engine\DraftPainter.cs" />
     <Compile Include="Engine\PainterState.cs" />
+    <Compile Include="Engine\PenFactory.cs" />
     <Compile Include="Engine\UndoRedo\Commands\AddDraftCommand.cs" />
     <Compile Include="Engine\UndoRedo\Commands\AddRangeDraftsCommand.cs" />
     <Compile Include="Engine\UndoRedo\Commands\ClearStorageCommand.cs" />

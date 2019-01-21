@@ -20,7 +20,7 @@ namespace GraphicsEditor.Model.Drawers
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
             var dotList = (shape as Polyline)?.DotList;
-            var pen = DraftFactory.CreatePen(shape.Pen);
+            var pen = ConvertPen(shape.Pen);
 
             for (int i = 0; i < dotList.Count - 1; i++)
                 graphics.DrawLine(pen,

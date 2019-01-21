@@ -23,7 +23,7 @@ namespace GraphicsEditor.Model.Drawers
             var StartPoint = ellipse.StartPoint;
             var EndPoint = ellipse.EndPoint;
             var brush = (ellipse as IBrushable).BrushColor;
-            var pen = DraftFactory.CreatePen(shape.Pen);
+            var pen = ConvertPen(shape.Pen);
 
             if (brush != null)
             {

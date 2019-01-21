@@ -202,7 +202,8 @@ namespace GraphicsEditor
                     selectObjectEPXMaskedTextBox.Text = "";
                     selectObjectEPYMaskedTextBox.Text = "";
 
-                    var type = DraftFactory.CheckUniformity(Drafts);
+                    var factory = new DraftFactory();
+                    var type = factory.CheckUniformity(Drafts);
 
                     if (type == null)
                     {

@@ -11,7 +11,7 @@ namespace GraphicsEditor
     /// <summary>
     /// Фабрика фигур
     /// </summary>
-    static class DraftFactory
+    public class DraftFactory
     {
         /// <summary>
         /// Создать фигуру
@@ -21,7 +21,7 @@ namespace GraphicsEditor
         /// <param name="gPen">Перо</param>
         /// <param name="brushColor">Цвет заливки</param>
         /// <returns>Созданная фигура</returns>
-        public static IDrawable CreateDraft(Figure figure, List<Point> pointList,
+        public IDrawable CreateDraft(Figure figure, List<Point> pointList,
             PenSettings gPen, Color brushColor)
         {
             switch (figure)
@@ -50,7 +50,7 @@ namespace GraphicsEditor
         /// </summary>
         /// <param name="figure">Фигура</param>
         /// <returns>Стратегия</returns>
-        public static Strategy DefineStrategy(Figure figure)
+        public Strategy DefineStrategy(Figure figure)
         {
             switch (figure)
             {
@@ -70,26 +70,11 @@ namespace GraphicsEditor
         }
 
         /// <summary>
-        /// Создать перо
-        /// </summary>
-        /// <param name="settings">Настройки пера</param>
-        /// <returns>Перо</returns>
-        public static Pen CreatePen(PenSettings settings)
-        {
-            return settings.DashPattern != null ?
-                new Pen(settings.Color, settings.Width)
-                {
-                    DashPattern = settings.DashPattern
-                } :
-                new Pen(settings.Color, settings.Width);
-        }
-
-        /// <summary>
         /// Создать клон фигуры
         /// </summary>
         /// <param name="draft">Клонируемая фигура</param>
         /// <returns>Клон фигуры</returns>
-        public static IDrawable Clone(IDrawable draft)
+        public IDrawable Clone(IDrawable draft)
         {
             var cloneList = new List<Point>();
             if (draft is IMultipoint multipoint)
@@ -155,7 +140,7 @@ namespace GraphicsEditor
         /// </summary>
         /// <param name="draftList">Список фигур</param>
         /// <returns>Тип однородных фигур</returns>
-        public static Type CheckUniformity(List<IDrawable> draftList)
+        public Type CheckUniformity(List<IDrawable> draftList)
         {
             if (draftList == null)
                 return null;

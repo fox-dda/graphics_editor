@@ -14,6 +14,11 @@ namespace GraphicsEditor
         private List<IDrawable> _clipboard = new List<IDrawable>();
 
         /// <summary>
+        /// Фабрика фигур для клонирования
+        /// </summary>
+        private DraftFactory factory = new DraftFactory();
+
+        /// <summary>
         /// Записать в буфер ряд объектов
         /// </summary>
         /// <param name="items">Записываемые объекты</param>
@@ -22,7 +27,7 @@ namespace GraphicsEditor
             _clipboard.Clear();
             foreach(var item in items)
             {
-                _clipboard.Add(DraftFactory.Clone(item));
+                _clipboard.Add(factory.Clone(item));
             }
         }
 
@@ -36,7 +41,7 @@ namespace GraphicsEditor
 
             foreach (var item in _clipboard)
             {
-               returnList.Add(DraftFactory.Clone(item));
+               returnList.Add(factory.Clone(item));
             }
             return returnList;
         }

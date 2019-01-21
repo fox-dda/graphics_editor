@@ -23,7 +23,7 @@ namespace GraphicsEditor.Model.Drawers
             var startPoint = circle.StartPoint;
             var endPoint = circle.EndPoint;
             var brush = (circle as IBrushable).BrushColor;
-            var pen = DraftFactory.CreatePen(circle.Pen);
+            var pen = ConvertPen(circle.Pen);
             var size = Math.Abs(endPoint.X - startPoint.X) >
                        Math.Abs(endPoint.Y - startPoint.Y) ?
                 Math.Abs(endPoint.X - startPoint.X) :

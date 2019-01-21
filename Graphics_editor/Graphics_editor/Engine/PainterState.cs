@@ -22,7 +22,8 @@ namespace GraphicsEditor.Engine
         {
             get
             {
-                return DraftFactory.DefineStrategy(Figure);
+                var factory = new DraftFactory();
+                return factory.DefineStrategy(Figure);
             }
         }
 

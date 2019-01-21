@@ -21,7 +21,8 @@ namespace GraphicsEditor.Model.Drawers
         {
             var startPoint = shape.StartPoint;
             var endPoint = shape.EndPoint;
-            var pen = DraftFactory.CreatePen(shape.Pen);
+            var factory = new DraftFactory();
+            var pen = ConvertPen(shape.Pen);
 
             //сверху вниз слево направа
             if ((startPoint.Y < endPoint.Y) && (startPoint.X < endPoint.X))

@@ -245,7 +245,7 @@ namespace GraphicsEditor.Engine
                             State.Figure = Figure.DragPoint;
                             State.UndrawableDraft = refDot.Draft;
 
-                            State.DragDropDot.Draft = DraftFactory.Clone(refDot.Draft);
+                            State.DragDropDot.Draft = DraftPainter.DraftFactory.Clone(refDot.Draft);
                             State.DragDropDot.PointInDraft = _selector.SearchReferenceDot(
                                 e.Location,
                                 new List<IDrawable>{ State.DragDropDot.Draft }).PointInDraft;
@@ -258,7 +258,7 @@ namespace GraphicsEditor.Engine
                             if (shape != null)
                             {
                                 State.Figure = Figure.DragDraft;
-                                State.DragDropDraft = DraftFactory.Clone(shape);
+                                State.DragDropDraft = DraftPainter.DraftFactory.Clone(shape);
                                 State.UndrawableDraft = shape;
                                 State.InProcessPoints.Add(e.Location);
                                 return;

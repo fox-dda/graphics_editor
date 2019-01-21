@@ -21,7 +21,7 @@ namespace GraphicsEditor.Model.Drawers
         {
             var brush = ((IBrushable) shape).BrushColor;
             var dotList = (shape as Polygon)?.DotList.ToArray();
-            var pen = DraftFactory.CreatePen(shape.Pen);
+            var pen = ConvertPen(shape.Pen);
 
             graphics.FillPolygon(new SolidBrush(brush), dotList);
             graphics.DrawPolygon(pen, dotList);
