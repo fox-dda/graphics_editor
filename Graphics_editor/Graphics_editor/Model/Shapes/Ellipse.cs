@@ -73,14 +73,14 @@ namespace GraphicsEditor.Model
         /// <summary>
         /// Конструктор эллипса
         /// </summary>
-        /// <param name="_startPoint">Точка старта</param>
-        /// <param name="_endPoint">Точка конца</param>
-        /// <param name="_pen">Настройки пера</param>
-        public Ellipse(Point _startPoint, Point _endPoint, PenSettings _pen)
+        /// <param name="startPoint">Точка старта</param>
+        /// <param name="endPoint">Точка конца</param>
+        /// <param name="pen">Настройки пера</param>
+        public Ellipse(Point startPoint, Point endPoint, PenSettings pen)
         {
-            StartPoint = _startPoint;
-            EndPoint = _endPoint;
-            Pen = _pen;
+            StartPoint = startPoint;
+            EndPoint = endPoint;
+            Pen = pen;
         }
     }
 }

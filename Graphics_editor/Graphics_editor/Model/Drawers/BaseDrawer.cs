@@ -19,8 +19,8 @@ namespace GraphicsEditor.Model.Drawers
         /// <summary>
         /// Конвертирование из настроке пера в перо
         /// </summary>
-        /// <param name="penSettings"></param>
-        /// <returns></returns>
+        /// <param name="penSettings">Настройки пера</param>
+        /// <returns>Перо</returns>
         public Pen ConvertPen(PenSettings penSettings)
         {
             var converter = new PenConventer();

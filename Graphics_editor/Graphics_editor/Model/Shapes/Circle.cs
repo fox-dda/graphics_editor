@@ -13,10 +13,10 @@ namespace GraphicsEditor.Model
         /// <summary>
         /// Конструктор круга
         /// </summary>
-        /// <param name="_startPoint">Точка старта</param>
-        /// <param name="_endPoint">Точка конца</param>
-        /// <param name="_pen"></param>
-        public Circle(Point _startPoint, Point _endPoint, PenSettings _pen)
-            : base(_startPoint, _endPoint, _pen){}
+        /// <param name="startPoint">Точка старта</param>
+        /// <param name="endPoint">Точка конца</param>
+        /// <param name="pen"></param>
+        public Circle(Point startPoint, Point endPoint, PenSettings pen)
+            : base(startPoint, endPoint, pen){}
     }
 }
