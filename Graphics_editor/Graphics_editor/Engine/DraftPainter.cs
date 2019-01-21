@@ -97,6 +97,7 @@ namespace GraphicsEditor.Engine
         {
             Painter = paintCore;
             Parameters = new PaintingParameters();
+            DraftFactory = new DraftFactory();
         }
 
         /// <summary>

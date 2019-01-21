@@ -16,10 +16,15 @@ namespace GraphicsEditor.Model.Drawers
         /// <param name="graphics">Ядро отрисовки</param>
         public abstract void DrawShape(IDrawable shape, Graphics graphics);
 
+        /// <summary>
+        /// Конвертирование из настроке пера в перо
+        /// </summary>
+        /// <param name="penSettings"></param>
+        /// <returns></returns>
         public Pen ConvertPen(PenSettings penSettings)
         {
-            var penFactory = new PenFactory();
-            return penFactory.CreatePen(penSettings);
+            var conventer = new PenConventer();
+            return conventer.ConvertToPen(penSettings);
         }
     }
 

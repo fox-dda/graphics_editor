@@ -8,14 +8,14 @@ using GraphicsEditor.Model.Shapes;
 
 namespace GraphicsEditor.Engine
 {
-    public class PenFactory
+    public class PenConventer
     {
         /// <summary>
         /// Создать перо
         /// </summary>
         /// <param name="settings">Настройки пера</param>
         /// <returns>Перо</returns>
-        public Pen CreatePen(PenSettings settings)
+        public Pen ConvertToPen(PenSettings settings)
         {
             return settings.DashPattern != null ?
                 new Pen(settings.Color, settings.Width)
