@@ -10,7 +10,7 @@ namespace GraphicsEditor.Model.Drawers
     /// <summary>
     /// Отрисовщик приямоугольника выделения
     /// </summary>
-    class HighlightRectDrawer: BaseDrawer
+    public class HighlightRectDrawer: BaseDrawer
     {
         /// <summary>
         /// Отрисовать приямоугольник выделения
@@ -21,7 +21,6 @@ namespace GraphicsEditor.Model.Drawers
         {
             var startPoint = shape.StartPoint;
             var endPoint = shape.EndPoint;
-            var factory = new DraftFactory();
             var pen = ConvertPen(shape.Pen);
 
             //сверху вниз слево направа

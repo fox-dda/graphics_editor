@@ -10,7 +10,7 @@ namespace GraphicsEditor.Model.Drawers
     /// <summary>
     /// Отрисовщик эллипсов
     /// </summary>
-    class EllipseDrawer: BaseDrawer
+    public class EllipseDrawer: BaseDrawer
     {
         /// <summary>
         /// Отрисовать эллипс

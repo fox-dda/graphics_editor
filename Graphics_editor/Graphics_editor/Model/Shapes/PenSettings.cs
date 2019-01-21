@@ -16,16 +16,16 @@ namespace GraphicsEditor.Model.Shapes
         /// <summary>
         /// Паттерн штрихов
         /// </summary>
-        public float[] DashPattern;
+        public float[] DashPattern { get; set; }
 
         /// <summary>
         /// Толщина пера
         /// </summary>
-        public float Width;
+        public float Width { get; set; }
 
         /// <summary>
         /// Цвет пера
         /// </summary>
-        public Color Color;
+        public Color Color { get; set; }
     }
 }

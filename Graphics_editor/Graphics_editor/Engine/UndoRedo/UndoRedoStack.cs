@@ -12,16 +12,6 @@ namespace GraphicsEditor.Engine.UndoRedo
     public class UndoRedoStack
     {
         /// <summary>
-        /// Стек отката команд
-        /// </summary>
-        private Stack<ICommand> _undo;
-
-        /// <summary>
-        /// Стек наката команд
-        /// </summary>
-        private Stack<ICommand> _redo;
-
-        /// <summary>
         /// Конструктор стека команд
         /// </summary>
         public UndoRedoStack()
@@ -34,38 +24,30 @@ namespace GraphicsEditor.Engine.UndoRedo
         /// </summary>
         public void Reset()
         {
-            _undo = new Stack<ICommand>();
-            _redo = new Stack<ICommand>();
+            UndoStack = new Stack<ICommand>();
+            RedoStack = new Stack<ICommand>();
         }
 
         /// <summary>
         /// Cтек отката
         /// </summary>
         /// <returns></returns>
-        public Stack<ICommand> UndoStack
-        {
-            get => _undo;
-        }
+        public Stack<ICommand> UndoStack { get; private set; }
 
         /// <summary>
         /// Стек наката
         /// </summary>
-        public Stack<ICommand> RedoStack
-        {
-            get => _redo;
-        }
+        public Stack<ICommand> RedoStack { get; private set; }
+
         /// <summary>
         /// Выполнить команду
         /// </summary>
         /// <param name="command"></param>
         public void Do(ICommand command)
         {
-            Console.WriteLine("Undo stack length = " + _undo.Count().ToString());
             command.Do();
-            _undo.Push(command);
-            _redo.Clear();
-            Console.WriteLine("Do " + command.GetType().ToString());
-            Console.WriteLine("Undo stack length = " + _undo.Count().ToString());
+            UndoStack.Push(command);
+            RedoStack.Clear();
         }
 
         /// <summary>
@@ -73,14 +55,11 @@ namespace GraphicsEditor.Engine.UndoRedo
         /// </summary>
         public void Undo()
         {
-            Console.WriteLine("Undo stack length = " + _undo.Count().ToString());
-            if (_undo.Count > 0)
+            if (UndoStack.Count > 0)
             {
-                ICommand command = _undo.Pop();
+                ICommand command = UndoStack.Pop();
                 command.Undo();
-                _redo.Push(command);
-                Console.WriteLine("Undo " + command.GetType().ToString());
-                Console.WriteLine("Undo stack length = " + _undo.Count().ToString());
+                RedoStack.Push(command);
             }
         }
         
@@ -89,14 +68,11 @@ namespace GraphicsEditor.Engine.UndoRedo
         /// </summary>
         public void Redo()
         {
-            Console.WriteLine("Undo stack length = " + _undo.Count().ToString());
-            if (_redo.Count > 0)
+            if (RedoStack.Count > 0)
             {
-                ICommand command = _redo.Pop();
+                ICommand command = RedoStack.Pop();
                 command.Do();
-                _undo.Push(command);
-                Console.WriteLine("Redo " + command.GetType().ToString());
-                Console.WriteLine("Undo stack length = " + _undo.Count().ToString());
+                UndoStack.Push(command);
             }
         }
     }

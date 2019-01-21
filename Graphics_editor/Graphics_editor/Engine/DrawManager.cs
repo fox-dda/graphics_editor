@@ -21,16 +21,7 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Художник фигур
         /// </summary>
-        public DraftPainter DraftPainter
-        {
-            get => _draftPainter;
-            set => _draftPainter = value;
-        }
-
-        /// <summary>
-        /// Художник фигур
-        /// </summary>
-        private DraftPainter _draftPainter;
+        public DraftPainter DraftPainter { get; set; }
 
         /// <summary>
         /// Стек комманд

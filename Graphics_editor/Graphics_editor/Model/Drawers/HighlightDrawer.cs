@@ -11,7 +11,7 @@ namespace GraphicsEditor.Model.Drawers
     /// <summary>
     /// Отрисовщик выделения
     /// </summary>
-    class HighlightDrawer: BaseDrawer
+    public class HighlightDrawer: BaseDrawer
     {
         /// <summary>
         /// Отрисовать выделеление
@@ -105,8 +105,8 @@ namespace GraphicsEditor.Model.Drawers
             
             if ((frameItem is IMultipoint multipoint))
             {
-                if(multipoint is IMultipoint)
-                    foreach (Point dot in multipoint.DotList)
+                if(multipoint is IMultipoint multipoint1)
+                    foreach (var dot in multipoint1.DotList)
                     {
                         graphics.DrawRectangle(new Pen(Color.Red),
                             dot.X, dot.Y, 4, 4);

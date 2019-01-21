@@ -10,7 +10,7 @@ namespace GraphicsEditor.Model.Drawers
     /// <summary>
     /// Отрисовщик полигонов
     /// </summary>
-    class PolygonDrawer: BaseDrawer
+    public class PolygonDrawer: BaseDrawer
     {
         /// <summary>
         /// Отрисовать полигон

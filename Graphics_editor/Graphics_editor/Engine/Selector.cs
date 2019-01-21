@@ -113,8 +113,10 @@ namespace GraphicsEditor
                 var fey = Math.Max(frame.StartPoint.Y, frame.EndPoint.Y);
                 var fex = Math.Max(frame.StartPoint.X, frame.EndPoint.X);
 
-                if ((sy > fsy) && (ey < fey) && (sx > fsx) && (ex < fex) )
+                if ((sy > fsy) && (ey < fey) && (sx > fsx) && (ex < fex))
+                {
                     findList.Add(draftList[i]);
+                }
             }
             return findList;
         }
@@ -155,18 +157,25 @@ namespace GraphicsEditor
                 {
                     foreach(Point point in multipoint.DotList)
                         {
-                        if (IsInRect(mousePoint, point, 6))
-                            dotInDraft.Set(draft, point);
-                    }
+                            if (IsInRect(mousePoint, point, 6))
+                            {
+                                dotInDraft.Set(draft, point);
+                            }
+                        }
                 }
                 else
                 {
                     if (IsInRect(mousePoint,
                         draft.StartPoint, 6))
+                    {
                         dotInDraft.Set(draft, draft.StartPoint);
+                    }
+
                     if (IsInRect(mousePoint,
                         draft.EndPoint, 6))
+                    {
                         dotInDraft.Set(draft, draft.EndPoint);
+                    }
                 }
             }
 

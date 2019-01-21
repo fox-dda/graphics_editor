@@ -10,7 +10,7 @@ namespace GraphicsEditor.Model.Drawers
    /// <summary>
    /// Отрисовщик линий
    /// </summary>
-    class LineDrawer: BaseDrawer
+    public class LineDrawer: BaseDrawer
     {
         /// <summary>
         /// Отрисовать линию

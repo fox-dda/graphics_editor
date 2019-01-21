@@ -10,7 +10,7 @@ namespace GraphicsEditor.Model.Drawers
     /// <summary>
     /// Отрисовщик полилиний
     /// </summary>
-    class PolylineDrawer: BaseDrawer
+    public class PolylineDrawer: BaseDrawer
     {
         /// <summary>
         /// Отрисовать полилинию
@@ -23,11 +23,13 @@ namespace GraphicsEditor.Model.Drawers
             var pen = ConvertPen(shape.Pen);
 
             for (int i = 0; i < dotList.Count - 1; i++)
+            {
                 graphics.DrawLine(pen,
                     dotList[i].X,
                     dotList[i].Y,
                     dotList[i + 1].X,
                     dotList[i + 1].Y);
+            }
         }
     }
 }

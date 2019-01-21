@@ -34,14 +34,8 @@ namespace GraphicsEditor.Model
         /// </summary>
         public Point StartPoint
         {
-            get
-            {
-                return _startPoint;
-            }
-            set
-            {
-                _startPoint = value;
-            }
+            get => _startPoint;
+            set => _startPoint = value;
         }
 
         /// <summary>
@@ -49,14 +43,8 @@ namespace GraphicsEditor.Model
         /// </summary>
         public Point EndPoint
         {
-            get
-            {
-                return _endPoint;
-            }
-            set
-            {
-                _endPoint = value;
-            }
+            get => _endPoint;
+            set => _endPoint = value;
         }
 
         /// <summary>
@@ -64,14 +52,8 @@ namespace GraphicsEditor.Model
         /// </summary>
         public PenSettings Pen
         {
-            get
-            {
-                return _pen;
-            }
-            set
-            {
-                _pen = value;
-            }
+            get => _pen;
+            set => _pen = value;
         }
 
         /// <summary>

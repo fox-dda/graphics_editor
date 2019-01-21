@@ -49,6 +49,9 @@ namespace GraphicsEditor
             set => _gPen = value;
         }
 
+        /// <summary>
+        /// Настройки пера
+        /// </summary>
         private PenSettings _gPen = new PenSettings { Color = Color.Black, Width = 1 };
 
         /// <summary>

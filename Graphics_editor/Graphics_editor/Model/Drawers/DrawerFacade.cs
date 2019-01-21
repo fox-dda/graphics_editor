@@ -16,6 +16,7 @@ namespace GraphicsEditor.Model.Drawers
         /// Словарь отрисовщиков фигур
         /// </summary>
         private readonly Dictionary<Type, BaseDrawer> _drawerDictionary = new Dictionary<Type, BaseDrawer>();
+
         /// <summary>
         /// Отрисовщик выделения
         /// </summary>

@@ -7,7 +7,7 @@
     <ProjectGuid>{3BAEAD32-2F21-49AF-A1FF-B46C94F75285}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Graphics_editor</RootNamespace>
-    <AssemblyName>Graphics_editor</AssemblyName>
+    <AssemblyName>GraphicsEditor</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

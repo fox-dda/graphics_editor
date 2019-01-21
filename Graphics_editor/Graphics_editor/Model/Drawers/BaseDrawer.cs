@@ -23,8 +23,8 @@ namespace GraphicsEditor.Model.Drawers
         /// <returns></returns>
         public Pen ConvertPen(PenSettings penSettings)
         {
-            var conventer = new PenConventer();
-            return conventer.ConvertToPen(penSettings);
+            var converter = new PenConventer();
+            return converter.ConvertToPen(penSettings);
         }
     }
 

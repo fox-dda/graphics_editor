@@ -120,9 +120,13 @@ namespace GraphicsEditor.DraftTools
         public void EditHighlightDraft(IDrawable draft)
         {
             if (HighlightDraftStorage.Contains(draft))
+            {
                 _storage.HighlightDraftsList.Remove(draft);
+            }
             else
+            {
                 _storage.HighlightDraftsList.Add(draft);
+            }
         }
 
         /// <summary>
