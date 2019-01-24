@@ -1,2 +1,2 @@
-# graphics_editor
+# GraphicsEditor
 Векторный графический редактор
