@@ -197,6 +197,7 @@ namespace GraphicsEditor.Engine
                     case Polyline polyline when (State.Figure == Figure.Polyline):
                         polyline.DotList[polyline.DotList.Count - 1] = mousePoint;
                         break;
+                            ///////////TO_DO поправить на интерфейс IMultipoint
                 }
             }
             _drawer.DrawShape(State.CacheDraft, Painter);

@@ -23,7 +23,7 @@ namespace GraphicsEditor.Model.Drawers
         private readonly HighlightDrawer _highlightDrawer;
 
         /// <summary>
-        /// Конструктор фасад отрисовщиков
+        /// Конструктор фасада отрисовщиков
         /// </summary>
         public DrawerFacade()
         {
@@ -43,6 +43,9 @@ namespace GraphicsEditor.Model.Drawers
         /// <param name="graphics">Ядро отрисовки</param>
         public void DrawShape(IDrawable shape, Graphics graphics)
         {
+            if (shape == null)
+                return;
+
             _drawerDictionary[shape.GetType()]?.DrawShape(shape, graphics);
         }
 

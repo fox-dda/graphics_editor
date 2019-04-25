@@ -9,7 +9,7 @@ namespace GraphicsEditor
     public class DraftClipboard
     {
         /// <summary>
-        /// Хранилище объектов буфера обена
+        /// Хранилище объектов буфера обмена
         /// </summary>
         private List<IDrawable> _clipboard = new List<IDrawable>();
 

@@ -392,7 +392,7 @@ namespace GraphicsEditor.Engine
         }
 
         /// <summary>
-        /// Сдвинуть точку в фигурк
+        /// Сдвинуть точку в фигуре
         /// </summary>
         /// <param name="dotInDraft">Точка в фигуре</param>
         /// <param name="newPoint">Новые координаты сдвинутой точки</param>
@@ -520,7 +520,6 @@ namespace GraphicsEditor.Engine
             buffer.SetRange(DraftStorageManager.HighlightDraftStorage);
             DraftStorageManager.RemoveRangeHighlightDrafts();
             DraftPainter.RefreshCanvas();
-
         }
 
         /// <summary>

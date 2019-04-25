@@ -153,9 +153,11 @@ namespace GraphicsEditor.DraftTools
         /// <param name="pointList">Новые точки</param>
         /// <param name="pen">Новое перо</param>
         /// <param name="brush">Новый цвет заливки</param>
-        public void EditDraft(IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
+        public void EditDraft(IDrawable draft, List<Point> pointList,
+            PenSettings pen, Color brush)
         {
-            _undoRedoStack.Do(_commandFactory.CreateEditDraftCommand(draft, pointList, pen, brush));
+            _undoRedoStack.Do(_commandFactory.CreateEditDraftCommand(
+                draft, pointList, pen, brush));
         }
 
         /// <summary>
