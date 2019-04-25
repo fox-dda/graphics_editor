@@ -6,8 +6,7 @@ using GraphicsEditor.Enums;
 using System.Reflection;
 using System.Windows.Forms.VisualStyles;
 using GraphicsEditor.Engine;
-using GraphicsEditor.Model.Shapes;
-
+using SDK;
 
 namespace GraphicsEditor
 {

@@ -6,7 +6,7 @@ using GraphicsEditor.Model;
 using GraphicsEditor.Model.Drawers;
 using GraphicsEditor.Enums;
 using GraphicsEditor.DraftTools;
-using GraphicsEditor.Model.Shapes;
+using SDK;
 
 namespace GraphicsEditor.Engine
 {

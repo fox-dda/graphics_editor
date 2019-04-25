@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GraphicsEditor.Model;
-using GraphicsEditor.Model.Shapes;
+using SDK;
 using GraphicsEditor.Enums;
 using System.Drawing;
 using System.Linq;

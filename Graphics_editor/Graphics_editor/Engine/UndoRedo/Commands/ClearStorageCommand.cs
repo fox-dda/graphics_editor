@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GraphicsEditor.Model;
+using SDK;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
 {

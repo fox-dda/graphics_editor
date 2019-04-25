@@ -3,7 +3,7 @@ using System.Drawing;
 using System;
 using GraphicsEditor.Model;
 using System.Windows.Forms;
-using GraphicsEditor.Model.Shapes;
+using SDK;
 
 namespace GraphicsEditor
 {

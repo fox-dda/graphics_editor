@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using GraphicsEditor.Model.Shapes;
+using SDK;
 
 namespace GraphicsEditor
 {

@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using GraphicsEditor.Model;
-using GraphicsEditor.Model.Shapes;
 using System.Windows.Forms;
+using SDK;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
 {

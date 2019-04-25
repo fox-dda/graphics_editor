@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using GraphicsEditor.DraftTools;
-using GraphicsEditor.Model.Shapes;
 using System.Windows.Forms;
-using GraphicsEditor.Model;
+using SDK;
 
 namespace GraphicsEditor
 {

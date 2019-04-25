@@ -9,7 +9,7 @@ using GraphicsEditor.DraftTools;
 using System.IO;
 using GraphicsEditor.Engine.UndoRedo;
 using GraphicsEditor.Engine.UndoRedo.Commands;
-using GraphicsEditor.Model.Shapes;
+using SDK;
 
 namespace GraphicsEditor.Engine
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using GraphicsEditor.Model;
-using GraphicsEditor.Model.Shapes;
+using SDK;
 using GraphicsEditor.Engine.UndoRedo;
 using GraphicsEditor.Engine.UndoRedo.Commands;
 
