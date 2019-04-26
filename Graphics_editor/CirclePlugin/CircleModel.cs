@@ -2,18 +2,22 @@
 using SDK;
 using System.Drawing;
 
-namespace LinePlugin
+namespace CirclePlugin
 {
     /// <summary>
-    /// Линия
+    /// Эллипс
     /// </summary>
     [Serializable]
-    public class Line : IDrawable
+    public class CircleModel : IDrawable, IBrushable
     {
         /// <summary>
-        /// Настройки пера
+        /// Цвет заливки
         /// </summary>
-        private PenSettings _pen;
+        public Color BrushColor
+        {
+            get => _brush;
+            set => _brush = value;
+        }
 
         /// <summary>
         /// Точка старта
@@ -26,7 +30,17 @@ namespace LinePlugin
         private Point _endPoint;
 
         /// <summary>
-        /// Точка начала
+        /// Настройки пера
+        /// </summary>
+        private PenSettings _pen;
+
+        /// <summary>
+        /// Цвет заливки
+        /// </summary>
+        protected Color _brush;
+
+        /// <summary>
+        /// Точка старта
         /// </summary>
         public Point StartPoint
         {
@@ -53,12 +67,12 @@ namespace LinePlugin
         }
 
         /// <summary>
-        /// Конструктор линии
+        /// Конструктор эллипса
         /// </summary>
         /// <param name="startPoint">Точка старта</param>
         /// <param name="endPoint">Точка конца</param>
         /// <param name="pen">Настройки пера</param>
-        public Line(Point startPoint, Point endPoint, PenSettings pen)
+        public CircleModel(Point startPoint, Point endPoint, PenSettings pen)
         {
             StartPoint = startPoint;
             EndPoint = endPoint;
@@ -66,3 +80,4 @@ namespace LinePlugin
         }
     }
 }
+

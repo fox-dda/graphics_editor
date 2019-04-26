@@ -188,17 +188,8 @@ namespace GraphicsEditor.Engine
             }
             else
             {
-                var cache = State.CacheDraft;
-                switch (cache)
-                {
-                    case Polygon polygon when (State.Figure == Figure.Polygon):
-                        polygon.DotList[polygon.DotList.Count - 1] = mousePoint;
-                        break;
-                    case Polyline polyline when (State.Figure == Figure.Polyline):
-                        polyline.DotList[polyline.DotList.Count - 1] = mousePoint;
-                        break;
-                            ///////////TO_DO поправить на интерфейс IMultipoint
-                }
+                IMultipoint multipoint = State.CacheDraft as IMultipoint;
+                multipoint.DotList[multipoint.DotList.Count - 1] = mousePoint;
             }
             _drawer.DrawShape(State.CacheDraft, Painter);
         }

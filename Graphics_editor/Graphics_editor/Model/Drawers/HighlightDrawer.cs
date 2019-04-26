@@ -44,7 +44,7 @@ namespace GraphicsEditor.Model.Drawers
                 startPoint = new Point(minX, minY);
                 endPoint = new Point(maxX, maxY);
             }
-            else if (frameItem is Circle)
+           /*/ else if (frameItem is Circle)
             {
                 var size = Math.Abs(endPoint.X - startPoint.X) >
                            Math.Abs(endPoint.Y - startPoint.Y) ?
@@ -66,7 +66,7 @@ namespace GraphicsEditor.Model.Drawers
                     startPoint = new Point(startPoint.X - size, startPoint.Y - size);
                 }
                 endPoint = new Point(startPoint.X + size, startPoint.Y + size);
-            }
+            }/*/
             else
             {
                 startPoint = frameItem.StartPoint;

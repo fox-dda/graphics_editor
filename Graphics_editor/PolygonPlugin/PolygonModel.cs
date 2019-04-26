@@ -10,7 +10,7 @@ namespace PolygonPlugin
     /// Полигон
     /// </summary>
     [Serializable]
-    public class Polygon : IDrawable, IBrushable, IMultipoint
+    public class PolygonModel : IDrawable, IBrushable, IMultipoint
     {
         /// <summary>
         /// Цвет заливки
@@ -83,7 +83,7 @@ namespace PolygonPlugin
         /// </summary>
         /// <param name="dotlist">Список точек</param>
         /// <param name="pen">Настройки пера</param>
-        public Polygon(List<Point> dotlist, PenSettings pen)
+        public PolygonModel(List<Point> dotlist, PenSettings pen)
         {
             Pen = pen;
             DotList = dotlist;

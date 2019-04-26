@@ -8,7 +8,7 @@ namespace EllipsePlugin
     /// Эллипс
     /// </summary>
     [Serializable]
-    public class Ellipse : IDrawable, IBrushable
+    public class EllipseModel : IDrawable, IBrushable
     {
         /// <summary>
         /// Цвет заливки
@@ -72,7 +72,7 @@ namespace EllipsePlugin
         /// <param name="startPoint">Точка старта</param>
         /// <param name="endPoint">Точка конца</param>
         /// <param name="pen">Настройки пера</param>
-        public Ellipse(Point startPoint, Point endPoint, PenSettings pen)
+        public EllipseModel(Point startPoint, Point endPoint, PenSettings pen)
         {
             StartPoint = startPoint;
             EndPoint = endPoint;

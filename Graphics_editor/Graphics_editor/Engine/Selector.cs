@@ -45,7 +45,7 @@ namespace GraphicsEditor
                         ey = Math.Max(ey, point.Y);
                     }
                 }
-                else if (draftList[i] is Circle)
+               /*/ else if (draftList[i] is Circle)
                 {
                     var size = Math.Abs(draftList[i].EndPoint.X - draftList[i].StartPoint.X) >
                                Math.Abs(draftList[i].EndPoint.Y - draftList[i].StartPoint.Y) ?
@@ -76,6 +76,7 @@ namespace GraphicsEditor
                     ex = draftList[i].StartPoint.X + size;
                     ey = draftList[i].StartPoint.Y + size;
                 }
+                /*/
 
                 if ((sy < my) && (sx < mx) && (ey > my) && (ex > mx))
                     return draftList[i];

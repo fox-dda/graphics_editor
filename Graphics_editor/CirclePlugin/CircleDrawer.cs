@@ -16,7 +16,7 @@ namespace CirclePlugin
         /// <param name="graphics">Ядро отрисовки</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
-            var circle = shape as Circle;
+            var circle = shape as CircleModel;
             var startPoint = circle.StartPoint;
             var endPoint = circle.EndPoint;
             var brush = (circle as IBrushable).BrushColor;
