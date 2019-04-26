@@ -8,7 +8,7 @@ namespace LinePlugin
     /// Линия
     /// </summary>
     [Serializable]
-    public class LineModel : IDrawable
+    public class LineModel : IDrawable, INamed
     {
         /// <summary>
         /// Настройки пера
@@ -50,6 +50,15 @@ namespace LinePlugin
         {
             get => _pen;
             set => _pen = value;
+        }
+
+        /// <summary>
+        /// Вернуть имя
+        /// </summary>
+        /// <returns></returns>
+        public string GetName()
+        {
+            return "Line";
         }
 
         /// <summary>

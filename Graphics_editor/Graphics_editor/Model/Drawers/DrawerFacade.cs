@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GraphicsEditor.Enums;
+using System.IO;
+using System.Reflection;
 using System.Drawing;
 using SDK;
 
@@ -16,7 +16,7 @@ namespace GraphicsEditor.Model.Drawers
         /// <summary>
         /// Словарь отрисовщиков фигур
         /// </summary>
-        private readonly Dictionary<Type, BaseDrawer> _drawerDictionary = new Dictionary<Type, BaseDrawer>();
+        private readonly Dictionary<string, BaseDrawer> _drawerDictionary = new Dictionary<string, BaseDrawer>();
 
         /// <summary>
         /// Отрисовщик выделения
@@ -28,12 +28,23 @@ namespace GraphicsEditor.Model.Drawers
         /// </summary>
         public DrawerFacade()
         {
-            _drawerDictionary.Add(typeof(Line), new LineDrawer());
-            _drawerDictionary.Add(typeof(Polyline), new PolylineDrawer());
-            _drawerDictionary.Add(typeof(Polygon), new PolygonDrawer());
-            _drawerDictionary.Add(typeof(Circle), new CircleDrawer());
-            _drawerDictionary.Add(typeof(Ellipse), new EllipseDrawer());
-            _drawerDictionary.Add(typeof(HighlightRect), new HighlightRectDrawer());
+            _drawerDictionary.Add("Selection", new HighlightRectDrawer());
+            DirectoryInfo drawersDirectory =
+                new DirectoryInfo(Directory.GetCurrentDirectory());
+            FileInfo[] drawersDlls = drawersDirectory.GetFiles("*Model.dll");
+            foreach (var drawerDll in drawersDlls)
+            {
+                var assembly = Assembly.LoadFrom(drawerDll.FullName);
+                foreach (var assemblyDefinedType in assembly.DefinedTypes)
+                {
+                    if (assemblyDefinedType.Name.Contains("Drawer"))
+                    {
+                        int cutAfter = drawerDll.Name.IndexOf("Model.dll", StringComparison.Ordinal);
+                        _drawerDictionary.Add(drawerDll.Name.Substring(0, cutAfter),
+                            (BaseDrawer)Activator.CreateInstance(assemblyDefinedType.AsType()));
+                    }
+                }
+            }
             _highlightDrawer = new HighlightDrawer();
         }
 
@@ -47,7 +58,7 @@ namespace GraphicsEditor.Model.Drawers
             if (shape == null)
                 return;
 
-            _drawerDictionary[shape.GetType()]?.DrawShape(shape, graphics);
+            _drawerDictionary[(shape as INamed).GetName()]?.DrawShape(shape, graphics);
         }
 
         /// <summary>

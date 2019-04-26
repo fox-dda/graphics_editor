@@ -10,7 +10,7 @@ namespace PolylinePlugin
     /// Полилиния
     /// </summary>
     [Serializable]
-    public class Polyline: IDrawable, IMultipoint
+    public class PolylineModel: IDrawable, IMultipoint, INamed
     {
         /// <summary>
         /// Настройки пера
@@ -65,11 +65,20 @@ namespace PolylinePlugin
         }
 
         /// <summary>
+        /// Вернуть имя
+        /// </summary>
+        /// <returns></returns>
+        public string GetName()
+        {
+            return "Polyline";
+        }
+
+        /// <summary>
         /// Конструктор полилинии
         /// </summary>
         /// <param name="dotlist">Список точек</param>
         /// <param name="pen">Настройки пера</param>
-        public Polyline(List<Point> dotlist, PenSettings pen)
+        public PolylineModel(List<Point> dotlist, PenSettings pen)
         {
             Pen = pen;
             DotList = dotlist;

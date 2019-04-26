@@ -10,7 +10,7 @@ namespace PolygonPlugin
     /// Полигон
     /// </summary>
     [Serializable]
-    public class PolygonModel : IDrawable, IBrushable, IMultipoint
+    public class PolygonModel : IDrawable, IBrushable, IMultipoint, INamed
     {
         /// <summary>
         /// Цвет заливки
@@ -76,6 +76,15 @@ namespace PolygonPlugin
                     _dotList = value;
                 }
             }
+        }
+
+        /// <summary>
+        /// Вернуть имя
+        /// </summary>
+        /// <returns></returns>
+        public string GetName()
+        {
+            return "Polygon";
         }
 
         /// <summary>

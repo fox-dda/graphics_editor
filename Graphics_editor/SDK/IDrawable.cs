@@ -9,7 +9,7 @@ namespace SDK
     public interface IDrawable
     {
         /// <summary>
-        /// 
+        /// Настройки пера
         /// </summary>
         PenSettings Pen { get; set; }
 

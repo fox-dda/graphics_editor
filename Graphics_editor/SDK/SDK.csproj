@@ -45,6 +45,7 @@
     <Compile Include="IBrushable.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="IMultipoint.cs" />
+    <Compile Include="INamed.cs" />
     <Compile Include="PenConverter.cs" />
     <Compile Include="PenSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -8,7 +8,7 @@ namespace EllipsePlugin
     /// Эллипс
     /// </summary>
     [Serializable]
-    public class EllipseModel : IDrawable, IBrushable
+    public class EllipseModel : IDrawable, IBrushable, INamed
     {
         /// <summary>
         /// Цвет заливки
@@ -64,6 +64,15 @@ namespace EllipsePlugin
         {
             get => _pen;
             set => _pen = value;
+        }
+
+       /// <summary>
+       /// Вернуть имя
+       /// </summary>
+       /// <returns></returns>
+        public string GetName()
+        {
+            return "Ellipse";
         }
 
         /// <summary>

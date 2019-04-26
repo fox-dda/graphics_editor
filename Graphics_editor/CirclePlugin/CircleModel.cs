@@ -8,7 +8,7 @@ namespace CirclePlugin
     /// Эллипс
     /// </summary>
     [Serializable]
-    public class CircleModel : IDrawable, IBrushable
+    public class CircleModel : IDrawable, IBrushable, INamed
     {
         /// <summary>
         /// Цвет заливки
@@ -64,6 +64,15 @@ namespace CirclePlugin
         {
             get => _pen;
             set => _pen = value;
+        }
+
+        /// <summary>
+        /// Верныть имя
+        /// </summary>
+        /// <returns></returns>
+        public string GetName()
+        {
+            return "Circle";
         }
 
         /// <summary>
