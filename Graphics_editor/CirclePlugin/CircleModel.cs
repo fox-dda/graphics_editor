@@ -87,6 +87,8 @@ namespace CirclePlugin
             EndPoint = endPoint;
             Pen = pen;
         }
+
+        public CircleModel() { }
     }
 }
 

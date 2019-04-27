@@ -73,5 +73,7 @@ namespace LinePlugin
             EndPoint = endPoint;
             Pen = pen;
         }
+
+        public LineModel() { }
     }
 }

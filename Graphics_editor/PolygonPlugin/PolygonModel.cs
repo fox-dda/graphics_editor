@@ -97,5 +97,7 @@ namespace PolygonPlugin
             Pen = pen;
             DotList = dotlist;
         }
+
+        public PolygonModel() { }
     }
 }

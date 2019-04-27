@@ -83,5 +83,7 @@ namespace PolylinePlugin
             Pen = pen;
             DotList = dotlist;
         }
+
+        public PolylineModel() { }
     }
 }

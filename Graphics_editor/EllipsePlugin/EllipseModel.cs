@@ -87,5 +87,7 @@ namespace EllipsePlugin
             EndPoint = endPoint;
             Pen = pen;
         }
+
+        public EllipseModel() { }
     }
 }
