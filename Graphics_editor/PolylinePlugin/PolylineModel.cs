@@ -10,7 +10,7 @@ namespace PolylinePlugin
     /// Полилиния
     /// </summary>
     [Serializable]
-    public class PolylineModel: IDrawable, IMultipoint, INamed
+    public class PolylineModel: IDrawable, IMultipoint, INamed, ICloneable
     {
         /// <summary>
         /// Настройки пера
@@ -71,6 +71,28 @@ namespace PolylinePlugin
         public string GetName()
         {
             return "Polyline";
+        }
+
+        /// <summary>
+        /// Клонировать
+        /// </summary>
+        /// <returns></returns>
+        public object Clone()
+        {
+            var cloneList = new List<Point>();
+            foreach (var point in DotList)
+            {
+                cloneList.Add(new Point(point.X, point.Y));
+            }
+
+            return new PolylineModel(
+                    cloneList,
+                    new PenSettings()
+                    {
+                        Color = Pen.Color,
+                        Width = Pen.Width,
+                        DashPattern = Pen.DashPattern
+                    });
         }
 
         /// <summary>

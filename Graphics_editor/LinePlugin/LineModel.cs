@@ -8,7 +8,7 @@ namespace LinePlugin
     /// Линия
     /// </summary>
     [Serializable]
-    public class LineModel : IDrawable, INamed
+    public class LineModel : IDrawable, INamed, ICloneable
     {
         /// <summary>
         /// Настройки пера
@@ -59,6 +59,23 @@ namespace LinePlugin
         public string GetName()
         {
             return "Line";
+        }
+
+        /// <summary>
+        /// Клонировать
+        /// </summary>
+        /// <returns></returns>
+        public object Clone()
+        {
+            return new LineModel(
+                new Point(StartPoint.X, StartPoint.Y),
+                new Point(EndPoint.X, EndPoint.Y),
+                new PenSettings()
+                {
+                    Color = Pen.Color,
+                    Width = Pen.Width,
+                    DashPattern = Pen.DashPattern
+                });
         }
 
         /// <summary>

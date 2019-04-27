@@ -8,7 +8,7 @@ namespace CirclePlugin
     /// Эллипс
     /// </summary>
     [Serializable]
-    public class CircleModel : IDrawable, IBrushable, INamed
+    public class CircleModel : IDrawable, IBrushable, INamed, ICloneable
     {
         /// <summary>
         /// Цвет заливки
@@ -73,6 +73,23 @@ namespace CirclePlugin
         public string GetName()
         {
             return "Circle";
+        }
+
+        /// <summary>
+        /// Клонировать
+        /// </summary>
+        /// <returns></returns>
+        public object Clone()
+        {
+            return new CircleModel(
+                new Point(StartPoint.X, StartPoint.Y),
+                new Point(EndPoint.X, EndPoint.Y),
+                new PenSettings()
+                {
+                    Color = Pen.Color,
+                    Width = Pen.Width,
+                    DashPattern = Pen.DashPattern
+                }){BrushColor = this.BrushColor };
         }
 
         /// <summary>
