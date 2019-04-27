@@ -60,7 +60,7 @@ namespace GraphicsEditor
             _highlightPanel.Location = new Point(3, 2);
             _highlightPanel.ModelChanged += _drawManager.DraftPainter.RefreshCanvas;
             _highlightPanel.ModelChanged += mainPictureBox.Invalidate;
-            var figureToolBox = new FigureToolBox();
+            var figureToolBox = new FigureToolBox(_drawManager.DraftPainter.State);
             leftGroupBox.Controls.Add(figureToolBox);
             figureToolBox.Location = new Point(6,12);
 
@@ -86,32 +86,12 @@ namespace GraphicsEditor
             mainPictureBox.Invalidate();
         }
 
-        private void lineButton_Click(object sender, EventArgs e)
-        {
-            _drawManager.State.Figure = Figure.Line;
-        }
-
-        private void polylineButton_Click(object sender, EventArgs e)
-        {
-            _drawManager.State.Figure = Figure.Polyline;
-        }
-
-        private void circleButton_Click(object sender, EventArgs e)
-        {
-            _drawManager.State.Figure = Figure.Circle;
-        }
-
         private void clearCanvasButton_Click(object sender, EventArgs e)
         {
             canvasColorpanel.BackColor = Color.White;
             _drawManager.DraftPainter.ClearCanvas();
             RefreshView();
             mainPictureBox.Invalidate();
-        }
-
-        private void ellipseButton_Click(object sender, EventArgs e)
-        {
-            _drawManager.State.Figure = Figure.Ellipse;
         }
 
         private void thicknessNumericUpDown_ValueChanged(object sender, EventArgs e)
@@ -160,12 +140,7 @@ namespace GraphicsEditor
 
         private void selectMouseButton_Click(object sender, EventArgs e)
         {
-            _drawManager.State.Figure = Figure.Select;
-        }
-
-        private void polygonButton_Click(object sender, EventArgs e)
-        {
-            _drawManager.State.Figure = Figure.Polygon;
+            _drawManager.State.Figure = "HighlightRect";
         }
         
         /// <summary>

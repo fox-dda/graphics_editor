@@ -191,7 +191,7 @@ namespace GraphicsEditor.Engine
                                 ? brushable.BrushColor
                                 : Color.White);
                     }
-                    State.Figure = Figure.Select;
+                    State.Figure = "HighlightRect";
                  //   State.DragDropDot.Draft = null;
                     State.DragDropDraft = null;
                     State.UndrawableDraft = null;
@@ -233,7 +233,7 @@ namespace GraphicsEditor.Engine
                             DraftStorageManager.HighlightDraftStorage);
                         if (refDot.Draft != null)
                         {
-                            State.Figure = Figure.DragPoint;
+                            State.Figure = "DragPoint";
                             State.UndrawableDraft = refDot.Draft;
 
                             State.DragDropDot.Draft = DraftPainter.DraftFactory.Clone(refDot.Draft);
@@ -248,7 +248,7 @@ namespace GraphicsEditor.Engine
                                 DraftStorageManager.HighlightDraftStorage);
                             if (shape != null)
                             {
-                                State.Figure = Figure.DragDraft;
+                                State.Figure = "DragDraft";
                                 State.DragDropDraft = DraftPainter.DraftFactory.Clone(shape);
                                 State.UndrawableDraft = shape;
                                 State.InProcessPoints.Add(e.Location);

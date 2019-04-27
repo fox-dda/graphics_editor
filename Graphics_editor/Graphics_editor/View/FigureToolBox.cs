@@ -10,9 +10,10 @@ namespace GraphicsEditor.View
 {
     public partial class FigureToolBox : UserControl
     {       
-        public FigureToolBox()
+        public FigureToolBox(PainterState painterState)
         {
             InitializeComponent();
+            _painterState = painterState;
             PluginLoader pluginloader = new PluginLoader();
             foreach (var name in pluginloader.LoadModels().Keys.ToList())
             {
@@ -23,12 +24,19 @@ namespace GraphicsEditor.View
             foreach (var model in _modelNames)
             {            
                 Button figureButton = new Button { Text = model };
-               // shapeButton.Click += new EventHandler(Activate);
+                figureButton.Click += new EventHandler(EditState);
                 figureButton.Location = new Point(10, verticalSpace);
                 toolGroupBox.Controls.Add(figureButton);
                 verticalSpace += figureButton.Height + 10;
             }
         }
+
+        public void EditState(object sender, EventArgs e)
+        {
+            _painterState.Figure = (sender as Button).Text;
+        }
+
+        private PainterState _painterState;
 
         private List<string> _modelNames = new List<string>();
 

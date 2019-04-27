@@ -5,6 +5,9 @@ using SDK;
 using GraphicsEditor.Enums;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
+using GraphicsEditor.Engine;
 
 namespace GraphicsEditor
 {
@@ -14,6 +17,19 @@ namespace GraphicsEditor
     public class DraftFactory
     {
         /// <summary>
+        /// Известные типы фигур
+        /// </summary>
+        private Dictionary<string, Type> _knownTypes;
+
+        public DraftFactory()
+        {
+            var pluginLoder = new PluginLoader();
+            _knownTypes = pluginLoder.LoadModels();
+            HighlightRect a = new HighlightRect();
+            _knownTypes.Add("HighlightRect", a.GetType()); //Type.GetType("HighlightRect"));
+        }
+
+        /// <summary>
         /// Создать фигуру
         /// </summary>
         /// <param name="figure">Фигура</param>
@@ -21,28 +37,27 @@ namespace GraphicsEditor
         /// <param name="gPen">Перо</param>
         /// <param name="brushColor">Цвет заливки</param>
         /// <returns>Созданная фигура</returns>
-        public IDrawable CreateDraft(Figure figure, List<Point> pointList,
+        public IDrawable CreateDraft(string figure, List<Point> pointList,
             PenSettings gPen, Color brushColor)
         {
-            switch (figure)
-            {/*/
-                case Figure.Polyline:
-                    return new Polyline(pointList, gPen);
-                case Figure.Polygon:
-                    return new Polygon(pointList, gPen) { BrushColor = brushColor };
-                case Figure.Line:
-                    return new Line(pointList[0], pointList.Last(), gPen);
-                case Figure.Circle:
-                    return new Circle(pointList[0], pointList.Last(), gPen)
-                        { BrushColor = brushColor };
-                case Figure.Ellipse:
-                    return new Ellipse(pointList[0], pointList.Last(), gPen)
-                        { BrushColor = brushColor };
-                case Figure.Select:
-                    return new HighlightRect(pointList[0], pointList.Last());/*/
-                default:
-                    return null;
+            var draft = (IDrawable)Activator.CreateInstance(_knownTypes[figure]);
+            draft.Pen = gPen;
+            if (draft is IBrushable brushableDraft)
+            {
+                brushableDraft.BrushColor = brushColor;
             }
+
+            if (draft is IMultipoint multipointDraft)
+            {
+                multipointDraft.DotList = pointList;
+            }
+            else
+            {
+                draft.StartPoint = pointList[0];
+                draft.EndPoint = pointList.Last();
+            }
+
+            return draft;
         }
 
         /// <summary>
@@ -50,22 +65,25 @@ namespace GraphicsEditor
         /// </summary>
         /// <param name="figure">Фигура</param>
         /// <returns>Стратегия</returns>
-        public Strategy DefineStrategy(Figure figure)
+        public Strategy DefineStrategy(string figure)
         {
-            switch (figure)
+            if (figure == "HighlightRect")
             {
-                case Figure.Line:
-                case Figure.Ellipse:
-                case Figure.Circle:
-                    return Strategy.TwoPoint;
-                case Figure.Polyline:
-                case Figure.Polygon:
-                    return Strategy.Multipoint;
-                case Figure.DragPoint:
-                case Figure.DragDraft:
-                    return Strategy.DragAndDrop;
-                default:
-                    return Strategy.Selection;
+                return Strategy.Selection;
+            }
+            else if (figure == "DragPoint" || figure == "DragDraft")
+            {
+                return Strategy.DragAndDrop;
+            }
+
+            var draft = (IDrawable)Activator.CreateInstance(_knownTypes[figure]);
+            if (draft is IMultipoint multipointDraft)
+            {
+                return Strategy.Multipoint;
+            }
+            else
+            {
+                return Strategy.TwoPoint;
             }
         }
 
@@ -76,63 +94,7 @@ namespace GraphicsEditor
         /// <returns>Клон фигуры</returns>
         public IDrawable Clone(IDrawable draft)
         {
-            var cloneList = new List<Point>();
-            if (draft is IMultipoint multipoint)
-            {
-                foreach (var point in multipoint.DotList)
-                {
-                    cloneList.Add(new Point(point.X, point.Y));
-                }
-            }
-
-            switch (draft)
-            {/*/
-                case Polygon polygon:
-                {
-                    return new Polygon(cloneList, polygon.Pen)
-                    {
-                        BrushColor = polygon.BrushColor
-                    };
-                }
-                case Polyline polyline:
-                {
-                    return new Polyline(cloneList, polyline.Pen);
-                }
-                case Circle circle:
-                    return new Circle(
-                            new Point(circle.StartPoint.X, circle.StartPoint.Y),
-                            new Point(circle.EndPoint.X, circle.EndPoint.Y),
-                            new PenSettings
-                            {
-                                Color = circle.Pen.Color,
-                                Width = circle.Pen.Width,
-                                DashPattern = circle.Pen.DashPattern
-                            })
-                        { BrushColor = circle.BrushColor};
-                case Ellipse ellipse:
-                    return new Ellipse(
-                            new Point(ellipse.StartPoint.X, ellipse.StartPoint.Y),
-                            new Point(ellipse.EndPoint.X, ellipse.EndPoint.Y),
-                            new PenSettings
-                            {
-                                Color = ellipse.Pen.Color,
-                                Width = ellipse.Pen.Width,
-                                DashPattern = ellipse.Pen.DashPattern
-                            })
-                        { BrushColor = ellipse.BrushColor };
-                case Line _:
-                    return new Line(
-                        new Point(draft.StartPoint.X, draft.StartPoint.Y),
-                        new Point(draft.EndPoint.X, draft.EndPoint.Y),
-                        new PenSettings
-                            {
-                                Color = draft.Pen.Color,
-                                Width = draft.Pen.Width,
-                                DashPattern = draft.Pen.DashPattern
-                            });/*/
-                default:
-                    return null;
-            }
+            return (IDrawable)(draft as ICloneable).Clone();
         }
 
         /// <summary>

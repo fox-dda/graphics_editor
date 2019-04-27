@@ -6,7 +6,7 @@ namespace GraphicsEditor.Model
     /// <summary>
     /// Рамка выделения
     /// </summary>
-    public class HighlightRect: IDrawable
+    public class HighlightRect: IDrawable, INamed
     {
         /// <summary>
         /// Точка старта
@@ -53,6 +53,11 @@ namespace GraphicsEditor.Model
             set => _endPoint = value;
         }
 
+        public string GetName()
+        {
+            return "HighlightRect";
+        }
+
         /// <summary>
         /// Консткуктор прямоугольника выделения
         /// </summary>
@@ -63,5 +68,7 @@ namespace GraphicsEditor.Model
             StartPoint = startPoint;
             EndPoint = endPoint;
         }
+
+        public HighlightRect() { }
     }
 }

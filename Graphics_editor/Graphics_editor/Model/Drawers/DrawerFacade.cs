@@ -27,11 +27,11 @@ namespace GraphicsEditor.Model.Drawers
         /// Конструктор фасада отрисовщиков
         /// </summary>
         public DrawerFacade()
-        {
-            _drawerDictionary.Add("Selection", new HighlightRectDrawer());
+        {         
             _highlightDrawer = new HighlightDrawer();
             var pluginLoader = new PluginLoader();
             _drawerDictionary = pluginLoader.LoadDrawers();
+            _drawerDictionary.Add("HighlightRect", new HighlightRectDrawer());
         }
 
         /// <summary>

@@ -26,7 +26,7 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Рисуемая фигура
         /// </summary>
-        private Figure _figure = Figure.Select;
+        private string _figure = "HighlightRect";
 
         /// <summary>
         /// Нерисуемая фигура
@@ -45,7 +45,7 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Рисуемая фигура
         /// </summary>
-        public Figure Figure
+        public string Figure
         {
             get => _figure;
             set
