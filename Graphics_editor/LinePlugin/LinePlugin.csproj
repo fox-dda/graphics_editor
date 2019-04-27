@@ -7,8 +7,8 @@
     <ProjectGuid>{E87A5B26-A8A0-40F7-B1A8-CDADBBBCB00C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LinePlug</RootNamespace>
-    <AssemblyName>LinePlug</AssemblyName>
+    <RootNamespace>LinePlugin</RootNamespace>
+    <AssemblyName>LinePlugin</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GraphicsEditor.Enums;
 using System.IO;
 using System.Reflection;
 using System.Drawing;
+using GraphicsEditor.Engine;
 using SDK;
 
 namespace GraphicsEditor.Model.Drawers
@@ -29,23 +29,9 @@ namespace GraphicsEditor.Model.Drawers
         public DrawerFacade()
         {
             _drawerDictionary.Add("Selection", new HighlightRectDrawer());
-            DirectoryInfo drawersDirectory =
-                new DirectoryInfo(Directory.GetCurrentDirectory());
-            FileInfo[] drawersDlls = drawersDirectory.GetFiles("*Model.dll");
-            foreach (var drawerDll in drawersDlls)
-            {
-                var assembly = Assembly.LoadFrom(drawerDll.FullName);
-                foreach (var assemblyDefinedType in assembly.DefinedTypes)
-                {
-                    if (assemblyDefinedType.Name.Contains("Drawer"))
-                    {
-                        int cutAfter = drawerDll.Name.IndexOf("Model.dll", StringComparison.Ordinal);
-                        _drawerDictionary.Add(drawerDll.Name.Substring(0, cutAfter),
-                            (BaseDrawer)Activator.CreateInstance(assemblyDefinedType.AsType()));
-                    }
-                }
-            }
             _highlightDrawer = new HighlightDrawer();
+            var pluginLoader = new PluginLoader();
+            _drawerDictionary = pluginLoader.LoadDrawers();
         }
 
         /// <summary>

@@ -6,6 +6,7 @@ using GraphicsEditor.Enums;
 using System.Reflection;
 using System.Windows.Forms.VisualStyles;
 using GraphicsEditor.Engine;
+using GraphicsEditor.View;
 using SDK;
 
 namespace GraphicsEditor
@@ -59,6 +60,10 @@ namespace GraphicsEditor
             _highlightPanel.Location = new Point(3, 2);
             _highlightPanel.ModelChanged += _drawManager.DraftPainter.RefreshCanvas;
             _highlightPanel.ModelChanged += mainPictureBox.Invalidate;
+            var figureToolBox = new FigureToolBox();
+            leftGroupBox.Controls.Add(figureToolBox);
+            figureToolBox.Location = new Point(6,12);
+
         }
 
         private void mainPictureBox_MouseMove_1(object sender, MouseEventArgs e)

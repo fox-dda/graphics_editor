@@ -25,7 +25,7 @@ namespace GraphicsEditor
             PenSettings gPen, Color brushColor)
         {
             switch (figure)
-            {
+            {/*/
                 case Figure.Polyline:
                     return new Polyline(pointList, gPen);
                 case Figure.Polygon:
@@ -39,7 +39,7 @@ namespace GraphicsEditor
                     return new Ellipse(pointList[0], pointList.Last(), gPen)
                         { BrushColor = brushColor };
                 case Figure.Select:
-                    return new HighlightRect(pointList[0], pointList.Last());
+                    return new HighlightRect(pointList[0], pointList.Last());/*/
                 default:
                     return null;
             }
@@ -86,7 +86,7 @@ namespace GraphicsEditor
             }
 
             switch (draft)
-            {
+            {/*/
                 case Polygon polygon:
                 {
                     return new Polygon(cloneList, polygon.Pen)
@@ -129,7 +129,7 @@ namespace GraphicsEditor
                                 Color = draft.Pen.Color,
                                 Width = draft.Pen.Width,
                                 DashPattern = draft.Pen.DashPattern
-                            });
+                            });/*/
                 default:
                     return null;
             }

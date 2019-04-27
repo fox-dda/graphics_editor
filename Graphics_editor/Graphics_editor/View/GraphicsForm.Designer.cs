@@ -29,12 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.drawGroupBox = new System.Windows.Forms.GroupBox();
-            this.polygonButton = new System.Windows.Forms.Button();
-            this.ellipseButton = new System.Windows.Forms.Button();
-            this.lineButton = new System.Windows.Forms.Button();
-            this.circleButton = new System.Windows.Forms.Button();
-            this.polylineButton = new System.Windows.Forms.Button();
             this.selectMouseButton = new System.Windows.Forms.Button();
             this.colorGroupBox = new System.Windows.Forms.GroupBox();
             this.selectBrushColorLabel = new System.Windows.Forms.Label();
@@ -53,6 +47,7 @@
             this.canvasGroupBox = new System.Windows.Forms.GroupBox();
             this.leftGroupBox = new System.Windows.Forms.GroupBox();
             this.rightGroupBox = new System.Windows.Forms.GroupBox();
+            this.CommandStackView = new System.Windows.Forms.ListBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,8 +63,6 @@
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.centreGroupBox = new System.Windows.Forms.GroupBox();
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
-            this.CommandStackView = new System.Windows.Forms.ListBox();
-            this.drawGroupBox.SuspendLayout();
             this.colorGroupBox.SuspendLayout();
             this.penStyleGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.penStrokeWidthNumericUpDown)).BeginInit();
@@ -82,70 +75,6 @@
             this.centreGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // drawGroupBox
-            // 
-            this.drawGroupBox.Controls.Add(this.polygonButton);
-            this.drawGroupBox.Controls.Add(this.ellipseButton);
-            this.drawGroupBox.Controls.Add(this.lineButton);
-            this.drawGroupBox.Controls.Add(this.circleButton);
-            this.drawGroupBox.Controls.Add(this.polylineButton);
-            this.drawGroupBox.Location = new System.Drawing.Point(6, 12);
-            this.drawGroupBox.Name = "drawGroupBox";
-            this.drawGroupBox.Size = new System.Drawing.Size(133, 165);
-            this.drawGroupBox.TabIndex = 1;
-            this.drawGroupBox.TabStop = false;
-            this.drawGroupBox.Text = "Draw";
-            // 
-            // polygonButton
-            // 
-            this.polygonButton.Location = new System.Drawing.Point(13, 135);
-            this.polygonButton.Name = "polygonButton";
-            this.polygonButton.Size = new System.Drawing.Size(75, 23);
-            this.polygonButton.TabIndex = 7;
-            this.polygonButton.Text = "Polygon";
-            this.polygonButton.UseVisualStyleBackColor = true;
-            this.polygonButton.Click += new System.EventHandler(this.polygonButton_Click);
-            // 
-            // ellipseButton
-            // 
-            this.ellipseButton.Location = new System.Drawing.Point(13, 106);
-            this.ellipseButton.Name = "ellipseButton";
-            this.ellipseButton.Size = new System.Drawing.Size(75, 23);
-            this.ellipseButton.TabIndex = 4;
-            this.ellipseButton.Text = "Ellipse";
-            this.ellipseButton.UseVisualStyleBackColor = true;
-            this.ellipseButton.Click += new System.EventHandler(this.ellipseButton_Click);
-            // 
-            // lineButton
-            // 
-            this.lineButton.Location = new System.Drawing.Point(13, 19);
-            this.lineButton.Name = "lineButton";
-            this.lineButton.Size = new System.Drawing.Size(75, 23);
-            this.lineButton.TabIndex = 2;
-            this.lineButton.Text = "Line";
-            this.lineButton.UseVisualStyleBackColor = true;
-            this.lineButton.Click += new System.EventHandler(this.lineButton_Click);
-            // 
-            // circleButton
-            // 
-            this.circleButton.Location = new System.Drawing.Point(13, 77);
-            this.circleButton.Name = "circleButton";
-            this.circleButton.Size = new System.Drawing.Size(75, 23);
-            this.circleButton.TabIndex = 4;
-            this.circleButton.Text = "Circle";
-            this.circleButton.UseVisualStyleBackColor = true;
-            this.circleButton.Click += new System.EventHandler(this.circleButton_Click);
-            // 
-            // polylineButton
-            // 
-            this.polylineButton.Location = new System.Drawing.Point(13, 48);
-            this.polylineButton.Name = "polylineButton";
-            this.polylineButton.Size = new System.Drawing.Size(75, 23);
-            this.polylineButton.TabIndex = 3;
-            this.polylineButton.Text = "Polyline";
-            this.polylineButton.UseVisualStyleBackColor = true;
-            this.polylineButton.Click += new System.EventHandler(this.polylineButton_Click);
             // 
             // selectMouseButton
             // 
@@ -326,7 +255,6 @@
             // 
             // leftGroupBox
             // 
-            this.leftGroupBox.Controls.Add(this.drawGroupBox);
             this.leftGroupBox.Controls.Add(this.canvasGroupBox);
             this.leftGroupBox.Controls.Add(this.penStyleGroupBox);
             this.leftGroupBox.Controls.Add(this.colorGroupBox);
@@ -347,6 +275,14 @@
             this.rightGroupBox.Size = new System.Drawing.Size(191, 537);
             this.rightGroupBox.TabIndex = 10;
             this.rightGroupBox.TabStop = false;
+            // 
+            // CommandStackView
+            // 
+            this.CommandStackView.FormattingEnabled = true;
+            this.CommandStackView.Location = new System.Drawing.Point(12, 339);
+            this.CommandStackView.Name = "CommandStackView";
+            this.CommandStackView.Size = new System.Drawing.Size(167, 186);
+            this.CommandStackView.TabIndex = 7;
             // 
             // menuStrip1
             // 
@@ -478,14 +414,6 @@
             this.mainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseMove_1);
             this.mainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseUp_1);
             // 
-            // CommandStackView
-            // 
-            this.CommandStackView.FormattingEnabled = true;
-            this.CommandStackView.Location = new System.Drawing.Point(12, 339);
-            this.CommandStackView.Name = "CommandStackView";
-            this.CommandStackView.Size = new System.Drawing.Size(167, 186);
-            this.CommandStackView.TabIndex = 7;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -505,7 +433,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
-            this.drawGroupBox.ResumeLayout(false);
             this.colorGroupBox.ResumeLayout(false);
             this.colorGroupBox.PerformLayout();
             this.penStyleGroupBox.ResumeLayout(false);
@@ -526,13 +453,8 @@
         }
 
         #endregion
-        private System.Windows.Forms.GroupBox drawGroupBox;
-        private System.Windows.Forms.Button lineButton;
-        private System.Windows.Forms.Button polylineButton;
-        private System.Windows.Forms.Button circleButton;
         private System.Windows.Forms.GroupBox colorGroupBox;
         private System.Windows.Forms.Button clearCanvasButton;
-        private System.Windows.Forms.Button ellipseButton;
         private System.Windows.Forms.GroupBox penStyleGroupBox;
         private System.Windows.Forms.NumericUpDown thicknessNumericUpDown;
         private System.Windows.Forms.Label widthLabel;
@@ -540,7 +462,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button selectMouseButton;
         private System.Windows.Forms.GroupBox SelectionGroupBox;
-        private System.Windows.Forms.Button polygonButton;
         private System.Windows.Forms.Panel brushColorpanel;
         private System.Windows.Forms.Panel canvasColorpanel;
         private System.Windows.Forms.Panel penColorpanel;

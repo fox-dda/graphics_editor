@@ -75,6 +75,7 @@
     <Compile Include="Engine\DraftPainter.cs" />
     <Compile Include="Engine\PainterState.cs" />
     <Compile Include="Engine\PenConverter.cs" />
+    <Compile Include="Engine\PluginLoader.cs" />
     <Compile Include="Engine\UndoRedo\Commands\AddDraftCommand.cs" />
     <Compile Include="Engine\UndoRedo\Commands\AddRangeDraftsCommand.cs" />
     <Compile Include="Engine\UndoRedo\Commands\ClearStorageCommand.cs" />
@@ -89,6 +90,12 @@
     <Compile Include="Enums\MouseAction.cs" />
     <Compile Include="Enums\Stategy.cs" />
     <Compile Include="Model\Drawers\HighlightDrawer.cs" />
+    <Compile Include="View\FigureToolBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\FigureToolBox.Designer.cs">
+      <DependentUpon>FigureToolBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\GraphicsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +117,9 @@
     <Compile Include="Engine\Selector.cs" />
     <Compile Include="Engine\PaintingParams.cs" />
     <Compile Include="Engine\DraftClipboard.cs" />
+    <EmbeddedResource Include="View\FigureToolBox.resx">
+      <DependentUpon>FigureToolBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\GraphicsForm.resx">
       <DependentUpon>GraphicsForm.cs</DependentUpon>
     </EmbeddedResource>
