@@ -18,8 +18,8 @@ namespace GraphicsEditor.Engine
         {
             get
             {
-                var factory = new DraftFactory();
-                return factory.DefineStrategy(Figure);
+                var determinitor = new StrategyDeterminer();
+                return determinitor.DefineStrategy(Figure);
             }
         }
 

@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Drawing;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using GraphicsEditor.Engine;
+using SDK;
+using StructureMap;
 
 namespace GraphicsEditor.View
 {
@@ -14,11 +15,28 @@ namespace GraphicsEditor.View
         {
             InitializeComponent();
             _painterState = painterState;
-            PluginLoader pluginloader = new PluginLoader();
-            foreach (var name in pluginloader.LoadModels().Keys.ToList())
+
+            var container = new Container(_ =>
             {
+                _.Scan(o =>
+                {
+                    o.AssembliesAndExecutablesFromApplicationBaseDirectory();
+                    o.AddAllTypesOf<IDrawable>().NameBy(x => x.Name);
+                });
+            });
+
+            var instances = container.GetAllInstances<IDrawable>();
+
+            foreach (var drawerInstance in instances)
+            {               
+                var name = drawerInstance.GetType().Name.ToString();
                 _modelNames.Add(name);
             }
+            //PluginLoader pluginloader = new PluginLoader();
+            //foreach (var name in pluginloader.LoadModels().Keys.ToList())
+            //{
+            //    _modelNames.Add(name);
+            //}
             int verticalSpace = 12;
             
             foreach (var model in _modelNames)

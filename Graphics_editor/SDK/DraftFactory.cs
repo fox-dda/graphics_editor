@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GraphicsEditor.Model;
 using SDK;
-using GraphicsEditor.Enums;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
-using System.Windows.Forms;
-using GraphicsEditor.Engine;
+using StructureMap;
 
 namespace GraphicsEditor
 {
@@ -17,16 +13,20 @@ namespace GraphicsEditor
     public class DraftFactory
     {
         /// <summary>
-        /// Известные типы фигур
+        /// DI контейнер
         /// </summary>
-        private Dictionary<string, Type> _knownTypes;
+        private Container _container;
 
         public DraftFactory()
         {
-            var pluginLoder = new PluginLoader();
-            _knownTypes = pluginLoder.LoadModels();
-            HighlightRect a = new HighlightRect();
-            _knownTypes.Add("HighlightRect", a.GetType()); //Type.GetType("HighlightRect"));
+            _container = new Container(_ =>
+            {
+                _.Scan(o =>
+                {
+                    o.AssembliesAndExecutablesFromApplicationBaseDirectory();
+                    o.AddAllTypesOf<IDrawable>().NameBy(x => x.Name);
+                });
+            });
         }
 
         /// <summary>
@@ -40,7 +40,8 @@ namespace GraphicsEditor
         public IDrawable CreateDraft(string figure, List<Point> pointList,
             PenSettings gPen, Color brushColor)
         {
-            var draft = (IDrawable)Activator.CreateInstance(_knownTypes[figure]);
+            var draft = _container.GetInstance<IDrawable>(figure);
+
             draft.Pen = gPen;
             if (draft is IBrushable brushableDraft)
             {
@@ -58,33 +59,6 @@ namespace GraphicsEditor
             }
 
             return draft;
-        }
-
-        /// <summary>
-        /// Определить статегию отрисовки по фигуре
-        /// </summary>
-        /// <param name="figure">Фигура</param>
-        /// <returns>Стратегия</returns>
-        public Strategy DefineStrategy(string figure)
-        {
-            if (figure == "HighlightRect")
-            {
-                return Strategy.Selection;
-            }
-            else if (figure == "DragPoint" || figure == "DragDraft")
-            {
-                return Strategy.DragAndDrop;
-            }
-
-            var draft = (IDrawable)Activator.CreateInstance(_knownTypes[figure]);
-            if (draft is IMultipoint multipointDraft)
-            {
-                return Strategy.Multipoint;
-            }
-            else
-            {
-                return Strategy.TwoPoint;
-            }
         }
 
         /// <summary>

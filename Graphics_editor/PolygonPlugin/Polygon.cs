@@ -4,24 +4,38 @@ using System.Linq;
 using SDK;
 using System.Drawing;
 
-namespace PolylinePlugin
-{ 
+namespace PolygonPlugin
+{
     /// <summary>
-    /// Полилиния
+    /// Полигон
     /// </summary>
     [Serializable]
-    public class PolylineModel: IDrawable, IMultipoint, INamed, ICloneable
+    public class Polygon : IDrawable, IBrushable, IMultipoint, INamed, ICloneable
     {
+        /// <summary>
+        /// Цвет заливки
+        /// </summary>
+        private Color _brush;
+
         /// <summary>
         /// Настройки пера
         /// </summary>
         private PenSettings _pen;
 
         /// <summary>
+        /// Цвет заливки
+        /// </summary>
+        public Color BrushColor
+        {
+            get => _brush;
+            set => _brush = value;
+        }
+
+        /// <summary>
         /// Список точек
         /// </summary>
-        public List<Point> _dotList = new List<Point>();
-
+        private List<Point> _dotList = new List<Point>();
+        
         /// <summary>
         /// Точка старта
         /// </summary>
@@ -37,7 +51,7 @@ namespace PolylinePlugin
         public Point EndPoint
         {
             get => DotList.Last();
-            set => DotList[DotList.Count-1] = value;
+            set => DotList[DotList.Count - 1] = value;
         }
 
         /// <summary>
@@ -70,7 +84,7 @@ namespace PolylinePlugin
         /// <returns></returns>
         public string GetName()
         {
-            return "Polyline";
+            return "Polygon";
         }
 
         /// <summary>
@@ -80,32 +94,32 @@ namespace PolylinePlugin
         public object Clone()
         {
             var cloneList = new List<Point>();
-            foreach (var point in DotList)
-            {
-                cloneList.Add(new Point(point.X, point.Y));
-            }
+                foreach (var point in DotList)
+                {
+                    cloneList.Add(new Point(point.X, point.Y));
+                }
 
-            return new PolylineModel(
+            return new Polygon(
                     cloneList,
                     new PenSettings()
                     {
                         Color = Pen.Color,
                         Width = Pen.Width,
                         DashPattern = Pen.DashPattern
-                    });
+                    }){ BrushColor = this.BrushColor };
         }
 
         /// <summary>
-        /// Конструктор полилинии
+        /// Конструктор полигона
         /// </summary>
         /// <param name="dotlist">Список точек</param>
         /// <param name="pen">Настройки пера</param>
-        public PolylineModel(List<Point> dotlist, PenSettings pen)
+        private Polygon(List<Point> dotlist, PenSettings pen)
         {
             Pen = pen;
             DotList = dotlist;
         }
 
-        public PolylineModel() { }
+        public Polygon() { }
     }
 }

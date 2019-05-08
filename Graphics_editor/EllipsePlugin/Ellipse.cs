@@ -8,7 +8,7 @@ namespace EllipsePlugin
     /// Эллипс
     /// </summary>
     [Serializable]
-    public class EllipseModel : IDrawable, IBrushable, INamed, ICloneable
+    public class Ellipse : IDrawable, IBrushable, INamed, ICloneable
     {
         /// <summary>
         /// Цвет заливки
@@ -81,7 +81,7 @@ namespace EllipsePlugin
        /// <returns></returns>
         public object Clone()
        {
-           return new EllipseModel(
+           return new Ellipse(
                new Point(StartPoint.X, StartPoint.Y),
                new Point(EndPoint.X, EndPoint.Y),
                new PenSettings()
@@ -93,18 +93,18 @@ namespace EllipsePlugin
        }
 
        /// <summary>
-            /// Конструктор эллипса
-            /// </summary>
-            /// <param name="startPoint">Точка старта</param>
-            /// <param name="endPoint">Точка конца</param>
-            /// <param name="pen">Настройки пера</param>
-            public EllipseModel(Point startPoint, Point endPoint, PenSettings pen)
-        {
-            StartPoint = startPoint;
-            EndPoint = endPoint;
-            Pen = pen;
-        }
+       /// Конструктор эллипса
+       /// </summary>
+       /// <param name="startPoint">Точка старта</param>
+       /// <param name="endPoint">Точка конца</param>
+       /// <param name="pen">Настройки пера</param>
+       private Ellipse(Point startPoint, Point endPoint, PenSettings pen)
+       {
+           StartPoint = startPoint;
+           EndPoint = endPoint;
+           Pen = pen;
+       }
 
-        public EllipseModel() { }
+        public Ellipse() { }
     }
 }

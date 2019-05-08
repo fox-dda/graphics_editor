@@ -8,7 +8,7 @@ namespace LinePlugin
     /// Линия
     /// </summary>
     [Serializable]
-    public class LineModel : IDrawable, INamed, ICloneable
+    public class Line : IDrawable, INamed, ICloneable
     {
         /// <summary>
         /// Настройки пера
@@ -67,7 +67,7 @@ namespace LinePlugin
         /// <returns></returns>
         public object Clone()
         {
-            return new LineModel(
+            return new Line(
                 new Point(StartPoint.X, StartPoint.Y),
                 new Point(EndPoint.X, EndPoint.Y),
                 new PenSettings()
@@ -84,13 +84,13 @@ namespace LinePlugin
         /// <param name="startPoint">Точка старта</param>
         /// <param name="endPoint">Точка конца</param>
         /// <param name="pen">Настройки пера</param>
-        public LineModel(Point startPoint, Point endPoint, PenSettings pen)
+        private Line(Point startPoint, Point endPoint, PenSettings pen)
         {
             StartPoint = startPoint;
             EndPoint = endPoint;
             Pen = pen;
         }
 
-        public LineModel() { }
+        public Line() { }
     }
 }
