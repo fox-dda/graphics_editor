@@ -16,7 +16,7 @@ namespace EllipsePlugin
         /// <param name="graphics">Ядро отрисовки</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
-            var ellipse = shape as EllipseModel;
+            var ellipse = shape as Ellipse;
             var StartPoint = ellipse.StartPoint;
             var EndPoint = ellipse.EndPoint;
             var brush = (ellipse as IBrushable).BrushColor;

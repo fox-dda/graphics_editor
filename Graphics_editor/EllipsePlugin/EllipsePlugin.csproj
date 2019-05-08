@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EllipseModel.cs" />
+    <Compile Include="Ellipse.cs" />
     <Compile Include="EllipseDrawer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Drawing;
+using System.Linq;
 using GraphicsEditor.Engine;
+using StructureMap;
 using SDK;
+using System.Windows.Forms;
 
 namespace GraphicsEditor.Model.Drawers
 {
@@ -16,22 +19,35 @@ namespace GraphicsEditor.Model.Drawers
         /// <summary>
         /// Словарь отрисовщиков фигур
         /// </summary>
-        private readonly Dictionary<string, BaseDrawer> _drawerDictionary = new Dictionary<string, BaseDrawer>();
+        private readonly Dictionary<string, BaseDrawer> _drawerDictionary 
+            = new Dictionary<string, BaseDrawer>();
 
         /// <summary>
-        /// Отрисовщик выделения
+        /// Отрисовщик выделения. Является системным типом, не загружается как плагин.
         /// </summary>
-        private readonly HighlightDrawer _highlightDrawer;
+        private readonly HighlightDrawer _highlightDrawer = new HighlightDrawer();
 
         /// <summary>
         /// Конструктор фасада отрисовщиков
         /// </summary>
         public DrawerFacade()
-        {         
-            _highlightDrawer = new HighlightDrawer();
-            var pluginLoader = new PluginLoader();
-            _drawerDictionary = pluginLoader.LoadDrawers();
-            _drawerDictionary.Add("HighlightRect", new HighlightRectDrawer());
+        {
+            var container = new Container(_ =>
+            {
+                _.Scan(o =>
+                {
+                    o.AssembliesAndExecutablesFromApplicationBaseDirectory();
+                    o.AddAllTypesOf<BaseDrawer>().NameBy(x => x.Name);
+                });
+            });
+
+            var instances = container.GetAllInstances<BaseDrawer>();
+            foreach (var drawerInstance in instances)
+            {
+                var name = drawerInstance.GetType().Name.ToString();
+                _drawerDictionary.Add(name.Substring(0, name.Length - 6),
+                    container.GetInstance<BaseDrawer>(name));
+            }
         }
 
         /// <summary>

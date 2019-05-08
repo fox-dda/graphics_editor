@@ -19,7 +19,7 @@ namespace PolygonPlugin
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
             var brush = ((IBrushable) shape).BrushColor;
-            var dotList = (shape as PolygonModel)?.DotList.ToArray();
+            var dotList = (shape as Polygon)?.DotList.ToArray();
             var pen = ConvertPen(shape.Pen);
 
             graphics.FillPolygon(new SolidBrush(brush), dotList);

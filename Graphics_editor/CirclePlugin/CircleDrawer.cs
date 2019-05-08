@@ -7,7 +7,7 @@ namespace CirclePlugin
     /// <summary>
     /// Отрисовщик кругов
     /// </summary>
-    class CircleDrawer: BaseDrawer
+    public class CircleDrawer: BaseDrawer
     {
         /// <summary>
         /// Отрисовать круг
@@ -16,7 +16,7 @@ namespace CirclePlugin
         /// <param name="graphics">Ядро отрисовки</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
-            var circle = shape as CircleModel;
+            var circle = shape as Circle;
             var startPoint = circle.StartPoint;
             var endPoint = circle.EndPoint;
             var brush = (circle as IBrushable).BrushColor;

@@ -18,7 +18,7 @@ namespace PolylinePlugin
         /// <param name="graphics">Ядро отрисовки</param>
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
-            var dotList = (shape as PolylineModel)?.DotList;
+            var dotList = (shape as Polyline)?.DotList;
             var pen = ConvertPen(shape.Pen);
 
             for (int i = 0; i < dotList.Count - 1; i++)

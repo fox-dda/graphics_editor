@@ -63,7 +63,7 @@ namespace GraphicsEditor.Model
         /// </summary>
         /// <param name="startPoint"></param>
         /// <param name="endPoint"></param>
-        public HighlightRect(Point startPoint, Point endPoint)
+        private HighlightRect(Point startPoint, Point endPoint)
         {
             StartPoint = startPoint;
             EndPoint = endPoint;
