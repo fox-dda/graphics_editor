@@ -52,7 +52,8 @@ namespace GraphicsEditor.Engine
             {
                 InProcessPoints.Clear();
                 DragDropDraft = null;
-                DragDropDot.Draft = null;
+               // DragDropDot.Draft = null;
+                DragDropDotingDraft = null;///
                 CacheDraft = null;
                 CacheLasso = null;
 
@@ -94,7 +95,17 @@ namespace GraphicsEditor.Engine
         /// Возможна ситуация, где мы не нашли фигуру по точке клика,
         /// Тогда данное поле должно быть null
         /// Потому используем публичное поле, а не свойство
-        public DotInDraft DragDropDot;
+       // public DotInDraft DragDropDot { get; set; }
+
+        /// <summary>
+        /// Точка, которая двигается в фигуре
+        /// </summary>
+        public Point DragDropDotingDot { get; set; }
+
+        /// <summary>
+        /// Фигура в которой дивигается точка
+        /// </summary>
+        public IDrawable DragDropDotingDraft { get; set; }
 
         /// <summary>
         /// Фигура в кэше

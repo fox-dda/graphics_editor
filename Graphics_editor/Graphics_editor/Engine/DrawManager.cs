@@ -181,9 +181,9 @@ namespace GraphicsEditor.Engine
                                 ? ((IBrushable) State.DragDropDraft).BrushColor
                                 : Color.White);
                     }
-                    if (State.DragDropDot.Draft != null)
+                    if (State.DragDropDotingDraft != null)
                     {
-                        var newPoints = DraftStorageManager.PullPoints(State.DragDropDot.Draft);
+                        var newPoints = DraftStorageManager.PullPoints(State.DragDropDotingDraft);
                         var undrawable = State.UndrawableDraft;
                         DraftStorageManager.EditDraft(
                             undrawable, newPoints, undrawable.Pen,
@@ -236,10 +236,10 @@ namespace GraphicsEditor.Engine
                             State.Figure = "DragPoint";
                             State.UndrawableDraft = refDot.Draft;
 
-                            State.DragDropDot.Draft = DraftPainter.DraftFactory.Clone(refDot.Draft);
-                            State.DragDropDot.PointInDraft = _selector.SearchReferenceDot(
+                            State.DragDropDotingDraft = DraftPainter.DraftFactory.Clone(refDot.Draft);
+                            State.DragDropDotingDot = _selector.SearchReferenceDot(
                                 e.Location,
-                                new List<IDrawable>{ State.DragDropDot.Draft }).PointInDraft;
+                                new List<IDrawable>{ State.DragDropDotingDraft }).PointInDraft;
                         }
                         else
                         {
@@ -326,7 +326,7 @@ namespace GraphicsEditor.Engine
         /// <param name="newPoint">Координаты мыши</param>
         private void DragAndDrop(Point newPoint)
         {
-            if (State.DragDropDot.Draft != null)
+            if (State.DragDropDotingDraft != null)
             {
                 DragDot(newPoint);
             }
@@ -358,10 +358,10 @@ namespace GraphicsEditor.Engine
         /// <param name="newPoint">Координая мыши</param>
         private void DragDot(Point newPoint)
         {         
-            DragDotInDraft(State.DragDropDot, newPoint);
-            State.DragDropDot.PointInDraft = newPoint;
+            DragDotInDraft(State.DragDropDotingDraft, State.DragDropDotingDot, newPoint);
+            State.DragDropDotingDot = newPoint;
             DraftPainter.RefreshCanvas();
-            DraftPainter.SoloDraw(State.DragDropDot.Draft);
+            DraftPainter.SoloDraw(State.DragDropDotingDraft);
         }
 
         /// <summary>
@@ -396,17 +396,15 @@ namespace GraphicsEditor.Engine
         /// </summary>
         /// <param name="dotInDraft">Точка в фигуре</param>
         /// <param name="newPoint">Новые координаты сдвинутой точки</param>
-        public void DragDotInDraft(DotInDraft dotInDraft, Point newPoint)
+        public void DragDotInDraft(IDrawable dragDropingDraft, Point dragDropingDot, Point newPoint)
         {
-            var item = dotInDraft.Draft;
-            var point = dotInDraft.PointInDraft;
             var editedPoint = 0;
 
-            if (item is IMultipoint multipoint)
+            if (dragDropingDraft is IMultipoint multipoint)
             {
                 foreach (var pointInDraft in multipoint.DotList)
                 {
-                    if (point.X == pointInDraft.X && point.Y == pointInDraft.Y)
+                    if (dragDropingDot.X == pointInDraft.X && dragDropingDot.Y == pointInDraft.Y)
                     {
                         editedPoint = multipoint.DotList.IndexOf(pointInDraft);
                     }
@@ -415,13 +413,13 @@ namespace GraphicsEditor.Engine
             }
             else
             {
-                if (point.X == item.StartPoint.X && point.Y == item.StartPoint.Y)
+                if (dragDropingDot.X == dragDropingDraft.StartPoint.X && dragDropingDot.Y == dragDropingDraft.StartPoint.Y)
                 {
-                    item.StartPoint = newPoint;
+                    dragDropingDraft.StartPoint = newPoint;
                 }
-                else if (point.X == item.EndPoint.X && point.Y == item.EndPoint.Y)
+                else if (dragDropingDot.X == dragDropingDraft.EndPoint.X && dragDropingDot.Y == dragDropingDraft.EndPoint.Y)
                 {
-                    item.EndPoint = newPoint;
+                    dragDropingDraft.EndPoint = newPoint;
                 }
             }
         }
