@@ -75,30 +75,29 @@ namespace EllipsePlugin
             return "Ellipse";
         }
 
-       /// <summary>
-       /// Клонировать
-       /// </summary>
-       /// <returns></returns>
+        /// <summary>
+        /// Клонировать
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
-       {
-           return new Ellipse(
-               new Point(StartPoint.X, StartPoint.Y),
-               new Point(EndPoint.X, EndPoint.Y),
-               new PenSettings()
-               {
-                   Color = Pen.Color,
-                   Width = Pen.Width,
-                   DashPattern = Pen.DashPattern
-               }){ BrushColor = this.BrushColor }; 
-       }
+        {
+            return new Ellipse(
+                new Point(StartPoint.X, StartPoint.Y),
+                new Point(EndPoint.X, EndPoint.Y),
+                new PenSettings(Pen.Color, Pen.Width)
+                {
+                    DashPattern = Pen.DashPattern
+                })
+            { BrushColor = this.BrushColor };
+        }
 
-       /// <summary>
-       /// Конструктор эллипса
-       /// </summary>
-       /// <param name="startPoint">Точка старта</param>
-       /// <param name="endPoint">Точка конца</param>
-       /// <param name="pen">Настройки пера</param>
-       private Ellipse(Point startPoint, Point endPoint, PenSettings pen)
+        /// <summary>
+        /// Конструктор эллипса
+        /// </summary>
+        /// <param name="startPoint">Точка старта</param>
+        /// <param name="endPoint">Точка конца</param>
+        /// <param name="pen">Настройки пера</param>
+        private Ellipse(Point startPoint, Point endPoint, PenSettings pen)
        {
            StartPoint = startPoint;
            EndPoint = endPoint;

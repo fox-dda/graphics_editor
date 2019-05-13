@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using SDK.Interfaces;
 
 namespace SDK
 {
@@ -7,8 +8,15 @@ namespace SDK
     /// Настройки пера
     /// </summary>
     [Serializable]
-    public class PenSettings
+    public class PenSettings: IPenSettings
     {
+
+        public PenSettings(Color color, float width)
+        {
+            Color = color;
+            Width = width;
+        }
+
         /// <summary>
         /// Паттерн штрихов
         /// </summary>

@@ -94,19 +94,18 @@ namespace PolygonPlugin
         public object Clone()
         {
             var cloneList = new List<Point>();
-                foreach (var point in DotList)
-                {
-                    cloneList.Add(new Point(point.X, point.Y));
-                }
+            foreach (var point in DotList)
+            {
+                cloneList.Add(new Point(point.X, point.Y));
+            }
 
             return new Polygon(
                     cloneList,
-                    new PenSettings()
-                    {
-                        Color = Pen.Color,
-                        Width = Pen.Width,
-                        DashPattern = Pen.DashPattern
-                    }){ BrushColor = this.BrushColor };
+                     new PenSettings(Pen.Color, Pen.Width)
+                     {
+                         DashPattern = Pen.DashPattern
+                     })
+            { BrushColor = this.BrushColor };
         }
 
         /// <summary>

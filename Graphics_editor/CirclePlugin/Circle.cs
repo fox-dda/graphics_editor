@@ -84,12 +84,11 @@ namespace CirclePlugin
             return new Circle(
                 new Point(StartPoint.X, StartPoint.Y),
                 new Point(EndPoint.X, EndPoint.Y),
-                new PenSettings()
+                new PenSettings(Pen.Color, Pen.Width)
                 {
-                    Color = Pen.Color,
-                    Width = Pen.Width,
                     DashPattern = Pen.DashPattern
-                }){BrushColor = this.BrushColor };
+                })
+            { BrushColor = this.BrushColor };
         }
 
         /// <summary>

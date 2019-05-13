@@ -87,12 +87,10 @@ namespace PolylinePlugin
 
             return new Polyline(
                     cloneList,
-                    new PenSettings()
-                    {
-                        Color = Pen.Color,
-                        Width = Pen.Width,
-                        DashPattern = Pen.DashPattern
-                    });
+                     new PenSettings(Pen.Color, Pen.Width)
+                     {
+                         DashPattern = Pen.DashPattern
+                     });
         }
 
         /// <summary>
