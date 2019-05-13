@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using SDK;
+using GraphicsEditor.Interfaces;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
 {
@@ -14,17 +15,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <summary>
         /// Параметры изменяемого канваса
         /// </summary>
-        public PaintingParameters TargetPaintingParameters
-        {
-            get => _targetParameters; 
-            set => _targetParameters = value;
-        }
-
-        /// <summary>
-        /// Параметры изменямого канваса
-        /// </summary>
-        [field: NonSerialized]
-        private PaintingParameters _targetParameters;
+        public IPaintingParameters TargetPaintingParameters { get; set; }
 
         /// <summary>
         /// Бекап цвета
@@ -57,7 +48,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// </summary>
         /// <param name="editedPaintingParameters">Параметры изменяемого канваса</param>
         /// <param name="newColor">Новый цвет канваса</param>
-        public EditCanvasColorCommand(PaintingParameters editedPaintingParameters, Color newColor)
+        public EditCanvasColorCommand(IPaintingParameters editedPaintingParameters, Color newColor)
         {
             TargetPaintingParameters = editedPaintingParameters;
             _backUpCanvasColor = editedPaintingParameters.CanvasColor;

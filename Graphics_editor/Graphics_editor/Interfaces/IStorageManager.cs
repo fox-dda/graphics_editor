@@ -12,12 +12,12 @@ namespace GraphicsEditor.Interfaces
         /// Список отрисованных фигур
         /// </summary>
         /// <returns>Хранилище фигур</returns>
-        IList<IDrawable> PaintedDraftStorage { get; set; }
+        List<IDrawable> PaintedDraftStorage { get; }
 
         /// <summary>
         /// Список выделенных фигур
         /// </summary>
-        IList<IDrawable> HighlightDraftStorage { get; }
+        List<IDrawable> HighlightDraftStorage { get; }
 
         /// <summary>
         /// Выполнить комманду
@@ -51,7 +51,7 @@ namespace GraphicsEditor.Interfaces
         /// Добавить несколько фигур в хранилище
         /// </summary>
         /// <param name="drafts">Добавляемые фигуры</param>
-        void AddRangeDrafts(IList<IDrawable> drafts);
+        void AddRangeDrafts(List<IDrawable> drafts);
 
         /// <summary>
         /// Очистить хранилище фигур
@@ -73,7 +73,7 @@ namespace GraphicsEditor.Interfaces
         /// Добавить несколько фигур в список выделенных
         /// </summary>
         /// <param name="highlightRange"></param>
-        void HighlightingDraftRange(IList<IDrawable> highlightRange);
+        void HighlightingDraftRange(List<IDrawable> highlightRange);
 
         /// <summary>
         /// Изменить фигуру
@@ -82,7 +82,7 @@ namespace GraphicsEditor.Interfaces
         /// <param name="pointList">Новые точки</param>
         /// <param name="pen">Новое перо</param>
         /// <param name="brush">Новый цвет заливки</param>
-        void EditDraft(IDrawable draft, IList<Point> pointList,
+        void EditDraft(IDrawable draft, List<Point> pointList,
             IPenSettings pen, Color brush);
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace GraphicsEditor.Interfaces
         /// </summary>
         /// <param name="item">Фигура, из которой нужно вытащить точки</param>
         /// <returns>Точки фигуры</returns>
-        IList<Point> PullPoints(IDrawable item);
+        List<Point> PullPoints(IDrawable item);
 
         /// <summary>
         /// Изменить цвет канвы

@@ -1,17 +1,12 @@
-﻿using System;
+﻿using System.Drawing;
 using System.Collections.Generic;
-using System.Linq;
-using GraphicsEditor.Interfaces;
-using System.Drawing;
 using SDK;
+using GraphicsEditor.Engine.UndoRedo.Commands;
 using SDK.Interfaces;
 
-namespace GraphicsEditor.Engine.UndoRedo.Commands
+namespace GraphicsEditor.Interfaces
 {
-    /// <summary>
-    /// Фабрика команд
-    /// </summary>
-    public class CommandFactory: ICommandFactory
+    public interface ICommandFactory
     {
         /// <summary>
         /// Создать команду добавления фигуры в список
@@ -19,10 +14,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="storage">Целевой список</param>
         /// <param name="draft">Добавляемая фигура</param>
         /// <returns>Команда добавления фигуры</returns>
-        public AddDraftCommand CreateAddDraftCommand(List<IDrawable> storage, IDrawable draft)
-        {
-            return new AddDraftCommand(storage, draft);
-        }
+        AddDraftCommand CreateAddDraftCommand(List<IDrawable> storage, IDrawable draft);
 
         /// <summary>
         /// Создать команду добавления нескольких фигур в список
@@ -30,20 +22,15 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="storage">Целевой список</param>
         /// <param name="draft">Добавляемые фигуры</param>
         /// <returns>Команда добавления нескольких фигур</returns>
-        public AddRangeDraftCommand CreateAddRangeDraftCommand(List<IDrawable> storage, List<IDrawable> addebleList)
-        {
-            return new AddRangeDraftCommand(storage, addebleList);
-        }
+        AddRangeDraftCommand CreateAddRangeDraftCommand(List<IDrawable> storage,
+            List<IDrawable> addebleList);
 
         /// <summary>
         /// Создать команду очистки хранилища фигур
         /// </summary>
         /// <param name="storage">Очищаемое хранилище</param>
         /// <returns>Команда очиски хранилища</returns>
-        public ClearStorageCommand CreateClearStorageCommand(List<IDrawable> storage)
-        {
-            return new ClearStorageCommand(storage);
-        }
+        ClearStorageCommand CreateClearStorageCommand(List<IDrawable> storage);
 
         /// <summary>
         /// Создать команду изменения фигуры
@@ -53,10 +40,10 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="pen">Новое перо</param>
         /// <param name="brush">Новый цвет заливки</param>
         /// <returns>Команда изменения фигуры</returns>
-        public EditDraftCommand CreateEditDraftCommand(IDrawable draft, List<Point> pointList, IPenSettings pen, Color brush)
-        {
-            return new EditDraftCommand(draft, pointList, pen, brush);
-        }
+        EditDraftCommand CreateEditDraftCommand(IDrawable draft,
+            List<Point> pointList,
+            IPenSettings pen
+            , Color brush);
 
         /// <summary>
         /// Создать команду удаления фигуры из списка
@@ -64,10 +51,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="storage">Целевой список</param>
         /// <param name="draft">Удаляемая фигура</param>
         /// <returns>Команда удаления фигуры</returns>
-        public RemoveDraftCommand CreateRemoveDraftCommand(List<IDrawable> storage, IDrawable draft)
-        {
-            return new RemoveDraftCommand(storage, draft);
-        }
+        RemoveDraftCommand CreateRemoveDraftCommand(List<IDrawable> storage, IDrawable draft);
 
         /// <summary>
         /// Создать команду удаления нескольких фигур из списка
@@ -75,10 +59,9 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="storage">Целевой список</param>
         /// <param name="draft">Удаляемые фигуры</param>
         /// <returns>Команда удаления нескольких фигур</returns>
-        public RemoveRangeDraftsCommand CreateRemoveRangeDraftsCommand(List<IDrawable> storage, List<IDrawable> removebleList)
-        {
-            return new RemoveRangeDraftsCommand(storage, removebleList);
-        }
+        RemoveRangeDraftsCommand CreateRemoveRangeDraftsCommand(
+            List<IDrawable> storage, List<IDrawable> removebleList);
+
 
         /// <summary>
         /// Создать команду изменения цвета канвы
@@ -86,9 +69,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="paintengParameters">Параметры рисования</param>
         /// <param name="newColor">Новый цвет канвы</param>
         /// <returns>Команда изменения цвета канвы</returns>
-        public EditCanvasColorCommand CreateEditCanvasColorCommand(IPaintingParameters paintengParameters, Color newColor)
-        {
-            return new EditCanvasColorCommand(paintengParameters, newColor);
-        }
+        EditCanvasColorCommand CreateEditCanvasColorCommand(
+            IPaintingParameters paintengParameters, Color newColor);
     }
 }

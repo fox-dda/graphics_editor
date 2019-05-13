@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using SDK;
+using GraphicsEditor.Interfaces;
 
 namespace GraphicsEditor
 {
     /// <summary>
     /// Главное хранилище фигур
     /// </summary>
-    public class DraftStorage
+    public class DraftStorage: IDraftStorage
     {
         /// <summary>
         /// Список отрисованных фигур

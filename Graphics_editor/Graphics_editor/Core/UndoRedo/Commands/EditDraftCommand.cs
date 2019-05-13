@@ -7,6 +7,7 @@ using System.Drawing;
 using GraphicsEditor.Model;
 using System.Windows.Forms;
 using SDK;
+using SDK.Interfaces;
 
 namespace GraphicsEditor.Engine.UndoRedo.Commands
 {
@@ -34,7 +35,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <summary>
         /// Новые настройки пера
         /// </summary>
-        private PenSettings _penSettings;
+        private IPenSettings _penSettings;
 
         /// <summary>
         /// Новый цвет заливки
@@ -60,7 +61,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
             {
                 brushable.BrushColor = _brush;
             }
-            _editedDraft.Pen = _penSettings;
+            _editedDraft.Pen = (PenSettings)_penSettings;
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="pointList">Список новых точек</param>
         /// <param name="pen">Новые настройки пера</param>
         /// <param name="brush">Новый цвет заливки</param>
-        public EditDraftCommand(IDrawable draft, List<Point> pointList, PenSettings pen, Color brush)
+        public EditDraftCommand(IDrawable draft, List<Point> pointList, IPenSettings pen, Color brush)
         {
             _editedDraft = draft;
             var factory = new DraftFactory();

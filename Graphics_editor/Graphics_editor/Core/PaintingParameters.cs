@@ -1,13 +1,22 @@
 ﻿using System.Drawing;
 using SDK;
+using GraphicsEditor.Interfaces;
+using SDK.Interfaces;
 
 namespace GraphicsEditor
 {
     /// <summary>
     /// Параметры рисования
     /// </summary>
-    public class PaintingParameters
+    public class PaintingParameters: IPaintingParameters
     {
+
+        public PaintingParameters(IPenSettings penSettings)
+        {
+            GPen = penSettings;
+             //= new PenSettings { Color = Color.Black, Width = 1 };
+        }
+
         /// <summary>
         /// Цвет заливки
         /// </summary>
@@ -43,16 +52,7 @@ namespace GraphicsEditor
         /// <summary>
         /// Настройки пера
         /// </summary>
-        public PenSettings GPen
-        {
-            get => _gPen; 
-            set => _gPen = value;
-        }
-
-        /// <summary>
-        /// Настройки пера
-        /// </summary>
-        private PenSettings _gPen = new PenSettings { Color = Color.Black, Width = 1 };
+        public IPenSettings GPen { get; set; }
 
         /// <summary>
         /// Цвет фона

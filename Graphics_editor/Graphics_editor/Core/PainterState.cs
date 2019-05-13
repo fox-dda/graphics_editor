@@ -3,13 +3,15 @@ using GraphicsEditor.Model;
 using GraphicsEditor.Enums;
 using System.Drawing;
 using SDK;
+using SDK.Interfaces;
+using GraphicsEditor.Interfaces;
 
 namespace GraphicsEditor.Engine
 {
     /// <summary>
     /// Состаяние художника
     /// </summary>
-    public class PainterState
+    public class PainterState: IPainterState
     {
         /// <summary>
         /// Стратегия отрисовки
@@ -18,8 +20,7 @@ namespace GraphicsEditor.Engine
         {
             get
             {
-                var determinitor = new StrategyDeterminer();
-                return determinitor.DefineStrategy(Figure);
+                return new StrategyDeterminer().DefineStrategy(Figure);
             }
         }
 
@@ -31,16 +32,8 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Нерисуемая фигура
         /// </summary>
-        public IDrawable UndrawableDraft
-        {
-            get => _undrawable;
-            set => _undrawable = value;
-        }
+        public IDrawable UndrawableDraft { get; set; }
 
-        /// <summary>
-        /// Нерисуемая фигура
-        /// </summary>
-        private IDrawable _undrawable;
 
         /// <summary>
         /// Рисуемая фигура
@@ -78,16 +71,7 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Двигаемая фигура
         /// </summary>
-        public IDrawable DragDropDraft
-        {
-            get => _dragDropDraft;
-            set => _dragDropDraft = value;
-        }
-
-        /// <summary>
-        /// Двигаемая фигура
-        /// </summary>
-        private IDrawable _dragDropDraft;
+        public IDrawable DragDropDraft { get; set; }
 
         /// <summary>
         /// Двигаемая точка в фигуре
@@ -110,29 +94,11 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// Фигура в кэше
         /// </summary>
-        public IDrawable CacheDraft
-        {
-            get => _cacheDraft;
-            set => _cacheDraft = value;
-        }
-
-        /// <summary>
-        /// Фигура в кеше
-        /// </summary>
-        private IDrawable _cacheDraft;
+        public IDrawable CacheDraft { get; set; }
 
         /// <summary>
         /// Ласо в кэше
         /// </summary>
-        public HighlightRect CacheLasso
-        {
-            get => _cacheLasso;
-            set => _cacheLasso = value;
-        }
-
-        /// <summary>
-        /// Кеш ласо
-        /// </summary>
-        private HighlightRect _cacheLasso;
+        public IDrawable CacheLasso { get; set; }
     }
 }

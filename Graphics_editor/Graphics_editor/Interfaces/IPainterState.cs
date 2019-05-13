@@ -51,6 +51,6 @@ namespace GraphicsEditor.Interfaces
         /// <summary>
         /// Ласо в кэше
         /// </summary>
-        HighlightRect CacheLasso { get; set; }
+        IDrawable CacheLasso { get; set; }
     }
 }

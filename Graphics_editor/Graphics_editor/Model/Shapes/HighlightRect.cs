@@ -25,11 +25,9 @@ namespace GraphicsEditor.Model
         {
             get
             {
-                return new PenSettings
+                return new PenSettings(Color.Gray, 1)
                 {
-                    DashPattern = new float[] { 2, 2 },
-                    Width = 1,
-                    Color = Color.Gray
+                    DashPattern = new float[] { 2, 2 }
                 };
             }
             set{}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GraphicsEditor.Engine.UndoRedo.Commands;
+using GraphicsEditor.Interfaces;
 
 namespace GraphicsEditor.Engine.UndoRedo
 {
@@ -9,7 +10,7 @@ namespace GraphicsEditor.Engine.UndoRedo
     /// Стек команд
     /// </summary>
     [Serializable]
-    public class UndoRedoStack
+    public class UndoRedoStack: IUndoRedoStack
     {
         /// <summary>
         /// Конструктор стека команд
@@ -32,12 +33,12 @@ namespace GraphicsEditor.Engine.UndoRedo
         /// Cтек отката
         /// </summary>
         /// <returns></returns>
-        public Stack<ICommand> UndoStack { get; private set; }
+        public Stack<ICommand> UndoStack { get; set; }
 
         /// <summary>
         /// Стек наката
         /// </summary>
-        public Stack<ICommand> RedoStack { get; private set; }
+        public Stack<ICommand> RedoStack { get; set; }
 
         /// <summary>
         /// Выполнить команду

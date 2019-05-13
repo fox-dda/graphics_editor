@@ -4,10 +4,14 @@ using System.Linq;
 using System.Windows.Forms;
 using GraphicsEditor.Enums;
 using System.Reflection;
-using System.Windows.Forms.VisualStyles;
+using GraphicsEditor.DraftTools;
 using GraphicsEditor.Engine;
 using GraphicsEditor.View;
 using SDK;
+using GraphicsEditor.Interfaces;
+using GraphicsEditor.Model.Drawers;
+using GraphicsEditor.Engine.UndoRedo.Commands;
+using GraphicsEditor.Engine.UndoRedo;
 
 namespace GraphicsEditor
 {
@@ -16,12 +20,12 @@ namespace GraphicsEditor
         /// <summary>
         /// Менеджер рисования
         /// </summary>
-        private DrawManager _drawManager;
+        private IDrawManager _drawManager;
 
         /// <summary>
         /// Буффер обмена
         /// </summary>
-        private DraftClipboard _buffer = new DraftClipboard();
+        private IDraftClipboard _buffer;
 
         /// <summary>
         /// Ядро рисования
@@ -46,15 +50,13 @@ namespace GraphicsEditor
                 null, control, new object[] { true });
             }
 
-            Bitmap btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
-            mainPictureBox.Image = btm;
-            _paintCore = Graphics.FromImage(btm);
-            _drawManager = new DrawManager(_paintCore);
+            Setup();
 
             _highlightPanel = new SelectionPanel
             {
                 StorageManager = _drawManager.DraftStorageManager 
             };
+
             Controls.Add(_highlightPanel);
             rightGroupBox.Controls.Add(_highlightPanel);
             _highlightPanel.Location = new Point(3, 2);
@@ -64,6 +66,47 @@ namespace GraphicsEditor
             leftGroupBox.Controls.Add(figureToolBox);
             figureToolBox.Location = new Point(6,12);
 
+        }
+
+        private void Setup()
+        {
+            Bitmap btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
+            mainPictureBox.Image = btm;
+
+            _paintCore = Graphics.FromImage(btm);
+
+            var draftFactory = new DraftFactory();
+            _buffer = new DraftClipboard(draftFactory);
+            var penSettings = new PenSettings(Color.Black, 1);
+
+            var paintingParameters = new PaintingParameters(penSettings);
+
+            var drawerFacade = new DrawerFacade();
+            var undoRedoStack = new UndoRedoStack();
+            var painterState = new PainterState();
+            var draftStorage = new DraftStorage();
+            var commandFactory = new CommandFactory();
+            var selector = new Selector();
+
+            var storageManager = new StorageManager(
+                draftStorage,
+                commandFactory,
+                undoRedoStack);
+
+            var draftPainter = new DraftPainter(
+                _paintCore,
+                paintingParameters,
+                storageManager,
+                draftFactory,
+                drawerFacade);
+
+            _drawManager = new DrawManager(
+                _paintCore,
+                draftPainter,
+                storageManager,
+                painterState,
+                selector,
+                undoRedoStack);
         }
 
         private void mainPictureBox_MouseMove_1(object sender, MouseEventArgs e)
@@ -106,12 +149,12 @@ namespace GraphicsEditor
 
         private void RefreshPen()
         {
-            _drawManager.DraftPainter.Parameters.GPen = new PenSettings()
-            {
-                Color = _drawManager.DraftPainter.Parameters.GPen.Color,
-                Width = (float)thicknessNumericUpDown.Value,
-                DashPattern = _drawManager.DraftPainter.Parameters.GPen.DashPattern
-            };
+            _drawManager.DraftPainter.Parameters.GPen = 
+                new PenSettings(_drawManager.DraftPainter.Parameters.GPen.Color,
+                (float)thicknessNumericUpDown.Value)
+                {          
+                    DashPattern = _drawManager.DraftPainter.Parameters.GPen.DashPattern
+                };
 
             if (penStrokeWidthNumericUpDown.Value > 0)
                 _drawManager.DraftPainter.Parameters.DashPattern = new float[]
@@ -195,9 +238,10 @@ namespace GraphicsEditor
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                _drawManager.DraftPainter.Parameters.GPen = new PenSettings()
-                { Color = colorDialog.Color,
-                    Width = _drawManager.DraftPainter.Parameters.GPen.Width,
+                _drawManager.DraftPainter.Parameters.GPen = new PenSettings(
+                    colorDialog.Color,
+                     _drawManager.DraftPainter.Parameters.GPen.Width)
+                {
                     DashPattern = _drawManager.DraftPainter.Parameters.GPen.DashPattern
                 };
                 penColorpanel.BackColor = colorDialog.Color;

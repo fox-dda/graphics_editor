@@ -3,13 +3,14 @@ using System.Drawing;
 using System;
 using GraphicsEditor.Model;
 using SDK;
+using GraphicsEditor.Interfaces;
 
 namespace GraphicsEditor
 {
     /// <summary>
     /// Искатель фигур
     /// </summary>
-    public class Selector
+    public class Selector: ISelector
     {
         /// <summary>
         /// Поиск фигуры по точке
@@ -44,38 +45,6 @@ namespace GraphicsEditor
                         ey = Math.Max(ey, point.Y);
                     }
                 }
-               /*/ else if (draftList[i] is Circle)
-                {
-                    var size = Math.Abs(draftList[i].EndPoint.X - draftList[i].StartPoint.X) >
-                               Math.Abs(draftList[i].EndPoint.Y - draftList[i].StartPoint.Y) ?
-                        Math.Abs(draftList[i].EndPoint.X - draftList[i].StartPoint.X) :
-                        Math.Abs(draftList[i].EndPoint.Y - draftList[i].StartPoint.Y);
-                    //
-                    //сверху вниз справа налево
-                    if ((draftList[i].StartPoint.Y < draftList[i].EndPoint.Y) && 
-                        (draftList[i].StartPoint.X > draftList[i].EndPoint.X))
-                    {
-                        sx = draftList[i].StartPoint.X - size;
-                        sy = draftList[i].StartPoint.Y;
-                    }
-                    //cнизу вверх слево на права
-                    else if ((draftList[i].StartPoint.Y > draftList[i].EndPoint.Y) && 
-                             (draftList[i].StartPoint.X < draftList[i].EndPoint.X))
-                    {
-                        sx = draftList[i].StartPoint.X;
-                        sy = draftList[i].StartPoint.Y - size;
-                    }
-                    //cнизу вверх справа налево
-                    else if ((draftList[i].StartPoint.Y > draftList[i].EndPoint.Y) && 
-                             (draftList[i].StartPoint.X > draftList[i].EndPoint.X))
-                    {
-                        sx = draftList[i].StartPoint.X - size;
-                        sy = draftList[i].StartPoint.Y - size;
-                    }
-                    ex = draftList[i].StartPoint.X + size;
-                    ey = draftList[i].StartPoint.Y + size;
-                }
-                /*/
 
                 if ((sy < my) && (sx < mx) && (ey > my) && (ex > mx))
                     return draftList[i];
@@ -95,7 +64,7 @@ namespace GraphicsEditor
         /// <param name="frame">Область в которой осуществляется поиск</param>
         /// <param name="draftList">Список фигур, где производится поиск</param>
         /// <returns>Найденные фигуры</returns>
-        public List<IDrawable> LassoSearch(HighlightRect frame,
+        public List<IDrawable> LassoSearch(IDrawable frame,
             List<IDrawable> draftList)
         {
             var findList = new List<IDrawable>();

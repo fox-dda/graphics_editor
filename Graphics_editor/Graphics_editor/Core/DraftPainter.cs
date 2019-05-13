@@ -5,98 +5,62 @@ using GraphicsEditor.Model;
 using GraphicsEditor.Model.Drawers;
 using GraphicsEditor.Enums;
 using GraphicsEditor.DraftTools;
+using SDK.Interfaces;
 using SDK;
+using GraphicsEditor.Interfaces;
 
 namespace GraphicsEditor.Engine
 {
     /// <summary>
     /// Художник фигур
     /// </summary>
-    public class DraftPainter
+    public class DraftPainter : IDraftPainter
     {
         /// <summary>
         /// Фасад отрисовщиков
         /// </summary>
-        private DrawerFacade _drawer = new DrawerFacade();
+        private IDrawerFacade _drawer;
 
         /// <summary>
         /// Состаяние художника фигур
         /// </summary>
-        public PainterState State
-        {
-            get => _state;
-            set => _state = value;
-        }
-        /// <summary>
-        /// Состаяние художника
-        /// </summary>
-        private PainterState _state;
+        public IPainterState State { get; set; }
 
         /// <summary>
         /// Ядро рисования
         /// </summary>
-        public Graphics Painter
-        {
-            get => _painter;
-            set => _painter = value;
-        }
-
-        /// <summary>
-        /// Ядро рисования
-        /// </summary>
-        private Graphics _painter;
+        public Graphics Painter { get; set; }
 
         /// <summary>
         /// Фабрика фигур
         /// </summary>
-        private DraftFactory _draftFactory;
-
-        /// <summary>
-        /// Фабрика фигур
-        /// </summary>
-        public DraftFactory DraftFactory
-        {
-            get => _draftFactory;
-            set => _draftFactory = value;
-        }
+        public IDraftFactory DraftFactory { get; set; }
 
         /// <summary>
         /// Менеджер хранилища
         /// </summary>
-        public StorageManager Corrector
-        {
-            get => _corrector;
-            set => _corrector = value;
-        }
-
-        /// <summary>
-        /// Менеджер хранилища
-        /// </summary>
-        private StorageManager _corrector;
+        public IStorageManager Corrector { get; set; }
 
         /// <summary>
         /// Параметры рисования
         /// </summary>
-        public PaintingParameters Parameters
-        {
-            get => _paintingParameters;
-            set => _paintingParameters = value;
-        }
-
-        /// <summary>
-        /// Параметры рисовани
-        /// </summary>
-        private PaintingParameters _paintingParameters;
+        public IPaintingParameters Parameters { get; set; }
 
         /// <summary>
         /// Ядро рисования
         /// </summary>
         /// <param name="paintCore">Ядро рисования</param>
-        public DraftPainter(Graphics paintCore)
+        public DraftPainter(Graphics paintCore,
+            IPaintingParameters paintinParameters, 
+            IStorageManager storageManager,
+            IDraftFactory draftFactory,
+            IDrawerFacade drawer)
         {
             Painter = paintCore;
-            Parameters = new PaintingParameters();
-            DraftFactory = new DraftFactory();
+            Parameters = paintinParameters;
+            Corrector = storageManager;
+            DraftFactory = draftFactory;
+            _drawer = drawer;
         }
 
         /// <summary>

@@ -9,71 +9,61 @@ using GraphicsEditor.DraftTools;
 using System.IO;
 using GraphicsEditor.Engine.UndoRedo;
 using GraphicsEditor.Engine.UndoRedo.Commands;
+using GraphicsEditor.Interfaces;
 using SDK;
+
 
 namespace GraphicsEditor.Engine
 {
     /// <summary>
     /// Менеджер рисования
     /// </summary>
-    public class DrawManager
+    public class DrawManager : IDrawManager
     {
         /// <summary>
         /// Художник фигур
         /// </summary>
-        public DraftPainter DraftPainter { get; set; }
+        public IDraftPainter DraftPainter { get; set; }
 
         /// <summary>
         /// Стек комманд
         /// </summary>
-        public UndoRedoStack CommandStack => DraftStorageManager.UndoRedoStack;
+        public IUndoRedoStack CommandStack { get; }
 
         /// <summary>
         /// Состаяние художника фигур
         /// </summary>
-        public PainterState State
-        {
-            get => _state;
-            set => _state = value;
-        }
-
-        /// <summary>
-        /// Состаяние художника фигур
-        /// </summary>
-        private PainterState _state;
+        public IPainterState State { get; set; }
 
         /// <summary>
         /// Менеджер хранилища фигур
         /// </summary>
-        public StorageManager DraftStorageManager
-        {
-            get => _draftStorageManager;
-            set => _draftStorageManager = value;
-        }
-
-        /// <summary>
-        /// Менеджер хранилища
-        /// </summary>
-        private StorageManager _draftStorageManager;
+        public IStorageManager DraftStorageManager { get; set; }
 
         /// <summary>
         /// Поисковик фигур на канве
         /// </summary>
-        private Selector _selector;
+        private ISelector _selector;
 
         /// <summary>
         /// Конструктор менеджера рисования
         /// </summary>
         /// <param name="draftPainter">Художник фигур</param>
         /// <param name="storage">Менеджер хранилища</param>
-        public DrawManager(Graphics _paintCore)
+        public DrawManager(Graphics _paintCore,
+            IDraftPainter draftPainter,
+            IStorageManager draftStorageManager,
+            IPainterState painterState,
+            ISelector selector,
+            IUndoRedoStack undoRedoStack )
         {
-            DraftPainter = new DraftPainter(_paintCore);
-            DraftStorageManager = new StorageManager(new DraftStorage());
-            State = new PainterState();
+            DraftPainter = draftPainter;
+            DraftStorageManager = draftStorageManager;
+            State = painterState;
             DraftPainter.State = State;
             DraftPainter.Corrector = DraftStorageManager;
-            _selector = new Selector();
+            _selector = selector;
+            CommandStack = undoRedoStack;
         }
 
         /// <summary>
@@ -81,7 +71,7 @@ namespace GraphicsEditor.Engine
         /// </summary>
         /// <param name="e">Событие</param>
         /// <param name="_buffer">Буфер обмена</param>
-        public void KeyProcess(KeyPressEventArgs e, DraftClipboard _buffer)
+        public void KeyProcess(KeyPressEventArgs e, IDraftClipboard _buffer)
         {
             switch (e.KeyChar)
             {
@@ -513,7 +503,7 @@ namespace GraphicsEditor.Engine
         /// Вырезать объект
         /// </summary>
         /// <param name="buffer">Буфер обмена</param>
-        public void Cut(DraftClipboard buffer)
+        public void Cut(IDraftClipboard buffer)
         {
             buffer.SetRange(DraftStorageManager.HighlightDraftStorage);
             DraftStorageManager.RemoveRangeHighlightDrafts();
@@ -524,7 +514,7 @@ namespace GraphicsEditor.Engine
         /// Копировать в буффер обмена
         /// </summary>
         /// <param name="buffer">Буфер обмена</param>
-        public void Copy(DraftClipboard buffer)
+        public void Copy(IDraftClipboard buffer)
         {
             buffer.SetRange(DraftStorageManager.HighlightDraftStorage);
             DraftPainter.RefreshCanvas();
@@ -535,7 +525,7 @@ namespace GraphicsEditor.Engine
         /// Вставить в буффер обмена
         /// </summary>
         /// <param name="buffer">Буфер обмена</param>
-        public void Paste(DraftClipboard buffer)
+        public void Paste(IDraftClipboard buffer)
         {
             DraftStorageManager.AddRangeDrafts(buffer.GetAll());
             DraftPainter.RefreshCanvas();

@@ -2,13 +2,14 @@
 using System.Drawing;
 using StructureMap;
 using SDK;
+using GraphicsEditor.Interfaces;
 
 namespace GraphicsEditor.Model.Drawers
 {
     /// <summary>
     /// Фасад отрисовщиков
     /// </summary>
-    public class DrawerFacade
+    public class DrawerFacade: IDrawerFacade
     {
         /// <summary>
         /// Словарь отрисовщиков фигур

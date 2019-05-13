@@ -14,7 +14,7 @@ namespace GraphicsEditor.Interfaces
         /// <param name="mousePoint">Точка для поиска</param>
         /// <param name="draftList">Список фигур, где производится поиск</param>
         /// <returns>Найденная фигура</returns>
-        IDrawable PointSearch(Point mousePoint, IList<IDrawable> draftList);
+        IDrawable PointSearch(Point mousePoint, List<IDrawable> draftList);
 
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace GraphicsEditor.Interfaces
         /// <param name="frame">Область в которой осуществляется поиск</param>
         /// <param name="draftList">Список фигур, где производится поиск</param>
         /// <returns>Найденные фигуры</returns>
-        IList<IDrawable> LassoSearch(IDrawable frame, IList<IDrawable> draftList);
+        List<IDrawable> LassoSearch(IDrawable frame, List<IDrawable> draftList);
 
         /// <summary>
         /// Найти точку в фигуре по заданным координатам
@@ -31,7 +31,7 @@ namespace GraphicsEditor.Interfaces
         /// <param name="mousePoint">Заданные координаты</param>
         /// <param name="highlighList">Список, где производится поиск</param>
         /// <returns>Точка в фигуре</returns>
-        DotInDraft SearchReferenceDot(Point mousePoint, IList<IDrawable> highlighList);
+        DotInDraft SearchReferenceDot(Point mousePoint, List<IDrawable> highlighList);
           
     }
 }

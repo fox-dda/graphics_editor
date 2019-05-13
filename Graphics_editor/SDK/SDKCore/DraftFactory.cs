@@ -4,18 +4,19 @@ using SDK;
 using System.Drawing;
 using System.Linq;
 using StructureMap;
+using SDK.Interfaces;
 
 namespace GraphicsEditor
 {
     /// <summary>
     /// Фабрика фигур
     /// </summary>
-    public class DraftFactory
+    public class DraftFactory: IDraftFactory
     {
         /// <summary>
         /// DI контейнер
         /// </summary>
-        private Container _container;
+        private IContainer _container;
 
         public DraftFactory()
         {
@@ -38,11 +39,11 @@ namespace GraphicsEditor
         /// <param name="brushColor">Цвет заливки</param>
         /// <returns>Созданная фигура</returns>
         public IDrawable CreateDraft(string figure, List<Point> pointList,
-            PenSettings gPen, Color brushColor)
+            IPenSettings gPen, Color brushColor)
         {
             var draft = _container.GetInstance<IDrawable>(figure);
 
-            draft.Pen = gPen;
+            draft.Pen = (PenSettings)gPen;
             if (draft is IBrushable brushableDraft)
             {
                 brushableDraft.BrushColor = brushColor;
@@ -50,7 +51,7 @@ namespace GraphicsEditor
 
             if (draft is IMultipoint multipointDraft)
             {
-                multipointDraft.DotList = pointList;
+                multipointDraft.DotList = (List<Point>)pointList;
             }
             else
             {

@@ -1,13 +1,24 @@
 ﻿using System.Collections.Generic;
+using GraphicsEditor.Interfaces;
 using SDK;
+using SDK.Interfaces;
 
 namespace GraphicsEditor
 {
     /// <summary>
     /// Буфер обмена
     /// </summary>
-    public class DraftClipboard
+    public class DraftClipboard : IDraftClipboard
     {
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="factory">Фабрика фигур</param>
+        public DraftClipboard(IDraftFactory factory)
+        {
+            _factory = factory;
+        }
+
         /// <summary>
         /// Хранилище объектов буфера обмена
         /// </summary>
@@ -16,7 +27,7 @@ namespace GraphicsEditor
         /// <summary>
         /// Фабрика фигур для клонирования
         /// </summary>
-        private DraftFactory factory = new DraftFactory();
+        private IDraftFactory _factory;
 
         /// <summary>
         /// Записать в буфер ряд объектов
@@ -27,7 +38,7 @@ namespace GraphicsEditor
             _clipboard.Clear();
             foreach(var item in items)
             {
-                _clipboard.Add(factory.Clone(item));
+                _clipboard.Add(_factory.Clone(item));
             }
         }
 
@@ -41,7 +52,7 @@ namespace GraphicsEditor
 
             foreach (var item in _clipboard)
             {
-               returnList.Add(factory.Clone(item));
+               returnList.Add(_factory.Clone(item));
             }
             return returnList;
         }

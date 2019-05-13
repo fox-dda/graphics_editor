@@ -1,20 +1,20 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using GraphicsEditor.Engine.UndoRedo;
+using GraphicsEditor.Interfaces;
 
 namespace GraphicsEditor
 {
     /// <summary>
     /// Сериалайзер проекта
     /// </summary>
-    public class DraftSerealizer
+    public class DraftSerealizer: IDraftSerealizer
     {
         /// <summary>
         /// Сериализовать стек команд
         /// </summary>
         /// <param name="stream">Поток</param>
         /// <param name="stack">Сериализуемый стек</param>
-        public void Serialize(Stream stream, UndoRedoStack stack)
+        public void Serialize(Stream stream, IUndoRedoStack stack)
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             binaryFormatter.Serialize(stream, stack);
@@ -25,10 +25,10 @@ namespace GraphicsEditor
         /// </summary>
         /// <param name="stream">Поток</param>
         /// <returns>Выполненные комманды</returns>
-        public UndoRedoStack Deserialize(Stream stream)
+        public IUndoRedoStack Deserialize(Stream stream)
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
-            return (UndoRedoStack)binaryFormatter.Deserialize(stream);
+            return (IUndoRedoStack)binaryFormatter.Deserialize(stream);
         }
     }
 }

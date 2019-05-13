@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using GraphicsEditor.DraftTools;
 using System.Windows.Forms;
 using SDK;
+using GraphicsEditor.Interfaces;
 
 namespace GraphicsEditor
 {
@@ -12,7 +12,7 @@ namespace GraphicsEditor
         /// <summary>
         /// Менеджер хранилища
         /// </summary>
-        public StorageManager StorageManager
+        public IStorageManager StorageManager
         {
             get => _storageManager;
             set => _storageManager = value;
@@ -21,7 +21,7 @@ namespace GraphicsEditor
         /// <summary>
         /// Менеджер хранилища
         /// </summary>
-        private StorageManager _storageManager;
+        private IStorageManager _storageManager;
 
         /// <summary>
         /// Список фигур
@@ -95,11 +95,10 @@ namespace GraphicsEditor
                 var endPoint = new Point(
                     Convert.ToInt32(selectObjectEPXMaskedTextBox.Text),
                     Convert.ToInt32(selectObjectEPYMaskedTextBox.Text));
-                var pen = new PenSettings()
-                {
-                    Color =  selectedColorPanel.BackColor,
-                    Width = (float)selectedWidthNnumericUpDown.Value
-                };
+                var pen = new PenSettings(
+                    selectedColorPanel.BackColor,
+                    (float)selectedWidthNnumericUpDown.Value);
+
 
                 if (selectedStrokeNumericUpDown.Value > 0)
                     pen.DashPattern = new float[]

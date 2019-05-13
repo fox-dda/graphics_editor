@@ -1,28 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using GraphicsEditor.Model;
 using SDK;
 using GraphicsEditor.Engine.UndoRedo;
 using GraphicsEditor.Engine.UndoRedo.Commands;
+using GraphicsEditor.Interfaces;
+using SDK.Interfaces;
 
 namespace GraphicsEditor.DraftTools
 {
     /// <summary>
     /// Менеджер хранилища
     /// </summary>
-    public class StorageManager
+    public class StorageManager: IStorageManager
     {
-        /// <summary>
-        /// Хранилище объектов
-        /// </summary>
-        private DraftStorage _storage;
-
-        private CommandFactory _commandFactory = new CommandFactory();
+        private ICommandFactory _commandFactory;
 
         /// <summary>
         /// Стек команд
         /// </summary>
-        private UndoRedoStack _undoRedoStack = new UndoRedoStack();
+        private IUndoRedoStack _undoRedoStack;
 
         /// <summary>
         /// Список отрисованных фигур
@@ -30,8 +26,10 @@ namespace GraphicsEditor.DraftTools
         /// <returns>Хранилище фигур</returns>
         public List<IDrawable> PaintedDraftStorage
         {
-            get => _storage.DraftList;
-            set => _storage.DraftList = value;
+            get
+            {
+                return _storage.DraftList;
+            }
         }
 
         /// <summary>
@@ -55,11 +53,12 @@ namespace GraphicsEditor.DraftTools
         /// Вернуть стек выполненых команд
         /// </summary>
         /// <returns>Выполненные команды</returns>
-        public UndoRedoStack UndoRedoStack
+        public IUndoRedoStack UndoRedoStack
         {
             get => _undoRedoStack;
             set => _undoRedoStack = value;
         }
+        public IDraftStorage _storage { get; private set; }
 
         /// <summary>
         /// Повторить комманду (Шаг вперед)
@@ -81,9 +80,12 @@ namespace GraphicsEditor.DraftTools
         /// Конструктор класса StorageManager
         /// </summary>
         /// <param name="storage">Хранилище фигур</param>
-        public StorageManager(DraftStorage storage)
+        public StorageManager(IDraftStorage storage, ICommandFactory commandFactory,
+            IUndoRedoStack undoRedoStack)
         {
             _storage = storage;
+            _commandFactory = commandFactory;
+            _undoRedoStack = undoRedoStack;
         }
 
         /// <summary>
@@ -154,7 +156,7 @@ namespace GraphicsEditor.DraftTools
         /// <param name="pen">Новое перо</param>
         /// <param name="brush">Новый цвет заливки</param>
         public void EditDraft(IDrawable draft, List<Point> pointList,
-            PenSettings pen, Color brush)
+            IPenSettings pen, Color brush)
         {
             _undoRedoStack.Do(_commandFactory.CreateEditDraftCommand(
                 draft, pointList, pen, brush));
@@ -198,7 +200,7 @@ namespace GraphicsEditor.DraftTools
         /// </summary>
         /// <param name="paintingParameters">Настройки канвы, которые необходимо изменить</param>
         /// <param name="newColor">Новый цвет</param>
-        public void EditCanvasColor(PaintingParameters paintingParameters, Color newColor)
+        public void EditCanvasColor(IPaintingParameters paintingParameters, Color newColor)
         {
             _undoRedoStack.Do(_commandFactory.CreateEditCanvasColorCommand(paintingParameters, newColor));
         }

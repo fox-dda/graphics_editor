@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System;
-using System.Linq;
 using System.Windows.Forms;
 using GraphicsEditor.Engine;
 using SDK;
+using GraphicsEditor.Interfaces;
 using StructureMap;
 
 namespace GraphicsEditor.View
 {
     public partial class FigureToolBox : UserControl
     {       
-        public FigureToolBox(PainterState painterState)
+        public FigureToolBox(IPainterState painterState)
         {
             InitializeComponent();
             _painterState = painterState;
@@ -54,7 +54,7 @@ namespace GraphicsEditor.View
             _painterState.Figure = (sender as Button).Text;
         }
 
-        private PainterState _painterState;
+        private IPainterState _painterState;
 
         private List<string> _modelNames = new List<string>();
 

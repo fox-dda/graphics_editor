@@ -1,13 +1,14 @@
 ﻿using SDK;
 using GraphicsEditor.Enums;
 using StructureMap;
+using GraphicsEditor.Interfaces;
 
 namespace GraphicsEditor.Engine
 {
     /// <summary>
     /// Определитель стратегии
     /// </summary>
-    class StrategyDeterminer
+    internal class StrategyDeterminer: IStrategyDeterminer
     {
         public StrategyDeterminer()
         {

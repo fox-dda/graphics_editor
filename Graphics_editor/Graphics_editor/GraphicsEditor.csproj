@@ -117,6 +117,8 @@
     <Compile Include="Core\UndoRedo\UndoRedoStack.cs" />
     <Compile Include="Enums\MouseAction.cs" />
     <Compile Include="Enums\Stategy.cs" />
+    <Compile Include="Interfaces\DraftSerealizer.cs" />
+    <Compile Include="Interfaces\ICommandFactory.cs" />
     <Compile Include="Interfaces\IDraftClipboard.cs" />
     <Compile Include="Interfaces\IDraftPainter.cs" />
     <Compile Include="Interfaces\IDraftSerealizer.cs" />
