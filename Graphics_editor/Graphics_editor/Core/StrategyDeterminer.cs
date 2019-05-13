@@ -25,7 +25,7 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// DI контейнер
         /// </summary>
-        private Container _container;
+        public IContainer _container { get; set; }
 
         /// <summary>
         /// Определить статегию отрисовки по фигуре

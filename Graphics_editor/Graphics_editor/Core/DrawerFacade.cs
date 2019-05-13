@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using GraphicsEditor.Engine;
 using StructureMap;
 using SDK;
-using System.Windows.Forms;
 
 namespace GraphicsEditor.Model.Drawers
 {

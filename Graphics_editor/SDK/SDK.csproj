@@ -44,18 +44,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseDrawer.cs" />
-    <Compile Include="DraftFactory.cs" />
-    <Compile Include="IBrushable.cs" />
-    <Compile Include="IDrawable.cs" />
-    <Compile Include="IMultipoint.cs" />
-    <Compile Include="INamed.cs" />
-    <Compile Include="PenConverter.cs" />
-    <Compile Include="PenSettings.cs" />
+    <Compile Include="Interfaces\IDraftFactory.cs" />
+    <Compile Include="Interfaces\IPenConverter.cs" />
+    <Compile Include="Interfaces\IPenSettings.cs" />
+    <Compile Include="SDKCore\BaseDrawer.cs" />
+    <Compile Include="SDKCore\DraftFactory.cs" />
+    <Compile Include="Interfaces\IBrushable.cs" />
+    <Compile Include="Interfaces\IDrawable.cs" />
+    <Compile Include="Interfaces\IMultipoint.cs" />
+    <Compile Include="Interfaces\INamed.cs" />
+    <Compile Include="SDKCore\PenConverter.cs" />
+    <Compile Include="SDKCore\PenSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

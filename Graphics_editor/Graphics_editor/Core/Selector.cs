@@ -2,7 +2,6 @@
 using System.Drawing;
 using System;
 using GraphicsEditor.Model;
-using System.Windows.Forms;
 using SDK;
 
 namespace GraphicsEditor

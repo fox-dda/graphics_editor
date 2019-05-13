@@ -11,10 +11,10 @@ namespace GraphicsEditor
         /// <summary>
         /// Список отрисованных фигур
         /// </summary>
-        public List<IDrawable> DraftList = new List<IDrawable>();
+        public List<IDrawable> DraftList { get; set; } = new List<IDrawable>();
         /// <summary>
         /// Список выделенных фигур
         /// </summary>
-        public List<IDrawable> HighlightDraftsList = new List<IDrawable>();
+        public List<IDrawable> HighlightDraftsList { get; set; } = new List<IDrawable>();
     }
 }
