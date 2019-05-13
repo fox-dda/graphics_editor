@@ -14,7 +14,7 @@ namespace SDK.Interfaces
         /// <param name="gPen">Перо</param>
         /// <param name="brushColor">Цвет заливки</param>
         /// <returns>Созданная фигура</returns>
-        IDrawable CreateDraft(string figure, ICollection<Point> pointList,
+        IDrawable CreateDraft(string figure, IList<Point> pointList,
             IPenSettings gPen, Color brushColor);
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace SDK.Interfaces
         /// </summary>
         /// <param name="draftList">Список фигур</param>
         /// <returns>Тип однородных фигур</returns>
-        Type CheckUniformity(ICollection<IDrawable> draftList);
+        Type CheckUniformity(IList<IDrawable> draftList);
     }
 }
 

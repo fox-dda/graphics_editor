@@ -2,21 +2,22 @@
 using SDK;
 using GraphicsEditor.Engine.UndoRedo.Commands;
 using System.Drawing;
+using SDK.Interfaces;
 
 namespace GraphicsEditor.Interfaces
 {
-    public interface IStorageManagercs
+    public interface IStorageManager
     {
         /// <summary>
         /// Список отрисованных фигур
         /// </summary>
         /// <returns>Хранилище фигур</returns>
-        ICollection<IDrawable> PaintedDraftStorage { get; set; }
+        IList<IDrawable> PaintedDraftStorage { get; set; }
 
         /// <summary>
         /// Список выделенных фигур
         /// </summary>
-        ICollection<IDrawable> HighlightDraftStorage { get; }
+        IList<IDrawable> HighlightDraftStorage { get; }
 
         /// <summary>
         /// Выполнить комманду
@@ -50,7 +51,7 @@ namespace GraphicsEditor.Interfaces
         /// Добавить несколько фигур в хранилище
         /// </summary>
         /// <param name="drafts">Добавляемые фигуры</param>
-        void AddRangeDrafts(ICollection<IDrawable> drafts);
+        void AddRangeDrafts(IList<IDrawable> drafts);
 
         /// <summary>
         /// Очистить хранилище фигур
@@ -72,7 +73,7 @@ namespace GraphicsEditor.Interfaces
         /// Добавить несколько фигур в список выделенных
         /// </summary>
         /// <param name="highlightRange"></param>
-        void HighlightingDraftRange(ICollection<IDrawable> highlightRange);
+        void HighlightingDraftRange(IList<IDrawable> highlightRange);
 
         /// <summary>
         /// Изменить фигуру
@@ -81,8 +82,8 @@ namespace GraphicsEditor.Interfaces
         /// <param name="pointList">Новые точки</param>
         /// <param name="pen">Новое перо</param>
         /// <param name="brush">Новый цвет заливки</param>
-        void EditDraft(IDrawable draft, ICollection<Point> pointList,
-            PenSettings pen, Color brush);
+        void EditDraft(IDrawable draft, IList<Point> pointList,
+            IPenSettings pen, Color brush);
 
         /// <summary>
         /// Удалить выделенные фигуры из хранилища
@@ -94,7 +95,7 @@ namespace GraphicsEditor.Interfaces
         /// </summary>
         /// <param name="item">Фигура, из которой нужно вытащить точки</param>
         /// <returns>Точки фигуры</returns>
-        ICollection<Point> PullPoints(IDrawable item);
+        IList<Point> PullPoints(IDrawable item);
 
         /// <summary>
         /// Изменить цвет канвы

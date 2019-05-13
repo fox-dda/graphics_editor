@@ -9,12 +9,12 @@ namespace GraphicsEditor.Interfaces
         /// Записать в буфер ряд объектов
         /// </summary>
         /// <param name="items">Записываемые объекты</param>
-        void SetRange(List<IDrawable> items);
+        void SetRange(IList<IDrawable> items);
 
         /// <summary>
         /// Вернуть из буфера ряд объектов
         /// </summary>
         /// <returns></returns>
-        ICollection<IDrawable> GetAll();
+        IList<IDrawable> GetAll();
     }
 }

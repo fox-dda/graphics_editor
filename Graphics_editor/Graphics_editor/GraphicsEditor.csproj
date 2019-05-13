@@ -95,26 +95,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\DrawerFacade.cs" />
-    <Compile Include="Engine\DrawManager.cs" />
-    <Compile Include="Engine\DraftTools\StorageManager.cs" />
-    <Compile Include="Engine\DraftTools\DraftSerealizer.cs" />
-    <Compile Include="Engine\DraftStorage.cs" />
-    <Compile Include="Engine\DraftPainter.cs" />
-    <Compile Include="Engine\PainterState.cs" />
-    <Compile Include="Engine\PenConverter.cs" />
-    <Compile Include="Engine\PluginLoader.cs" />
-    <Compile Include="Engine\StrategyDeterminer.cs" />
-    <Compile Include="Engine\UndoRedo\Commands\AddDraftCommand.cs" />
-    <Compile Include="Engine\UndoRedo\Commands\AddRangeDraftsCommand.cs" />
-    <Compile Include="Engine\UndoRedo\Commands\ClearStorageCommand.cs" />
-    <Compile Include="Engine\UndoRedo\Commands\CommandFactory.cs" />
-    <Compile Include="Engine\UndoRedo\Commands\EditCanvasColorCommand.cs" />
-    <Compile Include="Engine\UndoRedo\Commands\EditDraftCommand.cs" />
-    <Compile Include="Engine\UndoRedo\Commands\ICommand.cs" />
-    <Compile Include="Engine\UndoRedo\Commands\RemoveDraftCommand.cs" />
-    <Compile Include="Engine\UndoRedo\Commands\RemoveRangeDraftsCommand.cs" />
-    <Compile Include="Engine\UndoRedo\UndoRedoStack.cs" />
+    <Compile Include="Core\DrawerFacade.cs" />
+    <Compile Include="Core\DrawManager.cs" />
+    <Compile Include="Core\DraftTools\StorageManager.cs" />
+    <Compile Include="Core\DraftTools\DraftSerealizer.cs" />
+    <Compile Include="Core\DraftStorage.cs" />
+    <Compile Include="Core\DraftPainter.cs" />
+    <Compile Include="Core\PainterState.cs" />
+    <Compile Include="Core\PenConverter.cs" />
+    <Compile Include="Core\PluginLoader.cs" />
+    <Compile Include="Core\StrategyDeterminer.cs" />
+    <Compile Include="Core\UndoRedo\Commands\AddDraftCommand.cs" />
+    <Compile Include="Core\UndoRedo\Commands\AddRangeDraftsCommand.cs" />
+    <Compile Include="Core\UndoRedo\Commands\ClearStorageCommand.cs" />
+    <Compile Include="Core\UndoRedo\Commands\CommandFactory.cs" />
+    <Compile Include="Core\UndoRedo\Commands\EditCanvasColorCommand.cs" />
+    <Compile Include="Core\UndoRedo\Commands\EditDraftCommand.cs" />
+    <Compile Include="Core\UndoRedo\Commands\ICommand.cs" />
+    <Compile Include="Core\UndoRedo\Commands\RemoveDraftCommand.cs" />
+    <Compile Include="Core\UndoRedo\Commands\RemoveRangeDraftsCommand.cs" />
+    <Compile Include="Core\UndoRedo\UndoRedoStack.cs" />
     <Compile Include="Enums\MouseAction.cs" />
     <Compile Include="Enums\Stategy.cs" />
     <Compile Include="Interfaces\IDraftClipboard.cs" />
@@ -127,7 +127,7 @@
     <Compile Include="Interfaces\IPaintingParameters.cs" />
     <Compile Include="Interfaces\IPenConverter.cs" />
     <Compile Include="Interfaces\ISelector.cs" />
-    <Compile Include="Interfaces\IStorageManagercs.cs" />
+    <Compile Include="Interfaces\IStorageManager.cs" />
     <Compile Include="Interfaces\IStrategyDeterminer.cs" />
     <Compile Include="Interfaces\IUndoRedoStack.cs" />
     <Compile Include="Model\Drawers\HighlightDrawer.cs" />
@@ -154,9 +154,9 @@
     <Compile Include="View\SelectionPanel.Designer.cs">
       <DependentUpon>SelectionPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Engine\Selector.cs" />
-    <Compile Include="Engine\PaintingParameters.cs" />
-    <Compile Include="Engine\DraftClipboard.cs" />
+    <Compile Include="Core\Selector.cs" />
+    <Compile Include="Core\PaintingParameters.cs" />
+    <Compile Include="Core\DraftClipboard.cs" />
     <EmbeddedResource Include="View\FigureToolBox.resx">
       <DependentUpon>FigureToolBox.cs</DependentUpon>
     </EmbeddedResource>

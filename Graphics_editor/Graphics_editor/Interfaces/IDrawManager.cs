@@ -5,6 +5,7 @@ using GraphicsEditor.Engine.UndoRedo;
 using GraphicsEditor.DraftTools;
 using GraphicsEditor.Enums;
 using System.IO;
+using System.Windows.Forms;
 
 namespace GraphicsEditor.Interfaces
 {
@@ -13,29 +14,29 @@ namespace GraphicsEditor.Interfaces
         /// <summary>
         /// Художник фигур
         /// </summary>
-        DraftPainter DraftPainter { get; set; }
+        IDraftPainter DraftPainter { get; set; }
 
         /// <summary>
         /// Стек комманд
         /// </summary>
-        UndoRedoStack CommandStack { get; }
+        IUndoRedoStack CommandStack { get; }
 
         /// <summary>
         /// Состаяние художника фигур
         /// </summary>
-        PainterState State { get; set; }
+        IPainterState State { get; set; }
 
         /// <summary>
         /// Менеджер хранилища фигур
         /// </summary>
-        StorageManager DraftStorageManager { get; set; }
+        IStorageManager DraftStorageManager { get; set; }
 
         /// <summary>
         /// Обработка событий клавиш
         /// </summary>
         /// <param name="e">Событие</param>
         /// <param name="_buffer">Буфер обмена</param>
-        void KeyProcess(System.Windows.Forms.KeyPressEventArgs e, DraftClipboard _buffer);
+        void KeyProcess(KeyPressEventArgs e, IDraftClipboard _buffer);
 
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace GraphicsEditor.Interfaces
         /// </summary>
         /// <param name="e">Событие</param>
         /// <param name="mouseAction">Параметры события</param>
-        void MouseProcess(System.Windows.Forms.MouseEventArgs e, MouseAction mouseAction);
+        void MouseProcess(MouseEventArgs e, MouseAction mouseAction);
 
         /// <summary>
         /// Измененить цвет фона
@@ -91,19 +92,19 @@ namespace GraphicsEditor.Interfaces
         /// Вырезать объект
         /// </summary>
         /// <param name="buffer">Буфер обмена</param>
-        void Cut(DraftClipboard buffer);
+        void Cut(IDraftClipboard buffer);
 
         /// <summary>
         /// Копировать в буффер обмена
         /// </summary>
         /// <param name="buffer">Буфер обмена</param>
-        void Copy(DraftClipboard buffer);
+        void Copy(IDraftClipboard buffer);
 
         /// <summary>
         /// Вставить в буффер обмена
         /// </summary>
         /// <param name="buffer">Буфер обмена</param>
-        void Paste(DraftClipboard buffer);
+        void Paste(IDraftClipboard buffer);
 
         /// <summary>
         /// Удалить объект

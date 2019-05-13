@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using GraphicsEditor.DraftTools;
+using SDK.Interfaces;
 using SDK;
 
 namespace GraphicsEditor.Interfaces
@@ -20,12 +20,12 @@ namespace GraphicsEditor.Interfaces
         /// <summary>
         /// Фабрика фигур
         /// </summary>
-        DraftFactory DraftFactory { get; set; }
+        IDraftFactory DraftFactory { get; set; }
 
         /// <summary>
         /// Менеджер хранилища
         /// </summary>
-        StorageManager Corrector { get; set; }
+        IStorageManager Corrector { get; set; }
 
         /// <summary>
         /// Параметры рисования

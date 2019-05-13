@@ -8,11 +8,11 @@ namespace GraphicsEditor.Interfaces
         /// <summary>
         /// Список отрисованных фигур
         /// </summary>
-        ICollection<IDrawable> DraftList { get; set; }
+        IList<IDrawable> DraftList { get; set; }
 
         /// <summary>
         /// Список выделенных фигур
         /// </summary>
-        ICollection<IDrawable> HighlightDraftsList { get; set; }
+        IList<IDrawable> HighlightDraftsList { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using SDK;
+using SDK.Interfaces;
 
 namespace GraphicsEditor.Interfaces
 {
@@ -18,7 +19,7 @@ namespace GraphicsEditor.Interfaces
         /// <summary>
         /// Настройки пера
         /// </summary>
-        PenSettings GPen {get; set;}
+        IPenSettings GPen {get; set;}
 
         /// <summary>
         /// Цвет фона
