@@ -14,7 +14,6 @@ namespace GraphicsEditor
         public PaintingParameters(IPenSettings penSettings)
         {
             GPen = penSettings;
-             //= new PenSettings { Color = Color.Black, Width = 1 };
         }
 
         /// <summary>

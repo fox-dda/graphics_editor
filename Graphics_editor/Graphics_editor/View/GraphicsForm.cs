@@ -12,6 +12,7 @@ using GraphicsEditor.Interfaces;
 using GraphicsEditor.Model.Drawers;
 using GraphicsEditor.Engine.UndoRedo.Commands;
 using GraphicsEditor.Engine.UndoRedo;
+using StructureMap;
 
 namespace GraphicsEditor
 {
@@ -37,7 +38,7 @@ namespace GraphicsEditor
         /// </summary>
         private SelectionPanel _highlightPanel;
 
-        public MainForm()
+        public MainForm(IContainer container)
         {
             InitializeComponent();
 
@@ -50,37 +51,14 @@ namespace GraphicsEditor
                 null, control, new object[] { true });
             }
 
-            Setup();
-
-            _highlightPanel = new SelectionPanel
-            {
-                StorageManager = _drawManager.DraftStorageManager 
-            };
-
-            Controls.Add(_highlightPanel);
-            rightGroupBox.Controls.Add(_highlightPanel);
-            _highlightPanel.Location = new Point(3, 2);
-            _highlightPanel.ModelChanged += _drawManager.DraftPainter.RefreshCanvas;
-            _highlightPanel.ModelChanged += mainPictureBox.Invalidate;
-            var figureToolBox = new FigureToolBox(_drawManager.DraftPainter.State);
-            leftGroupBox.Controls.Add(figureToolBox);
-            figureToolBox.Location = new Point(6,12);
-
-        }
-
-        private void Setup()
-        {
             Bitmap btm = new Bitmap(mainPictureBox.Width, mainPictureBox.Height);
             mainPictureBox.Image = btm;
-
             _paintCore = Graphics.FromImage(btm);
 
-            var draftFactory = new DraftFactory();
-            _buffer = new DraftClipboard(draftFactory);
+            var draftFactory = new DraftFactory(container);
+            var buffer = new DraftClipboard(draftFactory);
             var penSettings = new PenSettings(Color.Black, 1);
-
             var paintingParameters = new PaintingParameters(penSettings);
-
             var drawerFacade = new DrawerFacade();
             var undoRedoStack = new UndoRedoStack();
             var painterState = new PainterState();
@@ -100,16 +78,45 @@ namespace GraphicsEditor
                 draftFactory,
                 drawerFacade);
 
-            _drawManager = new DrawManager(
+            var drawManager = new DrawManager(
                 _paintCore,
                 draftPainter,
                 storageManager,
                 painterState,
                 selector,
                 undoRedoStack);
+
+            Setup(buffer, drawManager);
+
+            _highlightPanel = new SelectionPanel(draftFactory)
+            {
+                StorageManager = _drawManager.DraftStorageManager 
+            };
+
+            Controls.Add(_highlightPanel);
+            rightGroupBox.Controls.Add(_highlightPanel);
+            _highlightPanel.Location = new Point(3, 2);
+            _highlightPanel.ModelChanged += _drawManager.DraftPainter.RefreshCanvas;
+            _highlightPanel.ModelChanged += mainPictureBox.Invalidate;
+            var figureToolBox = new FigureToolBox(_drawManager.DraftPainter.State);
+            leftGroupBox.Controls.Add(figureToolBox);
+            figureToolBox.Location = new Point(6,12);
+            
         }
 
-        private void mainPictureBox_MouseMove_1(object sender, MouseEventArgs e)
+        /// <summary>
+        /// Внедрение зависимостей через метод.
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="drawManager"></param>
+        public void Setup(IDraftClipboard buffer, IDrawManager drawManager)
+        {
+            _buffer = buffer;
+            _drawManager = drawManager;
+        }
+
+        private void mainPictureBox_MouseMove_1(object sender,
+            MouseEventArgs e)
         {
             _drawManager.MouseProcess(e, MouseAction.Move);
             mainPictureBox.Invalidate();

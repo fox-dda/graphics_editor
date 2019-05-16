@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructureMap;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,9 +15,17 @@ namespace GraphicsEditor
         [STAThread]
         static void Main()
         {
+            var container =  new Container(_ =>
+            {
+                _.Scan(o =>
+                {
+                    o.AssembliesAndExecutablesFromApplicationBaseDirectory();
+                    o.AddAllTypesOf<SDK.IDrawable>().NameBy(x => x.Name);
+                });
+            });
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new MainForm(container));
         }
     }
 }

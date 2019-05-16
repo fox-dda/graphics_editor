@@ -169,7 +169,8 @@ namespace GraphicsEditor.Engine
                             State.DragDropDraft.Pen,
                             State.UndrawableDraft is IBrushable
                                 ? ((IBrushable) State.DragDropDraft).BrushColor
-                                : Color.White);
+                                : Color.White,
+                            DraftPainter.DraftFactory);
                     }
                     if (State.DragDropDotingDraft != null)
                     {
@@ -179,7 +180,8 @@ namespace GraphicsEditor.Engine
                             undrawable, newPoints, undrawable.Pen,
                             undrawable is IBrushable brushable
                                 ? brushable.BrushColor
-                                : Color.White);
+                                : Color.White,
+                            DraftPainter.DraftFactory);
                     }
                     State.Figure = "HighlightRect";
                  //   State.DragDropDot.Draft = null;

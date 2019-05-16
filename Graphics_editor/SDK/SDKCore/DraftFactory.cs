@@ -18,16 +18,9 @@ namespace GraphicsEditor
         /// </summary>
         private IContainer _container;
 
-        public DraftFactory()
+        public DraftFactory(IContainer container)
         {
-            _container = new Container(_ =>
-            {
-                _.Scan(o =>
-                {
-                    o.AssembliesAndExecutablesFromApplicationBaseDirectory();
-                    o.AddAllTypesOf<IDrawable>().NameBy(x => x.Name);
-                });
-            });
+            _container = container;
         }
 
         /// <summary>

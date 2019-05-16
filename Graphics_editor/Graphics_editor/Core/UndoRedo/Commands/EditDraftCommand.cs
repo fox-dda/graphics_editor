@@ -94,10 +94,9 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
         /// <param name="pointList">Список новых точек</param>
         /// <param name="pen">Новые настройки пера</param>
         /// <param name="brush">Новый цвет заливки</param>
-        public EditDraftCommand(IDrawable draft, List<Point> pointList, IPenSettings pen, Color brush)
+        public EditDraftCommand(IDrawable draft, List<Point> pointList, IPenSettings pen, Color brush, IDraftFactory factory)
         {
             _editedDraft = draft;
-            var factory = new DraftFactory();
             _backUpDraft = factory.Clone(draft);
             _pointList = pointList;
             _penSettings = pen;

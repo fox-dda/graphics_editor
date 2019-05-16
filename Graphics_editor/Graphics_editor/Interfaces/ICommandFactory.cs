@@ -42,8 +42,9 @@ namespace GraphicsEditor.Interfaces
         /// <returns>Команда изменения фигуры</returns>
         EditDraftCommand CreateEditDraftCommand(IDrawable draft,
             List<Point> pointList,
-            IPenSettings pen
-            , Color brush);
+            IPenSettings pen,
+            Color brush,
+            IDraftFactory draftFactory);
 
         /// <summary>
         /// Создать команду удаления фигуры из списка

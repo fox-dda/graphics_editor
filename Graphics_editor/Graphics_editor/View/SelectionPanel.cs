@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SDK;
+using SDK.Interfaces;
 using GraphicsEditor.Interfaces;
 
 namespace GraphicsEditor
@@ -17,6 +18,8 @@ namespace GraphicsEditor
             get => _storageManager;
             set => _storageManager = value;
         }
+
+        private IDraftFactory _draftFactory { get; set; }
 
         /// <summary>
         /// Менеджер хранилища
@@ -122,11 +125,11 @@ namespace GraphicsEditor
                 if (Drafts[0] is IBrushable)
                 {
                     StorageManager.EditDraft(Drafts[0], pointList, pen,
-                        selectedBrushPanel.BackColor);
+                        selectedBrushPanel.BackColor, _draftFactory);
                 }
                 else
                 {
-                    StorageManager.EditDraft(Drafts[0], pointList, pen, Color.White);
+                    StorageManager.EditDraft(Drafts[0], pointList, pen, Color.White, _draftFactory);
                 }
             }
             ModelChanged();
@@ -200,8 +203,7 @@ namespace GraphicsEditor
                     selectObjectEPXMaskedTextBox.Text = "";
                     selectObjectEPYMaskedTextBox.Text = "";
 
-                    var factory = new DraftFactory();
-                    var type = factory.CheckUniformity(Drafts);
+                    var type = _draftFactory.CheckUniformity(Drafts);
 
                     if (type == null)
                     {
@@ -240,8 +242,9 @@ namespace GraphicsEditor
             _enabledData = true;
         }
 
-        public SelectionPanel()
+        public SelectionPanel(IDraftFactory draftFactory)
         {
+            _draftFactory = draftFactory;
             InitializeComponent();
         }
 

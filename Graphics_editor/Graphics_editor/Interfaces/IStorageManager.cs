@@ -83,7 +83,7 @@ namespace GraphicsEditor.Interfaces
         /// <param name="pen">Новое перо</param>
         /// <param name="brush">Новый цвет заливки</param>
         void EditDraft(IDrawable draft, List<Point> pointList,
-            IPenSettings pen, Color brush);
+            IPenSettings pen, Color brush, IDraftFactory draftFactory);
 
         /// <summary>
         /// Удалить выделенные фигуры из хранилища
