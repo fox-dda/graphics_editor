@@ -14,15 +14,29 @@ namespace GraphicsEditor.Engine
     public class PainterState: IPainterState
     {
         /// <summary>
+        /// Конструктор 
+        /// </summary>
+        /// <param name="deteminer">Определитель стратегии</param>
+        public PainterState(IStrategyDeterminer deteminer)
+        {
+            _stategyDeterminer = deteminer;
+        }
+
+        /// <summary>
         /// Стратегия отрисовки
         /// </summary>
         public Strategy DrawingStrategy
         {
             get
             {
-                return new StrategyDeterminer().DefineStrategy(Figure);
+                return _stategyDeterminer.DefineStrategy(Figure);
             }
         }
+
+        /// <summary>
+        /// Определитель стратегии
+        /// </summary>
+        private IStrategyDeterminer _stategyDeterminer;
 
         /// <summary>
         /// Рисуемая фигура
@@ -72,14 +86,6 @@ namespace GraphicsEditor.Engine
         /// Двигаемая фигура
         /// </summary>
         public IDrawable DragDropDraft { get; set; }
-
-        /// <summary>
-        /// Двигаемая точка в фигуре
-        /// </summary>
-        /// Возможна ситуация, где мы не нашли фигуру по точке клика,
-        /// Тогда данное поле должно быть null
-        /// Потому используем публичное поле, а не свойство
-       // public DotInDraft DragDropDot { get; set; }
 
         /// <summary>
         /// Точка, которая двигается в фигуре

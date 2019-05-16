@@ -40,7 +40,7 @@ namespace GraphicsEditor
         /// </summary>
         public float[] DashPattern
         {
-            get => _dashPattern[0] == 0 ? null : _dashPattern;
+            get => _dashPattern[0] <= 0 ? null : _dashPattern;
             set
             {
                 GPen.DashPattern = value;

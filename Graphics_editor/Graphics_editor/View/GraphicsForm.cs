@@ -62,7 +62,8 @@ namespace GraphicsEditor
             var paintingParameters = new PaintingParameters(penSettings);
             var drawerFacade = new DrawerFacade();
             var undoRedoStack = new UndoRedoStack();
-            var painterState = new PainterState();
+            var strategyDeterminer = new StrategyDeterminer(container);
+            var painterState = new PainterState(strategyDeterminer);
             var draftStorage = new DraftStorage();
             var commandFactory = new CommandFactory();
             var selector = new Selector();

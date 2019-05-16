@@ -10,16 +10,9 @@ namespace GraphicsEditor.Engine
     /// </summary>
     internal class StrategyDeterminer: IStrategyDeterminer
     {
-        public StrategyDeterminer()
+        public StrategyDeterminer(IContainer container)
         {
-            _container = new Container(_ =>
-            {
-                _.Scan(o =>
-                {
-                    o.AssembliesAndExecutablesFromApplicationBaseDirectory();
-                    o.AddAllTypesOf<IDrawable>().NameBy(x => x.Name);
-                });
-            });
+            _container = container;
         }
 
 
