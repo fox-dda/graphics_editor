@@ -13,6 +13,7 @@ using GraphicsEditor.Model.Drawers;
 using GraphicsEditor.Engine.UndoRedo.Commands;
 using GraphicsEditor.Engine.UndoRedo;
 using StructureMap;
+using System.Collections.Generic;
 
 namespace GraphicsEditor
 {
@@ -56,7 +57,7 @@ namespace GraphicsEditor
             _paintCore = Graphics.FromImage(btm);
 
             var draftFactory = new DraftFactory(container);
-            var buffer = new DraftClipboard(draftFactory);
+            var buffer = new DraftClipboard(draftFactory, new List<IDrawable>());
             var penSettings = new PenSettings(Color.Black, 1);
             var paintingParameters = new PaintingParameters(penSettings);
             var drawerFacade = new DrawerFacade();

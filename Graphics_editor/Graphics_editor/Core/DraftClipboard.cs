@@ -14,15 +14,16 @@ namespace GraphicsEditor
         /// Конструктор
         /// </summary>
         /// <param name="factory">Фабрика фигур</param>
-        public DraftClipboard(IDraftFactory factory)
+        public DraftClipboard(IDraftFactory factory, List<IDrawable> clipboard)
         {
             _factory = factory;
+            _clipboard = clipboard;
         }
 
         /// <summary>
         /// Хранилище объектов буфера обмена
         /// </summary>
-        private List<IDrawable> _clipboard = new List<IDrawable>();
+        private List<IDrawable> _clipboard;
 
         /// <summary>
         /// Фабрика фигур для клонирования
