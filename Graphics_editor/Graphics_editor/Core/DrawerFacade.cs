@@ -25,17 +25,8 @@ namespace GraphicsEditor.Model.Drawers
         /// <summary>
         /// Конструктор фасада отрисовщиков
         /// </summary>
-        public DrawerFacade()
+        public DrawerFacade(IContainer container)
         {
-            var container = new Container(_ =>
-            {
-                _.Scan(o =>
-                {
-                    o.AssembliesAndExecutablesFromApplicationBaseDirectory();
-                    o.AddAllTypesOf<BaseDrawer>().NameBy(x => x.Name);
-                });
-            });
-
             var instances = container.GetAllInstances<BaseDrawer>();
             foreach (var drawerInstance in instances)
             {

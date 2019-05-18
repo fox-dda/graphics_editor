@@ -27,7 +27,7 @@ namespace GraphicsEditor.Tests
         }
 
         [Test]
-        public void SetRange_Set_Range_With_3_Drafts()
+        public void SetRange_Set3Drafts()
         {
             var draftList = new List<IDrawable>() { _draft, _draft, _draft };
 
@@ -49,7 +49,7 @@ namespace GraphicsEditor.Tests
         }
 
         [Test]
-        public void GetAll_With_3_Drafts()
+        public void GetAllWith3Drafts()
         {
             _draftList.Add(_draft);
             _draftList.Add(_draft);

@@ -8,7 +8,7 @@ namespace GraphicsEditor.Engine
     /// <summary>
     /// Определитель стратегии
     /// </summary>
-    internal class StrategyDeterminer: IStrategyDeterminer
+    public class StrategyDeterminer: IStrategyDeterminer
     {
         public StrategyDeterminer(IContainer container)
         {

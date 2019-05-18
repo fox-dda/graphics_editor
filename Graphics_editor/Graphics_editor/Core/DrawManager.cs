@@ -55,7 +55,8 @@ namespace GraphicsEditor.Engine
             IStorageManager draftStorageManager,
             IPainterState painterState,
             ISelector selector,
-            IUndoRedoStack undoRedoStack )
+            IUndoRedoStack undoRedoStack,
+            IDraftSerealizer serializer)
         {
             DraftPainter = draftPainter;
             DraftStorageManager = draftStorageManager;
@@ -64,6 +65,7 @@ namespace GraphicsEditor.Engine
             DraftPainter.Corrector = DraftStorageManager;
             _selector = selector;
             CommandStack = undoRedoStack;
+            _serializer = serializer;
         }
 
         /// <summary>
@@ -416,14 +418,15 @@ namespace GraphicsEditor.Engine
             }
         }
 
+        private IDraftSerealizer _serializer;
+
         /// <summary>
         /// Сериализовать проект
         /// </summary>
         /// <param name="stream">Поток</param>
         public void Serealize(Stream stream)
         {
-            var serealizer = new DraftSerealizer();
-            serealizer.Serialize(stream, DraftStorageManager.UndoRedoStack);
+            _serializer.Serialize(stream, DraftStorageManager.UndoRedoStack);
         }
 
         /// <summary>
@@ -433,8 +436,7 @@ namespace GraphicsEditor.Engine
         public void Deserialize(Stream stream)
         {
             DraftStorageManager.ClearStorage();
-            var serializer = new DraftSerealizer();
-            var stack = serializer.Deserialize(stream).UndoStack.ToArray();
+            var stack = _serializer.Deserialize(stream).UndoStack.ToArray();
             RepairCommands(stack);
             foreach (ICommand cmd in stack.ToArray().Reverse())
             {

@@ -14,6 +14,7 @@ using GraphicsEditor.Engine.UndoRedo.Commands;
 using GraphicsEditor.Engine.UndoRedo;
 using StructureMap;
 using System.Collections.Generic;
+using SDK.Interfaces;
 
 namespace GraphicsEditor
 {
@@ -56,37 +57,50 @@ namespace GraphicsEditor
             mainPictureBox.Image = btm;
             _paintCore = Graphics.FromImage(btm);
 
-            var draftFactory = new DraftFactory(container);
-            var buffer = new DraftClipboard(draftFactory, new List<IDrawable>());
-            var penSettings = new PenSettings(Color.Black, 1);
-            var paintingParameters = new PaintingParameters(penSettings);
-            var drawerFacade = new DrawerFacade();
-            var undoRedoStack = new UndoRedoStack();
-            var strategyDeterminer = new StrategyDeterminer(container);
-            var painterState = new PainterState(strategyDeterminer);
-            var draftStorage = new DraftStorage();
-            var commandFactory = new CommandFactory();
-            var selector = new Selector();
-
-            var storageManager = new StorageManager(
-                draftStorage,
-                commandFactory,
-                undoRedoStack);
-
-            var draftPainter = new DraftPainter(
-                _paintCore,
-                paintingParameters,
-                storageManager,
-                draftFactory,
-                drawerFacade);
-
-            var drawManager = new DrawManager(
-                _paintCore,
-                draftPainter,
-                storageManager,
-                painterState,
-                selector,
-                undoRedoStack);
+            var draftFactory = container.With<IContainer>(container)
+                .GetInstance<IDraftFactory>();
+            var buffer = container
+                .With<IDraftFactory>(draftFactory)
+                .With<List<IDrawable>>(new List<IDrawable>())
+                .GetInstance<IDraftClipboard>();
+            var penSettings = container
+                .With<Color>(Color.Black)
+                .With<float>((float)1)
+                .GetInstance<IPenSettings>();
+            var paintingParameters = container.With<IPenSettings>(penSettings)
+                .GetInstance<IPaintingParameters>();
+            var drawerFacade = container.With<IContainer>(container)
+                .GetInstance<IDrawerFacade>();
+            var undoRedoStack = container.GetInstance<IUndoRedoStack>();
+            var strategyDeterminer = container.With<IContainer>(container)
+                .GetInstance<IStrategyDeterminer>();
+            var painterState = container.With<IStrategyDeterminer>(strategyDeterminer)
+                .GetInstance<IPainterState>();
+            var draftStorage = container.GetInstance<IDraftStorage>();
+            var commandFactory = container.GetInstance<ICommandFactory>();
+            var selector = container.GetInstance<ISelector>();
+            var serealizer = container.GetInstance<IDraftSerealizer>();
+            var storageManager = container
+                .With<IDraftStorage>(draftStorage)
+                .With<ICommandFactory>(commandFactory)
+                .With<IUndoRedoStack>(undoRedoStack)
+                .GetInstance<IStorageManager>();
+            var draftPainter = container.
+                With<Graphics>(_paintCore).
+                With<IPaintingParameters>(paintingParameters).
+                With<IStorageManager>(storageManager).
+                With<IDraftFactory>(draftFactory).
+                With<IDrawerFacade>(drawerFacade).
+                GetInstance<IDraftPainter>();
+            var drawManager = container
+                .With<Graphics>(_paintCore)
+                .With<IDraftPainter>(draftPainter)
+                .With<IStorageManager>(storageManager)
+                .With<IPainterState>(painterState)
+                .With<ISelector>(selector)
+                .With<IUndoRedoStack>(undoRedoStack)
+                .With<IDraftSerealizer>(serealizer)
+                .GetInstance<IDrawManager>();
 
             Setup(buffer, drawManager);
 
