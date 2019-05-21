@@ -21,9 +21,6 @@ namespace GraphicsEditor.Tests
             Mock<IDrawable> draft = new Mock<IDrawable>();
             _draft = draft.Object;
             _draftClipBoard = new DraftClipboard(_draftFactoryMock.Object, _draftList);
-            //_draftFactoryMock
-            //    .Setup(x => x.Clone(It.IsAny<IDrawable>()))
-            //    .Returns<IDrawable>(null);
         }
 
         [Test]

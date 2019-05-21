@@ -186,9 +186,10 @@ namespace GraphicsEditor.Engine
         {
             Corrector.ClearStorage();
             State.CacheDraft = null;
+            Parameters.CanvasColor = Color.White;
             Painter.Clear(Color.White);
             State.InProcessPoints.Clear();
-            Parameters.CanvasColor = Color.White;
+            
         }
 
         /// <summary>

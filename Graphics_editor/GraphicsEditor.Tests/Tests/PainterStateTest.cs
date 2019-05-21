@@ -13,7 +13,7 @@ namespace GraphicsEditor.Tests
     public class PainterStateTest
     {
         private PainterState _painterState;
-        Mock<IStrategyDeterminer> _strategyDeterminerMock;
+        private Mock<IStrategyDeterminer> _strategyDeterminerMock;
 
         [SetUp]
         public void SetUp()

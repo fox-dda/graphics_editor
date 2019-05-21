@@ -390,7 +390,8 @@ namespace GraphicsEditor.Engine
         /// </summary>
         /// <param name="dotInDraft">Точка в фигуре</param>
         /// <param name="newPoint">Новые координаты сдвинутой точки</param>
-        public void DragDotInDraft(IDrawable dragDropingDraft, Point dragDropingDot, Point newPoint)
+        public void DragDotInDraft(IDrawable dragDropingDraft,
+            Point dragDropingDot, Point newPoint)
         {
             var editedPoint = 0;
 
@@ -398,7 +399,8 @@ namespace GraphicsEditor.Engine
             {
                 foreach (var pointInDraft in multipoint.DotList)
                 {
-                    if (dragDropingDot.X == pointInDraft.X && dragDropingDot.Y == pointInDraft.Y)
+                    if (dragDropingDot.X == pointInDraft.X && dragDropingDot.Y 
+                        == pointInDraft.Y)
                     {
                         editedPoint = multipoint.DotList.IndexOf(pointInDraft);
                     }
@@ -407,11 +409,14 @@ namespace GraphicsEditor.Engine
             }
             else
             {
-                if (dragDropingDot.X == dragDropingDraft.StartPoint.X && dragDropingDot.Y == dragDropingDraft.StartPoint.Y)
+                if (dragDropingDot.X == dragDropingDraft.StartPoint.X 
+                    && dragDropingDot.Y 
+                    == dragDropingDraft.StartPoint.Y)
                 {
                     dragDropingDraft.StartPoint = newPoint;
                 }
-                else if (dragDropingDot.X == dragDropingDraft.EndPoint.X && dragDropingDot.Y == dragDropingDraft.EndPoint.Y)
+                else if (dragDropingDot.X == dragDropingDraft.EndPoint.X 
+                    && dragDropingDot.Y == dragDropingDraft.EndPoint.Y)
                 {
                     dragDropingDraft.EndPoint = newPoint;
                 }
@@ -522,7 +527,6 @@ namespace GraphicsEditor.Engine
         {
             buffer.SetRange(DraftStorageManager.HighlightDraftStorage);
             DraftPainter.RefreshCanvas();
-
         }
 
         /// <summary>
@@ -533,7 +537,6 @@ namespace GraphicsEditor.Engine
         {
             DraftStorageManager.AddRangeDrafts(buffer.GetAll());
             DraftPainter.RefreshCanvas();
-
         }
 
         /// <summary>

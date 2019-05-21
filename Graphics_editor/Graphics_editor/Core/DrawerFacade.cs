@@ -56,6 +56,8 @@ namespace GraphicsEditor.Model.Drawers
         /// <param name="graphics">Ядро отрисовки</param>
         public void DrawHighlight(IDrawable shape, Graphics graphics)
         {
+            if (shape == null)
+                return;
             _highlightDrawer.DrawShape(shape, graphics);
         }
     }

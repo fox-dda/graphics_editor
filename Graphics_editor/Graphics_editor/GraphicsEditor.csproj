@@ -106,7 +106,6 @@
     <Compile Include="Core\DraftPainter.cs" />
     <Compile Include="Core\PainterState.cs" />
     <Compile Include="Core\PenConverter.cs" />
-    <Compile Include="Core\PluginLoader.cs" />
     <Compile Include="Core\StrategyDeterminer.cs" />
     <Compile Include="Core\UndoRedo\Commands\AddDraftCommand.cs" />
     <Compile Include="Core\UndoRedo\Commands\AddRangeDraftsCommand.cs" />

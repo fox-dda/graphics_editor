@@ -14,7 +14,7 @@ namespace GraphicsEditor.Tests
     public class PaintingParametersTest
     {
         private PaintingParameters _paintingsParameters;
-        Mock<IPenSettings> _penSettingsMock;
+        private Mock<IPenSettings> _penSettingsMock;
 
         [SetUp]
         public void SetUp()
