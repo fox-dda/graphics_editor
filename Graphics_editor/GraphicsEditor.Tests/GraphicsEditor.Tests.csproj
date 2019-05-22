@@ -72,6 +72,11 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Stubs\CommandStub.cs" />
+    <Compile Include="Tests\CommandTests\AddDraftCommandTest.cs" />
+    <Compile Include="Tests\CommandTests\AddRangeDraftsCommandTest.cs" />
+    <Compile Include="Tests\CommandTests\ClearHistoryCommandTest.cs" />
+    <Compile Include="Tests\StorageManagerTest.cs" />
     <Compile Include="Tests\DraftClipboardTests.cs" />
     <Compile Include="Stubs\MultipointStub.cs" />
     <Compile Include="Tests\PainterStateTest.cs" />
@@ -84,6 +89,9 @@
     <Compile Include="Tests\PenConverterTest.cs" />
     <Compile Include="Tests\StrategyDeterminerTest.cs" />
     <Compile Include="Tests\DrawManagerTest.cs" />
+    <Compile Include="Tests\DraftSerealizerTest.cs" />
+    <Compile Include="Tests\UndoRedoStackTest.cs" />
+    <Compile Include="Tests\CommandTests\EditCanvasColorCommandTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

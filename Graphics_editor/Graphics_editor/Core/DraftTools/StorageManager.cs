@@ -58,6 +58,7 @@ namespace GraphicsEditor.DraftTools
             get => _undoRedoStack;
             set => _undoRedoStack = value;
         }
+
         public IDraftStorage _storage { get; private set; }
 
         /// <summary>
@@ -167,7 +168,8 @@ namespace GraphicsEditor.DraftTools
         /// </summary>
         public void RemoveRangeHighlightDrafts()
         {
-            _undoRedoStack.Do(_commandFactory.CreateRemoveRangeDraftsCommand(_storage.DraftList, _storage.HighlightDraftsList));
+            _undoRedoStack.Do(_commandFactory.CreateRemoveRangeDraftsCommand(
+                _storage.DraftList, _storage.HighlightDraftsList));
             DiscardAll();
         }
 
@@ -202,7 +204,8 @@ namespace GraphicsEditor.DraftTools
         /// <param name="newColor">Новый цвет</param>
         public void EditCanvasColor(IPaintingParameters paintingParameters, Color newColor)
         {
-            _undoRedoStack.Do(_commandFactory.CreateEditCanvasColorCommand(paintingParameters, newColor));
+            _undoRedoStack.Do(_commandFactory.CreateEditCanvasColorCommand(
+                paintingParameters, newColor));
         }
 
         /// <summary>
