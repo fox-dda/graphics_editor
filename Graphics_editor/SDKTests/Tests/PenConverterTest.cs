@@ -14,12 +14,18 @@ namespace GraphicsEditor.Tests
         private PenConventer _penConverter;
         private Mock<IPenSettings> _penSettingMock;
 
+        /// <summary>
+        /// Инициализация сущностей для последующего тестирования
+        /// </summary>
         public void SetUp()
         {
             _penConverter = new PenConventer();
             _penSettingMock = new Mock<IPenSettings>();
         }
 
+        /// <summary>
+        /// Тест конвертирвания пера с пустым дашпаттерном
+        /// </summary>
         [Test]
         public void ConvertToPen_WithPenSettingsDashPatternNone()
         {
@@ -29,11 +35,13 @@ namespace GraphicsEditor.Tests
 
             Assert.Throws(typeof(ArgumentException), () =>
             {
-                var someValue = _penConverter.ConvertToPen(_penSetting).DashPattern[0];
+                var sameValue = _penConverter.ConvertToPen(_penSetting).DashPattern[0];
             });
         }
 
-
+        /// <summary>
+        /// Тест конвертирования пера с непустым дашпаттерном
+        /// </summary>
         [Test]
         public void ConvertToPen_WithPenSettingsDashPattern()
         {
@@ -41,14 +49,10 @@ namespace GraphicsEditor.Tests
             _penSettingMock.Setup(x => x.DashPattern).Returns(new float[] { 1, 1 });
             var _penSetting = _penSettingMock.Object;
 
-            try
+            Assert.DoesNotThrow(() => 
             {
                 var someValue = _penConverter.ConvertToPen(_penSetting).DashPattern[0];
-            }
-            catch
-            {
-                Assert.Fail();
-            }
+            });
         }
     }
 }

@@ -42,14 +42,10 @@ namespace GraphicsEditor.Tests
             SetUp();
             TwoPointStub draft = null;
 
-            try
+            Assert.DoesNotThrow(() =>
             {
                 _drawerFacade.DrawShape(draft, _graphics);
-            }
-            catch
-            {
-                Assert.Fail();
-            }
+            });
         }
 
         [Test]
@@ -70,14 +66,10 @@ namespace GraphicsEditor.Tests
             SetUp();
             TwoPointStub draft = null;
 
-            try
+            Assert.DoesNotThrow(() =>
             {
                 _drawerFacade.DrawHighlight(draft, _graphics);
-            }
-            catch
-            {
-                Assert.Fail();
-            }
+            });
         }
     }
 }

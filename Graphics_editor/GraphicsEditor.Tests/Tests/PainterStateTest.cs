@@ -15,7 +15,6 @@ namespace GraphicsEditor.Tests
         private PainterState _painterState;
         private Mock<IStrategyDeterminer> _strategyDeterminerMock;
 
-        [SetUp]
         public void SetUp()
         {
             _strategyDeterminerMock = new Mock<IStrategyDeterminer>();
@@ -27,6 +26,7 @@ namespace GraphicsEditor.Tests
         [TestCase("^_^")]
         public void FigureProperty_SetAnyString_ExpectNullInCaches(string inputSrting)
         {
+            SetUp();
             _painterState.Figure = inputSrting;
 
             Assert.IsTrue(
@@ -43,6 +43,7 @@ namespace GraphicsEditor.Tests
         public void FigureProperty_SetAnyString_ExpectEmptyDotsInProcessList(
             string inputSrting)
         {
+            SetUp();
             _painterState.Figure = inputSrting;
 
             Assert.IsEmpty(_painterState.InProcessPoints);
@@ -51,6 +52,7 @@ namespace GraphicsEditor.Tests
         [Test]
         public void DrawingStrategyPropety_Get_ExpectDefineStrategyCall()
         {
+            SetUp();
             var someStrategy = _painterState.DrawingStrategy;
 
             _strategyDeterminerMock.Verify(x => x.DefineStrategy(It.IsAny<string>()),

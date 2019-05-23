@@ -14,8 +14,14 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class DraftFactoryTest
     {
+        /// <summary>
+        /// Экзмепляр тестируемого класса
+        /// </summary>
         private DraftFactory _draftFactory;
 
+        /// <summary>
+        /// Тест метода Clone с ненулевым параметром
+        /// </summary>
         [Test]
         public void CloneTest_WithClonableStub()
         {
@@ -28,6 +34,9 @@ namespace GraphicsEditor.Tests
             });
         }
 
+        /// <summary>
+        /// Тест метода Clone с нулевым параметром
+        /// </summary>
         [Test]
         public void CloneTest_WithNull()
         {
@@ -40,6 +49,10 @@ namespace GraphicsEditor.Tests
             });
         }
 
+        /// <summary>
+        /// Тест метода проверки однородности фигур
+        /// Ожидается нулевой результат
+        /// </summary>
         [Test]
         public void CheckUniformityTest_WithDraftList_ExpectNull()
         {
@@ -56,6 +69,27 @@ namespace GraphicsEditor.Tests
             Assert.IsNull(result);
         }
 
+        /// <summary>
+        /// Тест метода проверки однородности, ожидая ненулевой результат
+        /// </summary>
+        [Test]
+        public void CheckUniformityTest_WithDraftList_ExpectNotNull()
+        {
+            var container = new ContainerStub();
+            _draftFactory = new DraftFactory(container);
+            var draftList = new List<IDrawable>()
+            {
+                new TwoPointStub()
+            };
+
+            var result = _draftFactory.CheckUniformity(draftList);
+
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Тест метода проверки однородности параметром null
+        /// </summary>
         [Test]
         public void CheckUniformityTest_NullDraftList_ExpectNull()
         {
@@ -67,6 +101,9 @@ namespace GraphicsEditor.Tests
             Assert.IsNull(result);
         }
 
+        /// <summary>
+        /// Тест метода создания фигур, ожидая вызов метода контейнера
+        /// </summary>
         [Test]
         public void CreateDraftTest_CheckContainerCall_ExpectExeption()
         {

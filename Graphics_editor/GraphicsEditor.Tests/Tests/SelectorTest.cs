@@ -19,7 +19,6 @@ namespace GraphicsEditor.Tests
         private List<Mock<IDrawable>> _draftMockList;
         private List<IDrawable> _draftList;
 
-        [SetUp]
         public void SetUp()
         {
             Random randomGenerator = new Random();
@@ -53,6 +52,7 @@ namespace GraphicsEditor.Tests
         public void PointSearch_TestWithDoublePointDrafts_ExpectNullReturn(
             int xDot, int yDot)
         {
+            SetUp();
             var draftMock = new Mock<IDrawable>();
             draftMock.Setup(x => x.StartPoint).Returns(
                 new Point(0, 500));
@@ -74,6 +74,7 @@ namespace GraphicsEditor.Tests
         public void PointSearch_TestWithDoublePointDrafts_ExpectNotNullReturn(
             int xDot, int yDot)
         {
+            SetUp();
             var draftMock = new Mock<IDrawable>();
             draftMock.Setup(x => x.StartPoint).Returns(
                 new Point(0, 500));
@@ -94,6 +95,7 @@ namespace GraphicsEditor.Tests
         public void PointSearch_TestWithMultipointDrafts_ExpectNotNullReturn(
            int xDot, int yDot)
         {
+            SetUp();
             _draftList.Clear();
             var multipiontStub = new MultipointStub()
             {
@@ -124,6 +126,7 @@ namespace GraphicsEditor.Tests
         public void PointSearch_TestWithMultipointDrafts_ExpectNullReturn(
           int xDot, int yDot)
         {
+            SetUp();
             var multipiontStub = new MultipointStub()
             {
                 DotList = new List<Point>()
@@ -149,6 +152,7 @@ namespace GraphicsEditor.Tests
             [Range(0, 10)] int endXDot,
             [Range(0, 10)] int endYDot)
         {
+            SetUp();
             _draftList.Clear();
             var lasso = new TwoPointStub()
             {
@@ -177,6 +181,7 @@ namespace GraphicsEditor.Tests
         public void LassoSearch_TestWithMultipointDrafts_ExpectNotImptyListReturn(
            int startXDot, int startYDot, int endXDot, int endYDot)
         {
+            SetUp();
             _draftList.Clear();
             var lasso = new TwoPointStub()
             {
