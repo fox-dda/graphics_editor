@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using SDK;
+using SDK.Interfaces;
 
 namespace GraphicsEditor.Model
 {
@@ -21,7 +22,7 @@ namespace GraphicsEditor.Model
         /// <summary>
         /// Настройки пера
         /// </summary>
-        public PenSettings Pen
+        public IPenSettings Pen
         {
             get
             {

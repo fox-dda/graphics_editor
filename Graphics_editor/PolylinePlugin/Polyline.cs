@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SDK;
 using System.Drawing;
+using SDK.Interfaces;
 
 namespace PolylinePlugin
 { 
@@ -43,10 +44,10 @@ namespace PolylinePlugin
         /// <summary>
         /// Настройки пера
         /// </summary>
-        public PenSettings Pen
+        public IPenSettings Pen
         {
             get => _pen;
-            set => _pen = value;
+            set => _pen = (PenSettings)value;
         }
 
         /// <summary>

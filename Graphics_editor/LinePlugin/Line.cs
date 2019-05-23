@@ -1,6 +1,7 @@
 ﻿using System;
 using SDK;
 using System.Drawing;
+using SDK.Interfaces;
 
 namespace LinePlugin
 {
@@ -46,10 +47,10 @@ namespace LinePlugin
         /// <summary>
         /// Настройки пера
         /// </summary>
-        public PenSettings Pen
+        public IPenSettings Pen
         {
             get => _pen;
-            set => _pen = value;
+            set => _pen = (PenSettings)value;
         }
 
         /// <summary>

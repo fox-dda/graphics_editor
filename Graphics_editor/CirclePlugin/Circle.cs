@@ -1,6 +1,7 @@
 ﻿using System;
 using SDK;
 using System.Drawing;
+using SDK.Interfaces;
 
 namespace CirclePlugin
 {
@@ -32,7 +33,7 @@ namespace CirclePlugin
         /// <summary>
         /// Настройки пера
         /// </summary>
-        private PenSettings _pen;
+        private IPenSettings _pen;
 
         /// <summary>
         /// Цвет заливки
@@ -60,7 +61,7 @@ namespace CirclePlugin
         /// <summary>
         /// Настройки пера
         /// </summary>
-        public PenSettings Pen
+        public IPenSettings Pen
         {
             get => _pen;
             set => _pen = value;

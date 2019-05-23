@@ -72,10 +72,12 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Stubs\BrushableStub.cs" />
     <Compile Include="Stubs\CommandStub.cs" />
     <Compile Include="Tests\CommandTests\AddDraftCommandTest.cs" />
     <Compile Include="Tests\CommandTests\AddRangeDraftsCommandTest.cs" />
     <Compile Include="Tests\CommandTests\ClearHistoryCommandTest.cs" />
+    <Compile Include="Tests\CommandTests\EditDraftCommandTest.cs" />
     <Compile Include="Tests\StorageManagerTest.cs" />
     <Compile Include="Tests\DraftClipboardTests.cs" />
     <Compile Include="Stubs\MultipointStub.cs" />

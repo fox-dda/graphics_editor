@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SDK;
 using System.Drawing;
+using SDK.Interfaces;
 
 namespace PolygonPlugin
 {
@@ -20,7 +21,7 @@ namespace PolygonPlugin
         /// <summary>
         /// Настройки пера
         /// </summary>
-        private PenSettings _pen;
+        private IPenSettings _pen;
 
         /// <summary>
         /// Цвет заливки
@@ -57,7 +58,7 @@ namespace PolygonPlugin
         /// <summary>
         /// Настройки пера
         /// </summary>
-        public PenSettings Pen
+        public IPenSettings Pen
         {
             get => _pen;
             set => _pen = value;

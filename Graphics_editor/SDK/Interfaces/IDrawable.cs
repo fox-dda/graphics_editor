@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using SDK.Interfaces;
+using System.Drawing;
 
 
 namespace SDK
@@ -11,7 +12,7 @@ namespace SDK
         /// <summary>
         /// Настройки пера
         /// </summary>
-        PenSettings Pen { get; set; }
+        IPenSettings Pen { get; set; }
 
         /// <summary>
         /// Точка старта

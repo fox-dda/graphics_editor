@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using SDK.Interfaces;
+using System.Drawing;
 
 
 namespace SDK
@@ -20,7 +21,7 @@ namespace SDK
         /// </summary>
         /// <param name="penSettings">Настройки пера</param>
         /// <returns>Перо</returns>
-        public Pen ConvertPen(PenSettings penSettings)
+        public Pen ConvertPen(IPenSettings penSettings)
         {
             var converter = new PenConventer();
             return converter.ConvertToPen(penSettings);
