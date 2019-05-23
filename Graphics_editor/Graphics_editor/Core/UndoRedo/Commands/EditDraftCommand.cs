@@ -61,7 +61,7 @@ namespace GraphicsEditor.Engine.UndoRedo.Commands
             {
                 brushable.BrushColor = _brush;
             }
-            _editedDraft.Pen = (PenSettings)_penSettings;
+            _editedDraft.Pen = _penSettings;
         }
 
         /// <summary>

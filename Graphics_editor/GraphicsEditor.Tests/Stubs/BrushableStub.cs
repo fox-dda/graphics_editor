@@ -1,18 +1,19 @@
-﻿using System;
+﻿using SDK;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SDK;
+using System.Drawing;
 using SDK.Interfaces;
 
 namespace GraphicsEditor.Tests.Stubs
 {
-    public class TwoPointStub : IDrawable
+    public class BrushableStub : IDrawable, IBrushable
     {
         public IPenSettings Pen { get; set; }
         public Point StartPoint { get; set; }
         public Point EndPoint { get; set; }
+        public Color BrushColor { get; set; }
     }
 }

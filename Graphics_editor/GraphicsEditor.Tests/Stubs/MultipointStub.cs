@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SDK;
+using SDK.Interfaces;
 
 namespace GraphicsEditor.Tests
 {
-    internal class MultipointStub : IMultipoint, IDrawable
+    public class MultipointStub : IMultipoint, IDrawable
     {
         public List<Point> DotList { get; set; }
 
-        public PenSettings Pen { get; set; }
+        public IPenSettings Pen { get; set; }
         public Point StartPoint
         {
             get
