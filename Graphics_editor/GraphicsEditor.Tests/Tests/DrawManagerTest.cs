@@ -11,6 +11,7 @@ using StructureMap;
 using GraphicsEditor.Tests.Stubs;
 using GraphicsEditor.Interfaces;
 using System.IO;
+using System.Windows.Forms;
 
 namespace GraphicsEditor.Tests
 {
@@ -113,7 +114,8 @@ namespace GraphicsEditor.Tests
             {
                 DotList = new List<Point>() {
                     dragDropingDot,
-                    new Point(3, 3)}
+                    new Point(3, 3),
+                    new Point(4, 4)}
             };
             var bais = new Point(2, 3);
 
@@ -234,6 +236,35 @@ namespace GraphicsEditor.Tests
             _storageManagerMock.Verify(x => x.ClearHistory(),
                 Times.Exactly(1));
             _draftPainterMock.Verify(x => x.RefreshCanvas(), Times.Exactly(1));
+        }
+
+        [Test]
+        public void CommandStack_Get()
+        {
+            SetUp();
+
+            Assert.DoesNotThrow(() =>
+            {
+                var stack = _drawManager.CommandStack;
+            });            
+        }
+
+        [TestCase((char)3)]//c
+        [TestCase((char)22)]//v
+        [TestCase((char)4)]//d
+        [TestCase((char)24)]//x
+        [TestCase((char)26)]//z
+        [TestCase((char)25)]//y
+        public void KeyProcessTest_PressAny(char buttonCode)
+        {
+            SetUp();
+            var arg = new KeyPressEventArgs(buttonCode);
+            var clipBoardMock = new Mock<IDraftClipboard>();
+
+            Assert.DoesNotThrow(() =>
+            {
+                _drawManager.KeyProcess(arg, clipBoardMock.Object);
+            });           
         }
     }
 }

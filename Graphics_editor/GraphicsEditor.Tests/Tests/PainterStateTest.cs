@@ -58,5 +58,73 @@ namespace GraphicsEditor.Tests
             _strategyDeterminerMock.Verify(x => x.DefineStrategy(It.IsAny<string>()),
                 Times.Exactly(1));
         }
+
+        [Test]
+        public void InProcessPoints_Set()
+        {
+            SetUp();
+            
+            Assert.DoesNotThrow(() =>
+            {
+                _painterState.InProcessPoints = new List<System.Drawing.Point>();
+            });
+        }
+
+        [Test]
+        public void InProcessPoints_SetNull()
+        {
+            SetUp();
+
+            Assert.DoesNotThrow(() =>
+            {
+                _painterState.InProcessPoints = null;
+            });
+        }
+
+        [Test]
+        public void UndrawableDraft_SetNull()
+        {
+            SetUp();
+
+            Assert.DoesNotThrow(() =>
+            {
+                _painterState.UndrawableDraft = null;
+            });
+        }
+
+
+        [Test]
+        public void UndrawableDraft_Get()
+        {
+            SetUp();
+
+            Assert.DoesNotThrow(() =>
+            {
+                var draft = _painterState.UndrawableDraft;
+            });
+        }
+
+        [Test]
+        public void DragDropDotingDot_Set()
+        {
+            SetUp();
+
+            Assert.DoesNotThrow(() =>
+            {
+                _painterState.DragDropDotingDot = new System.Drawing.Point(1, 1);
+            });
+        }
+
+
+        [Test]
+        public void DragDropDotingDot_Get()
+        {
+            SetUp();
+
+            Assert.DoesNotThrow(() =>
+            {
+                var point = _painterState.DragDropDotingDot;
+            });
+        }
     }
 }

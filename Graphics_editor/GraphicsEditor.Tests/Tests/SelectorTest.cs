@@ -147,10 +147,10 @@ namespace GraphicsEditor.Tests
 
         [Test]
         public void LassoSearch_TestWithMultipointDrafts_ExpectEmptyReturn(
-            [Range(0, 10)] int startXDot,
-            [Range(0, 10)] int startYDot,
-            [Range(0, 10)] int endXDot,
-            [Range(0, 10)] int endYDot)
+            [Range(0, 3)] int startXDot,
+            [Range(0, 3)] int startYDot,
+            [Range(0, 3)] int endXDot,
+            [Range(0, 3)] int endYDot)
         {
             SetUp();
             _draftList.Clear();
@@ -163,9 +163,9 @@ namespace GraphicsEditor.Tests
             {
                 DotList = new List<Point>()
                 {
-                    new Point(0, 10),
-                    new Point(5, 6),
-                    new Point(10, 0)
+                    new Point(0, 3),
+                    new Point(2, 3),
+                    new Point(3, 0)
                 }
             };
 

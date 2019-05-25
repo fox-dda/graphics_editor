@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using SDK.Interfaces;
-using SDK;
 using Moq;
+using GraphicsEditor.Engine;
 using System.Collections.Generic;
 using System;
 using System.Drawing;
@@ -29,7 +29,7 @@ namespace GraphicsEditor.Tests
 
             Assert.Throws(typeof(ArgumentException), () =>
             {
-                var someValue = _penConverter.ConvertToPen(_penSetting).DashPattern[0];
+                var someValue = _penConverter.ConvertToPen(_penSetting);
             });
         }
 
@@ -43,7 +43,7 @@ namespace GraphicsEditor.Tests
 
             try
             {
-                var someValue = _penConverter.ConvertToPen(_penSetting).DashPattern[0];
+                var someValue = _penConverter.ConvertToPen(_penSetting);
             }
             catch
             {

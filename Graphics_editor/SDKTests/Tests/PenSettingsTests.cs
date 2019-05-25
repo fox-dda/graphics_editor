@@ -27,6 +27,17 @@ namespace GraphicsEditor.Tests
             });
         }
 
+        [Test]
+        public void DashPattertGetTest()
+        {
+            _penSettings = new PenSettings(Color.Wheat, 1);
+
+            Assert.DoesNotThrow(() =>
+            {
+                var pattern = _penSettings.DashPattern;
+            });
+        }
+
 
         [TestCase(0)]
         [TestCase(float.MinValue)]
@@ -42,6 +53,17 @@ namespace GraphicsEditor.Tests
         }
 
         [Test]
+        public void WidthGetTest()
+        {
+            _penSettings = new PenSettings(Color.Wheat, 1);
+
+            Assert.DoesNotThrow(() =>
+            {
+                var penWidth = _penSettings.Width;
+            });
+        }
+
+        [Test]
         public void ColorSetTest()
         {
             _penSettings = new PenSettings(Color.Wheat, 1);
@@ -49,6 +71,17 @@ namespace GraphicsEditor.Tests
             Assert.DoesNotThrow(() =>
             {
                 _penSettings.Color = Color.Green;
+            });
+        }
+
+        [Test]
+        public void ColorGetTest()
+        {
+            _penSettings = new PenSettings(Color.Wheat, 1);
+
+            Assert.DoesNotThrow(() =>
+            {
+                var color = _penSettings.Color;
             });
         }
     }

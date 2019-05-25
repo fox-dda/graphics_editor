@@ -26,6 +26,11 @@ namespace GraphicsEditor.Tests
             _undoRedoStackMock = new Mock<IUndoRedoStack>();
             _commandFactoryMock = new Mock<ICommandFactory>();
             _draftStorageMock = new Mock<IDraftStorage>();
+            var draftList = new List<IDrawable>();
+            _draftStorageMock.Setup(x => x.DraftList)
+                .Returns(draftList);
+            _draftStorageMock.Setup(x => x.HighlightDraftsList)
+                .Returns(draftList);
             _storageManager = new StorageManager(
                 _draftStorageMock.Object,
                 _commandFactoryMock.Object,
@@ -230,12 +235,6 @@ namespace GraphicsEditor.Tests
                 Times.Exactly(1));
         }
 
-        //public void ClearHistory()
-        //{
-        //    _storage.DraftList.Clear();
-        //    DiscardAll();
-        //    _undoRedoStack.Reset();
-        //}
         [Test]
         public void ClearHistoryTest()
         {
@@ -250,6 +249,79 @@ namespace GraphicsEditor.Tests
             _storageManager.ClearHistory();
 
             _undoRedoStackMock.Verify(x => x.Reset(), Times.Exactly(1));
+        }
+
+        [Test]
+        public void RemoveRangeHighlightDraftsTest()
+        {
+            SetUp();
+            var paitingParametersMock = new Mock<IPaintingParameters>();
+
+            _storageManager.RemoveRangeHighlightDrafts();
+
+            _undoRedoStackMock.Verify(x => x.Do(It.IsAny<ICommand>()),
+                Times.Exactly(1));
+            _commandFactoryMock.Verify(x => x.CreateRemoveRangeDraftsCommand(
+                It.IsAny<List<IDrawable>>(), It.IsAny<List<IDrawable>>()),
+                Times.Exactly(1));
+        }
+
+        [Test]
+        public void EditDraft()
+        {
+            SetUp();
+            var paitingParametersMock = new Mock<IPaintingParameters>();
+            var draft = new TwoPointStub();
+            var pointList = new List<Point>();
+            var paintSettingsMock = new Mock<IPenSettings>();
+            var draftFactoryMock = new Mock<IDraftFactory>();
+
+            _storageManager.EditDraft(draft, pointList, paintSettingsMock.Object,
+                Color.AliceBlue, draftFactoryMock.Object);
+
+            _undoRedoStackMock.Verify(x => x.Do(It.IsAny<ICommand>()),
+                Times.Exactly(1));
+            _commandFactoryMock.Verify(x => x.CreateEditDraftCommand(
+                It.IsAny<IDrawable>(),
+                It.IsAny<List<Point>>(),
+                It.IsAny<IPenSettings>(),
+                It.IsAny<Color>(),
+                It.IsAny<IDraftFactory>()),
+                Times.Exactly(1));
+        }
+
+        [Test]
+        public void UndoRedoStackTest_Get()
+        {
+            SetUp();
+
+            Assert.DoesNotThrow(() =>
+            {
+                var undoRedoStack = _storageManager.UndoRedoStack;
+            });           
+        }
+
+        [Test]
+        public void UndoRedoStackTest_Set()
+        {
+            SetUp();
+
+            Assert.DoesNotThrow(() =>
+            {
+                _storageManager.UndoRedoStack =
+                    new Mock<IUndoRedoStack>().Object;
+            });
+        }
+
+        [Test]
+        public void PaitedDraftStorage_Get()
+        {
+            SetUp();
+
+            Assert.DoesNotThrow(() =>
+            {
+                var undoRedoStack = _storageManager.PaintedDraftStorage;
+            });
         }
     }
 }
