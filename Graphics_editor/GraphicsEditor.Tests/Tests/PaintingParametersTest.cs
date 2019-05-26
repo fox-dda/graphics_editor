@@ -43,5 +43,50 @@ namespace GraphicsEditor.Tests
 
             Assert.IsNull(_paintingsParameters.DashPattern);
         }
+
+
+        [Test]
+        public void BrushColorTestSet()
+        {
+            SetUp();
+
+            _paintingsParameters.BrushColor = System.Drawing.Color.AliceBlue;
+
+            Assert.IsNotNull(_paintingsParameters.BrushColor);
+        }
+
+        [Test]
+        public void CanvasColorTestSet()
+        {
+            SetUp();
+
+            _paintingsParameters.CanvasColor = System.Drawing.Color.AliceBlue;
+
+            Assert.IsNotNull(_paintingsParameters.CanvasColor);
+        }
+
+        [Test]
+        public void BrushColorTestGet()
+        {
+            SetUp();
+            _paintingsParameters.BrushColor = System.Drawing.Color.AliceBlue;
+
+            Assert.DoesNotThrow(() =>
+            {
+                var color = _paintingsParameters.BrushColor;
+            });
+        }
+
+        [Test]
+        public void CanvasColorTestGet()
+        {
+            SetUp();
+            _paintingsParameters.CanvasColor = System.Drawing.Color.AliceBlue;
+
+            Assert.DoesNotThrow(() =>
+            {
+                var color = _paintingsParameters.CanvasColor;
+            });
+        }
     }
 }

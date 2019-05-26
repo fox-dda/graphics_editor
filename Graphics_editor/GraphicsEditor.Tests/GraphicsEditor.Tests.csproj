@@ -103,6 +103,9 @@
     <Compile Include="Tests\CommandTests\EditCanvasColorCommandTest.cs" />
     <Compile Include="Tests\DraftStorageTest.cs" />
     <Compile Include="Tests\CommandFactoryTest.cs" />
+    <Compile Include="Tests\HighlightRectDrawerDrawer.cs" />
+    <Compile Include="Tests\DotInDraftTest.cs" />
+    <Compile Include="Tests\HighlightRectTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

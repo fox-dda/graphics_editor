@@ -205,5 +205,59 @@ namespace GraphicsEditor.Tests
 
             Assert.IsNotEmpty(rezultDraft);
         }
+
+        [Test]
+        public void SearchReferenceDotTest_RefDotOwnedMultipoint()
+        {
+            SetUp();
+            var refDot = new Point(500, 0);
+            _draftList.Clear();
+            var twoPointStub = new TwoPointStub()
+            {
+                StartPoint = new Point(5, 6),
+                EndPoint = new Point(7, 8)
+            };
+            var multipiontStub = new MultipointStub()
+            {
+                DotList = new List<Point>()
+                {
+                    new Point(0, 500),
+                    new Point(150, 250),
+                    refDot
+                }
+            };
+            var draftList = new List<IDrawable>() { twoPointStub, multipiontStub };
+
+            var point = _selector.SearchReferenceDot(refDot, draftList);
+
+            Assert.AreNotSame(refDot, point);
+        }
+
+        [Test]
+        public void SearchReferenceDotTest_RefDotOwnedTwoPoint()
+        {
+            SetUp();
+            var refDot = new Point(7, 8);
+            _draftList.Clear();
+            var twoPointStub = new TwoPointStub()
+            {
+                StartPoint = new Point(5, 6),
+                EndPoint = refDot
+            };
+            var multipiontStub = new MultipointStub()
+            {
+                DotList = new List<Point>()
+                {
+                    new Point(0, 500),
+                    new Point(150, 250),
+                    new Point(500, 0)
+                }
+            };
+            var draftList = new List<IDrawable>() { twoPointStub, multipiontStub };
+
+            var point = _selector.SearchReferenceDot(refDot, draftList);
+
+            Assert.AreNotSame(refDot, point);
+        }
     }
 }

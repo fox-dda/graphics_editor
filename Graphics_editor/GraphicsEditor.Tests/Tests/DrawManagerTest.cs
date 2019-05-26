@@ -266,5 +266,83 @@ namespace GraphicsEditor.Tests
                 _drawManager.KeyProcess(arg, clipBoardMock.Object);
             });           
         }
+
+
+        [TestCase(MouseAction.Down)]
+        public void MouseProcessTest_WithMultipointStrategy_NotException(MouseAction mouseAction)
+        {
+            SetUp();
+            _painterStateMock.Setup(x => x.DrawingStrategy)
+                .Returns(Strategy.Multipoint);
+            var mouseArgs = new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0);
+
+            Assert.DoesNotThrow( () =>
+            {
+                _drawManager.MouseProcess(mouseArgs, mouseAction);
+            });
+        }
+
+        [TestCase(MouseAction.Move)]
+        [TestCase(MouseAction.Up)]
+        public void MouseProcessTest_WithMultipointStrategy_Exception(MouseAction mouseAction)
+        {
+            SetUp();
+            _painterStateMock.Setup(x => x.DrawingStrategy)
+                .Returns(Strategy.Multipoint);
+            var mouseArgs = new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0);
+
+            Assert.Throws(typeof(NullReferenceException), () =>
+            {
+                _drawManager.MouseProcess(mouseArgs, mouseAction);
+            });
+        }
+
+        [TestCase(MouseAction.Down)]
+        [TestCase(MouseAction.Move)]
+        [TestCase(MouseAction.Up)]
+        public void MouseProcessTest_WithSelectiontStrategy(MouseAction mouseAction)
+        {
+            SetUp();
+            _painterStateMock.Setup(x => x.DrawingStrategy)
+                .Returns(Strategy.Selection);
+            var mouseArgs = new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0);
+
+            Assert.Throws(typeof(NullReferenceException), () =>
+            {
+                _drawManager.MouseProcess(mouseArgs, mouseAction);
+            });
+        }
+        
+        [TestCase(MouseAction.Down)]
+        [TestCase(MouseAction.Move)]
+        [TestCase(MouseAction.Up)]
+        public void MouseProcessTest_WithDragAndDropStrategy(MouseAction mouseAction)
+        {
+            SetUp();
+            _painterStateMock.Setup(x => x.DrawingStrategy)
+                .Returns(Strategy.DragAndDrop);
+            var mouseArgs = new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0);
+
+            Assert.DoesNotThrow( () =>
+            {
+                _drawManager.MouseProcess(mouseArgs, mouseAction);
+            });
+        }
+
+        [TestCase(MouseAction.Down)]
+        [TestCase(MouseAction.Move)]
+        [TestCase(MouseAction.Up)]
+        public void MouseProcessTest_WithTwoPointStrategy(MouseAction mouseAction)
+        {
+            SetUp();
+            _painterStateMock.Setup(x => x.DrawingStrategy)
+                .Returns(Strategy.TwoPoint);
+            var mouseArgs = new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0);
+
+            Assert.Throws(typeof(NullReferenceException), () =>
+            {
+                _drawManager.MouseProcess(mouseArgs, mouseAction);
+            });      
+        }
     }
 }

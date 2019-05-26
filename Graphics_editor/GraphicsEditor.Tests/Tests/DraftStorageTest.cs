@@ -49,7 +49,7 @@ namespace GraphicsEditor.Tests
 
             Assert.DoesNotThrow(()=>
             {
-                draftStorage.DraftList = new List<IDrawable>();
+                var draftList = draftStorage.DraftList;
             });
         }
 
@@ -60,7 +60,7 @@ namespace GraphicsEditor.Tests
 
             Assert.DoesNotThrow(() =>
             {
-                draftStorage.HighlightDraftsList = new List<IDrawable>();
+                var draftList = new List<IDrawable>();
             });
         }
     }
