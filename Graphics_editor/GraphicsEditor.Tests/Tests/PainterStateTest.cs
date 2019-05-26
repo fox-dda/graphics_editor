@@ -12,118 +12,105 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class PainterStateTest
     {
-        private PainterState _painterState;
         private Mock<IStrategyDeterminer> _strategyDeterminerMock;
-
-        public void SetUp()
+        private PainterState PainterState
         {
-            _strategyDeterminerMock = new Mock<IStrategyDeterminer>();
-            _painterState = new PainterState(_strategyDeterminerMock.Object);
+            get
+            {
+                _strategyDeterminerMock = new Mock<IStrategyDeterminer>();
+                return new PainterState(_strategyDeterminerMock.Object);
+            }
         }
 
-        [TestCase("")]
-        [TestCase("Square")]
-        [TestCase("^_^")]
+        [TestCase("", TestName ="Запись в свойство Figure пустой строки")]
+        [TestCase("Square", TestName = "Запись в свойство Figure буквенной строки")]
+        [TestCase("^_^", TestName = "Запись в свойство Figure знаковой строки")]
         public void FigureProperty_SetAnyString_ExpectNullInCaches(string inputSrting)
         {
-            SetUp();
-            _painterState.Figure = inputSrting;
+            PainterState.Figure = inputSrting;
 
             Assert.IsTrue(
-                (_painterState.DragDropDraft == null) &&
-                (_painterState.DragDropDotingDraft == null) &&
-                (_painterState.CacheDraft == null) &&
-                (_painterState.CacheLasso == null));
+                (PainterState.DragDropDraft == null) &&
+                (PainterState.DragDropDotingDraft == null) &&
+                (PainterState.CacheDraft == null) &&
+                (PainterState.CacheLasso == null));
         }
 
 
-        [TestCase("      ")]
-        [TestCase("Square")]
-        [TestCase("^_^")]
+        [TestCase("      ", TestName ="Запись в свойство Figure строки пробелов")]
+        [TestCase("Square", TestName = "Запись в свойство Figure буквенной строки")]
+        [TestCase("^_^", TestName = "Запись в свойство Figure знаковой строки")]
         public void FigureProperty_SetAnyString_ExpectEmptyDotsInProcessList(
             string inputSrting)
         {
-            SetUp();
-            _painterState.Figure = inputSrting;
+            PainterState.Figure = inputSrting;
 
-            Assert.IsEmpty(_painterState.InProcessPoints);
+            Assert.IsEmpty(PainterState.InProcessPoints);
         }
 
-        [Test]
+        [TestCase(TestName = "Считыванине свойства DrawingStrategy")]
         public void DrawingStrategyPropety_Get_ExpectDefineStrategyCall()
         {
-            SetUp();
-            var someStrategy = _painterState.DrawingStrategy;
+            var someStrategy = PainterState.DrawingStrategy;
 
             _strategyDeterminerMock.Verify(x => x.DefineStrategy(It.IsAny<string>()),
                 Times.Exactly(1));
         }
 
-        [Test]
+
+        [TestCase(TestName = "Запись в свойство InProcessPoints")]
         public void InProcessPoints_Set()
-        {
-            SetUp();
-            
+        {          
             Assert.DoesNotThrow(() =>
             {
-                _painterState.InProcessPoints = new List<System.Drawing.Point>();
+                PainterState.InProcessPoints = new List<System.Drawing.Point>();
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Запись в свойство InProcessPoints значения null")]
         public void InProcessPoints_SetNull()
         {
-            SetUp();
-
             Assert.DoesNotThrow(() =>
             {
-                _painterState.InProcessPoints = null;
+                PainterState.InProcessPoints = null;
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Запись в свойство UndrawableDraft значения null")]
         public void UndrawableDraft_SetNull()
         {
-            SetUp();
-
             Assert.DoesNotThrow(() =>
             {
-                _painterState.UndrawableDraft = null;
+                PainterState.UndrawableDraft = null;
             });
         }
 
 
-        [Test]
+        [TestCase(TestName = "Чтение свойства UndrawableDraft")]
         public void UndrawableDraft_Get()
         {
-            SetUp();
-
             Assert.DoesNotThrow(() =>
             {
-                var draft = _painterState.UndrawableDraft;
+                var draft = PainterState.UndrawableDraft;
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Запись свойства DragDropDotingDot")]
         public void DragDropDotingDot_Set()
         {
-            SetUp();
-
             Assert.DoesNotThrow(() =>
             {
-                _painterState.DragDropDotingDot = new System.Drawing.Point(1, 1);
+                PainterState.DragDropDotingDot = new System.Drawing.Point(1, 1);
             });
         }
 
 
-        [Test]
+        [TestCase(TestName = "Чтение свойства DragDropDotingDot")]
         public void DragDropDotingDot_Get()
         {
-            SetUp();
-
             Assert.DoesNotThrow(() =>
             {
-                var point = _painterState.DragDropDotingDot;
+                var point = PainterState.DragDropDotingDot;
             });
         }
     }

@@ -14,61 +14,56 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class DrawerFacadeTest
     {
-        private DrawerFacade _drawerFacade;
-        private Graphics _graphics;
-
-        public void SetUp()
+        private DrawerFacade DrawerFacade
         {
-            var contaiterMock = new Mock<IContainer>();
-            _drawerFacade = new DrawerFacade(contaiterMock.Object);
-            _graphics = null;
+            get
+            {
+                var contaiterMock = new Mock<IContainer>();
+                return new DrawerFacade(contaiterMock.Object);
+            }
         }
 
-        [Test]
+        [TestCase(TestName = "Вызов отрисовки фигуры с Graphics=null")]
         public void DrawShape_WithNullGraphicsProperty()
         {
-            SetUp();
             var draft = new TwoPointStub();
 
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _drawerFacade.DrawShape(draft, _graphics);
+                DrawerFacade.DrawShape(draft, null);
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Вызов отрисовки null фигуры")]
         public void DrawShape_WithNullDraft()
         {
-            SetUp();
             TwoPointStub draft = null;
 
             Assert.DoesNotThrow(() =>
             {
-                _drawerFacade.DrawShape(draft, _graphics);
+                DrawerFacade.DrawShape(draft, null);
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Вызов отрисовки выделения с Graphics=null")]
         public void DrawHighlight_WithNullGraphics()
         {
-            SetUp();
             var draft = new TwoPointStub();
 
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _drawerFacade.DrawHighlight(draft, _graphics);
+                DrawerFacade.DrawHighlight(draft, null);
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Вызов отрисовки выделения null фигуры")]
         public void DrawHighlight_WithNullDraft()
         {
-            SetUp();
             TwoPointStub draft = null;
 
             Assert.DoesNotThrow(() =>
             {
-                _drawerFacade.DrawHighlight(draft, _graphics);
+                DrawerFacade.DrawHighlight(draft, null);
             });
         }
     }

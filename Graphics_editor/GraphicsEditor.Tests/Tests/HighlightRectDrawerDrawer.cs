@@ -9,7 +9,7 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class HighlightRectDrawerTest
     {
-        [Test]
+        [TestCase(TestName ="Отрисовка прмямоугольника выделения с Graphics=null")]
         public void DrawShapeTest_WithNullGraphics()
         {
             var drawer = new HighlightRectDrawer();

@@ -18,42 +18,40 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class DrawManagerTest
     {
-        private DrawManager _drawManager;
-        private Graphics _graphics;
         private Mock<IDraftPainter> _draftPainterMock;
         private Mock<IStorageManager> _storageManagerMock;
         private Mock<IPainterState> _painterStateMock;
         private Mock<ISelector> _selectorMock;
         private Mock<IUndoRedoStack> _undoRedoStackMock;
         private Mock<IDraftSerealizer> _draftSerealizerMock;
-
-
-        public void SetUp()
+        private DrawManager DrawManager
         {
-            _draftPainterMock = new Mock<IDraftPainter>();
-            _storageManagerMock = new Mock<IStorageManager>();
-            _painterStateMock = new Mock<IPainterState>();
-            _selectorMock = new Mock<ISelector>();
-            _undoRedoStackMock = new Mock<IUndoRedoStack>();
-            _draftSerealizerMock = new Mock<IDraftSerealizer>();
+            get
+            {
+                _draftPainterMock = new Mock<IDraftPainter>();
+                _storageManagerMock = new Mock<IStorageManager>();
+                _painterStateMock = new Mock<IPainterState>();
+                _selectorMock = new Mock<ISelector>();
+                _undoRedoStackMock = new Mock<IUndoRedoStack>();
+                _draftSerealizerMock = new Mock<IDraftSerealizer>();
 
-            _drawManager = new DrawManager(
-                null,
-                _draftPainterMock.Object,
-                _storageManagerMock.Object,
-                _painterStateMock.Object,
-                _selectorMock.Object,
-                _undoRedoStackMock.Object,
-                _draftSerealizerMock.Object);
+                return new DrawManager(
+                    null,
+                    _draftPainterMock.Object,
+                    _storageManagerMock.Object,
+                    _painterStateMock.Object,
+                    _selectorMock.Object,
+                    _undoRedoStackMock.Object,
+                    _draftSerealizerMock.Object);
+            }
         }
 
-        [Test]
+        [TestCase(TestName = "Изменение цвета канваса")]
         public void EditCanvas_WithSomeColor()
         {
-            SetUp();
             Color color = Color.AliceBlue;
 
-            _drawManager.EditCanvasColor(color);
+            DrawManager.EditCanvasColor(color);
 
             _storageManagerMock.Verify(x => x.EditCanvasColor(
                 It.IsAny<IPaintingParameters>(),
@@ -61,22 +59,20 @@ namespace GraphicsEditor.Tests
             _draftPainterMock.Verify(x => x.RefreshCanvas(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Перемещение двуточечной фигуры")]
         public void BiasObject_WithTwoPointInput()
         {
-            SetUp();
             var draftMock = new Mock<IDrawable>();
             var bais = new Point(2, 3);
 
-            _drawManager.BiasObject(draftMock.Object, bais);
+            DrawManager.BiasObject(draftMock.Object, bais);
             draftMock.VerifySet(x => x.StartPoint = It.IsAny<Point>(), Times.Exactly(1));
             draftMock.VerifySet(x => x.EndPoint = It.IsAny<Point>(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Перемещение многоточесной фигуры")]
         public void BiasObject_WithMultiPointInput()
         {
-            SetUp();
             var multipointStub = new MultipointStub()
             {
                 DotList = new List<Point>() {new Point(0, 0),
@@ -84,30 +80,28 @@ namespace GraphicsEditor.Tests
             };
             var bais = new Point(2, 3);
 
-            _drawManager.BiasObject(multipointStub, bais);
+            DrawManager.BiasObject(multipointStub, bais);
 
             Assert.IsFalse(multipointStub.DotList[0].X == 0 &&
                 multipointStub.DotList[0].Y == 0);
         }
 
-        [Test]
+        [TestCase(TestName = "Перемещение точки в двуточечной фигуре")]
         public void DragDotInDraft_TwopointStub()
         {
-            SetUp();
             var dragDropingDot = new Point(1, 1);
             var newPoint = new Point(2, 2);
-            var draftStub = new TwoPointStub() {StartPoint = dragDropingDot };
-            
-            _drawManager.DragDotInDraft(draftStub, dragDropingDot, newPoint);
+            var draftStub = new TwoPointStub() { StartPoint = dragDropingDot };
 
-            Assert.IsTrue(draftStub.StartPoint.X == 2 
+            DrawManager.DragDotInDraft(draftStub, dragDropingDot, newPoint);
+
+            Assert.IsTrue(draftStub.StartPoint.X == 2
                 && draftStub.StartPoint.Y == 2);
         }
 
-        [Test]
+        [TestCase(TestName = "Перемещение точки в многоточечной фигуре")]
         public void DragDotInDraft_WithMultipointInput()
         {
-            SetUp();
             var dragDropingDot = new Point(1, 1);
             var newPoint = new Point(2, 2);
             var multipointStub = new MultipointStub()
@@ -119,94 +113,83 @@ namespace GraphicsEditor.Tests
             };
             var bais = new Point(2, 3);
 
-            _drawManager.BiasObject(multipointStub, bais);
+            DrawManager.BiasObject(multipointStub, bais);
 
             Assert.IsFalse(multipointStub.DotList[0].X == 2 &&
                 multipointStub.DotList[0].Y == 2);
         }
 
-        [Test]
+        [TestCase(TestName = "Сериализация Stream=null")]
         public void Sereailize_TestWithNullStream()
         {
-            SetUp();
-
-            _drawManager.Serealize(null);
+            DrawManager.Serealize(null);
 
             _draftSerealizerMock.Verify(x => x.Serialize(It.IsAny<Stream>(),
                 It.IsAny<IUndoRedoStack>()), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Десериализация Stream=null")]
         public void Desereailize_TestWithNullStream()
         {
-            SetUp();
-
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _drawManager.Deserialize(null);
+                DrawManager.Deserialize(null);
             });
-            
+
 
             _draftSerealizerMock.Verify(x => x.Deserialize(It.IsAny<Stream>()),
                 Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Возрат отмененного действия (Шаг вперед)")]
         public void Redo_Test()
         {
-            SetUp();
-
-            _drawManager.Redo();
+            DrawManager.Redo();
 
             _storageManagerMock.Verify(x => x.DiscardAll(), Times.Exactly(1));
             _storageManagerMock.Verify(x => x.RedoCommand(), Times.Exactly(1));
             _draftPainterMock.Verify(x => x.RefreshCanvas(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Отмена последнего действия (Шаг назад)")]
         public void Undo_Test()
         {
-            SetUp();
-
-            _drawManager.Undo();
+            DrawManager.Undo();
 
             _storageManagerMock.Verify(x => x.DiscardAll(), Times.Exactly(1));
             _storageManagerMock.Verify(x => x.UndoCommand(), Times.Exactly(1));
             _draftPainterMock.Verify(x => x.RefreshCanvas(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Вырезание объекта с канвы")]
         public void Cut_Test()
         {
-            SetUp();
             var bufferMock = new Mock<IDraftClipboard>();
 
-            _drawManager.Cut(bufferMock.Object);
+            DrawManager.Cut(bufferMock.Object);
 
             bufferMock.Verify(x => x.SetRange(It.IsAny<List<IDrawable>>()), Times.Exactly(1));
             _storageManagerMock.Verify(x => x.RemoveRangeHighlightDrafts(), Times.Exactly(1));
             _draftPainterMock.Verify(x => x.RefreshCanvas(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Копирование объекта на канве")]
         public void Copy_Test()
         {
-            SetUp();
             var bufferMock = new Mock<IDraftClipboard>();
 
-            _drawManager.Copy(bufferMock.Object);
+            DrawManager.Copy(bufferMock.Object);
 
             bufferMock.Verify(x => x.SetRange(It.IsAny<List<IDrawable>>()), Times.Exactly(1));
             _draftPainterMock.Verify(x => x.RefreshCanvas(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Вставка объекта на канву")]
         public void Paste_Test()
         {
-            SetUp();
             var bufferMock = new Mock<IDraftClipboard>();
 
-            _drawManager.Paste(bufferMock.Object);
+            DrawManager.Paste(bufferMock.Object);
 
             _storageManagerMock.Verify(x => x.AddRangeDrafts(It.IsAny<List<IDrawable>>()),
                 Times.Exactly(1));
@@ -214,134 +197,127 @@ namespace GraphicsEditor.Tests
             bufferMock.Verify(x => x.GetAll(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Удаление объекта с канвы")]
         public void Remove_Test()
         {
-            SetUp();
-
-            _drawManager.Remove();
+            DrawManager.Remove();
 
             _storageManagerMock.Verify(x => x.RemoveRangeHighlightDrafts(),
                 Times.Exactly(1));
             _draftPainterMock.Verify(x => x.RefreshCanvas(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Создание нового проекта")]
         public void CreateNewProject_Test()
         {
-            SetUp();
-
-            _drawManager.CreateNewProject();
+            DrawManager.CreateNewProject();
 
             _storageManagerMock.Verify(x => x.ClearHistory(),
                 Times.Exactly(1));
             _draftPainterMock.Verify(x => x.RefreshCanvas(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Записть в свойство CommandStack")]
         public void CommandStack_Get()
         {
-            SetUp();
-
             Assert.DoesNotThrow(() =>
             {
-                var stack = _drawManager.CommandStack;
-            });            
+                var stack = DrawManager.CommandStack;
+            });
         }
 
-        [TestCase((char)3)]//c
-        [TestCase((char)22)]//v
-        [TestCase((char)4)]//d
-        [TestCase((char)24)]//x
-        [TestCase((char)26)]//z
-        [TestCase((char)25)]//y
+        [TestCase((char)3, TestName = "Обработка нажатия сочетания <Ctrl+С>")]
+        [TestCase((char)22, TestName = "Обработка нажатия сочетания <Ctrl+V>")]
+        [TestCase((char)4, TestName = "Обработка нажатия сочетания <Ctrl+D>")]
+        [TestCase((char)24, TestName = "Обработка нажатия сочетания <Ctrl+X>")]
+        [TestCase((char)26, TestName = "Обработка нажатия сочетания <Ctrl+Z>")]
+        [TestCase((char)25, TestName = "Обработка нажатия сочетания <Ctrl+Y>")]
         public void KeyProcessTest_PressAny(char buttonCode)
         {
-            SetUp();
             var arg = new KeyPressEventArgs(buttonCode);
             var clipBoardMock = new Mock<IDraftClipboard>();
 
             Assert.DoesNotThrow(() =>
             {
-                _drawManager.KeyProcess(arg, clipBoardMock.Object);
-            });           
+                DrawManager.KeyProcess(arg, clipBoardMock.Object);
+            });
         }
 
 
-        [TestCase(MouseAction.Down)]
+        [TestCase(MouseAction.Down, TestName = "Обработка нажатия мыши многоточечной стратегией")]
         public void MouseProcessTest_WithMultipointStrategy_NotException(MouseAction mouseAction)
         {
-            SetUp();
+            var manager = DrawManager;
             _painterStateMock.Setup(x => x.DrawingStrategy)
                 .Returns(Strategy.Multipoint);
             var mouseArgs = new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0);
 
             Assert.DoesNotThrow( () =>
             {
-                _drawManager.MouseProcess(mouseArgs, mouseAction);
+                manager.MouseProcess(mouseArgs, mouseAction);
             });
         }
 
-        [TestCase(MouseAction.Move)]
-        [TestCase(MouseAction.Up)]
+        [TestCase(MouseAction.Move, TestName = "Обработка перемещения мыши многоточечной стратегией")]
+        [TestCase(MouseAction.Up, TestName = "Обработка отжатия мыши многоточечной стратегией")]
         public void MouseProcessTest_WithMultipointStrategy_Exception(MouseAction mouseAction)
         {
-            SetUp();
+            var manager = DrawManager;
             _painterStateMock.Setup(x => x.DrawingStrategy)
                 .Returns(Strategy.Multipoint);
             var mouseArgs = new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0);
 
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _drawManager.MouseProcess(mouseArgs, mouseAction);
+                manager.MouseProcess(mouseArgs, mouseAction);
             });
         }
 
-        [TestCase(MouseAction.Down)]
-        [TestCase(MouseAction.Move)]
-        [TestCase(MouseAction.Up)]
+        [TestCase(MouseAction.Down, TestName = "Обработка нажатия мыши стратегией выделения")]
+        [TestCase(MouseAction.Move, TestName = "Обработка перемещения мыши стратегией выделения")]
+        [TestCase(MouseAction.Up, TestName = "Обработка отжатия мыши стратегией выделения")]
         public void MouseProcessTest_WithSelectiontStrategy(MouseAction mouseAction)
         {
-            SetUp();
+            var manager = DrawManager;
             _painterStateMock.Setup(x => x.DrawingStrategy)
                 .Returns(Strategy.Selection);
             var mouseArgs = new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0);
 
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _drawManager.MouseProcess(mouseArgs, mouseAction);
+                manager.MouseProcess(mouseArgs, mouseAction);
             });
         }
         
-        [TestCase(MouseAction.Down)]
-        [TestCase(MouseAction.Move)]
-        [TestCase(MouseAction.Up)]
+        [TestCase(MouseAction.Down, TestName = "Обработка нажатия мыши стратегией DragAndDrop")]
+        [TestCase(MouseAction.Move, TestName = "Обработка перемещения мыши стратегией DragAndDrop")]
+        [TestCase(MouseAction.Up, TestName = "Обработка отжатия мыши стратегией DragAndDrop")]
         public void MouseProcessTest_WithDragAndDropStrategy(MouseAction mouseAction)
         {
-            SetUp();
+            var manager = DrawManager;
             _painterStateMock.Setup(x => x.DrawingStrategy)
                 .Returns(Strategy.DragAndDrop);
             var mouseArgs = new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0);
 
             Assert.DoesNotThrow( () =>
             {
-                _drawManager.MouseProcess(mouseArgs, mouseAction);
+                manager.MouseProcess(mouseArgs, mouseAction);
             });
         }
 
-        [TestCase(MouseAction.Down)]
-        [TestCase(MouseAction.Move)]
-        [TestCase(MouseAction.Up)]
+        [TestCase(MouseAction.Down, TestName = "Обработка нажатия мыши двуточечной стратегией")]
+        [TestCase(MouseAction.Move, TestName = "Обработка перемещения мыши двуточечной стратегией")]
+        [TestCase(MouseAction.Up, TestName = "Обработка отжатия мыши двуточечной стратегией")]
         public void MouseProcessTest_WithTwoPointStrategy(MouseAction mouseAction)
         {
-            SetUp();
+            var manager = DrawManager;
             _painterStateMock.Setup(x => x.DrawingStrategy)
                 .Returns(Strategy.TwoPoint);
             var mouseArgs = new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0);
 
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _drawManager.MouseProcess(mouseArgs, mouseAction);
+                manager.MouseProcess(mouseArgs, mouseAction);
             });      
         }
     }

@@ -12,8 +12,7 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class DraftSerealizerTest
     {
-
-        [Test]
+        [TestCase(TestName = "Сериализация с Stream=null")]
         public void Serealize_TestWithNullStream()
         {
             var serealizer = new DraftSerealizer();
@@ -25,7 +24,7 @@ namespace GraphicsEditor.Tests
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Десериализация с Stream=null")]
         public void Deserealize_TestWithNullStream()
         {
             var serealizer = new DraftSerealizer();

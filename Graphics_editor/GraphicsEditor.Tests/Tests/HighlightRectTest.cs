@@ -15,81 +15,75 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class HighlightRectTest
     {
-        [Test]
+        private HighlightRect HighlightRect
+        {
+            get => new HighlightRect();
+        }
+
+        [TestCase(TestName ="Считывание свойства StartPoint")]
         public void StartPointGetTest()
         {
-            var rect = new HighlightRect();
-
             Assert.DoesNotThrow(() =>
             {
-                var point = rect.StartPoint;
+                var point = HighlightRect.StartPoint;
             });           
         }
 
-        [Test]
+        [TestCase(TestName = "Считывание свойства EndPoint")]
         public void EndPointGetTest()
         {
-            var rect = new HighlightRect();
-
             Assert.DoesNotThrow(() =>
             {
-                var point = rect.EndPoint;
+                var point = HighlightRect.EndPoint;
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Запись в свойство StartPoint")]
         public void StartPointSetTest()
         {
-            var rect = new HighlightRect();
             var point = new Point(0, 0);
 
             Assert.DoesNotThrow(() =>
             {
-                rect.StartPoint = point;
+                HighlightRect.StartPoint = point;
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Запись в свойство EndPoint")]
         public void EndPointSetTest()
         {
-            var rect = new HighlightRect();
             var point = new Point(0, 0);
 
             Assert.DoesNotThrow(() =>
             {
-                rect.EndPoint = point;
+                HighlightRect.EndPoint = point;
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Запись в свойство Pen")]
         public void PenSetTest()
         {
-            var rect = new HighlightRect();
             var pen = new PenSettings(Color.Green, 1);
 
             Assert.DoesNotThrow(() =>
             {
-                rect.Pen = pen;
+                HighlightRect.Pen = pen;
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Считываение свойства Pen")]
         public void PenGetTest()
         {
-            var rect = new HighlightRect();
-
             Assert.DoesNotThrow(() =>
             {
-                var pen = rect.Pen;
+                var pen = HighlightRect.Pen;
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Метод возврата имени")]
         public void GetNameTest()
         {
-            var rect = new HighlightRect();
-
-            var name = rect.GetName();
+            var name = HighlightRect.GetName();
 
             Assert.IsTrue(name == "HighlightRect");
         }

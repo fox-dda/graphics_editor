@@ -13,79 +13,87 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class PaintingParametersTest
     {
-        private PaintingParameters _paintingsParameters;
         private Mock<IPenSettings> _penSettingsMock;
-
-        public void SetUp()
+        private PaintingParameters PaintingsParameters
         {
-            _penSettingsMock = new Mock<IPenSettings>();
-            _paintingsParameters = new PaintingParameters(_penSettingsMock.Object);
+            get
+            {
+                _penSettingsMock = new Mock<IPenSettings>();
+                return new PaintingParameters(_penSettingsMock.Object);
+            }
         }
 
-        [Test]
-        public void DashPatternProperty_SetAny(
-            [Values(new float[]{float.MaxValue, float.MaxValue},
-                    new float[]{float.MaxValue, float.MinValue},
-                    new float[]{float.MinValue, float.MaxValue},
-                    new float[]{float.MinValue, float.MinValue},
-                    new float[]{0, 0})] float[] inputPattern)
+        [TestCase(new float[] { float.MaxValue, float.MaxValue }, 
+            TestName = "Запись в свойство DashPattern нраничных значений float")]
+        [TestCase(new float[] { float.MaxValue, float.MinValue },
+            TestName = "Запись в свойство DashPattern нраничных значений float")]
+        [TestCase(new float[] { float.MinValue, float.MaxValue },
+            TestName = "Запись в свойство DashPattern нраничных значений float")]
+        [TestCase(new float[] { float.MinValue, float.MinValue },
+            TestName = "Запись в свойство DashPattern нраничных значений float")]
+        [TestCase(new float[] { 0, 0 })]
+        public void DashPatternProperty_SetAny(float[] inputPattern)
         {
-            SetUp();
-            
-            _paintingsParameters.DashPattern = inputPattern;
-        }
-
-        [Test]
-        public void DashPatternProperty_GetWhenPropertyIsZero_ExpectNullInCaches()
-        {
-            SetUp();
-            _paintingsParameters.DashPattern = new float[] {0, 100};
-
-            Assert.IsNull(_paintingsParameters.DashPattern);
-        }
-
-
-        [Test]
-        public void BrushColorTestSet()
-        {
-            SetUp();
-
-            _paintingsParameters.BrushColor = System.Drawing.Color.AliceBlue;
-
-            Assert.IsNotNull(_paintingsParameters.BrushColor);
-        }
-
-        [Test]
-        public void CanvasColorTestSet()
-        {
-            SetUp();
-
-            _paintingsParameters.CanvasColor = System.Drawing.Color.AliceBlue;
-
-            Assert.IsNotNull(_paintingsParameters.CanvasColor);
-        }
-
-        [Test]
-        public void BrushColorTestGet()
-        {
-            SetUp();
-            _paintingsParameters.BrushColor = System.Drawing.Color.AliceBlue;
-
             Assert.DoesNotThrow(() =>
             {
-                var color = _paintingsParameters.BrushColor;
+                PaintingsParameters.DashPattern = inputPattern;
             });
         }
 
-        [Test]
-        public void CanvasColorTestGet()
+        [TestCase(TestName = "Считывание свойства DashPattern")]
+        public void DashPatternProperty_GetWhenPropertyIsZero_ExpectNullInCaches()
         {
-            SetUp();
-            _paintingsParameters.CanvasColor = System.Drawing.Color.AliceBlue;
+            var parameters = PaintingsParameters;
+
+            parameters.DashPattern = new float[] {0, 100};
+
+            Assert.IsNull(parameters.DashPattern);
+        }
+
+
+        [TestCase(TestName = "Запись в свойство BrushColor")]
+        public void BrushColorTestSet()
+        {
+            var parameters = PaintingsParameters;
+
+            parameters.BrushColor = System.Drawing.Color.AliceBlue;
+
+            Assert.IsNotNull(parameters.BrushColor);
+        }
+
+        [TestCase(TestName = "Запись в свойство CanvasColor")]
+        public void CanvasColorTestSet()
+        {
+            var parameters = PaintingsParameters;
+
+            parameters.CanvasColor = System.Drawing.Color.AliceBlue;
+
+            Assert.IsNotNull(parameters.CanvasColor);
+        }
+
+        [TestCase(TestName = "Считывание из свойства BrushColor")]
+        public void BrushColorTestGet()
+        {
+            var parameters = PaintingsParameters;
+
+            parameters.BrushColor = System.Drawing.Color.AliceBlue;
 
             Assert.DoesNotThrow(() =>
             {
-                var color = _paintingsParameters.CanvasColor;
+                var color = parameters.BrushColor;
+            });
+        }
+
+        [TestCase(TestName = "Считывание из свойства CanvasColor")]
+        public void CanvasColorTestGet()
+        {
+            var parameters = PaintingsParameters;
+
+            parameters.CanvasColor = System.Drawing.Color.AliceBlue;
+
+            Assert.DoesNotThrow(() =>
+            {
+                var color = parameters.CanvasColor;
             });
         }
     }

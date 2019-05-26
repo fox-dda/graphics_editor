@@ -9,58 +9,66 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class DraftStorageTest
     {
+        private DraftStorage DraftStorage
+        {
+            get
+            {
+                return new DraftStorage();
+            }
+        }
 
-        [Test]
+
+        [TestCase(TestName = "Запись в свойство DraftList")]
         public void DraftList_Set()
         {
-            var draftStorage = new DraftStorage();
-
-            draftStorage.DraftList = new List<IDrawable>();
-        }
-
-        [Test]
-        public void DraftList_SetNull()
-        {
-            var draftStorage = new DraftStorage();
-
-            draftStorage.DraftList = null;
-        }
-
-        [Test]
-        public void HightlightDrafts_Set()
-        {
-            var draftStorage = new DraftStorage();
-
-            draftStorage.HighlightDraftsList = new List<IDrawable>();
-        }
-
-        [Test]
-        public void HightlightDrafts_SetNull()
-        {
-            var draftStorage = new DraftStorage();
-
-            draftStorage.DraftList = null;
-        }
-
-        [Test]
-        public void DraftList_Get()
-        {
-            var draftStorage = new DraftStorage();
-
-            Assert.DoesNotThrow(()=>
+            Assert.DoesNotThrow(() =>
             {
-                var draftList = draftStorage.DraftList;
+                DraftStorage.DraftList = new List<IDrawable>();
             });
         }
 
-        [Test]
-        public void HightlightDrafts_Get()
+        [TestCase(TestName = "Запись null в свойство DraftList")]
+        public void DraftList_SetNull()
         {
-            var draftStorage = new DraftStorage();
-
             Assert.DoesNotThrow(() =>
             {
-                var draftList = new List<IDrawable>();
+                DraftStorage.DraftList = null;
+            });
+        }
+
+        [TestCase(TestName = "Запись в свойство HightlightDraftsList")]
+        public void HightlightDrafts_Set()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                DraftStorage.HighlightDraftsList = new List<IDrawable>();
+            });           
+        }
+
+        [TestCase(TestName = "Запись null в свойство HightlightDraftsList")]
+        public void HightlightDrafts_SetNull()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                DraftStorage.DraftList = null;
+            });           
+        }
+
+        [TestCase(TestName = "Получение значения свойства DraftList")]
+        public void DraftList_Get()
+        {
+            Assert.DoesNotThrow(()=>
+            {
+                var draftList = DraftStorage.DraftList;
+            });
+        }
+
+        [TestCase(TestName = "Получение значения свойства HighlightDraftsList")]
+        public void HightlightDrafts_Get()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                var draftList = DraftStorage.HighlightDraftsList;
             });
         }
     }

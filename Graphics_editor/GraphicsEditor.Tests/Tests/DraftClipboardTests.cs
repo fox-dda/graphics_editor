@@ -3,68 +3,66 @@ using SDK.Interfaces;
 using SDK;
 using Moq;
 using System.Collections.Generic;
+using GraphicsEditor.Tests.Stubs;
 
 namespace GraphicsEditor.Tests
 {
     [TestFixture]
     public class DraftClipboardTests
     {
-        private DraftClipboard _draftClipBoard;
-        private IDrawable _draft;
+        private DraftClipboard DraftClipBoard
+        {
+            get
+            {
+                _draftFactoryMock = new Mock<IDraftFactory>();
+                return new DraftClipboard(_draftFactoryMock.Object, _draftList);
+            }
+        }
         private List<IDrawable> _draftList = new List<IDrawable>();
         private Mock<IDraftFactory> _draftFactoryMock;
-        
-        public void SetUp()
-        {
-            _draftFactoryMock = new Mock<IDraftFactory>();
-            Mock<IDrawable> draft = new Mock<IDrawable>();
-            _draft = draft.Object;
-            _draftClipBoard = new DraftClipboard(_draftFactoryMock.Object, _draftList);
-        }
 
-        [Test]
+        [TestCase(TestName = "Запись в буфер списка из трех объектов")]
         public void SetRange_Set3Drafts()
         {
-            SetUp();
-            var draftList = new List<IDrawable>() { _draft, _draft, _draft };
+            Mock<IDrawable> draft = new Mock<IDrawable>();
+            var draftList = new List<IDrawable>()
+            {
+                draft.Object, draft.Object, draft.Object
+            };
 
-            _draftClipBoard.SetRange(draftList);
+            DraftClipBoard.SetRange(draftList);
 
             _draftFactoryMock.Verify(x => x.Clone(It.IsAny<IDrawable>()), Times.Exactly(3));
         }
 
-        [Test]
+        [TestCase(TestName = "Запись в буфер пустого списка")]
         public void SetRange_Set_Range_With_0_Drafts()
         {
-            SetUp();
             var draftList = new List<IDrawable>() { };
 
-            _draftClipBoard.SetRange(draftList);
+            DraftClipBoard.SetRange(draftList);
 
-            // Проверка: Вызвался ли метод Clone в точности 0 раза возвращая тип IDrawable
             _draftFactoryMock.Verify(x => x.Clone(It.IsAny<IDrawable>()), Times.Exactly(0));
         }
 
-        [Test]
+        [TestCase(TestName = "Получение содержимого буфера с тремя объектами")]
         public void GetAllWith3Drafts()
         {
-            SetUp();
-            _draftList.Add(_draft);
-            _draftList.Add(_draft);
-            _draftList.Add(_draft);
+            _draftList.Add(new TwoPointStub());
+            _draftList.Add(new TwoPointStub());
+            _draftList.Add(new TwoPointStub());
 
-            var someDraftList = _draftClipBoard.GetAll();
+            var someDraftList = DraftClipBoard.GetAll();
 
             Assert.AreEqual(someDraftList.Count, 3);
         }
 
-        [Test]
+        [TestCase(TestName = "Получение содержимого содержимого пустого буфера")]
         public void GetAll_With_0_Drafts()
         {
-            SetUp();
             var draftList = new List<IDrawable>() {  };
 
-            var someDraftList = _draftClipBoard.GetAll();
+            var someDraftList = DraftClipBoard.GetAll();
 
             Assert.IsEmpty(someDraftList);
         }
