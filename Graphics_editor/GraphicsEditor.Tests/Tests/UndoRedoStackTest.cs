@@ -11,73 +11,92 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class UndoRedoStackTest
     {
-        private UndoRedoStack _undoRedoStack;
-
-        [Test]
-        public void ResetTest()
+        private UndoRedoStack UndoRedoStack
         {
-            _undoRedoStack = new UndoRedoStack();
-            var undoStackOld = _undoRedoStack.UndoStack;
-
-            _undoRedoStack.Reset();
-
-            Assert.AreNotSame(_undoRedoStack.UndoStack, undoStackOld);
+            get =>  new UndoRedoStack();
         }
 
-        [Test]
+        [TestCase(TestName = "Пересоздание стека")]
+        public void ResetTest()
+        {
+            // Arrange
+            var undoRedoStack = new UndoRedoStack();
+            var undoStackOld = undoRedoStack.UndoStack;
+
+            // Act
+            undoRedoStack.Reset();
+
+            // Assert
+            Assert.AreNotSame(undoRedoStack.UndoStack, undoStackOld);
+        }
+
+        [TestCase(TestName = "Выполнение команды")]
         public void DoTest()
         {
-            _undoRedoStack = new UndoRedoStack();
+            // Arrange
             var commandMock = new Mock<ICommand>();
 
-            _undoRedoStack.Do(commandMock.Object);
+            // Act
+            UndoRedoStack.Do(commandMock.Object);
 
+            // Assert
             commandMock.Verify(x => x.Do(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Откат команды при непустом стеке")]
         public void UndoTest_ExpectUndoCommandCall()
         {
-            _undoRedoStack = new UndoRedoStack();
+            // Arrange
+            var stack = UndoRedoStack;
             var commandMock = new Mock<ICommand>();
-            _undoRedoStack.Do(commandMock.Object);
+            stack.Do(commandMock.Object);
 
-            _undoRedoStack.Undo();
+            // Act
+            stack.Undo();
 
+            // Assert
             commandMock.Verify(x => x.Undo(), Times.Exactly(1));
         }
 
+        [TestCase(TestName = "Откат команды при пустом стеке")]
         public void UndoTest_NotExpectUndoCommandCall()
         {
-            _undoRedoStack = new UndoRedoStack();
+            // Arrange
             var commandMock = new Mock<ICommand>();
 
-            _undoRedoStack.Undo();
+            // Act
+            UndoRedoStack.Undo();
 
+            // Assert
             commandMock.Verify(x => x.Undo(), Times.Exactly(0));
         }
 
-        [Test]
+        [TestCase(TestName = "Выполнение отмененной команды, когда есть отмененные команды")]
         public void RedoTest_ExpectDoCommandCall()
         {
-            _undoRedoStack = new UndoRedoStack();
+            // Arrange
+            var stack = UndoRedoStack;
             var commandMock = new Mock<ICommand>();
-            _undoRedoStack.Do(commandMock.Object);
-            _undoRedoStack.Undo();
+            stack.Do(commandMock.Object);
+            stack.Undo();
 
-            _undoRedoStack.Redo();
+            // Act
+            stack.Redo();
 
+            // Assert
             commandMock.Verify(x => x.Do(), Times.Exactly(2));
         }
 
-        [Test]
+        [TestCase(TestName = "Выполнение отменной комманды, когда нет отмененных команд")]
         public void RedoTest_NotExpectDoCommandCall()
         {
-            _undoRedoStack = new UndoRedoStack();
+            // Arrange
             var commandMock = new Mock<ICommand>();
 
-            _undoRedoStack.Redo();
+            // Act
+            UndoRedoStack.Redo();
 
+            // Assert
             commandMock.Verify(x => x.Do(), Times.Exactly(0));
         }
     }

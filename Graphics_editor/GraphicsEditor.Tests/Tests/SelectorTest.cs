@@ -15,44 +15,53 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class SelectorTest
     {
-        private Selector _selector;
         private List<Mock<IDrawable>> _draftMockList;
         private List<IDrawable> _draftList;
-
-        public void SetUp()
+        private Selector Selector
         {
-            Random randomGenerator = new Random();
-            _selector = new Selector();
-            _draftList = new List<IDrawable>();
-            _draftMockList = new List<Mock<IDrawable>>();
-
-            for(int i = 0; i != 20; i++)
+            get
             {
-                var draftMock = new Mock<IDrawable>();
-                draftMock.Setup(x => x.StartPoint).Returns(
-                    new Point(randomGenerator.Next(0, 500),
-                        (randomGenerator.Next(0, 500))));
-                draftMock.Setup(x => x.EndPoint).Returns(
-                     new Point(randomGenerator.Next(0, 500),
-                        (randomGenerator.Next(0, 500))));
-                _draftMockList.Add(draftMock);
-                _draftList.Add(draftMock.Object);
-            }
+                Random randomGenerator = new Random();
+                _draftList = new List<IDrawable>();
+                _draftMockList = new List<Mock<IDrawable>>();
 
+                for (int i = 0; i != 20; i++)
+                {
+                    var draftMock = new Mock<IDrawable>();
+                    draftMock.Setup(x => x.StartPoint).Returns(
+                        new Point(randomGenerator.Next(0, 500),
+                            (randomGenerator.Next(0, 500))));
+                    draftMock.Setup(x => x.EndPoint).Returns(
+                         new Point(randomGenerator.Next(0, 500),
+                            (randomGenerator.Next(0, 500))));
+                    _draftMockList.Add(draftMock);
+                    _draftList.Add(draftMock.Object);
+                }
+                return new Selector();
+            }
         }
 
-        [TestCase(0, 0)]
-        [TestCase(0, 500)]
-        [TestCase(500, 0)]
-        [TestCase(500, 500)]
-        [TestCase(0, 1)]
-        [TestCase(1, 0)]
-        [TestCase(499, 0)]
-        [TestCase(0, 499)]
+        [TestCase(0, 0,
+            TestName = "Поиск по точке двуточечной фигуры, ожидая результат null")]
+        [TestCase(0, 500,
+            TestName = "Поиск по точке двуточечной фигуры, ожидая результат null")]
+        [TestCase(500, 0,
+            TestName = "Поиск по точке двуточечной фигуры, ожидая результат null")]
+        [TestCase(500, 500,
+            TestName = "Поиск по точке двуточечной фигуры, ожидая результат null")]
+        [TestCase(0, 1,
+            TestName = "Поиск по точке двуточечной фигуры, ожидая результат null")]
+        [TestCase(1, 0,
+            TestName = "Поиск по точке двуточечной фигуры, ожидая результат null")]
+        [TestCase(499, 0,
+            TestName = "Поиск по точке двуточечной фигуры, ожидая результат null")]
+        [TestCase(0, 499,
+            TestName = "Поиск по точке двуточечной фигуры, ожидая результат null")]
         public void PointSearch_TestWithDoublePointDrafts_ExpectNullReturn(
             int xDot, int yDot)
         {
-            SetUp();
+            // Arrange
+            var selector = Selector;
             var draftMock = new Mock<IDrawable>();
             draftMock.Setup(x => x.StartPoint).Returns(
                 new Point(0, 500));
@@ -60,21 +69,28 @@ namespace GraphicsEditor.Tests
                  new Point(500, 00));
             _draftList.Add(draftMock.Object);
 
-            var rezultDraft =_selector.PointSearch(
+            // Act
+            var rezultDraft = selector.PointSearch(
                 new Point(xDot, yDot), _draftList);
 
+            // Assert
             Assert.IsNull(rezultDraft);
         }
 
 
-        [TestCase(1, 1)]
-        [TestCase(499, 499)]
-        [TestCase(499, 1)]
-        [TestCase(1, 499)]
+        [TestCase(1, 1,
+            TestName = "Поиск по точке двуточечной фигуры, ожидая ненулевой результат")]
+        [TestCase(499, 499,
+            TestName = "Поиск по точке двуточечной фигуры, ожидая ненулевой результат")]
+        [TestCase(499, 1,
+            TestName = "Поиск по точке двуточечной фигуры, ожидая ненулевой результат")]
+        [TestCase(1, 499,
+            TestName = "Поиск по точке двуточечной фигуры, ожидая ненулевой результат")]
         public void PointSearch_TestWithDoublePointDrafts_ExpectNotNullReturn(
             int xDot, int yDot)
         {
-            SetUp();
+            // Arrange
+            var selector = Selector;
             var draftMock = new Mock<IDrawable>();
             draftMock.Setup(x => x.StartPoint).Returns(
                 new Point(0, 500));
@@ -82,20 +98,27 @@ namespace GraphicsEditor.Tests
                  new Point(500, 0));
             _draftList.Add(draftMock.Object);
 
-            var rezultDraft = _selector.PointSearch(
+            // Act
+            var rezultDraft = selector.PointSearch(
                 new Point(xDot, yDot), _draftList);
 
+            // Assert
             Assert.IsNotNull(rezultDraft);
         }
 
-        [TestCase(1, 1)]
-        [TestCase(499, 499)]
-        [TestCase(499, 1)]
-        [TestCase(1, 499)]
+        [TestCase(1, 1,
+            TestName = "Поиск по точке многоточечной фигуры, ожидая ненулевой результат")]
+        [TestCase(499, 499,
+            TestName = "Поиск по точке многоточечной фигуры, ожидая ненулевой результат")]
+        [TestCase(499, 1,
+            TestName = "Поиск по точке многоточечной фигуры, ожидая ненулевой результат")]
+        [TestCase(1, 499,
+            TestName = "Поиск по точке многоточечной фигуры, ожидая ненулевой результат")]
         public void PointSearch_TestWithMultipointDrafts_ExpectNotNullReturn(
            int xDot, int yDot)
         {
-            SetUp();
+            // Arrange
+            var selector = Selector;
             _draftList.Clear();
             var multipiontStub = new MultipointStub()
             {
@@ -106,27 +129,37 @@ namespace GraphicsEditor.Tests
                     new Point(500, 0)
                 }
             };
-
             _draftList.Add(multipiontStub);
 
-            var rezultDraft = _selector.PointSearch(
+            // Act
+            var rezultDraft = selector.PointSearch(
                 new Point(xDot, yDot), _draftList);
 
+            // Assert
             Assert.IsNotNull(rezultDraft);
         }
 
-        [TestCase(0, 0)]
-        [TestCase(0, 500)]
-        [TestCase(500, 0)]
-        [TestCase(500, 500)]
-        [TestCase(0, 1)]
-        [TestCase(1, 0)]
-        [TestCase(499, 0)]
-        [TestCase(0, 499)]
+        [TestCase(0, 0,
+            TestName = "Поиск по точке многоточечной фигуры, ожидая результат null")]
+        [TestCase(0, 500,
+            TestName = "Поиск по точке многоточечной фигуры, ожидая результат null")]
+        [TestCase(500, 0,
+            TestName = "Поиск по точке многоточечной фигуры, ожидая результат null")]
+        [TestCase(500, 500,
+            TestName = "Поиск по точке многоточечной фигуры, ожидая результат null")]
+        [TestCase(0, 1,
+            TestName = "Поиск по точке многоточечной фигуры, ожидая результат null")]
+        [TestCase(1, 0,
+            TestName = "Поиск по точке многоточечной фигуры, ожидая результат null")]
+        [TestCase(499, 0,
+            TestName = "Поиск по точке многоточечной фигуры, ожидая результат null")]
+        [TestCase(0, 499,
+            TestName = "Поиск по точке многоточечной фигуры, ожидая результат null")]
         public void PointSearch_TestWithMultipointDrafts_ExpectNullReturn(
           int xDot, int yDot)
         {
-            SetUp();
+            // Arrange
+            var selector = Selector;
             var multipiontStub = new MultipointStub()
             {
                 DotList = new List<Point>()
@@ -136,15 +169,24 @@ namespace GraphicsEditor.Tests
                     new Point(500, 0)
                 }
             };
-
             _draftList.Add(multipiontStub);
 
-            var rezultDraft = _selector.PointSearch(
+            // Act
+            var rezultDraft = selector.PointSearch(
                 new Point(xDot, yDot), _draftList);
 
+            // Assert
             Assert.IsNull(rezultDraft);
         }
 
+        /// <summary>
+        /// Тест поиска в лассо, ожидая результатом пустой список
+        /// NUnit не позволяет давать атрибут TestCase тестам, использующим Range
+        /// </summary>
+        /// <param name="startXDot"></param>
+        /// <param name="startYDot"></param>
+        /// <param name="endXDot"></param>
+        /// <param name="endYDot"></param>
         [Test]
         public void LassoSearch_TestWithMultipointDrafts_ExpectEmptyReturn(
             [Range(0, 3)] int startXDot,
@@ -152,7 +194,8 @@ namespace GraphicsEditor.Tests
             [Range(0, 3)] int endXDot,
             [Range(0, 3)] int endYDot)
         {
-            SetUp();
+            // Arrange
+            var selector = Selector;
             _draftList.Clear();
             var lasso = new TwoPointStub()
             {
@@ -168,20 +211,22 @@ namespace GraphicsEditor.Tests
                     new Point(3, 0)
                 }
             };
-
             _draftList.Add(multipiontStub);
 
-            var rezultDraft = _selector.LassoSearch(
+            // Act
+            var rezultDraft = selector.LassoSearch(
                 lasso, _draftList);
 
+            // Assert
             Assert.IsEmpty(rezultDraft);
         }
 
-        [TestCase(-1, -1, 501, 501)]
+        [TestCase(-1, -1, 501, 501, TestName ="Поиск в ласо, ожидая непустой список")]
         public void LassoSearch_TestWithMultipointDrafts_ExpectNotImptyListReturn(
            int startXDot, int startYDot, int endXDot, int endYDot)
         {
-            SetUp();
+            // Arrange
+            var selector = Selector;
             _draftList.Clear();
             var lasso = new TwoPointStub()
             {
@@ -197,19 +242,21 @@ namespace GraphicsEditor.Tests
                     new Point(500, 0)
                 }
             };
-
             _draftList.Add(multipiontStub);
 
-            var rezultDraft = _selector.LassoSearch(
+            // Act
+            var rezultDraft = selector.LassoSearch(
                 lasso, _draftList);
 
+            // Assert
             Assert.IsNotEmpty(rezultDraft);
         }
 
-        [Test]
+        [TestCase(TestName ="Поиск опорной точки многоточечной фигуры")]
         public void SearchReferenceDotTest_RefDotOwnedMultipoint()
         {
-            SetUp();
+            // Arrange
+            var selector = Selector;
             var refDot = new Point(500, 0);
             _draftList.Clear();
             var twoPointStub = new TwoPointStub()
@@ -228,15 +275,18 @@ namespace GraphicsEditor.Tests
             };
             var draftList = new List<IDrawable>() { twoPointStub, multipiontStub };
 
-            var point = _selector.SearchReferenceDot(refDot, draftList);
+            // Act
+            var point = selector.SearchReferenceDot(refDot, draftList);
 
+            // Assert
             Assert.AreNotSame(refDot, point);
         }
 
-        [Test]
+        [TestCase(TestName = "Поиск опорной точки двуточечной фигуры")]
         public void SearchReferenceDotTest_RefDotOwnedTwoPoint()
         {
-            SetUp();
+            // Arrange
+            var selector = Selector;
             var refDot = new Point(7, 8);
             _draftList.Clear();
             var twoPointStub = new TwoPointStub()
@@ -255,8 +305,10 @@ namespace GraphicsEditor.Tests
             };
             var draftList = new List<IDrawable>() { twoPointStub, multipiontStub };
 
-            var point = _selector.SearchReferenceDot(refDot, draftList);
+            // Act
+            var point = selector.SearchReferenceDot(refDot, draftList);
 
+            // Assert
             Assert.AreNotSame(refDot, point);
         }
     }

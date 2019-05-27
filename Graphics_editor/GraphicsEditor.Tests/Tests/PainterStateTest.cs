@@ -27,8 +27,10 @@ namespace GraphicsEditor.Tests
         [TestCase("^_^", TestName = "Запись в свойство Figure знаковой строки")]
         public void FigureProperty_SetAnyString_ExpectNullInCaches(string inputSrting)
         {
+            // Act
             PainterState.Figure = inputSrting;
 
+            // Assert
             Assert.IsTrue(
                 (PainterState.DragDropDraft == null) &&
                 (PainterState.DragDropDotingDraft == null) &&
@@ -43,16 +45,20 @@ namespace GraphicsEditor.Tests
         public void FigureProperty_SetAnyString_ExpectEmptyDotsInProcessList(
             string inputSrting)
         {
+            // Act
             PainterState.Figure = inputSrting;
 
+            // Assert
             Assert.IsEmpty(PainterState.InProcessPoints);
         }
 
         [TestCase(TestName = "Считыванине свойства DrawingStrategy")]
         public void DrawingStrategyPropety_Get_ExpectDefineStrategyCall()
         {
+            // Act
             var someStrategy = PainterState.DrawingStrategy;
 
+            // Assert
             _strategyDeterminerMock.Verify(x => x.DefineStrategy(It.IsAny<string>()),
                 Times.Exactly(1));
         }
@@ -60,7 +66,8 @@ namespace GraphicsEditor.Tests
 
         [TestCase(TestName = "Запись в свойство InProcessPoints")]
         public void InProcessPoints_Set()
-        {          
+        {    
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 PainterState.InProcessPoints = new List<System.Drawing.Point>();
@@ -70,6 +77,7 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Запись в свойство InProcessPoints значения null")]
         public void InProcessPoints_SetNull()
         {
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 PainterState.InProcessPoints = null;
@@ -79,6 +87,7 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Запись в свойство UndrawableDraft значения null")]
         public void UndrawableDraft_SetNull()
         {
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 PainterState.UndrawableDraft = null;
@@ -89,6 +98,7 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Чтение свойства UndrawableDraft")]
         public void UndrawableDraft_Get()
         {
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 var draft = PainterState.UndrawableDraft;
@@ -98,6 +108,7 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Запись свойства DragDropDotingDot")]
         public void DragDropDotingDot_Set()
         {
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 PainterState.DragDropDotingDot = new System.Drawing.Point(1, 1);
@@ -108,6 +119,7 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Чтение свойства DragDropDotingDot")]
         public void DragDropDotingDot_Get()
         {
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 var point = PainterState.DragDropDotingDot;

@@ -14,46 +14,50 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class EditCanvasColorCommandTest
     {
-        private EditCanvasColorCommand _editCanvasColorCommand;
-        private Mock<IPaintingParameters> _paintingParametersMock;
-
-        [Test]
-        public void DoTest_WithNotNulls()
+        [TestCase(TestName ="Выполнение команды с ненулевыми параметрами")]
+        public void DoTest_WithNotNull()
         {
-            _paintingParametersMock = new Mock<IPaintingParameters>();
-            _paintingParametersMock.Setup(x => x.CanvasColor)
+            // Arrange
+            var paintingParametersMock = new Mock<IPaintingParameters>();
+            paintingParametersMock.Setup(x => x.CanvasColor)
                 .Returns(Color.Green);
-            _editCanvasColorCommand = new EditCanvasColorCommand(
-                _paintingParametersMock.Object,
+            var editCanvasColorCommand = new EditCanvasColorCommand(
+                paintingParametersMock.Object,
                 Color.Red);
 
-            _editCanvasColorCommand.Do();
+            // Act
+            editCanvasColorCommand.Do();
 
-            _paintingParametersMock.VerifySet(x => x.CanvasColor = Color.Red);
+            // Assert
+            paintingParametersMock.VerifySet(x => x.CanvasColor = Color.Red);
         }
 
-        [Test]
-        public void UndoTest_WithNotNulls()
+        [TestCase(TestName = "Отмена команды с ненулевыми параметрами")]
+        public void UndoTest_WithNotNull()
         {
-            _paintingParametersMock = new Mock<IPaintingParameters>();
-            _paintingParametersMock.Setup(x => x.CanvasColor)
+            // Arrange
+            var paintingParametersMock = new Mock<IPaintingParameters>();
+            paintingParametersMock.Setup(x => x.CanvasColor)
                 .Returns(Color.Green);
-            _editCanvasColorCommand = new EditCanvasColorCommand(
-                _paintingParametersMock.Object,
+            var editCanvasColorCommand = new EditCanvasColorCommand(
+                paintingParametersMock.Object,
                 Color.Red);
-            _editCanvasColorCommand.Do();
+            editCanvasColorCommand.Do();
 
-            _editCanvasColorCommand.Undo();
+            // Act
+            editCanvasColorCommand.Undo();
 
-            _paintingParametersMock.VerifySet(x => x.CanvasColor = Color.Green);
+            // Assert
+            paintingParametersMock.VerifySet(x => x.CanvasColor = Color.Green);
         }
 
-        [Test]
-        public void CreateCommandTest_WithNullParameters()
+        [TestCase(TestName = "Создание команды с PaintingParameters = null")]
+        public void CreateCommandTest_WithNullParameter()
         {
+            // Act/Assert
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _editCanvasColorCommand = new EditCanvasColorCommand(
+                var editCanvasColorCommand = new EditCanvasColorCommand(
                     null, Color.Green);
             });
         }

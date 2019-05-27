@@ -13,6 +13,7 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Запись в структуру не нулевых значений")]
         public void DotInDraftTest_Set()
         {
+            // Arrange
             var dotInDraft = new DotInDraft();
             var point = new Point(0, 0);
             var draft = new TwoPointStub()
@@ -21,6 +22,7 @@ namespace GraphicsEditor.Tests
                 EndPoint = new Point(1, 1)
             };
 
+            // Act/Assert
             Assert.DoesNotThrow( () =>
             {
                 dotInDraft.Set(draft, point);
@@ -30,9 +32,11 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Запись в структуру нулевых значений")]
         public void DotInDraftTest_SetNullDraft()
         {
+            // Arrange
             var dotInDraft = new DotInDraft();
             var point = new Point(0, 0);
 
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 dotInDraft.Set(null, point);

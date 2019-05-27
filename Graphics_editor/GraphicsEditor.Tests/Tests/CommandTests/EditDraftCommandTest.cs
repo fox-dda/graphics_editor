@@ -13,9 +13,10 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class EditCommandDraftTest
     {
-        [Test]
+        [TestCase(TestName ="Выполнение команды с двуточечной закрашиваемой фигурой")]
         public void DoTest_WithBrushableTwoPointStub()
         {
+            // Arrange
             var returnCloneStub = new BrushableTwoPointStub()
             {
                 StartPoint = new Point(0, 0),
@@ -44,15 +45,17 @@ namespace GraphicsEditor.Tests
                 Color.AliceBlue,
                 draftFactoryMock.Object);
 
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 editDraftCommand.Do();
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Выполнение команды с многоточечной фигурой")]
         public void DoTest_WithMultipointStub()
         {
+            // Arrange
             var returnCloneStub = new MultipointStub()
             {
                 DotList = new List<Point>()
@@ -82,15 +85,17 @@ namespace GraphicsEditor.Tests
                 Color.AliceBlue,
                 draftFactoryMock.Object);
 
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 editDraftCommand.Do();
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Отмена команды с двуточечной закрашиваемой фигурой")]
         public void UndoTest_WithBrushableTwoPointStub()
         {
+            // Arrange
             var returnCloneStub = new BrushableTwoPointStub()
             {
                 StartPoint = new Point(0, 0),
@@ -120,15 +125,17 @@ namespace GraphicsEditor.Tests
                 draftFactoryMock.Object);
             editDraftCommand.Do();
 
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {              
                 editDraftCommand.Undo();
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Отмена команды с многоточечной фигурой")]
         public void UndoTest_WithMultipointStub()
         {
+            // Arrange
             var returnCloneStub = new MultipointStub()
             {
                 StartPoint = new Point(0, 0),
@@ -156,6 +163,7 @@ namespace GraphicsEditor.Tests
                 draftFactoryMock.Object);
             editDraftCommand.Do();
 
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 editDraftCommand.Undo();

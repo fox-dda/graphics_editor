@@ -2,53 +2,44 @@
 using SDK.Interfaces;
 using Moq;
 using GraphicsEditor.Engine;
-using System.Collections.Generic;
 using System;
-using System.Drawing;
 
 namespace GraphicsEditor.Tests
 {
     [TestFixture]
     public class PenConverterTest
     {
-        private PenConventer _penConverter;
-        private Mock<IPenSettings> _penSettingMock;
-
-        public void SetUp()
-        {
-            _penConverter = new PenConventer();
-            _penSettingMock = new Mock<IPenSettings>();
-        }
-
-        [Test]
+        [TestCase(TestName ="Конвертирование пера с пыстым дашпаттерном")]
         public void ConvertToPen_WithPenSettingsDashPatternNone()
         {
-            SetUp();
-            _penSettingMock.Setup(x => x.DashPattern).Returns(new float[] { });
-            var _penSetting = _penSettingMock.Object;
+            // Arrange
+            var penConverter = new PenConventer();
+            var penSettingMock = new Mock<IPenSettings>();
+            penSettingMock.Setup(x => x.DashPattern).Returns(new float[] { });
+            var _penSetting = penSettingMock.Object;
 
+            // Act/Assert
             Assert.Throws(typeof(ArgumentException), () =>
             {
-                var someValue = _penConverter.ConvertToPen(_penSetting);
+                var someValue = penConverter.ConvertToPen(_penSetting);
             });
         }
 
 
-        [Test]
+        [TestCase(TestName = "Конвертирование пера с непустым дашпаттерном")]
         public void ConvertToPen_WithPenSettingsDashPattern()
         {
-            SetUp();
-            _penSettingMock.Setup(x => x.DashPattern).Returns(new float[] { 1, 1 });
-            var _penSetting = _penSettingMock.Object;
+            // Arrange
+            var penConverter = new PenConventer();
+            var penSettingMock = new Mock<IPenSettings>();
+            penSettingMock.Setup(x => x.DashPattern).Returns(new float[] { 1, 1 });
+            var _penSetting = penSettingMock.Object;
 
-            try
+            // Act/Assert
+            Assert.DoesNotThrow(() =>
             {
-                var someValue = _penConverter.ConvertToPen(_penSetting);
-            }
-            catch
-            {
-                Assert.Fail();
-            }
+                var someValue = penConverter.ConvertToPen(_penSetting);
+            });
         }
     }
 }

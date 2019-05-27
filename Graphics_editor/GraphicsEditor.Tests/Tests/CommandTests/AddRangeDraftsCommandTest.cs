@@ -12,80 +12,92 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class AddRangeDraftsCommandTest
     {
-        private AddRangeDraftCommand _addDraftCommand;
-
-        [Test]
+        [TestCase(TestName ="Выполнение команды без null значений")]
         public void DoTest_WithNotNulls()
         {
+            // Arrange
             var draftList = new List<IDrawable>();
             var addebleList = new List<IDrawable>() { new TwoPointStub() };
-            _addDraftCommand = new AddRangeDraftCommand(draftList, addebleList);
+            var addDraftCommand = new AddRangeDraftCommand(draftList, addebleList);
 
-            _addDraftCommand.Do();
+            // Act
+            addDraftCommand.Do();
 
-            Assert.IsNotEmpty(_addDraftCommand.TargetStorage);
+            // Assert
+            Assert.IsNotEmpty(addDraftCommand.TargetStorage);
         }
 
-        [Test]
+        [TestCase(TestName = "Отмена команды без null значений")]
         public void UndoTest_WithNotNull()
         {
+            // Arrange
             var draft = new TwoPointStub();
             var draftList = new List<IDrawable>() { draft };
             var addebleList = new List<IDrawable>() { draft };
-            _addDraftCommand = new AddRangeDraftCommand(draftList, addebleList);
+            var addDraftCommand = new AddRangeDraftCommand(draftList, addebleList);
 
-            _addDraftCommand.Undo();
+            // Act
+            addDraftCommand.Undo();
 
-            Assert.IsEmpty(_addDraftCommand.TargetStorage);
+            // Assert
+            Assert.IsEmpty(addDraftCommand.TargetStorage);
         }
 
-        [Test]
+        [TestCase(TestName = "Выполнение команды c целевым списком = null")]
         public void DoTest_WithNullAddList()
         {
+            // Arrange
             var draftList = new List<IDrawable>();
             
+            // Assert/Act
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _addDraftCommand = new AddRangeDraftCommand(draftList, null);
-                _addDraftCommand.Do();
+                var addDraftCommand = new AddRangeDraftCommand(draftList, null);
+                addDraftCommand.Do();
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Отмена команды c добавляемым списком = null")]
         public void UndoTest_WithNullAddList()
         {
-            var draftList = new List<IDrawable>();          
+            // Arrange
+            var draftList = new List<IDrawable>();
 
+            // Assert/Act
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _addDraftCommand = new AddRangeDraftCommand(draftList, null);
-                _addDraftCommand.Undo();
+                var addDraftCommand = new AddRangeDraftCommand(draftList, null);
+                addDraftCommand.Undo();
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Выполнение комманды с целевым списком = null")]
         public void DoTest_WithNullDraft()
         {
+            // Arrange
             var draft = new TwoPointStub();
             var addebleList = new List<IDrawable>() { draft };
-            _addDraftCommand = new AddRangeDraftCommand(null, addebleList);
+            var addDraftCommand = new AddRangeDraftCommand(null, addebleList);
 
+            // Assert/Act
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _addDraftCommand.Do();
+                addDraftCommand.Do();
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Отмена команды с целевым списком = null")]
         public void UndoTest_WithNullDraft()
         {
+            // Arrange
             var draft = new TwoPointStub();
             var addebleList = new List<IDrawable>() { draft };
-            _addDraftCommand = new AddRangeDraftCommand(null, addebleList);
+            var addDraftCommand = new AddRangeDraftCommand(null, addebleList);
 
+            // Assert/Act
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _addDraftCommand.Undo();
+                addDraftCommand.Undo();
             });
         }
     }

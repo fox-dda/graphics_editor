@@ -34,6 +34,7 @@ namespace GraphicsEditor.Tests
         [TestCase(new float[] { 0, 0 })]
         public void DashPatternProperty_SetAny(float[] inputPattern)
         {
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 PaintingsParameters.DashPattern = inputPattern;
@@ -43,10 +44,13 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Считывание свойства DashPattern")]
         public void DashPatternProperty_GetWhenPropertyIsZero_ExpectNullInCaches()
         {
+            // Arrange
             var parameters = PaintingsParameters;
 
+            // Act
             parameters.DashPattern = new float[] {0, 100};
 
+            // Assert
             Assert.IsNull(parameters.DashPattern);
         }
 
@@ -54,30 +58,37 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Запись в свойство BrushColor")]
         public void BrushColorTestSet()
         {
+            // Arrange
             var parameters = PaintingsParameters;
 
+            // Act
             parameters.BrushColor = System.Drawing.Color.AliceBlue;
 
+            // Assert
             Assert.IsNotNull(parameters.BrushColor);
         }
 
         [TestCase(TestName = "Запись в свойство CanvasColor")]
         public void CanvasColorTestSet()
         {
+            // Arrange
             var parameters = PaintingsParameters;
 
+            // Act
             parameters.CanvasColor = System.Drawing.Color.AliceBlue;
 
+            // Assert
             Assert.IsNotNull(parameters.CanvasColor);
         }
 
         [TestCase(TestName = "Считывание из свойства BrushColor")]
         public void BrushColorTestGet()
         {
+            // Arrange
             var parameters = PaintingsParameters;
-
             parameters.BrushColor = System.Drawing.Color.AliceBlue;
 
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 var color = parameters.BrushColor;
@@ -87,10 +98,11 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Считывание из свойства CanvasColor")]
         public void CanvasColorTestGet()
         {
+            // Arrange
             var parameters = PaintingsParameters;
-
             parameters.CanvasColor = System.Drawing.Color.AliceBlue;
 
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 var color = parameters.CanvasColor;

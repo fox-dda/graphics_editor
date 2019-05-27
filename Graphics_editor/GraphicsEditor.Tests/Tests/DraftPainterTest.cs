@@ -15,6 +15,11 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class DraftPainterTest
     {
+        private Mock<IPaintingParameters> _paintingParametersMock;
+        private Mock<IStorageManager> _storageManagerMock;
+        private Mock<IDraftFactory> _draftFactoryMock;
+        private Mock<IDrawerFacade> _drawerFacadeMock;
+        private Mock<IPainterState> _painterStateMock;
         private DraftPainter DraftPainter
         {
             get
@@ -35,17 +40,15 @@ namespace GraphicsEditor.Tests
                 };
             }
         }
-        private Mock<IPaintingParameters> _paintingParametersMock;
-        private Mock<IStorageManager> _storageManagerMock;
-        private Mock<IDraftFactory> _draftFactoryMock;
-        private Mock<IDrawerFacade> _drawerFacadeMock;
-        private Mock<IPainterState> _painterStateMock;
+
 
         [TestCase(TestName = "Динамическое рисование с Graphics=null")]
         public void DynamicDrawing_DrawWithNullGraphicsProperty()
         {
+            // Arrage
             var mousePoint = new Point(0,0);
 
+            // Act/Assert
             Assert.Throws(typeof(NullReferenceException), () => 
             {
                 DraftPainter.DynamicDrawing(mousePoint);
@@ -55,13 +58,16 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Добавить точку в двуточечную фигуру кэша")]
         public void AddPointToCacheDraft_WithDoublePointStub()
         {
+            // Arrange
             var painter = DraftPainter;
             var twoPointStub = new TwoPointStub();
             _painterStateMock.SetupSet(content => content.CacheDraft = twoPointStub);
             var point = new Point(0, 0);
 
+            // Act
             painter.AddPointToCacheDraft(point);
 
+            // Assert
             _painterStateMock.VerifySet(content => content.CacheDraft
             = It.IsAny<TwoPointStub>(), Times.Exactly(0));
         }
@@ -69,20 +75,24 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Добавить точку в многоточечную фигуру кэша")]
         public void AddPointToCacheDraft_WithMultiPointStub()
         {
+            // Arrange
             var painter = DraftPainter;
             var twoPointStub = new MultipointStub();
             _painterStateMock.SetupSet(content => content.CacheDraft = twoPointStub);
             var point = new Point(0, 0);
 
+            // Act
             painter.AddPointToCacheDraft(point);
 
+            // Assert
             _painterStateMock.VerifySet(content => content.CacheDraft
-            = It.IsAny<TwoPointStub>(), Times.Exactly(0));
+                = It.IsAny<TwoPointStub>(), Times.Exactly(0));
         }
 
         [TestCase(TestName = "Перерисовать канвас с Graphics=null")]
         public void RefreshCanvas_WithNullGraphicsProperty()
         {
+            // Act/Assert
             Assert.Throws(typeof(NullReferenceException), () =>
             {
                 DraftPainter.RefreshCanvas();
@@ -92,8 +102,10 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Очистить канвас с Graphics=null")]
         public void ClearCanvas_WithNullGraphicsProperty()
         {
+            // Arrange
             var draftPainter = DraftPainter;
 
+            // Act/Assert
             Assert.Throws(typeof(NullReferenceException), () =>
             {
                 draftPainter.ClearCanvas(); 
@@ -105,6 +117,7 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Добавить фигуру в хранилище с Graphics=null")]
         public void AddToStorage_WithNullGraphicsProperty()
         {
+            // Act/Assert
             Assert.Throws(typeof(NullReferenceException), () =>
             {
                 DraftPainter.AddToStorage();
@@ -117,10 +130,13 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Рисование соло-фигуры")]
         public void SoloDraw_WithTwopointStub()
         {
+            // Arrange
             var draft = new TwoPointStub();
 
+            // Act
             DraftPainter.SoloDraw(draft);
 
+            // Assert
             _drawerFacadeMock.Verify(x => x.DrawShape(
                 It.IsAny<IDrawable>(),
                 It.IsAny<Graphics>()),

@@ -15,70 +15,81 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class StrategyDeterminerTest
     {
-        private StrategyDeterminer _strategyDeterminer;
         private Mock<IContainer> _containerMock;
-
-        public void SetUp()
+        private StrategyDeterminer StrategyDeterminer
         {
-            _containerMock = new Mock<IContainer>();
-            _strategyDeterminer = new StrategyDeterminer(_containerMock.Object);
+            get
+            {
+                _containerMock = new Mock<IContainer>();
+                return new StrategyDeterminer(_containerMock.Object);
+            }
         }
 
-        [Test]
+        [TestCase(TestName = "Определение стратегии ожидая результат Selection")]
         public void DefineStrategy_ExpectSelection()
         {
-            SetUp();
+            // Act
+            var strategy = StrategyDeterminer.DefineStrategy("HighlightRect");
 
-            var strategy = _strategyDeterminer.DefineStrategy("HighlightRect");
-
+            // Assert
             Assert.IsTrue(strategy == Strategy.Selection);
         }
 
-        [TestCase("DragPoint")]
-        [TestCase("DragDraft")]
+        [TestCase("DragPoint", TestName = "Определение стратегии ожидая результат DragAndDrop")]
+        [TestCase("DragDraft", TestName = "Определение стратегии ожидая результат DragAndDrop")]
         public void DefineStrategy_ExpectDragAndDrop(string str)
         {
-            SetUp();
+            // Act
+            var strategy = StrategyDeterminer.DefineStrategy(str);
 
-            var strategy = _strategyDeterminer.DefineStrategy(str);
-
+            // Assert
             Assert.IsTrue(strategy == Strategy.DragAndDrop);
         }
 
-        [Test]
+        [TestCase(TestName = "Определение стратегии ожидая результат Multipoint")]
         public void DefineStrategy_ExpectMultipoint()
         {
-            SetUp();
+            // Arrange
+            var determiner = StrategyDeterminer;
             _containerMock.Setup(x => x.GetInstance<IDrawable>("SomeFigure"))
                 .Returns(new MultipointStub());
 
-            var strategy = _strategyDeterminer.DefineStrategy("SomeFigure");
+            // Act
+            var strategy = determiner.DefineStrategy("SomeFigure");
 
+            // Assert
             Assert.IsTrue(strategy == Strategy.Multipoint);
         }
 
-        [Test]
+        [TestCase(TestName = "Определение стратегии ожидая результат TwoPoint")]
         public void DefineStrategy_ExpectTwoPoint()
         {
-            SetUp();
+            // Arrange
+            var determiner = StrategyDeterminer;
             _containerMock.Setup(x => x.GetInstance<IDrawable>("SomeFigure"))
                 .Returns(new TwoPointStub());
 
-            var strategy = _strategyDeterminer.DefineStrategy("SomeFigure");
+            // Act
+            var strategy = determiner.DefineStrategy("SomeFigure");
 
+            // Assert
             Assert.IsTrue(strategy == Strategy.TwoPoint);
         }
 
-        [TestCase("")]
-        [TestCase("     ")]
-        [TestCase("Dmitry Domaskin")]
-        [TestCase("TRPO2019")]
+        [TestCase("588-M1 Group",
+            TestName = "Определение стратегии ожидая результат по-умолчанию - TwoPoint")]
+        [TestCase("TUSUR",
+            TestName = "Определение стратегии ожидая результат по-умолчанию - TwoPoint")]
+        [TestCase("Dmitry Domaskin",
+            TestName = "Определение стратегии ожидая результат по-умолчанию - TwoPoint")]
+        [TestCase("TRPO2019",
+            TestName = "Определение стратегии ожидая результат по-умолчанию - TwoPoint")]
         public void DefineStrategy_WithAnyString_ExpectTwoPoint(string str)
         {
-            SetUp();
+            // Act
+            var strategy = StrategyDeterminer.DefineStrategy(str);
 
-            var strategy = _strategyDeterminer.DefineStrategy(str);
-
+            // Assert
             Assert.IsTrue(strategy == Strategy.TwoPoint);
         }
     }

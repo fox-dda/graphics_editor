@@ -19,87 +19,82 @@ namespace GraphicsEditor.Tests
         private Mock<IUndoRedoStack> _undoRedoStackMock;
         private Mock<ICommandFactory> _commandFactoryMock;
         private Mock<IDraftStorage> _draftStorageMock;
-        private StorageManager _storageManager;
-
-        public void SetUp()
+        private StorageManager StorageManager
         {
-            _undoRedoStackMock = new Mock<IUndoRedoStack>();
-            _commandFactoryMock = new Mock<ICommandFactory>();
-            _draftStorageMock = new Mock<IDraftStorage>();
-            var draftList = new List<IDrawable>();
-            _draftStorageMock.Setup(x => x.DraftList)
-                .Returns(draftList);
-            _draftStorageMock.Setup(x => x.HighlightDraftsList)
-                .Returns(draftList);
-            _storageManager = new StorageManager(
-                _draftStorageMock.Object,
-                _commandFactoryMock.Object,
-                _undoRedoStackMock.Object);
+            get
+            {
+                _undoRedoStackMock = new Mock<IUndoRedoStack>();
+                _commandFactoryMock = new Mock<ICommandFactory>();
+                _draftStorageMock = new Mock<IDraftStorage>();
+                var draftList = new List<IDrawable>();
+                _draftStorageMock.Setup(x => x.DraftList)
+                    .Returns(draftList);
+                _draftStorageMock.Setup(x => x.HighlightDraftsList)
+                    .Returns(draftList);
+                return new StorageManager(
+                    _draftStorageMock.Object,
+                    _commandFactoryMock.Object,
+                    _undoRedoStackMock.Object);
+            }
         }
 
-        [Test]
+        [TestCase(TestName = "Выполнение команды")]
         public void DoCommandTest()
         {
-            SetUp();
+            // Act
+            StorageManager.DoCommand(new CommandStub());
 
-            _storageManager.DoCommand(new CommandStub());
-
+            // Assert
             _undoRedoStackMock.Verify(x => x.Do(It.IsAny<ICommand>()), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Выполнение команды c параметром null")]
         public void DoCommandTest_WithNullCommand()
         {
-            SetUp();
-
-            try
+            // Act/Assert
+            Assert.DoesNotThrow(() =>
             {
-                _storageManager.DoCommand(null);
-            }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
-
+                StorageManager.DoCommand(null);
+            });       
         }
 
-        [Test]
+        [TestCase(TestName = "Выполнение отмененной комманды (Шаг вперед)")]
         public void RedoCommandTest()
         {
-            SetUp();
+            // Act
+            StorageManager.RedoCommand();
 
-            _storageManager.RedoCommand();
-
+            // Accert
             _undoRedoStackMock.Verify(x => x.Redo(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Отменить комманду (Шаг назад)")]
         public void UndoCommandTest()
         {
-            SetUp();
+            // Act
+            StorageManager.UndoCommand();
 
-            _storageManager.UndoCommand();
-
+            // Assert
             _undoRedoStackMock.Verify(x => x.Undo(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Добавление двуточечной фигуры в хранилище")]
         public void AddDraftTest_WithStub()
         {
-            SetUp();
+            // Act
+            StorageManager.AddDraft(new TwoPointStub());
 
-            _storageManager.AddDraft(new TwoPointStub());
-
+            // Assert
             _undoRedoStackMock.Verify(x => x.Do(It.IsAny<ICommand>()), Times.Exactly(1));
             _commandFactoryMock.Verify(x => x.CreateAddDraftCommand(
                 It.IsAny<List<IDrawable>>(), It.IsAny<IDrawable>()), Times.Exactly(1));
             _draftStorageMock.VerifyGet(x => x.DraftList);
         }
 
-        [Test]
+        [TestCase(TestName = "Добавление в неслкольких фигур в хранилище")]
         public void AddRangeDraftTest_WithStub()
         {
-            SetUp();
+            // Arrange
             var draftList = new List<IDrawable>()
             {
                 new TwoPointStub(),
@@ -107,106 +102,126 @@ namespace GraphicsEditor.Tests
                 new TwoPointStub()
             };
 
-            _storageManager.AddRangeDrafts(draftList);
+            // Act
+            StorageManager.AddRangeDrafts(draftList);
 
+            // Assert
             _undoRedoStackMock.Verify(x => x.Do(It.IsAny<ICommand>()), Times.Exactly(1));
             _commandFactoryMock.Verify(x => x.CreateAddRangeDraftCommand(
                 It.IsAny<List<IDrawable>>(), It.IsAny<List<IDrawable>>()), Times.Exactly(1));
             _draftStorageMock.VerifyGet(x => x.DraftList);
         }
 
-        [Test]
+        [TestCase(TestName = "Очистка хранилища")]
         public void ClearStorageTest()
         {
-            SetUp();
+            // Arrange
             var draftList = new List<IDrawable>() { new TwoPointStub() };
             _draftStorageMock.Setup(x => x.HighlightDraftsList)
                 .Returns(draftList);
 
-            _storageManager.ClearStorage();
+            // Act
+            StorageManager.ClearStorage();
 
+            // Assert
             _undoRedoStackMock.Verify(x => x.Do(It.IsAny<ICommand>()), Times.Exactly(1));
             _commandFactoryMock.Verify(x => x.CreateClearStorageCommand(
                 It.IsAny<List<IDrawable>>()), Times.Exactly(1));
             _draftStorageMock.VerifyGet(x => x.DraftList);
         }
 
-        [Test]
+        [TestCase(TestName = "Добавление фигуры в список выделенных фигур")]
         public void EditHighlightDraftTest_AddHighlightDraft()
         {
-            SetUp();
+            // Arrange
+            var storageManager = StorageManager;
             var draft = new TwoPointStub();
             var draftList = new List<IDrawable>() { };
             _draftStorageMock.Setup(x => x.HighlightDraftsList)
                 .Returns(draftList);
 
-            _storageManager.EditHighlightDraft(draft);
+            // Act
+            storageManager.EditHighlightDraft(draft);
 
+            // Assert
             Assert.Contains(draft, draftList);
         }
 
-        [Test]
+        [TestCase(TestName = "Удаление фигуры из списка выделенных фигур")]
         public void EditHighlightDraftTest_RemoveHighlightDraft()
         {
-            SetUp();
+            // Arrange
+            var storageManager = StorageManager;
             var draft = new TwoPointStub();
             var draftList = new List<IDrawable>() { draft };
             _draftStorageMock.Setup(x => x.HighlightDraftsList)
                 .Returns(draftList);
 
-            _storageManager.EditHighlightDraft(draft);
+            // Act
+            storageManager.EditHighlightDraft(draft);
 
+            // Assert
             Assert.IsEmpty(draftList);
         }
 
-        [Test]
+        [TestCase(TestName = "Отмена выделения всех фигур")]
         public void DiscardAllTest()
         {
-            SetUp();
+            // Arrange
+            var storageManager = StorageManager;
             var draft = new TwoPointStub();
             var draftList = new List<IDrawable>() { draft };
             _draftStorageMock.Setup(x => x.HighlightDraftsList)
                 .Returns(draftList);
 
-            _storageManager.DiscardAll();
+            // Act
+            storageManager.DiscardAll();
 
-            Assert.IsEmpty(draftList); ;
+            // Assert
+            Assert.IsEmpty(draftList); 
         }
 
 
-        [Test]
+        [TestCase(TestName = "Добавление нескольких фигур в список выделенных")]
         public void HighlightingDraftRangeTest()
         {
-            SetUp();
+            // Arrange
+            var storageManager = StorageManager;
             var draft = new TwoPointStub();
             var addebleDraftList = new List<IDrawable>() { draft };
             var highlightDraftList = new List<IDrawable>();
             _draftStorageMock.Setup(x => x.HighlightDraftsList)
                 .Returns(highlightDraftList);
 
-            _storageManager.HighlightingDraftRange(addebleDraftList);
+            // Act
+            storageManager.HighlightingDraftRange(addebleDraftList);
 
+            // Assert
             Assert.Contains(draft, highlightDraftList);
         }
 
-        [Test]
+        [TestCase(TestName = "Получение точек из двуточечной фигуры")]
         public void PullPointsTest_WithTwoPointStub()
         {
-            SetUp();
+            // Arrange
             var draft = new TwoPointStub()
             {
                 StartPoint = new Point(1, 1),
                 EndPoint = new Point(2, 2)
             };
-            var pointList = _storageManager.PullPoints(draft);
 
+            // Act
+            var pointList = StorageManager.PullPoints(draft);
+
+            // Assert
             Assert.IsTrue(pointList[0] == draft.StartPoint 
                 && pointList[1] == draft.EndPoint);
         }
 
-        [Test]
+        [TestCase(TestName = "Получение точек многоточечной фигуры")]
         public void PullPointsTest_WithMultiPointStub()
         {
+            // Arrange
             var draft = new MultipointStub()
             {
                 DotList = new List<Point>()
@@ -214,20 +229,25 @@ namespace GraphicsEditor.Tests
                     new Point(1, 1),
                 }
             };
-            var pointList = _storageManager.PullPoints(draft);
 
+            // Act
+            var pointList = StorageManager.PullPoints(draft);
+
+            // Assert
             Assert.IsTrue(pointList[0] == draft.DotList[0]);
         }
 
-        [Test]
+        [TestCase(TestName = "Изменение цвета канвы")]
         public void EditCanvasColorTest()
         {
-            SetUp();
+            // Arrange
             var paitingParametersMock = new Mock<IPaintingParameters>();
 
-            _storageManager.EditCanvasColor(paitingParametersMock.Object,
+            // Act
+            StorageManager.EditCanvasColor(paitingParametersMock.Object,
                 Color.AliceBlue);
 
+            // Assert
             _undoRedoStackMock.Verify(x => x.Do(It.IsAny<ICommand>()),
                 Times.Exactly(1));
             _commandFactoryMock.Verify(x => x.CreateEditCanvasColorCommand(
@@ -235,10 +255,10 @@ namespace GraphicsEditor.Tests
                 Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Очистка истории")]
         public void ClearHistoryTest()
         {
-            SetUp();
+            // Arrange
             var draftList = new List<IDrawable>();
             _draftStorageMock.Setup(x => x.DraftList)
                 .Returns(draftList);
@@ -246,19 +266,23 @@ namespace GraphicsEditor.Tests
             _draftStorageMock.Setup(x => x.HighlightDraftsList)
                 .Returns(highlightDraftList);
 
-            _storageManager.ClearHistory();
+            // Act
+            StorageManager.ClearHistory();
 
+            // Assert
             _undoRedoStackMock.Verify(x => x.Reset(), Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Удаление нескольких фигур из списка выделенных")]
         public void RemoveRangeHighlightDraftsTest()
         {
-            SetUp();
+            // Arrange
             var paitingParametersMock = new Mock<IPaintingParameters>();
 
-            _storageManager.RemoveRangeHighlightDrafts();
+            // Act
+            StorageManager.RemoveRangeHighlightDrafts();
 
+            // Assert
             _undoRedoStackMock.Verify(x => x.Do(It.IsAny<ICommand>()),
                 Times.Exactly(1));
             _commandFactoryMock.Verify(x => x.CreateRemoveRangeDraftsCommand(
@@ -266,19 +290,21 @@ namespace GraphicsEditor.Tests
                 Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Изменение фигуры")]
         public void EditDraft()
         {
-            SetUp();
+            // Arrange
             var paitingParametersMock = new Mock<IPaintingParameters>();
             var draft = new TwoPointStub();
             var pointList = new List<Point>();
             var paintSettingsMock = new Mock<IPenSettings>();
             var draftFactoryMock = new Mock<IDraftFactory>();
 
-            _storageManager.EditDraft(draft, pointList, paintSettingsMock.Object,
+            // Act
+            StorageManager.EditDraft(draft, pointList, paintSettingsMock.Object,
                 Color.AliceBlue, draftFactoryMock.Object);
 
+            // Assert
             _undoRedoStackMock.Verify(x => x.Do(It.IsAny<ICommand>()),
                 Times.Exactly(1));
             _commandFactoryMock.Verify(x => x.CreateEditDraftCommand(
@@ -290,37 +316,34 @@ namespace GraphicsEditor.Tests
                 Times.Exactly(1));
         }
 
-        [Test]
+        [TestCase(TestName = "Чтение из свойства UndoRedoStack")]
         public void UndoRedoStackTest_Get()
         {
-            SetUp();
-
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
-                var undoRedoStack = _storageManager.UndoRedoStack;
+                var undoRedoStack = StorageManager.UndoRedoStack;
             });           
         }
 
-        [Test]
+        [TestCase(TestName = "Запись в свойство UndoRedoStack")]
         public void UndoRedoStackTest_Set()
         {
-            SetUp();
-
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
-                _storageManager.UndoRedoStack =
+                StorageManager.UndoRedoStack =
                     new Mock<IUndoRedoStack>().Object;
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Чтение из свойства PaintedDraftStorage")]
         public void PaitedDraftStorage_Get()
         {
-            SetUp();
-
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
-                var undoRedoStack = _storageManager.PaintedDraftStorage;
+                var draftList = StorageManager.PaintedDraftStorage;
             });
         }
     }

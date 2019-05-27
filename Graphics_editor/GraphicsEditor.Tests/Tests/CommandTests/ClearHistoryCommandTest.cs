@@ -12,39 +12,44 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class ClearHistoryCommandTest
     {
-        private ClearStorageCommand _clearHistoryCommand;
-
-        [Test]
+        [TestCase(TestName ="Выполнение команды с ненулевыми параметрами")]
         public void DoTest_WithNotNulls()
         {
+            // Arrange
             var draft = new TwoPointStub();
             var draftList = new List<IDrawable>() { draft };
-            _clearHistoryCommand = new ClearStorageCommand(draftList);
+            var clearHistoryCommand = new ClearStorageCommand(draftList);
 
-            _clearHistoryCommand.Do();
+            // Act
+            clearHistoryCommand.Do();
 
-            Assert.IsEmpty(_clearHistoryCommand.TargetStorage);
+            // Assert
+            Assert.IsEmpty(clearHistoryCommand.TargetStorage);
         }
 
-        [Test]
+        [TestCase(TestName = "Отмена команды с ненулевыми параметрами")]
         public void UndoTest_WithNotNulls()
         {
+            // Arrange
             var draft = new TwoPointStub();
             var draftList = new List<IDrawable>() { draft };
-            _clearHistoryCommand = new ClearStorageCommand(draftList);
-            _clearHistoryCommand.Do();
+            var clearHistoryCommand = new ClearStorageCommand(draftList);
+            clearHistoryCommand.Do();
 
-            _clearHistoryCommand.Undo();
+            // Act
+            clearHistoryCommand.Undo();
 
-            Assert.Contains(draft, _clearHistoryCommand.TargetStorage);
+            // Assert
+            Assert.Contains(draft, clearHistoryCommand.TargetStorage);
         }
 
-        [Test]
+        [TestCase(TestName = "Создание команды")]
         public void CreateCommandTest_WithNullStorage()
         {
+            // Act/Assert
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _clearHistoryCommand = new ClearStorageCommand(null);
+                var clearHistoryCommand = new ClearStorageCommand(null);
             });
         }
 

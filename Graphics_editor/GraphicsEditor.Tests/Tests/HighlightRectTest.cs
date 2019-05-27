@@ -20,9 +20,10 @@ namespace GraphicsEditor.Tests
             get => new HighlightRect();
         }
 
-        [TestCase(TestName ="Считывание свойства StartPoint")]
+        [TestCase(TestName = "Считывание свойства StartPoint")]
         public void StartPointGetTest()
         {
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 var point = HighlightRect.StartPoint;
@@ -32,6 +33,7 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Считывание свойства EndPoint")]
         public void EndPointGetTest()
         {
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 var point = HighlightRect.EndPoint;
@@ -41,8 +43,10 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Запись в свойство StartPoint")]
         public void StartPointSetTest()
         {
+            // Arrange
             var point = new Point(0, 0);
 
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 HighlightRect.StartPoint = point;
@@ -52,8 +56,9 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Запись в свойство EndPoint")]
         public void EndPointSetTest()
         {
+            // Arrange
             var point = new Point(0, 0);
-
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 HighlightRect.EndPoint = point;
@@ -63,8 +68,10 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Запись в свойство Pen")]
         public void PenSetTest()
         {
+            // Arrange
             var pen = new PenSettings(Color.Green, 1);
 
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 HighlightRect.Pen = pen;
@@ -74,6 +81,7 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Считываение свойства Pen")]
         public void PenGetTest()
         {
+            // Act/Assert
             Assert.DoesNotThrow(() =>
             {
                 var pen = HighlightRect.Pen;
@@ -83,8 +91,10 @@ namespace GraphicsEditor.Tests
         [TestCase(TestName = "Метод возврата имени")]
         public void GetNameTest()
         {
+            // Act
             var name = HighlightRect.GetName();
 
+            // Assert
             Assert.IsTrue(name == "HighlightRect");
         }
     }

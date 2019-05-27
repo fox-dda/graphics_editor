@@ -12,57 +12,66 @@ namespace GraphicsEditor.Tests
     [TestFixture]
     public class RemoveRangeDraftsCommandTest
     {
-        private RemoveRangeDraftsCommand _removeRangeDraftsCommand;
-
-        [Test]
+        [TestCase(TestName ="Выполнение команды с ненулевыми параметрами")]
         public void DoTest_WithNotNulls()
         {
+            // Arrange
             var draft = new TwoPointStub();
             var draftList = new List<IDrawable>() { draft };
             var addebleList = new List<IDrawable>() { draft };
-            _removeRangeDraftsCommand = new RemoveRangeDraftsCommand(
+            var removeRangeDraftsCommand = new RemoveRangeDraftsCommand(
                 draftList, addebleList);
 
-            _removeRangeDraftsCommand.Do();
+            // Act
+            removeRangeDraftsCommand.Do();
 
-            Assert.IsEmpty(_removeRangeDraftsCommand.TargetStorage);
+            // Assert
+            Assert.IsEmpty(removeRangeDraftsCommand.TargetStorage);
         }
 
-        [Test]
+        [TestCase(TestName = "Отмена команды с ненулевыми параметрами")]
         public void UndoTest_WithNotNull()
         {
+            // Arrange
             var draft = new TwoPointStub();
             var draftList = new List<IDrawable>() { draft };
             var addebleList = new List<IDrawable>() { draft };
-            _removeRangeDraftsCommand = new RemoveRangeDraftsCommand(
+            var removeRangeDraftsCommand = new RemoveRangeDraftsCommand(
                 draftList, addebleList);
-            _removeRangeDraftsCommand.Do();
-            _removeRangeDraftsCommand.Undo();
+            removeRangeDraftsCommand.Do();
 
+            // Act
+            removeRangeDraftsCommand.Undo();
+
+            // Assert
             Assert.Contains(draft,
-                _removeRangeDraftsCommand.TargetStorage);
+                removeRangeDraftsCommand.TargetStorage);
         }
 
-        [Test]
+        [TestCase(TestName = "Создание команды судаляемым списком = null")]
         public void Create_WithNullRemoveList()
         {
+            // Arrange
             var draftList = new List<IDrawable>();
 
+            // Act/Assert
             Assert.Throws(typeof(NullReferenceException), () =>
             {
-                _removeRangeDraftsCommand = 
+                var removeRangeDraftsCommand = 
                     new RemoveRangeDraftsCommand(draftList, null);
             });
         }
 
-        [Test]
+        [TestCase(TestName = "Создание команды с целевым списком = null")]
         public void Create_WithNullTargetList()
         {
+            // Arrange
             var draftList = new List<IDrawable>();
 
+            // Act/Assert
             Assert.DoesNotThrow( () =>
             {
-                _removeRangeDraftsCommand =
+                var removeRangeDraftsCommand =
                     new RemoveRangeDraftsCommand(null, draftList);
             });
         }
