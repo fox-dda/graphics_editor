@@ -4,11 +4,9 @@ using SDK;
 using Moq;
 using System.Collections.Generic;
 using GraphicsEditor.Interfaces;
-using System.IO;
-using System;
 using GraphicsEditor.DraftTools;
 using GraphicsEditor.Tests.Stubs;
-using GraphicsEditor.Engine.UndoRedo.Commands;
+using GraphicsEditor.Core.UndoRedo.Commands;
 using System.Drawing;
 
 namespace GraphicsEditor.Tests

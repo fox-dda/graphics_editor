@@ -7,7 +7,7 @@ using GraphicsEditor.Model;
 using System.Windows.Forms;
 using SDK;
 
-namespace GraphicsEditor.Engine.UndoRedo.Commands
+namespace GraphicsEditor.Core.UndoRedo.Commands
 {
     /// <summary>
     /// Команда удаления фигуры

@@ -3,7 +3,7 @@ using SDK.Interfaces;
 using SDK;
 using Moq;
 using System.Collections.Generic;
-using GraphicsEditor.Engine;
+using GraphicsEditor.Core;
 using GraphicsEditor.Interfaces;
 using GraphicsEditor.Enums;
 using System;

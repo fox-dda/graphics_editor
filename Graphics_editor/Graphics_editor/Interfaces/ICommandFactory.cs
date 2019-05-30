@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Collections.Generic;
 using SDK;
-using GraphicsEditor.Engine.UndoRedo.Commands;
+using GraphicsEditor.Core.UndoRedo.Commands;
 using SDK.Interfaces;
 
 namespace GraphicsEditor.Interfaces

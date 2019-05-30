@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System;
 using System.Drawing;
 using GraphicsEditor.Enums;
-using GraphicsEditor.Engine;
+using GraphicsEditor.Core;
 using StructureMap;
 using GraphicsEditor.Tests.Stubs;
 

@@ -2,7 +2,7 @@
 using System.Drawing;
 using System;
 using System.Windows.Forms;
-using GraphicsEditor.Engine;
+using GraphicsEditor.Core;
 using SDK;
 using GraphicsEditor.Interfaces;
 using StructureMap;

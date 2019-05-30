@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GraphicsEditor.Engine.UndoRedo.Commands;
+using GraphicsEditor.Core.UndoRedo.Commands;
 using GraphicsEditor.Interfaces;
 
-namespace GraphicsEditor.Engine.UndoRedo
+namespace GraphicsEditor.Core.UndoRedo
 {
     /// <summary>
     /// Стек команд

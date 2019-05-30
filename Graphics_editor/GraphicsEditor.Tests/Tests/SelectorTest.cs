@@ -3,9 +3,6 @@ using SDK.Interfaces;
 using SDK;
 using Moq;
 using System.Collections.Generic;
-using GraphicsEditor.Engine;
-using GraphicsEditor.Interfaces;
-using GraphicsEditor.Enums;
 using System;
 using System.Drawing;
 using GraphicsEditor.Tests.Stubs;
@@ -181,7 +178,7 @@ namespace GraphicsEditor.Tests
 
         /// <summary>
         /// Тест поиска в лассо, ожидая результатом пустой список
-        /// NUnit не позволяет давать атрибут TestCase тестам, использующим Range
+        /// NUnit не позволяет давать атрибут TestName тестам, использующим Range
         /// </summary>
         /// <param name="startXDot"></param>
         /// <param name="startYDot"></param>

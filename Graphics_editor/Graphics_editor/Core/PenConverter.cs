@@ -3,7 +3,7 @@ using SDK.Interfaces;
 using GraphicsEditor.Interfaces;
 
 
-namespace GraphicsEditor.Engine
+namespace GraphicsEditor.Core
 {
     public class PenConventer: IPenConverter
     {

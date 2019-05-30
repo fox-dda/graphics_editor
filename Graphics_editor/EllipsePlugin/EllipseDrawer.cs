@@ -17,8 +17,8 @@ namespace EllipsePlugin
         public override void DrawShape(IDrawable shape, Graphics graphics)
         {
             var ellipse = shape as Ellipse;
-            var StartPoint = ellipse.StartPoint;
-            var EndPoint = ellipse.EndPoint;
+            var startPoint = ellipse.StartPoint;
+            var endPoint = ellipse.EndPoint;
             var brush = (ellipse as IBrushable).BrushColor;
             var pen = ConvertPen(shape.Pen);
 
@@ -26,13 +26,13 @@ namespace EllipsePlugin
             {
                 graphics.FillEllipse(
                     new SolidBrush(brush),
-                    new RectangleF(StartPoint.X, StartPoint.Y,
-                    -(StartPoint.X - EndPoint.X),
-                    -(StartPoint.Y - EndPoint.Y)));
+                    new RectangleF(startPoint.X, startPoint.Y,
+                    -(startPoint.X - endPoint.X),
+                    -(startPoint.Y - endPoint.Y)));
             }
 
-            graphics.DrawEllipse(pen, new RectangleF(StartPoint.X, StartPoint.Y,
-                -(StartPoint.X - EndPoint.X), -(StartPoint.Y - EndPoint.Y)));
+            graphics.DrawEllipse(pen, new RectangleF(startPoint.X, startPoint.Y,
+                -(startPoint.X - endPoint.X), -(startPoint.Y - endPoint.Y)));
         }
     }
 }

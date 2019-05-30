@@ -6,7 +6,7 @@ using System.Drawing;
 using SDK;
 using SDK.Interfaces;
 
-namespace GraphicsEditor.Engine.UndoRedo.Commands
+namespace GraphicsEditor.Core.UndoRedo.Commands
 {
     /// <summary>
     /// Фабрика команд

@@ -4,7 +4,7 @@ using System.Drawing;
 using SDK;
 using GraphicsEditor.Interfaces;
 
-namespace GraphicsEditor.Engine.UndoRedo.Commands
+namespace GraphicsEditor.Core.UndoRedo.Commands
 {
     /// <summary>
     /// Команда изменения цвета канваса

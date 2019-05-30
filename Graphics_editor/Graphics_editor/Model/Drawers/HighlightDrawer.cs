@@ -44,29 +44,6 @@ namespace GraphicsEditor.Model.Drawers
                 startPoint = new Point(minX, minY);
                 endPoint = new Point(maxX, maxY);
             }
-           /*/ else if (frameItem is Circle)
-            {
-                var size = Math.Abs(endPoint.X - startPoint.X) >
-                           Math.Abs(endPoint.Y - startPoint.Y) ?
-                Math.Abs(endPoint.X - startPoint.X) :
-                Math.Abs(endPoint.Y - startPoint.Y);
-
-                if ((startPoint.Y < endPoint.Y) && (startPoint.X > endPoint.X))
-                {
-                    startPoint = new Point(startPoint.X - size, startPoint.Y);
-                }
-                //cнизу вверх слево на права
-                else if ((startPoint.Y > endPoint.Y) && (startPoint.X < endPoint.X))
-                {
-                    startPoint = new Point(startPoint.X, startPoint.Y - size);
-                }
-                //cнизу вверх справа налево
-                else if ((startPoint.Y > endPoint.Y) && (startPoint.X > endPoint.X))
-                {
-                    startPoint = new Point(startPoint.X - size, startPoint.Y - size);
-                }
-                endPoint = new Point(startPoint.X + size, startPoint.Y + size);
-            }/*/
             else
             {
                 startPoint = frameItem.StartPoint;

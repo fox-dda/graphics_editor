@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using SDK.Interfaces;
 using Moq;
-using GraphicsEditor.Engine;
+using GraphicsEditor.Core;
 using System;
 
 namespace GraphicsEditor.Tests

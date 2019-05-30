@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using GraphicsEditor.Model;
 using GraphicsEditor.Enums;
 using System.Drawing;
 using SDK;
-using SDK.Interfaces;
 using GraphicsEditor.Interfaces;
 
-namespace GraphicsEditor.Engine
+namespace GraphicsEditor.Core
 {
     /// <summary>
     /// Состаяние художника
@@ -59,8 +57,7 @@ namespace GraphicsEditor.Engine
             {
                 InProcessPoints.Clear();
                 DragDropDraft = null;
-               // DragDropDot.Draft = null;
-                DragDropDotingDraft = null;///
+                DragDropDotingDraft = null;
                 CacheDraft = null;
                 CacheLasso = null;
 

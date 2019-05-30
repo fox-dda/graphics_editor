@@ -21,7 +21,7 @@ namespace PolylinePlugin
         /// <summary>
         /// Список точек
         /// </summary>
-        public List<Point> _dotList = new List<Point>();
+        private List<Point> _dotList = new List<Point>();
 
         /// <summary>
         /// Точка старта

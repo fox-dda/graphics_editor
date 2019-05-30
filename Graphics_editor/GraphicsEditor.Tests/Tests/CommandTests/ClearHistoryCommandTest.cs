@@ -1,9 +1,7 @@
 ﻿using NUnit.Framework;
-using SDK.Interfaces;
 using SDK;
-using Moq;
 using System.Collections.Generic;
-using GraphicsEditor.Engine.UndoRedo.Commands;
+using GraphicsEditor.Core.UndoRedo.Commands;
 using GraphicsEditor.Tests.Stubs;
 using System;
 

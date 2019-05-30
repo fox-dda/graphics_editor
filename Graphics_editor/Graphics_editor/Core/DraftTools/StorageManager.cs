@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using SDK;
-using GraphicsEditor.Engine.UndoRedo;
-using GraphicsEditor.Engine.UndoRedo.Commands;
+﻿using GraphicsEditor.Core.UndoRedo.Commands;
 using GraphicsEditor.Interfaces;
+using SDK;
 using SDK.Interfaces;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace GraphicsEditor.DraftTools
 {
@@ -28,7 +27,7 @@ namespace GraphicsEditor.DraftTools
         {
             get
             {
-                return _storage.DraftList;
+                return Storage.DraftList;
             }
         }
 
@@ -37,7 +36,7 @@ namespace GraphicsEditor.DraftTools
         /// </summary>
         public List<IDrawable> HighlightDraftStorage
         {
-            get => _storage.HighlightDraftsList; 
+            get => Storage.HighlightDraftsList; 
         }
 
         /// <summary>
@@ -59,7 +58,7 @@ namespace GraphicsEditor.DraftTools
             set => _undoRedoStack = value;
         }
 
-        public IDraftStorage _storage { get; private set; }
+        public IDraftStorage Storage { get; private set; }
 
         /// <summary>
         /// Повторить комманду (Шаг вперед)
@@ -84,7 +83,7 @@ namespace GraphicsEditor.DraftTools
         public StorageManager(IDraftStorage storage, ICommandFactory commandFactory,
             IUndoRedoStack undoRedoStack)
         {
-            _storage = storage;
+            Storage = storage;
             _commandFactory = commandFactory;
             _undoRedoStack = undoRedoStack;
         }
@@ -95,7 +94,7 @@ namespace GraphicsEditor.DraftTools
         /// <param name="draft">Добавляемая фигура</param>
         public void AddDraft(IDrawable draft)
         {
-            _undoRedoStack.Do(_commandFactory.CreateAddDraftCommand(_storage.DraftList, draft));
+            _undoRedoStack.Do(_commandFactory.CreateAddDraftCommand(Storage.DraftList, draft));
         }
 
         /// <summary>
@@ -104,7 +103,7 @@ namespace GraphicsEditor.DraftTools
         /// <param name="drafts">Добавляемые фигуры</param>
         public void AddRangeDrafts(List<IDrawable> drafts)
         {
-            _undoRedoStack.Do(_commandFactory.CreateAddRangeDraftCommand(_storage.DraftList, drafts));
+            _undoRedoStack.Do(_commandFactory.CreateAddRangeDraftCommand(Storage.DraftList, drafts));
         }
 
         /// <summary>
@@ -112,7 +111,7 @@ namespace GraphicsEditor.DraftTools
         /// </summary>
         public void ClearStorage()
         {
-            _undoRedoStack.Do(_commandFactory.CreateClearStorageCommand(_storage.DraftList));
+            _undoRedoStack.Do(_commandFactory.CreateClearStorageCommand(Storage.DraftList));
             DiscardAll();
         }
 
@@ -124,11 +123,11 @@ namespace GraphicsEditor.DraftTools
         {
             if (HighlightDraftStorage.Contains(draft))
             {
-                _storage.HighlightDraftsList.Remove(draft);
+                Storage.HighlightDraftsList.Remove(draft);
             }
             else
             {
-                _storage.HighlightDraftsList.Add(draft);
+                Storage.HighlightDraftsList.Add(draft);
             }
         }
 
@@ -137,7 +136,7 @@ namespace GraphicsEditor.DraftTools
         /// </summary>
         public void DiscardAll()
         {
-            _storage.HighlightDraftsList.Clear();
+            Storage.HighlightDraftsList.Clear();
         }
         
         /// <summary>
@@ -146,7 +145,7 @@ namespace GraphicsEditor.DraftTools
         /// <param name="highlightRange"></param>
         public void HighlightingDraftRange(List<IDrawable> highlightRange)
         {
-            _storage.HighlightDraftsList.AddRange(highlightRange);
+            Storage.HighlightDraftsList.AddRange(highlightRange);
         }
 
         /// <summary>
@@ -169,7 +168,7 @@ namespace GraphicsEditor.DraftTools
         public void RemoveRangeHighlightDrafts()
         {
             _undoRedoStack.Do(_commandFactory.CreateRemoveRangeDraftsCommand(
-                _storage.DraftList, _storage.HighlightDraftsList));
+                Storage.DraftList, Storage.HighlightDraftsList));
             DiscardAll();
         }
 
@@ -213,7 +212,7 @@ namespace GraphicsEditor.DraftTools
         /// </summary>
         public void ClearHistory()
         {
-            _storage.DraftList.Clear();
+            Storage.DraftList.Clear();
             DiscardAll();
             _undoRedoStack.Reset();
         }

@@ -3,7 +3,7 @@ using GraphicsEditor.Enums;
 using StructureMap;
 using GraphicsEditor.Interfaces;
 
-namespace GraphicsEditor.Engine
+namespace GraphicsEditor.Core
 {
     /// <summary>
     /// Определитель стратегии
@@ -19,7 +19,7 @@ namespace GraphicsEditor.Engine
         /// <summary>
         /// DI контейнер
         /// </summary>
-        public IContainer _container { get; set; }
+        private IContainer _container;
 
         /// <summary>
         /// Определить статегию отрисовки по фигуре

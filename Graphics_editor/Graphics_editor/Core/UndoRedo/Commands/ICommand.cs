@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GraphicsEditor.Engine.UndoRedo.Commands
+namespace GraphicsEditor.Core.UndoRedo.Commands
 {
     /// <summary>
     /// Интерфейс команд

@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using SDK;
-using GraphicsEditor.Engine;
-using GraphicsEditor.Engine.UndoRedo;
+using GraphicsEditor.Core;
+using GraphicsEditor.Core.UndoRedo;
 using GraphicsEditor.DraftTools;
 using GraphicsEditor.Enums;
 using System.IO;

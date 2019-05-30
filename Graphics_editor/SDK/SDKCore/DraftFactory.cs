@@ -44,7 +44,7 @@ namespace GraphicsEditor
 
             if (draft is IMultipoint multipointDraft)
             {
-                multipointDraft.DotList = (List<Point>)pointList;
+                multipointDraft.DotList = pointList;
             }
             else
             {

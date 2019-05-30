@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using GraphicsEditor.Model;
 using GraphicsEditor.Enums;
 using System.Drawing;
-using GraphicsEditor.DraftTools;
 using System.IO;
-using GraphicsEditor.Engine.UndoRedo;
-using GraphicsEditor.Engine.UndoRedo.Commands;
+using GraphicsEditor.Core.UndoRedo.Commands;
 using GraphicsEditor.Interfaces;
 using SDK;
 
 
-namespace GraphicsEditor.Engine
+namespace GraphicsEditor.Core
 {
     /// <summary>
     /// Менеджер рисования

@@ -1,4 +1,4 @@
-﻿using GraphicsEditor.Engine.UndoRedo.Commands;
+﻿using GraphicsEditor.Core.UndoRedo.Commands;
 using System.Collections.Generic;
 
 namespace GraphicsEditor.Interfaces

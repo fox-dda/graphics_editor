@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using GraphicsEditor.Model;
 using SDK;
 
-namespace GraphicsEditor.Engine.UndoRedo.Commands
+namespace GraphicsEditor.Core.UndoRedo.Commands
 {
     /// <summary>
     /// Команда добавления нескольких фигур

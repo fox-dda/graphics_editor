@@ -9,7 +9,7 @@ using SDK.Interfaces;
 using SDK;
 using GraphicsEditor.Interfaces;
 
-namespace GraphicsEditor.Engine
+namespace GraphicsEditor.Core
 {
     /// <summary>
     /// Художник фигур

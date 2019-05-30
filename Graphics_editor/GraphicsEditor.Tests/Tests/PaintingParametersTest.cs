@@ -1,12 +1,6 @@
 ﻿using NUnit.Framework;
 using SDK.Interfaces;
-using SDK;
 using Moq;
-using System.Collections.Generic;
-using GraphicsEditor.Engine;
-using GraphicsEditor.Interfaces;
-using GraphicsEditor.Enums;
-using System;
 
 namespace GraphicsEditor.Tests
 {
