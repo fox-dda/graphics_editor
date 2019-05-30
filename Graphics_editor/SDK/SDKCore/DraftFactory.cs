@@ -34,6 +34,14 @@ namespace GraphicsEditor
         public IDrawable CreateDraft(string figure, List<Point> pointList,
             IPenSettings gPen, Color brushColor)
         {
+            if (figure == null)
+            {
+                var highlight = _container.GetInstance<IDrawable>();
+                highlight.StartPoint = pointList[0];
+                highlight.EndPoint = pointList.Last();
+                return highlight;
+            }
+
             var draft = _container.GetInstance<IDrawable>(figure);
 
             draft.Pen = (PenSettings)gPen;

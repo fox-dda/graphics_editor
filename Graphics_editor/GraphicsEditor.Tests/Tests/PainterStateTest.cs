@@ -3,6 +3,7 @@ using Moq;
 using System.Collections.Generic;
 using GraphicsEditor.Core;
 using GraphicsEditor.Interfaces;
+using GraphicsEditor.Enums;
 
 namespace GraphicsEditor.Tests
 {
@@ -56,7 +57,7 @@ namespace GraphicsEditor.Tests
             var someStrategy = PainterState.DrawingStrategy;
 
             // Assert
-            _strategyDeterminerMock.Verify(x => x.DefineStrategy(It.IsAny<string>()),
+            _strategyDeterminerMock.Verify(x => x.DefineStrategy(It.IsAny<DrawAction>()),
                 Times.Exactly(1));
         }
 

@@ -10,11 +10,14 @@ namespace GraphicsEditor.Core
     /// </summary>
     public class StrategyDeterminer: IStrategyDeterminer
     {
+        /// <summary>
+        /// Конструктор StrategyDeterminer
+        /// </summary>
+        /// <param name="container"></param>
         public StrategyDeterminer(IContainer container)
         {
             _container = container;
         }
-
 
         /// <summary>
         /// DI контейнер
@@ -28,15 +31,6 @@ namespace GraphicsEditor.Core
         /// <returns>Стратегия</returns>
         public Strategy DefineStrategy(string figure)
         {
-            if (figure == "HighlightRect")
-            {
-                return Strategy.Selection;
-            }
-            else if (figure == "DragPoint" || figure == "DragDraft")
-            {
-                return Strategy.DragAndDrop;
-            }
-
             var draft = _container.GetInstance<IDrawable>(figure);
 
             if (draft is IMultipoint multipointDraft)
@@ -46,6 +40,23 @@ namespace GraphicsEditor.Core
             else
             {
                 return Strategy.TwoPoint;
+            }
+        }
+
+        /// <summary>
+        /// Определить статегию отрисовки по фигуре
+        /// </summary>
+        /// <param name="figure">Фигура</param>
+        /// <returns>Стратегия</returns>
+        public Strategy DefineStrategy(DrawAction action)
+        {
+            if (action == DrawAction.DragDraft || action == DrawAction.DragPoint)
+            {
+                return Strategy.DragAndDrop;
+            }
+            else
+            {
+                return Strategy.Selection;
             }
         }
     }

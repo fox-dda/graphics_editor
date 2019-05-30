@@ -18,6 +18,31 @@ namespace GraphicsEditor.Core
         public PainterState(IStrategyDeterminer deteminer)
         {
             _stategyDeterminer = deteminer;
+            DrawAction = DrawAction.Highlight;
+        }
+
+        /// <summary>
+        /// Режим рисовальщика
+        /// </summary>
+        private DrawAction _drawAction;
+
+        /// <summary>
+        /// Режим рисовальщика
+        /// </summary>
+        public DrawAction DrawAction
+        {
+            get
+            {
+                return _drawAction;
+            }
+            set
+            {
+                if (value != DrawAction.Draw)
+                {
+                    Figure = null;
+                }
+                _drawAction = value;
+            }
         }
 
         /// <summary>
@@ -27,7 +52,14 @@ namespace GraphicsEditor.Core
         {
             get
             {
-                return _stategyDeterminer.DefineStrategy(Figure);
+                if(DrawAction != DrawAction.Draw)
+                {
+                    return _stategyDeterminer.DefineStrategy(DrawAction);
+                }
+                else
+                {
+                    return _stategyDeterminer.DefineStrategy(Figure);
+                }              
             }
         }
 
@@ -39,7 +71,7 @@ namespace GraphicsEditor.Core
         /// <summary>
         /// Рисуемая фигура
         /// </summary>
-        private string _figure = "HighlightRect";
+        private string _figure;
 
         /// <summary>
         /// Нерисуемая фигура
@@ -60,6 +92,7 @@ namespace GraphicsEditor.Core
                 DragDropDotingDraft = null;
                 CacheDraft = null;
                 CacheLasso = null;
+                DrawAction = DrawAction.Draw;
 
                 _figure = value;
             }

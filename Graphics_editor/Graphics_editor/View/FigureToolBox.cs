@@ -52,6 +52,7 @@ namespace GraphicsEditor.View
         public void EditState(object sender, EventArgs e)
         {
             _painterState.Figure = (sender as Button).Text;
+            _painterState.DrawAction = Enums.DrawAction.Draw;
         }
 
         private IPainterState _painterState;

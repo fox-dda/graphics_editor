@@ -52,5 +52,7 @@ namespace GraphicsEditor.Interfaces
         /// Ласо в кэше
         /// </summary>
         IDrawable CacheLasso { get; set; }
+
+        DrawAction DrawAction { get; set; }
     }
 }

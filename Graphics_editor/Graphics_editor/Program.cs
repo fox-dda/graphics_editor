@@ -1,4 +1,5 @@
 ﻿using GraphicsEditor.Interfaces;
+using GraphicsEditor.Model;
 using SDK;
 using SDK.Interfaces;
 using StructureMap;

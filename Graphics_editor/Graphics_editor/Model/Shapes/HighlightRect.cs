@@ -67,7 +67,9 @@ namespace GraphicsEditor.Model
             StartPoint = startPoint;
             EndPoint = endPoint;
         }
-
+        /// <summary>
+        /// Конструктор по молчанию
+        /// </summary>
         public HighlightRect() { }
     }
 }

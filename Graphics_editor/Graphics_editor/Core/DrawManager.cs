@@ -127,6 +127,10 @@ namespace GraphicsEditor.Core
             }
         }
 
+        /// <summary>
+        /// Обработчик отжатия мышм
+        /// </summary>
+        /// <param name="e"></param>
         private void UpMouseProcess(MouseEventArgs e)
         {
             switch (State.DrawingStrategy)
@@ -181,16 +185,19 @@ namespace GraphicsEditor.Core
                                 : Color.White,
                             DraftPainter.DraftFactory);
                     }
-                    State.Figure = "HighlightRect";
-                 //   State.DragDropDot.Draft = null;
                     State.DragDropDraft = null;
                     State.UndrawableDraft = null;
                     DraftPainter.RefreshCanvas();
+                    State.DrawAction = DrawAction.Highlight;
                     break;
                 }
             }
         }
 
+        /// <summary>
+        /// Обработчик перемещения мыши
+        /// </summary>
+        /// <param name="e"></param>
         private void MoveMouseProcess(MouseEventArgs e)
         {
             if (State.DrawingStrategy == Strategy.DragAndDrop)
@@ -206,6 +213,10 @@ namespace GraphicsEditor.Core
             }
         }
 
+        /// <summary>
+        /// Обработчик нажатия мыши
+        /// </summary>
+        /// <param name="e"></param>
         private void DownMouseProcess(MouseEventArgs e)
         {
             switch (State.DrawingStrategy)
@@ -223,7 +234,7 @@ namespace GraphicsEditor.Core
                             DraftStorageManager.HighlightDraftStorage);
                         if (refDot.Draft != null)
                         {
-                            State.Figure = "DragPoint";
+                                State.DrawAction = DrawAction.DragPoint;
                             State.UndrawableDraft = refDot.Draft;
 
                             State.DragDropDotingDraft = DraftPainter.DraftFactory.Clone(refDot.Draft);
@@ -238,8 +249,8 @@ namespace GraphicsEditor.Core
                                 DraftStorageManager.HighlightDraftStorage);
                             if (shape != null)
                             {
-                                State.Figure = "DragDraft";
-                                State.DragDropDraft = DraftPainter.DraftFactory.Clone(shape);
+                                    State.DrawAction = DrawAction.DragDraft;
+                                    State.DragDropDraft = DraftPainter.DraftFactory.Clone(shape);
                                 State.UndrawableDraft = shape;
                                 State.InProcessPoints.Add(e.Location);
                                 return;

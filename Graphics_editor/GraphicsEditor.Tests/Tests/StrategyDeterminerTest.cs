@@ -29,18 +29,18 @@ namespace GraphicsEditor.Tests
         public void DefineStrategy_ExpectSelection()
         {
             // Act
-            var strategy = StrategyDeterminer.DefineStrategy("HighlightRect");
+            var strategy = StrategyDeterminer.DefineStrategy(DrawAction.Highlight);
 
             // Assert
             Assert.IsTrue(strategy == Strategy.Selection);
         }
 
-        [TestCase("DragPoint", TestName = "Определение стратегии ожидая результат DragAndDrop")]
-        [TestCase("DragDraft", TestName = "Определение стратегии ожидая результат DragAndDrop")]
-        public void DefineStrategy_ExpectDragAndDrop(string str)
+        [TestCase(DrawAction.DragDraft, TestName = "Определение стратегии ожидая результат DragAndDrop")]
+        [TestCase(DrawAction.DragPoint, TestName = "Определение стратегии ожидая результат DragAndDrop")]
+        public void DefineStrategy_ExpectDragAndDrop(DrawAction action)
         {
             // Act
-            var strategy = StrategyDeterminer.DefineStrategy(str);
+            var strategy = StrategyDeterminer.DefineStrategy(action);
 
             // Assert
             Assert.IsTrue(strategy == Strategy.DragAndDrop);

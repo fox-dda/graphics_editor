@@ -206,7 +206,7 @@ namespace GraphicsEditor
 
         private void selectMouseButton_Click(object sender, EventArgs e)
         {
-            _drawManager.State.Figure = "HighlightRect";
+            _drawManager.State.DrawAction = DrawAction.Highlight;
         }
         
         /// <summary>
